@@ -20,5 +20,19 @@ namespace MobileLoggerApp
         {
             InitializeComponent();
         }
+
+        private void sendPostToServer(object sender, RoutedEventArgs e)
+        {
+           // retrieve an avatar image from the Web
+           string avatarUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/postFromPhone";
+           HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(avatarUri);
+           request.Method = "POST";
+           request.BeginGetResponse(responseCallBack, request);
+        }
+
+        private void responseCallBack(IAsyncResult asyncResult)
+        {
+            Console.WriteLine(asyncResult.ToString());
+        }
     }
 }

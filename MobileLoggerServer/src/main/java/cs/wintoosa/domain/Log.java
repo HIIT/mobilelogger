@@ -9,7 +9,7 @@ import javax.persistence.Id;
  * @author jonimake
  */
 @Entity
-public class Log implements Serializable{
+publicsda  class Log implements Serializable{
     
     @Id
     private Long phoneId;

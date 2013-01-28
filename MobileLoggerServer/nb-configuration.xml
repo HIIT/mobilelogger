@@ -10,6 +10,8 @@ Without this configuration present, some functionality in the IDE may be limited
         <config-files>
             <config-file>src/main/webapp/WEB-INF/spring-context.xml</config-file>
             <config-file>src/main/webapp/WEB-INF/spring-database.xml</config-file>
+            <config-file>src/main/resources/spring-context-test.xml</config-file>
+            <config-file>src/main/resources/spring-database-test.xml</config-file>
         </config-files>
         <config-file-groups/>
     </spring-data>

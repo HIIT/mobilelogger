@@ -89,6 +89,7 @@ namespace MobileLoggerApp
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // A navigation has failed; break into the debugger
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 System.Diagnostics.Debugger.Break();
             }
         }

@@ -1,23 +1,30 @@
-﻿using System;
+﻿using Microsoft.Phone.Controls;
+using System;
 using System.IO;
 using System.Net;
+using System.Threading;
+using System.Windows.Navigation;
+using MobileLoggerApp;
 
 namespace MobileLoggerApp.src
 {
     class Connection
     {
+
         public static void PostTestCase()
         {
-            string testiUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/postFromPhone";
+            string testiUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/log";
             string testiViesti = "terve";
-            PostToUrl(testiUri, testiViesti);
-            
+            string testiMetodi = "POST";
+            MessageToUrl(testiUri, testiViesti, testiMetodi);
         }
 
-        private static void PostToUrl(string uri, string message)
+        private static void MessageToUrl(string uri, string message, string method)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.Method = "POST";
+            request.Method = method;
+            string data = null;
+
             request.BeginGetRequestStream(delegate(IAsyncResult req)
             {
                 var outStream = request.EndGetRequestStream(req);
@@ -34,17 +41,20 @@ namespace MobileLoggerApp.src
                         {
                             using (StreamReader reader = new StreamReader(stream))
                             {
-                                var data = reader.ReadToEnd();
+                                data = reader.ReadToEnd();
                                 System.Diagnostics.Debug.WriteLine(data);
+                                
                             }
                         }
                     }
                     catch (Exception exception)
                     {
                         System.Diagnostics.Debug.WriteLine("{0} exception", exception);
+                        data = null;
                     }
                 }, null);
             }, null);
+        
         }
     }
 }

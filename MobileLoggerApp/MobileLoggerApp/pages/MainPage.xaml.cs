@@ -16,14 +16,22 @@ namespace MobileLoggerApp
         private void sendPostToServer(object sender, RoutedEventArgs e)
         {
            // retrieve an avatar image from the Web
-            Connection.PostTestCase();
-            string data = "no data yet";
-            navigateToPage(string.Format(PageLocations.responsePageUri + "?Val1={0}", data));
+            Connection.PostTestCase(this);
+            //string data = "no data yet";
+            //navigateToPage(string.Format(PageLocations.responsePageUri + "?Val1={0}", data));
         }
 
         public void navigateToPage(string pageUri)
         {
             this.NavigationService.Navigate(new Uri(pageUri, UriKind.Relative));
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            while(this.NavigationService.CanGoBack)
+            {
+                this.NavigationService.RemoveBackEntry();
+            }
         }
     }
 }

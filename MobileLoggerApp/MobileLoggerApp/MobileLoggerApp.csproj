@@ -68,6 +68,7 @@
       <DependentUpon>ResponsePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Message.cs" />
     <Compile Include="src\PageLocations.cs" />
     <Compile Include="src\Connection.cs" />
   </ItemGroup>

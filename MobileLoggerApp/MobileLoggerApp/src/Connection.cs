@@ -11,50 +11,20 @@ namespace MobileLoggerApp.src
     class Connection
     {
 
-        public static void PostTestCase()
+        //Test method to send dummy data
+        public static void PostTestCase(PhoneApplicationPage src)
         {
             string testiUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/log";
             string testiViesti = "terve";
             string testiMetodi = "POST";
-            MessageToUrl(testiUri, testiViesti, testiMetodi);
+            MessageToUrl(testiUri, testiViesti, testiMetodi, src);
         }
 
-        private static void MessageToUrl(string uri, string message, string method)
+        //sends a message to an url
+        private static void MessageToUrl(string uri, string message, string method, PhoneApplicationPage src)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.Method = method;
-            string data = null;
-
-            request.BeginGetRequestStream(delegate(IAsyncResult req)
-            {
-                var outStream = request.EndGetRequestStream(req);
-                using (StreamWriter writer = new StreamWriter(outStream))
-                    writer.Write(message);
-
-                request.BeginGetResponse(delegate(IAsyncResult result)
-                {
-                    try
-                    {
-                        HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result);
-
-                        using (var stream = response.GetResponseStream())
-                        {
-                            using (StreamReader reader = new StreamReader(stream))
-                            {
-                                data = reader.ReadToEnd();
-                                System.Diagnostics.Debug.WriteLine(data);
-                                
-                            }
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        System.Diagnostics.Debug.WriteLine("{0} exception", exception);
-                        data = null;
-                    }
-                }, null);
-            }, null);
-        
+            Message msg = new Message(uri, message, method, src);
+            msg.SendMessage();
         }
     }
 }

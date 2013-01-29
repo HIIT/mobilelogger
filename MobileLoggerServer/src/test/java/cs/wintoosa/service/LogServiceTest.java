@@ -30,22 +30,18 @@ public class LogServiceTest extends AbstractTest{
     @Test
     public void testFailingSave() {
         Log log = new Log();
-        Phone phone = new Phone();
-        assertFalse("Supposed to fail when IMEI not set for phone", logService.saveLog(log, phone));
+        assertFalse("Supposed to fail when phoneId not set for log", logService.saveLog(log));
     }
     
     @Test
     public void testSave() {
         //sanity checks for mocking
         long logCount = logRepository.count();
-        long phoneCount = phoneRepository.count();
-        
-        Phone phone = new Phone();
-        phone.setImei(123456789l);
-        assertTrue(logService.saveLog(new Log("looog"), phone));
+        Log log = new Log("looog");
+        log.setPhoneId(123456789012345l);
+        assertTrue(logService.saveLog(log));
         
         assertEquals(logCount, logRepository.count());
-        assertEquals(phoneCount, phoneRepository.count());
         
     }
     

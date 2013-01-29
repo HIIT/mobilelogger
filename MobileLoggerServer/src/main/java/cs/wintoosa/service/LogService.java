@@ -24,15 +24,13 @@ public class LogService implements ILogService {
 
     @Override
     @Transactional
-    public boolean saveLog(Log log, Phone phone) {
-        if(log == null || phone == null || phone.getImei() == null)
+    public boolean saveLog(Log log) {
+        if(log == null || log.getPhoneId() == null)
             return false;
         log = logRepository.save(log);
-        phone.addLog(log);
-        phoneRepository.save(phone);
         return true;
     }
-
+    
     public ILogRepository getLogRepository() {
         return logRepository;
     }

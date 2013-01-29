@@ -5,13 +5,23 @@
 package cs.wintoosa.controller;
 
 import com.google.gson.Gson;
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
+import cs.wintoosa.service.ILogService;
+import cs.wintoosa.service.LogService;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.activation.MimeType;
+import javax.servlet.ServletResponse;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,37 +34,44 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/log")
 public class LogController {
     
+    @Autowired
+    ILogService logService;
+    
     @RequestMapping(method= RequestMethod.POST)
     @ResponseBody
-    public String post() {
-        
-        System.out.println("POST lolololo");
-        
-        
-        return "ok";
+    public String testPost() {
+        return Long.toString(System.currentTimeMillis());
     }
     
-    @RequestMapping(method= RequestMethod.PUT, consumes="application/json" )
-    public String put() {
-        
-        System.out.println("PUT lolololo");
-        
-        
-        return "ok";
-    }
     
-    @RequestMapping(method= RequestMethod.GET, produces="application/json" )
+    @RequestMapping(value="/gps", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map get() {
-        Map<String, List> map = new HashMap();
-        List<String> dolan = new LinkedList();
-        
-        for(int i = 0; i < 10; i++)
-            dolan.add("aksuly is dolan " + i);
-        
-        map.put("gooby plz", dolan);
-        
-        return map;
+    public boolean putPlainGps(@Valid @RequestBody Log log, BindingResult result) {
+        if(result.hasErrors()) {
+            System.out.println("result had errors");
+            for(ObjectError error : result.getAllErrors())
+                System.out.println(error.getObjectName());
+            return false;
+        }
+        return logService.saveLog(log);
+    }
+    
+    
+    
+    @RequestMapping(method= RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE )
+    @ResponseBody
+    public ServletResponse put(ServletResponse response) {
+        System.out.println("PUT lolololo");
+        System.out.println(response.toString());
+        return response;
+    }
+    
+    @RequestMapping(method= RequestMethod.GET)
+    @ResponseBody
+    public ServletResponse get(ServletResponse response) {
+        System.out.println("GET lolololo");
+        System.out.println(response.toString());
+        return response;
     }
     
 }

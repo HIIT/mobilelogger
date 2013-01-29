@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import org.hibernate.mapping.ForeignKey;
 import org.jboss.logging.FormatWith;
 
@@ -22,8 +23,10 @@ public class Log implements Serializable{
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    @NotNull
+    private Long phoneId;
     
+    @NotNull
     private String text;
     
     public Log() {
@@ -42,11 +45,11 @@ public class Log implements Serializable{
         this.text = lines;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPhoneId() {
+        return phoneId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPhoneId(Long id) {
+        this.phoneId = id;
     }
 }

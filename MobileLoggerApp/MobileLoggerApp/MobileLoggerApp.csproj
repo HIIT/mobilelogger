@@ -72,6 +72,7 @@
       <DependentUpon>ResponsePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\DeviceTools.cs" />
     <Compile Include="src\Message.cs" />
     <Compile Include="src\LogManager.cs" />
     <Compile Include="src\mobilelogger\AbstractLogHandler.cs" />

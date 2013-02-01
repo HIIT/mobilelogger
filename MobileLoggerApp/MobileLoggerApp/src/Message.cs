@@ -6,13 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows;
+using System.Globalization;
 
 namespace MobileLoggerApp.src
 {
     //a class that contains information of a http message
-    class Message
+    public class Message
     {
-        //empty constructor for messafe
+        //empty constructor for message
         public Message()
         {
             Uri = "";
@@ -20,6 +21,7 @@ namespace MobileLoggerApp.src
             Method = "";
         }
 
+        //Refaktoroi pois! tee julkinen navigointi-konteksti!!!
         public Message(string uri, string message, string method, PhoneApplicationPage src) 
         {
             Source = (MainPage)src;
@@ -41,6 +43,7 @@ namespace MobileLoggerApp.src
         public string Method { get; set; }
         public MainPage Source { get; set; }
 
+        //testaaminen hanakalaa, koska navigointi ja demoa varten oleva dispatcher
         public void SendMessage()
         {
             if (IsProperMessage())
@@ -73,10 +76,12 @@ namespace MobileLoggerApp.src
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
                 System.Diagnostics.Debug.WriteLine(data);
-                //calls for the UI update!
+                //calls for the UI update! kinda ugly hardcoding
                 Deployment.Current.Dispatcher.BeginInvoke(() => 
                 {
-                    Source.navigateToPage(string.Format(PageLocations.responsePageUri + "?Val1={0}", data));
+                    var date = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
+                    date = date.AddMilliseconds(Double.Parse(data));
+                    Source.navigateToPage(string.Format(PageLocations.responsePageUri + "?Val1={0}", date));
                 });
             }
             catch (Exception exception)

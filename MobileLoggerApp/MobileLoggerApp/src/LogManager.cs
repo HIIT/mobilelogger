@@ -7,7 +7,7 @@ using MobileLoggerApp.src.mobilelogger;
 
 namespace MobileLoggerApp.src
 {
-    class LogManager
+    public class LogManager
     {
         private List<AbstractLogHandler> logHandlers;
 

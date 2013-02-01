@@ -73,7 +73,6 @@
     <Compile Include="src\mobilelogger\AbstractLogHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\GpsHandler.cs" />
     <Compile Include="src\PageLocations.cs" />
-    <Compile Include="src\Connection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

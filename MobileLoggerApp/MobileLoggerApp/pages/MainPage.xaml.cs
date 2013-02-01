@@ -15,10 +15,11 @@ namespace MobileLoggerApp
 
         private void sendPostToServer(object sender, RoutedEventArgs e)
         {
-           // retrieve an avatar image from the Web
-            Connection.PostTestCase(this);
-            //string data = "no data yet";
-            //navigateToPage(string.Format(PageLocations.responsePageUri + "?Val1={0}", data));
+            string testiUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/log";
+            string testiViesti = "terve";
+            string testiMetodi = "POST";
+            Message msg = new Message(testiUri, testiViesti, testiMetodi, this);
+            msg.SendMessage();
         }
 
         public void navigateToPage(string pageUri)

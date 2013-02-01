@@ -25,8 +25,8 @@ public class Phone implements Serializable{
     private Long imei;
     
 
-    @OneToMany
-    private List<Log> logs = new LinkedList();
+    //@OneToMany
+    //private List<Log> logs = new LinkedList();
     
     public Long getImei() {
         return imei;
@@ -35,7 +35,7 @@ public class Phone implements Serializable{
     public void setImei(Long id) {
         this.imei = id;
     }
-
+/*
     public List<Log> getLogs() {
         return logs;
     }
@@ -46,5 +46,5 @@ public class Phone implements Serializable{
 
     public void addLog(Log log) {
         this.logs.add(log);
-    }
+    }*/
 }

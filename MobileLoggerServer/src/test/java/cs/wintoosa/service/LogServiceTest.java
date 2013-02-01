@@ -5,6 +5,7 @@
 package cs.wintoosa.service;
 
 import cs.wintoosa.AbstractTest;
+import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
 import cs.wintoosa.repository.ILogRepository;
@@ -34,10 +35,24 @@ public class LogServiceTest extends AbstractTest{
     }
     
     @Test
-    public void testSave() {
+    public void testSavePlainLog() {
         //sanity checks for mocking
         long logCount = logRepository.count();
-        Log log = new Log("looog");
+        Log log = new Log();
+        log.setPhoneId(123456789012345l);
+        assertTrue(logService.saveLog(log));
+        
+        assertEquals(logCount, logRepository.count());
+        
+    }
+    
+    @Test
+    public void testSaveGpsLog() {
+        //sanity checks for mocking
+        long logCount = logRepository.count();
+        GpsLog log = new GpsLog();
+        log.setLon(50.0f);
+        log.setLat(51.0f);
         log.setPhoneId(123456789012345l);
         assertTrue(logService.saveLog(log));
         

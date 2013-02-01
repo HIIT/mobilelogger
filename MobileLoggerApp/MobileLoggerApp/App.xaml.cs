@@ -12,11 +12,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MobileLoggerApp.src.mobilelogger.Handlers;
 
 namespace MobileLoggerApp
 {
     public partial class App : Application
     {
+        GpsHandler gps;
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -63,6 +66,8 @@ namespace MobileLoggerApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            gps = new GpsHandler();
+            gps.startCoordinateWatcher();
         }
 
         // Code to execute when the application is activated (brought to foreground)

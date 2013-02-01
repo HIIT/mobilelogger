@@ -10,7 +10,6 @@ namespace MobileLoggerApp.src
 {
     class Connection
     {
-
         //Test method to send dummy data
         public static void PostTestCase(PhoneApplicationPage src)
         {

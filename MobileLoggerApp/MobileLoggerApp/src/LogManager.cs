@@ -15,8 +15,5 @@ namespace MobileLoggerApp.src
         {
             logHandlers = new List<AbstractLogHandler>();
         }
-
-
-
     }
 }

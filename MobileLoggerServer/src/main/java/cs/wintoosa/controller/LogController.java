@@ -5,6 +5,7 @@
 package cs.wintoosa.controller;
 
 import com.google.gson.Gson;
+import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
 import cs.wintoosa.service.ILogService;
@@ -43,35 +44,28 @@ public class LogController {
         return Long.toString(System.currentTimeMillis());
     }
     
-    
-    @RequestMapping(value="/gps", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putPlainGps(@Valid @RequestBody Log log, BindingResult result) {
+    public boolean putPlainLog(@Valid @RequestBody Log log, BindingResult result) {
         if(result.hasErrors()) {
             System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())
-                System.out.println(error.getObjectName());
+                System.out.println(error.toString());
             return false;
         }
         return logService.saveLog(log);
     }
     
     
-    
-    @RequestMapping(method= RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE )
+    @RequestMapping(value="/gps", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ServletResponse put(ServletResponse response) {
-        System.out.println("PUT lolololo");
-        System.out.println(response.toString());
-        return response;
+    public boolean putPlainGps(@Valid @RequestBody GpsLog log, BindingResult result) {
+        if(result.hasErrors()) {
+            System.out.println("result had errors");
+            for(ObjectError error : result.getAllErrors())
+                System.out.println(error.toString());
+            return false;
+        }
+        return logService.saveLog(log);
     }
-    
-    @RequestMapping(method= RequestMethod.GET)
-    @ResponseBody
-    public ServletResponse get(ServletResponse response) {
-        System.out.println("GET lolololo");
-        System.out.println(response.toString());
-        return response;
-    }
-    
 }

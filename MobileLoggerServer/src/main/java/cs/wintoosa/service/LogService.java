@@ -1,10 +1,12 @@
 package cs.wintoosa.service;
 
+import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
 import cs.wintoosa.repository.ILogRepository;
 import cs.wintoosa.repository.IPhoneRepository;
 import cs.wintoosa.repository.LogRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,5 +47,11 @@ public class LogService implements ILogService {
 
     public void setPhoneRepository(IPhoneRepository phoneRepository) {
         this.phoneRepository = phoneRepository;
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public List<Log> getAll() {
+        return logRepository.findAll();
     }
 }

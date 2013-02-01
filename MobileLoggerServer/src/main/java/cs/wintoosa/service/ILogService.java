@@ -1,7 +1,9 @@
 package cs.wintoosa.service;
 
+import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
+import java.util.List;
 
 /**
  *
@@ -15,5 +17,7 @@ public interface ILogService {
      * @return true if successful, false if not
      */
     public boolean saveLog(Log log);
+
+    public List<Log> getAll();
     
 }

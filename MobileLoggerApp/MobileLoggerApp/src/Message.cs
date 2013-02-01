@@ -7,6 +7,8 @@ using System.Net;
 using System.Text;
 using System.Windows;
 using System.Globalization;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MobileLoggerApp.src
 {
@@ -35,6 +37,19 @@ namespace MobileLoggerApp.src
         {
             Uri = uri;
             Text = message;
+            Method = method;
+        }
+
+        public Message(string uri, JObject message, string method)
+        {
+            // add device id + timestamp
+
+            byte[] id = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            string foo = Convert.ToBase64String(id);
+            message.Add(foo);
+
+            Uri = uri;
+            Text = JsonConvert.SerializeObject(message);
             Method = method;
         }
 

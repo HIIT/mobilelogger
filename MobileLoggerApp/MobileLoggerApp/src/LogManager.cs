@@ -15,5 +15,18 @@ namespace MobileLoggerApp.src
         {
             logHandlers = new List<AbstractLogHandler>();
         }
+
+        public void addHandler(AbstractLogHandler alh)
+        {
+            logHandlers.Add(alh);
+        }
+
+        public void sendAllData()
+        {
+            foreach (AbstractLogHandler alh in logHandlers)
+            {
+                alh.SendData();
+            }
+        }
     }
 }

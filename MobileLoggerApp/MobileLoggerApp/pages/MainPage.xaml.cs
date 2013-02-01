@@ -22,6 +22,12 @@ namespace MobileLoggerApp
             msg.SendMessage();
         }
 
+        private void showGPSCoords(object sender, RoutedEventArgs e)
+        {
+            string coords = Application.Current.Resources["gpsHandler"].ToString();
+            navigateToPage(string.Format( PageLocations.responsePageUri + "?Val1={0}", coords));
+        }
+
         public void navigateToPage(string pageUri)
         {
             this.NavigationService.Navigate(new Uri(pageUri, UriKind.Relative));

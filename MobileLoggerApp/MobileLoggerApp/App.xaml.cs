@@ -12,12 +12,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MobileLoggerApp.src;
 using MobileLoggerApp.src.mobilelogger.Handlers;
 
 namespace MobileLoggerApp
 {
     public partial class App : Application
     {
+        LogManager logManager;
         GpsHandler gps;
 
         /// <summary>
@@ -62,11 +64,21 @@ namespace MobileLoggerApp
 
         }
 
+        private void initHandlers()
+        {
+            logManager = new LogManager();
+            gps = new GpsHandler();
+            Application.Current.Resources.Add("gpsHandler",gps);
+
+            logManager.addHandler(gps);
+        }
+
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            gps = new GpsHandler();
+            initHandlers();
+
             gps.startCoordinateWatcher();
         }
 

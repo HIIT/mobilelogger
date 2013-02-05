@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MobileLoggerApp.src.mobilelogger.model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Security.Cryptography;
@@ -19,30 +20,38 @@ namespace MobileLoggerApp.src
         /// <returns></returns>
         public void SendMessages()
         {
-            List<string> events = new List<string>{ "derp", "herp" };
-            foreach (string e in events)
+            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
             {
-                SendMessage(e);   
+                if (!logDBContext.DatabaseExists()) return;
+                SHA1Managed sha = new SHA1Managed();
+                foreach(LogEvent e in logDBContext.GetLogEvents()) 
+                {
+                    SendMessage(e);
+                    
+                }
             }
         }
 
-        private void SendMessage(Message e)
-        {
-            /*
-            String responseSHA1 = e.SendMessage();
-            if (responseSHA1 == e.GetHashCode())
-            {
-                //saving ok, remove entry from DB so it won't be sent again
-                DBNull.removeEntry(e);
-            }
-             */
 
+        //get checksum
+        //send data to server
+        //wait for answer checksum
+        //compare checksums
+        //if equal, sending was ok, remove from DB
+        //else keep in DB and continue
+        private void SendMessage(LogEvent e)
+        {
+            String checksum = CalculateCheckSHA1(e.sensorEvent);
+            Message message = Message.Create("");
         }
 
-        private void SendMessage(String e)
+        private string CalculateCheckSHA1(String src)
         {
-
+            SHA1Managed sha = new SHA1Managed();
+            byte[] digest = sha.ComputeHash(Convert.FromBase64String(src));
+            return Convert.ToBase64String(digest);
         }
+
 
         private void GetMessage()
         {

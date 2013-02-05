@@ -37,7 +37,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
         }
 
         [Column]
-        public Double Aika
+        public Double Time
         {
             get
             {
@@ -97,7 +97,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 // create a new LogEvent instance
                 LogEvent le = new LogEvent();
                 le.sensorEvent = sensorEvent;
-                le.Aika = DeviceTools.GetUnixTime(DateTime.Now);
+                le.Time = DeviceTools.GetUnixTime(DateTime.Now);
                 System.Diagnostics.Debug.WriteLine(DeviceTools.GetUnixTime(DateTime.Now));
 
                 System.Diagnostics.Debug.WriteLine(sensorEvent);

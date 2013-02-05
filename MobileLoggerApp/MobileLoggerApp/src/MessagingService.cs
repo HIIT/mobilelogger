@@ -28,12 +28,14 @@ namespace MobileLoggerApp.src
 
         private void SendMessage(Message e)
         {
+            /*
             String responseSHA1 = e.SendMessage();
             if (responseSHA1 == e.GetHashCode())
             {
                 //saving ok, remove entry from DB so it won't be sent again
                 DBNull.removeEntry(e);
             }
+             */
 
         }
 

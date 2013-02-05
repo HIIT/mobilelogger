@@ -19,12 +19,20 @@ namespace MobileLoggerApp.src
         public string Payload { get; set; }
         public string Response { get; set; }
         public bool done = false;
-        public string Method { get; set; }
+        public override string Method { get; set; }
         public MainPage Source { get; set; }
 
-        public Message Create(String uri)  
+        public new static Message Create(String uri)  
         {
             Message message = (Message)WebRequest.Create(uri);
+            return message;
+        }
+
+        public static Message Create(string uri, string payload, string method)
+        {
+            Message message = (Message)WebRequest.Create(uri);
+            message.Payload = payload;
+            message.Method = method;
             return message;
         }
 

@@ -23,7 +23,7 @@
                 <!--Double line list with text wrapping-->
                 <Grid>
                     <StackPanel Margin="0,0,0,557">
-                        <TextBox Text="asd"></TextBox>
+                        <TextBox x:Name="SearchTextBox" Text="asd" KeyUp="SearchTextBox_KeyUp_1"></TextBox>
                     </StackPanel>
                     <ListBox x:Name="FirstListBox" ItemsSource="{Binding Items}" Margin="0,78,0,0">
                         <ListBox.ItemTemplate>

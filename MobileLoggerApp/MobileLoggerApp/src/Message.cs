@@ -19,7 +19,7 @@ namespace MobileLoggerApp.src
         public Message()
         {
             Uri = "";
-            Text = "";
+            Payload = "";
             Method = "";
         }
 
@@ -28,7 +28,7 @@ namespace MobileLoggerApp.src
         {
             Source = (MainPage)src;
             Uri = uri;
-            Text = message;
+            Payload = message;
             Method = method;
         }
 
@@ -36,7 +36,7 @@ namespace MobileLoggerApp.src
         public Message(string uri, string message, string method)
         {
             Uri = uri;
-            Text = message;
+            Payload = message;
             Method = method;
         }
 
@@ -45,16 +45,16 @@ namespace MobileLoggerApp.src
             // add device id + timestamp
 
             byte[] id = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
-            string foo = Convert.ToBase64String(id);
-            message.Add(foo);
+            string phoneId = Convert.ToBase64String(id);
+            message.Add("phoneId", phoneId);
 
             Uri = uri;
-            Text = JsonConvert.SerializeObject(message);
+            Payload = JsonConvert.SerializeObject(message);
             Method = method;
         }
 
         public string Uri { get; set; }
-        public string Text { get; set; }
+        public string Payload { get; set; }
         public string Method { get; set; }
         public MainPage Source { get; set; }
 
@@ -75,7 +75,7 @@ namespace MobileLoggerApp.src
             using (var outStream = request.EndGetRequestStream(asynchronousResult))
             {
                 StreamWriter writer = new StreamWriter(outStream);
-                writer.Write(Text);
+                writer.Write(Payload);
             }
             request.BeginGetResponse(GetResponseCallback, request);
         }
@@ -119,7 +119,7 @@ namespace MobileLoggerApp.src
                 return false;
             }
 
-            if (Text == "")
+            if (Payload == "")
             {
                 return false;
             }

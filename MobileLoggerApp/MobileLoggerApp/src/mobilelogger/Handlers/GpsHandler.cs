@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
+
+    [Obsolete("Need to refactor this class to produce events that are saved into the DB, sending is handled by the MessagingService")]
     public class GpsHandler : AbstractLogHandler
     {
         GeoCoordinateWatcher watcher;

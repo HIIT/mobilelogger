@@ -14,7 +14,7 @@ namespace MobileLoggerTest.tests
             Message msg = new Message();
             Assert.IsInstanceOfType(msg, typeof(Message));
             Assert.AreEqual(msg.Method, "");
-            Assert.AreEqual(msg.Text, "");
+            Assert.AreEqual(msg.Payload, "");
             Assert.AreEqual(msg.Uri, "");
             Assert.IsFalse(msg.IsProperMessage());
             msg.Uri="testiUri";
@@ -24,7 +24,7 @@ namespace MobileLoggerTest.tests
 
             msg = new Message("testUri", "testMessage", "testMethod");
             Assert.AreEqual(msg.Method, "testMethod");
-            Assert.AreEqual(msg.Text, "testMessage");
+            Assert.AreEqual(msg.Payload, "testMessage");
             Assert.AreEqual(msg.Uri, "testUri");
             Assert.IsTrue(msg.IsProperMessage());
 

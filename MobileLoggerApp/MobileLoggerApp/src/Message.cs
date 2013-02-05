@@ -96,7 +96,7 @@ namespace MobileLoggerApp.src
                 {
                     var date = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
                     date = date.AddMilliseconds(Double.Parse(data));
-                    Source.navigateToPage(string.Format(PageLocations.responsePageUri + "?Val1={0}", date));
+                    //Source.navigateToPage(string.Format(PageLocations.responsePageUri + "?Val1={0}", date));
                 });
             }
             catch (Exception exception)

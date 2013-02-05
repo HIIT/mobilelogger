@@ -13,8 +13,8 @@ namespace MobileLoggerApp.src
 {
     class ElGoog
     {
-        private PhoneApplicationPage context;
-        public ElGoog(PhoneApplicationPage source)
+        private MainPage context;
+        public ElGoog(MainPage source)
         {
             context = source;
         }

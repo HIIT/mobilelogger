@@ -22,19 +22,19 @@ namespace MobileLoggerApp
         LogManager logManager;
         GpsHandler gps;
 
-        private static ViewModels.MainViewModel viewModel = null;
+        private static pages.MainViewModel viewModel = null;
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.
         /// </summary>
         /// <returns>The MainViewModel object.</returns>
-        public static ViewModels.MainViewModel ViewModel
+        public static pages.MainViewModel ViewModel
         {
             get
             {
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
-                    viewModel = new ViewModels.MainViewModel();
+                    viewModel = new pages.MainViewModel();
 
                 return viewModel;
             }

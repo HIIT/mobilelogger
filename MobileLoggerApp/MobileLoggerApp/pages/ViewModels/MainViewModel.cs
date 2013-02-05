@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
 
-namespace MobileLoggerApp.ViewModels
+namespace MobileLoggerApp.pages
 {
     public class MainViewModel : INotifyPropertyChanged
     {

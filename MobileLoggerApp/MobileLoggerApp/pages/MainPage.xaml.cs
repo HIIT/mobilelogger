@@ -51,7 +51,6 @@ namespace MobileLoggerApp
                 
             }
 
-        }
 
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;

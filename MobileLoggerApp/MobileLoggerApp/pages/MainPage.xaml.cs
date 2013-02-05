@@ -1,19 +1,57 @@
 ﻿using System;
 using System.Windows;
+using System.Collections.Generic;
 using Microsoft.Phone.Controls;
 using MobileLoggerApp.src;
+using MobileLoggerApp.src.mobilelogger.model;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
+
+
+
     public partial class MainPage : PhoneApplicationPage
     {
+
+        public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
+
         // Constructor
         public MainPage()
         {
             InitializeComponent();
+
+            using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
+            {
+
+                if (!logDBContext.DatabaseExists())
+                {
+                    // create database if it does not exist
+                    try
+                    {
+                        logDBContext.CreateDatabase();
+                    }
+                    catch (InvalidOperationException ioe) {
+                        System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..."+ioe);
+                    }
+                }
+
+                logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3));
+                
+                IList<LogEvent> list = logDBContext.GetLogEvents();
+                if (list != null)
+                {
+
+                    foreach (LogEvent e in list)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString()+":"+e.sensorEvent);
+                    }
+                }
+                
+            }
+
 
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;

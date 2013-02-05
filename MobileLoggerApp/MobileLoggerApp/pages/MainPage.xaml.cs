@@ -4,6 +4,7 @@ using Microsoft.Phone.Controls;
 using MobileLoggerApp.src;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
@@ -18,6 +19,12 @@ namespace MobileLoggerApp
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
+
+        //private void onKeyUp(KeyEventArgs e)
+        //{
+        //    if (e.Key.Equals(Key.Enter)) {
+        //    }
+        //}
 
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -42,6 +49,15 @@ namespace MobileLoggerApp
         public void Update(JObject JSON)
         {
             //TODO search data handling logic
+        }
+
+        private void SearchTextBox_KeyUp_1(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                ElGoog search = new ElGoog(this);
+                search.Search(SearchTextBox.Text);
+            }
         }
 
         //private void showGPSCoords(object sender, RoutedEventArgs e)

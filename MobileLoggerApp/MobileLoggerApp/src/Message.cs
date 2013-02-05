@@ -13,9 +13,23 @@ using Newtonsoft.Json;
 namespace MobileLoggerApp.src
 {
     //a class that contains information of a http message
-    public class Message
+    public class Message : HttpWebRequest
     {
+        public string Uri { get; set; }
+        public string Payload { get; set; }
+        public string Response { get; set; }
+        public bool done = false;
+        public string Method { get; set; }
+        public MainPage Source { get; set; }
+
+        public Message Create(String uri)  
+        {
+            Message message = (Message)WebRequest.Create(uri);
+            return message;
+        }
+
         //empty constructor for message
+        [Obsolete("Use Create instead")]
         public Message()
         {
             Uri = "";
@@ -24,6 +38,7 @@ namespace MobileLoggerApp.src
         }
 
         //Refaktoroi pois! tee julkinen navigointi-konteksti!!!
+        [Obsolete("Use Create instead")]
         public Message(string uri, string message, string method, PhoneApplicationPage src) 
         {
             Source = (MainPage)src;
@@ -33,6 +48,7 @@ namespace MobileLoggerApp.src
         }
 
         //constructor with parameters for the required values
+        [Obsolete("Use Create instead")]
         public Message(string uri, string message, string method)
         {
             Uri = uri;
@@ -40,6 +56,7 @@ namespace MobileLoggerApp.src
             Method = method;
         }
 
+        [Obsolete("Use Create instead")]
         public Message(string uri, JObject message, string method)
         {
             // add device id + timestamp
@@ -53,13 +70,10 @@ namespace MobileLoggerApp.src
             Method = method;
         }
 
-        public string Uri { get; set; }
-        public string Payload { get; set; }
-        public string Method { get; set; }
-        public MainPage Source { get; set; }
+
 
         //testaaminen hanakalaa, koska navigointi ja demoa varten oleva dispatcher
-        public void SendMessage()
+        public string SendMessage()
         {
             if (IsProperMessage())
             {
@@ -67,6 +81,7 @@ namespace MobileLoggerApp.src
                 request.Method = Method;
                 request.BeginGetRequestStream(GetRequestStreamCallback, request);
             }
+            return "SHA1";
         }
 
         private void GetRequestStreamCallback(IAsyncResult asynchronousResult)
@@ -104,6 +119,11 @@ namespace MobileLoggerApp.src
                 System.Diagnostics.Debug.WriteLine("{0}, {1} exception", exception.Message, exception.StackTrace);
                 data = null;
             }
+        }
+
+        public void SetPayload(JObject json)
+        {
+            this.Payload = JsonConvert.SerializeObject(json);
         }
 
 

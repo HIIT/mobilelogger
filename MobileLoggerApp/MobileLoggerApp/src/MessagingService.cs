@@ -22,11 +22,25 @@ namespace MobileLoggerApp.src
             List<string> events = new List<string>{ "derp", "herp" };
             foreach (string e in events)
             {
-                
+                SendMessage(e);   
             }
         }
 
-        
+        private void SendMessage(Message e)
+        {
+            String responseSHA1 = e.SendMessage();
+            if (responseSHA1 == e.GetHashCode())
+            {
+                //saving ok, remove entry from DB so it won't be sent again
+                DBNull.removeEntry(e);
+            }
+
+        }
+
+        private void SendMessage(String e)
+        {
+
+        }
 
         private void GetMessage()
         {

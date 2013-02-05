@@ -2,6 +2,8 @@
 using System.Windows;
 using Microsoft.Phone.Controls;
 using MobileLoggerApp.src;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MobileLoggerApp
 {
@@ -15,11 +17,18 @@ namespace MobileLoggerApp
 
         private void sendPostToServer(object sender, RoutedEventArgs e)
         {
-            string testiUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/log";
+            ElGoog search = new ElGoog(this);
+            search.Search("testi");
+            /*string testiUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/log";
             string testiViesti = "terve";
             string testiMetodi = "POST";
             Message msg = new Message(testiUri, testiViesti, testiMetodi, this);
-            msg.SendMessage();
+            msg.SendMessage();*/
+        }
+
+        public void Update(JObject JSON)
+        {
+            //TODO search data handling logic
         }
 
         private void showGPSCoords(object sender, RoutedEventArgs e)

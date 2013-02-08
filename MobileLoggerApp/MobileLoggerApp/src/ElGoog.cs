@@ -14,13 +14,23 @@ namespace MobileLoggerApp.src
     class ElGoog
     {
         private MainPage context;
+
+        /// <summary>
+        /// Constructor for the Google Search handles a Google search asynchronously
+        /// </summary>
+        /// <param name="source">The MainPage that called this constructor, is required for response logic later on</param>
         public ElGoog(MainPage source)
         {
             context = source;
         }
 
+        /// <summary>
+        /// Synchronous public method that initiates the Google Search
+        /// </summary>
+        /// <param name="query">The search string that is queryed from Google</param>
         public void Search(string query)
         {
+            System.Diagnostics.Debug.WriteLine("Search query is: "+query + " at ElGoog.Search");
             //string that contains required api key and information for google api
             string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c&cx=011471749289680283085:rxjokcqp-ae&q={0}", query);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
@@ -29,6 +39,10 @@ namespace MobileLoggerApp.src
             request.BeginGetResponse(GetResponseCallback, request);        
         }
 
+        /// <summary>
+        /// Asynchronous method that gets a request stream, required step for using GET with Google API
+        /// </summary>
+        /// <param name="asynchronousResult">Asynchronous result of the former http request object</param>
         private void GetRequestStreamCallback(IAsyncResult asynchronousResult)
         {
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
@@ -40,6 +54,10 @@ namespace MobileLoggerApp.src
             request.BeginGetResponse(GetResponseCallback, request);
         }
 
+        /// <summary>
+        /// Gets the response to the query from Google, handles response back to main page
+        /// </summary>
+        /// <param name="ar">Asynchronous result of the former http request object</param>
         private void GetResponseCallback(IAsyncResult ar)
         {
             HttpWebRequest request = (HttpWebRequest)ar.AsyncState;
@@ -51,19 +69,17 @@ namespace MobileLoggerApp.src
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
                 System.Diagnostics.Debug.WriteLine(data.Length);
-                JObject JSON = new JObject(data);
+                JObject JSON = JObject.Parse(data);
 
                 //calls for the UI update! kinda ugly hardcoding
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    var date = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
-                    date = date.AddMilliseconds(Double.Parse(data));
                     context.Update(JSON);
                 });
             }
             catch (Exception exception)
             {
-                System.Diagnostics.Debug.WriteLine("{0}, {1} exception", exception.Message, exception.StackTrace);
+                System.Diagnostics.Debug.WriteLine("{0}, {1} exception at ElGoog.GetResponseCallback", exception.Message, exception.StackTrace);
                 data = null;
             }
         }

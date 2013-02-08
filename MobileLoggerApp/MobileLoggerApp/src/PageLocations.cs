@@ -1,6 +1,9 @@
 ﻿
 namespace MobileLoggerApp.src
 {
+    /// <summary>
+    /// Location strings of important locations
+    /// </summary>
     class PageLocations
     {
         public static readonly string mainPageUri = "/pages/MainPage.xaml";

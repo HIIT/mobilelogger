@@ -81,6 +81,7 @@ namespace MobileLoggerApp.src
 
 
         //testaaminen hanakalaa, koska navigointi ja demoa varten oleva dispatcher
+        [Obsolete("Use MessagingService instead")]
         public string SendMessage()
         {
             if (IsProperMessage())
@@ -105,7 +106,7 @@ namespace MobileLoggerApp.src
 
         private void GetResponseCallback(IAsyncResult asynchronousResult)
         {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
+            Message request = (Message)asynchronousResult.AsyncState;
             string data;
             try
             {

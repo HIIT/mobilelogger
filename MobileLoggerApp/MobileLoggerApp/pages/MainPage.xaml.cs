@@ -95,6 +95,8 @@ namespace MobileLoggerApp
             {
                 ElGoog search = new ElGoog(this);
                 search.Search(SearchTextBox.Text);
+                MessagingService msgserv = new MessagingService();
+                msgserv.SendMessages();
             }
         }
 

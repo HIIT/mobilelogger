@@ -11,7 +11,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class AccelHandler : AbstractLogHandler
     {
         Accelerometer accelerometerwatcher;
-    
+
         JObject joAccel;
 
         public override void SaveSensorLog()
@@ -27,14 +27,22 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 accelerometerwatcher = new Accelerometer();
                 //accelerometer.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                 accelerometerwatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
+
             }
+
+
+
+            accelerometerwatcher.Start();
+
+            if (joAccel == null)
+            {
+                joAccel = new JObject();
+            }
+
 
         }
         void accelerometer_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
         {
-            //joAccel.Add("X", (float)e.SensorReading.Acceleration.X);
-            //joAccel.Add("Y", (float)e.SensorReading.Acceleration.Y);
-            //joAccel.Add("Z", (float)e.SensorReading.Acceleration.Z);
 
             if (joAccel["X"] == null)
             {

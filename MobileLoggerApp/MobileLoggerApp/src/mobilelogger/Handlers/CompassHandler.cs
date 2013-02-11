@@ -40,13 +40,60 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         }
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
-{
+        {
+            if (joCompass["trueHeading"] == null)
+            {
+                joCompass.Add("trueHeading", (float)e.SensorReading.TrueHeading);
+            }
+            else
+            {
+                joCompass["trueHeading"].Replace((float)e.SensorReading.TrueHeading);
+            }
 
-    trueHeading = e.SensorReading.TrueHeading;
-    magneticHeading = e.SensorReading.MagneticHeading;
-    headingAccuracy = Math.Abs(e.SensorReading.HeadingAccuracy);
-    //rawMagnetometerReading = e.SensorReading.MagnetometerReading;
+            if (joCompass["magneticHeading"] == null)
+            {
+                joCompass.Add("magneticHeading", (float)e.SensorReading.MagneticHeading);
+            }
+            else
+            {
+                joCompass["magneticHeading"].Replace((float)e.SensorReading.MagneticHeading);
+            }
+
+            if (joCompass["headingAccuracy"] == null)
+            {
+                joCompass.Add("headingAccuracy", (float)Math.Abs(e.SensorReading.HeadingAccuracy));
+            }
+            else
+            {
+                joCompass["headingAccuracy"].Replace((float)Math.Abs(e.SensorReading.HeadingAccuracy));
+            }
+            if (joCompass["rawMagneticReadingX"] == null)
+            {
+                joCompass.Add("rawMagneticReadingX", (float)e.SensorReading.MagnetometerReading.X);
+            }
+            else
+            {
+                joCompass["rawMagneticReadingX"].Replace((float)e.SensorReading.MagnetometerReading.X);
+            }
+
+            if (joCompass["rawMagneticReadingY"] == null)
+            {
+                joCompass.Add("rawMagneticReadingY", (float)e.SensorReading.MagnetometerReading.Y);
+            }
+            else
+            {
+                joCompass["rawMagneticReadingY"].Replace((float)e.SensorReading.MagnetometerReading.Y);
+            }
+            if (joCompass["rawMagneticReadingZ"] == null)
+            {
+                joCompass.Add("rawMagneticReadingZ", (float)e.SensorReading.MagnetometerReading.Z);
+            }
+            else
+            {
+                joCompass["rawMagneticReadingZ"].Replace((float)e.SensorReading.MagnetometerReading.Z);
+            }
+
+        }
+
     }
-
-}
 }

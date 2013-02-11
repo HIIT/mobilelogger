@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Security;
+using System.Security.Cryptography;
 
 namespace MobileLoggerApp.src
 {
@@ -30,6 +32,24 @@ namespace MobileLoggerApp.src
             catch(Exception e)
             {
                 return origin.AddMilliseconds(unixTimeStamp);
+            }
+        }
+
+        /// <summary>
+        /// Calculates SHA1 checksum based on string source, source is assumed to be of json format
+        /// </summary>
+        /// <param name="src">json string</param>
+        /// <returns>The string representation of the calculated SHA1 hash in uppercase</returns>
+        public static string CalculateSHA1(String src)
+        {
+            using (System.Security.Cryptography.SHA1Managed sha1 = new System.Security.Cryptography.SHA1Managed())
+            {
+                String hash = BitConverter.ToString
+                    (sha1.ComputeHash
+                        (Encoding.UTF8.GetBytes
+                            (src))).Replace("-", String.Empty);
+
+                return hash;
             }
         }
     }

@@ -116,7 +116,7 @@ namespace MobileLoggerApp.src
                 var stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
-                System.Diagnostics.Debug.WriteLine(data);
+                System.Diagnostics.Debug.WriteLine(data+" at Message.GetResponseCallBack");
                 //calls for the UI update! kinda ugly hardcoding
                 Deployment.Current.Dispatcher.BeginInvoke(() => 
                 {

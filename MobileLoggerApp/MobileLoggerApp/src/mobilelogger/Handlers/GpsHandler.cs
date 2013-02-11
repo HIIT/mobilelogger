@@ -5,38 +5,18 @@ using System.Text;
 using System.Device.Location;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using MobileLoggerApp.src.mobilelogger.model;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
-
-    [Obsolete("Need to refactor this class to produce events that are saved into the DB, sending is handled by the MessagingService")]
     public class GpsHandler : AbstractLogHandler
     {
         GeoCoordinateWatcher watcher;
-        Message gpsData;
         JObject joCoordinates;
-        Dictionary<string, float> coordinates = new Dictionary<string, float>();
 
-        public override Boolean SendData() {
-
-            joCoordinates = new JObject();
-            joCoordinates.Add(coordinates);
-
-           // gpsData = new Message(ServerLocations.serverRoot + "/log/gps", joCoordinates, "put");
-           //gpsData.SendMessage();
-
-            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
-            {
-
-                if (!logDBContext.DatabaseExists()) return false;
-                logDBContext.addEvent(joCoordinates.ToString());
-            }
-
-            return false;
+        public override void SaveSensorLog()
+        {
+            SaveLogToDB(joCoordinates, "/log/gps");
         }
-
-        public override void HandleSendError() { }
 
         public void startCoordinateWatcher()
         {
@@ -49,6 +29,11 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
             }
             watcher.Start();
+
+            if (joCoordinates == null)
+            {
+                joCoordinates = new JObject();
+            }
         }
 
         void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
@@ -68,7 +53,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                     break;
 
                 case GeoPositionStatus.NoData:
-                    watcher.Stop();
                     break;
 
                 case GeoPositionStatus.Ready:
@@ -78,35 +62,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            if (coordinates.ContainsKey("lat"))
-            {
-                coordinates["lat"] = (float)e.Position.Location.Latitude;
-            }
-            else
-            {
-                coordinates.Add("lat", (float)e.Position.Location.Latitude);
-            }
-            if (coordinates.ContainsKey("lon"))
-            {
-                coordinates["lon"] = (float)e.Position.Location.Longitude;
-            }
-            else
-            {
-            coordinates.Add("lon", (float)e.Position.Location.Longitude);
-            }
-            if (coordinates.ContainsKey("alt"))
-            {
-                coordinates["alt"] = (float)e.Position.Location.Altitude;
-            }
-            else
-            {
-                coordinates.Add("alt", (float)e.Position.Location.Altitude);
-            }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", coordinates["lat"], coordinates["lon"], coordinates["alt"]);
+            joCoordinates.Add("lat", (float)e.Position.Location.Latitude);
+            joCoordinates.Add("lon", (float)e.Position.Location.Longitude);
+            joCoordinates.Add("alt", (float)e.Position.Location.Altitude);
         }
     }
 }

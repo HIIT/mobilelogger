@@ -7,6 +7,9 @@ using MobileLoggerApp.src.mobilelogger.model;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Windows.Input;
+using MobileLoggerApp.pages;
+using System.Windows.Controls;
+using Microsoft.Phone.Tasks;
 
 namespace MobileLoggerApp
 {
@@ -84,19 +87,52 @@ namespace MobileLoggerApp
         //    msg.SendMessage();*/
         //}
 
+        /// <summary>
+        /// Updates search results to screen
+        /// </summary>
+        /// <param name="JSON">JSON data in JObject form, must be in format from Google Custom Search</param>
         public void Update(JObject JSON)
         {
-            //TODO search data handling logic
+            JArray searchResults = (JArray)JSON["items"];
+            App.ViewModel.Items.Clear();
+            foreach (JToken t in searchResults)
+            {
+                System.Diagnostics.Debug.WriteLine(t["title"]);
+                App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = (string)t["link"] });
+            }
         }
 
+        /// <summary>
+        /// An event handler for tapping a result, opens the result in Internet Explorer
+        /// </summary>
+        /// <param name="sender">The StackPanel object that was tapped</param>
+        /// <param name="e">Event arguments of the tap event</param>
+        private void itemTappedEvent(object sender, RoutedEventArgs e)
+        {
+            StackPanel stackPanel = (StackPanel)sender;
+            ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
+            System.Diagnostics.Debug.WriteLine(item.LineThree);
+            WebBrowserTask browser = new WebBrowserTask();
+            browser.Uri = new Uri(item.LineThree);
+            browser.Show();
+        }
+
+        /// <summary>
+        /// Event handler for search box, sends the search query to be queried from Google Custom Search
+        /// </summary>
+        /// <param name="sender">The object that initiated this event</param>
+        /// <param name="e">Arguments for the key event that initiated this event</param>
         private void SearchTextBox_KeyUp_1(object sender, KeyEventArgs e)
         {
             if (e.Key.Equals(Key.Enter))
             {
                 ElGoog search = new ElGoog(this);
                 search.Search(SearchTextBox.Text);
+
                 MessagingService serv = new MessagingService();
                 serv.SendMessages();
+
+                this.Focus();
 
             }
         }

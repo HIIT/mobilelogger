@@ -63,9 +63,32 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
 
-           joCoordinates.Add("lat", (float)e.Position.Location.Latitude);
-           joCoordinates.Add("lon", (float)e.Position.Location.Longitude);
-           joCoordinates.Add("alt", (float)e.Position.Location.Altitude);
+            if (joCoordinates["lat"] == null)
+            {
+                joCoordinates.Add("lat", (float)e.Position.Location.Latitude);
+            }
+            else
+            {
+                joCoordinates["lat"].Replace((float)e.Position.Location.Latitude);
+            }
+
+            if (joCoordinates["lon"] == null)
+            {
+                joCoordinates.Add("lon", (float)e.Position.Location.Longitude);
+            }
+            else
+            {
+                joCoordinates["lon"].Replace((float)e.Position.Location.Longitude);
+            }
+
+            if (joCoordinates["alt"] == null)
+            {
+                joCoordinates.Add("alt", (float)e.Position.Location.Altitude);
+            }
+            else
+            {
+                joCoordinates["alt"].Replace((float)e.Position.Location.Altitude);
+            }
         }
     }
 }

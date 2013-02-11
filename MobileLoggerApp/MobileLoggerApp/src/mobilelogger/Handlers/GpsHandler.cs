@@ -19,12 +19,12 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         public override Boolean SendData() {
 
-        //    joCoordinates = new JObject();
+            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
+            {
 
-        //    if (logData == null)
-        //    {
-        //        logData = new LogEventDataContext(MainPage.ConnectionString);
-        //    }
+                if (!logDBContext.DatabaseExists()) return false;
+                logDBContext.addEvent(joCoordinates.ToString());
+            }
 
             return false;
         }

@@ -37,8 +37,16 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 compass.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
                 //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
             }
+            compass.Start();
+
+            if (joCompass == null)
+            {
+                joCompass = new JObject();
+            } 
 
         }
+
+
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
         {
             if (joCompass["trueHeading"] == null)

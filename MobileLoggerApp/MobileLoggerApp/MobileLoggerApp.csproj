@@ -81,6 +81,7 @@
     <Compile Include="src\MessagingService.cs" />
     <Compile Include="src\mobilelogger\AbstractLogHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\AccelHandler.cs" />
+    <Compile Include="src\mobilelogger\Handlers\CompassHandler.cs" />
     <Compile Include="src\mobilelogger\LogDatabase.cs" />
     <Compile Include="src\mobilelogger\Handlers\GpsHandler.cs" />
     <Compile Include="src\PageLocations.cs" />

@@ -21,6 +21,7 @@ namespace MobileLoggerApp
     {
         LogManager logManager;
         GpsHandler gps;
+        AccelHandler accelerometer;
 
         private static pages.MainViewModel viewModel = null;
 
@@ -89,6 +90,11 @@ namespace MobileLoggerApp
             Application.Current.Resources.Add("gpsHandler",gps);
 
             logManager.addHandler(gps);
+
+            accelerometer = new AccelHandler();
+            Application.Current.Resources.Add("accelHandler", accelerometer);
+            logManager.addHandler(accelerometer);
+
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -97,6 +103,7 @@ namespace MobileLoggerApp
         {
             initHandlers();
 
+            accelerometer.startAccelWatcher();
             gps.startCoordinateWatcher();
         }
 

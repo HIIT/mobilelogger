@@ -41,6 +41,11 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         }
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
 {
+
+    trueHeading = e.SensorReading.TrueHeading;
+    magneticHeading = e.SensorReading.MagneticHeading;
+    headingAccuracy = Math.Abs(e.SensorReading.HeadingAccuracy);
+    //rawMagnetometerReading = e.SensorReading.MagnetometerReading;
     }
 
 }

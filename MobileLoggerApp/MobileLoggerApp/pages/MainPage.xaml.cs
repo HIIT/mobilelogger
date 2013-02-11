@@ -130,6 +130,8 @@ namespace MobileLoggerApp
                 search.Search(SearchTextBox.Text);
                 MessagingService msgserv = new MessagingService();
                 msgserv.SendMessages();
+
+                this.Focus();
             }
         }
 

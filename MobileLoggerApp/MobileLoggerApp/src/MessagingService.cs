@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System.Security.Cryptography;
 using System.Security;
 using System.Windows.Threading;
+using System.Net;
 
 
 namespace MobileLoggerApp.src
@@ -60,7 +61,6 @@ namespace MobileLoggerApp.src
             {
                 
                 if (!logDBContext.DatabaseExists()) return;
-                SHA1Managed sha = new SHA1Managed();
                 foreach (LogEvent e in logDBContext.GetLogEvents())
                 {
                     SendMessage(e);
@@ -89,16 +89,47 @@ namespace MobileLoggerApp.src
         //else keep in DB and continue
         private void SendMessage(LogEvent e)
         {
-            String checksum = CalculateCheckSHA1(e.sensorEvent);
-            Message message = Message.Create("uri", "payload", "PUT");
+            String checksum = DeviceTools.CalculateSHA1(e.sensorEvent);
+
+            //create request message
+            Message message = Message.Create(e.relativeUrl, e.sensorEvent, "PUT");
+            message.BeginGetRequestStream(result =>
+            {
+                FinishWebRequest(result, message, checksum);
+            }, null); // Don't need the state here any more
         }
 
-        private string CalculateCheckSHA1(String src)
+        //validates the response based on the checksums
+        private void FinishWebRequest(IAsyncResult result, Message request, String checksum)
         {
-            SHA1Managed sha = new SHA1Managed();
-            byte[] digest = sha.ComputeHash(Convert.FromBase64String(src));
-            System.Diagnostics.Debug.WriteLine("SHA1 Digest for " + src + ": " + Convert.ToBase64String(digest));
-            return Convert.ToBase64String(digest);
+            using (HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result))
+            {
+                System.IO.Stream receiveStream = response.GetResponseStream();
+                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+                System.IO.StreamReader readStream = new System.IO.StreamReader(receiveStream, encode);
+                
+                Char[] read = new Char[256];
+                // Reads 256 characters at a time.     
+                int count = readStream.Read(read, 0, 256);
+                Console.WriteLine("HTML...\r\n");
+                while (count > 0)
+                {
+                    // Dumps the 256 characters on a string and displays the string to the console.
+                    String str = new String(read, 0, count);
+                    Console.Write(str);
+                    count = readStream.Read(read, 0, 256);
+                }
+                Console.WriteLine("");
+
+
+                // Releases the resources of the response.
+                response.Close();
+                // Releases the resources of the Stream.
+                readStream.Close();
+
+                //validate response checksum
+
+            }
         }
     }
 }

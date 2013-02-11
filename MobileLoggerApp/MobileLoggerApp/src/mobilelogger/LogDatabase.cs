@@ -17,8 +17,10 @@ namespace MobileLoggerApp.src.mobilelogger.model
     {
         private int _eventId;
         private Double _time;
+        private String _relativeUrl;
 
         private String json = "123";
+        
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)] //, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
         public int EventId
@@ -67,6 +69,21 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 }
             }
         }
+        [Column(CanBeNull=false)] 
+        public String relativeUrl
+        {
+            get
+            {
+                return _relativeUrl;
+            }
+            set
+            {
+                if (_relativeUrl != value)
+                {
+                    _relativeUrl = value;
+                }
+            }
+        }
 
         public override String ToString()
         {
@@ -90,7 +107,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
             }
         }
 
-        public void addEvent(String sensorEvent)
+        public void addEvent(String sensorEvent, String url)
         {
             using (LogEventDataContext context = new LogEventDataContext(MobileLoggerApp.MainPage.ConnectionString))
             {
@@ -98,6 +115,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 LogEvent le = new LogEvent();
                 le.sensorEvent = sensorEvent;
                 le.Time = DeviceTools.GetUnixTime(DateTime.Now);
+                le.relativeUrl = url;
                 System.Diagnostics.Debug.WriteLine(DeviceTools.GetUnixTime(DateTime.Now));
 
                 System.Diagnostics.Debug.WriteLine(sensorEvent);

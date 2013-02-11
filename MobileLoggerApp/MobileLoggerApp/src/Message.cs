@@ -12,7 +12,9 @@ using Newtonsoft.Json;
 
 namespace MobileLoggerApp.src
 {
-    //a class that contains information of a http message
+    /// <summary>
+    /// Represents the state of a single HTTP PUT to the server
+    /// </summary>
     public class Message : HttpWebRequest
     {
         public string Uri { get; set; }
@@ -38,7 +40,7 @@ namespace MobileLoggerApp.src
 
         //empty constructor for message
         [Obsolete("Use Create instead")]
-        public Message()
+        private Message()
         {
             Uri = "";
             Payload = "";
@@ -47,7 +49,7 @@ namespace MobileLoggerApp.src
 
         //Refaktoroi pois! tee julkinen navigointi-konteksti!!!
         [Obsolete("Use Create instead")]
-        public Message(string uri, string message, string method, PhoneApplicationPage src) 
+        private Message(string uri, string message, string method, PhoneApplicationPage src) 
         {
             Source = (MainPage)src;
             Uri = uri;
@@ -57,7 +59,7 @@ namespace MobileLoggerApp.src
 
         //constructor with parameters for the required values
         [Obsolete("Use Create instead")]
-        public Message(string uri, string message, string method)
+        private Message(string uri, string message, string method)
         {
             Uri = uri;
             Payload = message;
@@ -65,7 +67,7 @@ namespace MobileLoggerApp.src
         }
 
         [Obsolete("Use Create instead")]
-        public Message(string uri, JObject message, string method)
+        private Message(string uri, JObject message, string method)
         {
             // add device id + timestamp
 
@@ -81,6 +83,7 @@ namespace MobileLoggerApp.src
 
 
         //testaaminen hanakalaa, koska navigointi ja demoa varten oleva dispatcher
+        [Obsolete("Use MessagingService instead")]
         public string SendMessage()
         {
             if (IsProperMessage())
@@ -105,7 +108,7 @@ namespace MobileLoggerApp.src
 
         private void GetResponseCallback(IAsyncResult asynchronousResult)
         {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
+            Message request = (Message)asynchronousResult.AsyncState;
             string data;
             try
             {

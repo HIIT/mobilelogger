@@ -5,17 +5,13 @@ using System.Text;
 using System.Device.Location;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using MobileLoggerApp.src.mobilelogger.model;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
-
-    [Obsolete("Need to refactor this class to produce events that are saved into the DB, sending is handled by the MessagingService")]
     public class GpsHandler : AbstractLogHandler
     {
         GeoCoordinateWatcher watcher;
         JObject joCoordinates;
-        LogEventDataContext logData;
 
         public override void SaveSensorLog()
         {
@@ -33,6 +29,11 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
             }
             watcher.Start();
+
+            if (joCoordinates == null)
+            {
+                joCoordinates = new JObject();
+            }
         }
 
         void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
@@ -52,7 +53,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                     break;
 
                 case GeoPositionStatus.NoData:
-                    watcher.Stop();
                     break;
 
                 case GeoPositionStatus.Ready:

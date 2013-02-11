@@ -71,7 +71,6 @@ namespace MobileLoggerApp.src
                 System.Diagnostics.Debug.WriteLine(data.Length);
                 JObject JSON = JObject.Parse(data);
 
-                //calls for the UI update! kinda ugly hardcoding
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     context.Update(JSON);

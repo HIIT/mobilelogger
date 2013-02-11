@@ -93,8 +93,6 @@ namespace MobileLoggerApp
         /// <param name="JSON">JSON data in JObject form, must be in format from Google Custom Search</param>
         public void Update(JObject JSON)
         {
-            
-            //TODO search data handling logic
             JArray searchResults = (JArray)JSON["items"];
             App.ViewModel.Items.Clear();
             foreach (JToken t in searchResults)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Device.Location;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using MobileLoggerApp.src.mobilelogger.model;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -13,19 +14,24 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class GpsHandler : AbstractLogHandler
     {
         GeoCoordinateWatcher watcher;
-        Message gpsData;
         JObject joCoordinates;
-        Dictionary<string, float> coordinates = new Dictionary<string, float>();
+        LogEventDataContext logData;
 
         public override Boolean SendData() {
 
-            joCoordinates = new JObject();
-            joCoordinates.Add(coordinates);
+        //    joCoordinates = new JObject();
 
-            gpsData = new Message(ServerLocations.serverRoot + "/log/gps", joCoordinates, "put");
-            gpsData.SendMessage();
+        //    if (logData == null)
+        //    {
+        //        logData = new LogEventDataContext(MainPage.ConnectionString);
+        //    }
 
             return false;
+        }
+
+        public override void sendSensorLog()
+        {
+
         }
 
         public override void HandleSendError() { }
@@ -70,35 +76,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            if (coordinates.ContainsKey("lat"))
-            {
-                coordinates["lat"] = (float)e.Position.Location.Latitude;
-            }
-            else
-            {
-                coordinates.Add("lat", (float)e.Position.Location.Latitude);
-            }
-            if (coordinates.ContainsKey("lon"))
-            {
-                coordinates["lon"] = (float)e.Position.Location.Longitude;
-            }
-            else
-            {
-            coordinates.Add("lon", (float)e.Position.Location.Longitude);
-            }
-            if (coordinates.ContainsKey("alt"))
-            {
-                coordinates["alt"] = (float)e.Position.Location.Altitude;
-            }
-            else
-            {
-                coordinates.Add("alt", (float)e.Position.Location.Altitude);
-            }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", coordinates["lat"], coordinates["lon"], coordinates["alt"]);
+            joCoordinates.Add("lat", (float)e.Position.Location.Latitude);
+            joCoordinates.Add("lon", (float)e.Position.Location.Longitude);
+            joCoordinates.Add("alt", (float)e.Position.Location.Altitude);
         }
     }
 }

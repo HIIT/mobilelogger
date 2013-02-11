@@ -21,6 +21,7 @@ namespace MobileLoggerApp
     {
         LogManager logManager;
         GpsHandler gps;
+        CompassHandler compass;
         AccelHandler accelerometer;
 
         private static pages.MainViewModel viewModel = null;
@@ -95,6 +96,9 @@ namespace MobileLoggerApp
             Application.Current.Resources.Add("accelHandler", accelerometer);
             logManager.addHandler(accelerometer);
 
+            compass = new CompassHandler();
+            Application.Current.Resources.Add("compassHandler", compass);
+            logManager.addHandler(compass);
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -105,6 +109,7 @@ namespace MobileLoggerApp
 
             accelerometer.startAccelWatcher();
             gps.startCoordinateWatcher();
+            compass.startCompassWatcher();
         }
 
         // Code to execute when the application is activated (brought to foreground)

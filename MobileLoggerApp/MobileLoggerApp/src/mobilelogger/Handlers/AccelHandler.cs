@@ -11,15 +11,12 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class AccelHandler : AbstractLogHandler
     {
         Accelerometer accelerometerwatcher;
-        Message accelData;
+    
         JObject joAccel;
 
-        public override Boolean SendData()
+        public override void SaveSensorLog()
         {
-
-            joAccel = new JObject();
-
-            return false;
+            SaveLogToDB(joAccel, "/log/accel");
         }
 
         public void startAccelWatcher()

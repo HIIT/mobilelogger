@@ -3,21 +3,25 @@ using MobileLoggerApp.src;
 using System.Threading;
 using System.Windows;
 using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace MobileLoggerTest.tests
 {
-    [TestFixture]
+    [TestClass]
     public class MessagingServiceTest
     {
-        [Test]
+        
+        [TestCase]
         public void TestSendMessage()
         {
 
             
-            MessagingService service = new MessagingService();
+           // MessagingService service = new MessagingService();
             Console.WriteLine("before sendmessages");
-            service.SendMessages();
+           // service.SendMessages();
             Console.WriteLine("after sendmessages");
          
         }
+        
     }
 }

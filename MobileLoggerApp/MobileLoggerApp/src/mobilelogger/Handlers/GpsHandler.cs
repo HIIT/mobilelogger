@@ -5,6 +5,7 @@ using System.Text;
 using System.Device.Location;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using MobileLoggerApp.src.mobilelogger.model;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -22,8 +23,15 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             joCoordinates = new JObject();
             joCoordinates.Add(coordinates);
 
-            gpsData = new Message(ServerLocations.serverRoot + "/log/gps", joCoordinates, "put");
-            gpsData.SendMessage();
+           // gpsData = new Message(ServerLocations.serverRoot + "/log/gps", joCoordinates, "put");
+           //gpsData.SendMessage();
+
+            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
+            {
+
+                if (!logDBContext.DatabaseExists()) return false;
+                logDBContext.addEvent(joCoordinates.ToString());
+            }
 
             return false;
         }

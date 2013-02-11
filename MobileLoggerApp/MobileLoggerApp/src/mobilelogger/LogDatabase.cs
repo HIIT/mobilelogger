@@ -17,8 +17,10 @@ namespace MobileLoggerApp.src.mobilelogger.model
     {
         private int _eventId;
         private Double _time;
+        private String _relativeUrl;
 
         private String json = "123";
+        
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)] //, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
         public int EventId
@@ -64,6 +66,21 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 if (value.ToString() != json)
                 {
                     json = value.ToString();
+                }
+            }
+        }
+        [Column(CanBeNull=false)] 
+        public String relativeUrl
+        {
+            get
+            {
+                return _relativeUrl;
+            }
+            set
+            {
+                if (_relativeUrl != value)
+                {
+                    _relativeUrl = value;
                 }
             }
         }

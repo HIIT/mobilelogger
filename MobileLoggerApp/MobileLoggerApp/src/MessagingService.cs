@@ -58,6 +58,7 @@ namespace MobileLoggerApp.src
             Console.WriteLine(sender.ToString() + " " + args.ToString());
             using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
             {
+                
                 if (!logDBContext.DatabaseExists()) return;
                 SHA1Managed sha = new SHA1Managed();
                 foreach (LogEvent e in logDBContext.GetLogEvents())

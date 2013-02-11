@@ -38,7 +38,7 @@ namespace MobileLoggerApp
                     }
                 }
 
-                logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3));
+                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3));
                 
                 IList<LogEvent> list = logDBContext.GetLogEvents();
                 if (list != null)

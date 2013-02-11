@@ -25,7 +25,7 @@ namespace MobileLoggerApp.src
         {
             foreach (AbstractLogHandler alh in logHandlers)
             {
-                alh.SendData();
+                //alh.SendData();
             }
         }
     }

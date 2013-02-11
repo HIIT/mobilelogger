@@ -107,7 +107,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
             }
         }
 
-        public void addEvent(String sensorEvent)
+        public void addEvent(String sensorEvent, String url)
         {
             using (LogEventDataContext context = new LogEventDataContext(MobileLoggerApp.MainPage.ConnectionString))
             {
@@ -115,6 +115,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 LogEvent le = new LogEvent();
                 le.sensorEvent = sensorEvent;
                 le.Time = DeviceTools.GetUnixTime(DateTime.Now);
+                le.relativeUrl = url;
                 System.Diagnostics.Debug.WriteLine(DeviceTools.GetUnixTime(DateTime.Now));
 
                 System.Diagnostics.Debug.WriteLine(sensorEvent);

@@ -17,24 +17,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         JObject joCoordinates;
         LogEventDataContext logData;
 
-        public override Boolean SendData() {
-
-            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
-            {
-
-                if (!logDBContext.DatabaseExists()) return false;
-                logDBContext.addEvent(joCoordinates.ToString());
-            }
-
-            return false;
-        }
-
-        public override void sendSensorLog()
+        public override void SaveSensorLog()
         {
-
+            SaveLogToDB(joCoordinates, "/log/gps");
         }
-
-        public override void HandleSendError() { }
 
         public void startCoordinateWatcher()
         {

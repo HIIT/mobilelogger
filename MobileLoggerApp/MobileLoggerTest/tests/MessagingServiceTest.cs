@@ -5,6 +5,7 @@ using System.Windows;
 using System.Timers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.Resources;
+using System.Threading.Tasks;
 
 namespace MobileLoggerTest.tests
 {
@@ -19,7 +20,6 @@ namespace MobileLoggerTest.tests
             MessagingService service = new MessagingService();
             System.Diagnostics.Debug.WriteLine("before sendmessages");
 
-            service.SendMessages();
             System.Diagnostics.Debug.WriteLine("after sendmessages");
             
         }

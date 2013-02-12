@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MobileLoggerApp.src.mobilelogger.model;
+using System;
 using System.ComponentModel;
-using MobileLoggerApp.src.mobilelogger.model;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Security.Cryptography;
-using System.Security;
-using System.Windows.Threading;
 using System.Net;
 using System.Windows;
 using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 using Microsoft.Phone.Scheduler;
-
+using System.Text;
 
 namespace MobileLoggerApp.src
 {
     public class MessagingService : ScheduledTaskAgent
     {
-        // private DispatcherTimer timer;
         public BackgroundWorker bgworker;
         private bool _classInitialized = false;
         private string taskName;
@@ -79,6 +70,7 @@ namespace MobileLoggerApp.src
             bgworker = new BackgroundWorker();
             bgworker.DoWork += new DoWorkEventHandler(AsyncSendMessages);
             bgworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(SendMessagesWorkComplete);
+            this.bgworker.RunWorkerAsync();        
         }
 
         private void AsyncSendMessages(object sender, DoWorkEventArgs args)
@@ -95,7 +87,7 @@ namespace MobileLoggerApp.src
                 }
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": GetLogEvents().size() " + logDBContext.GetLogEvents().Count);
-                if (logDBContext.GetLogEvents().Count() == 0)
+                if (logDBContext.GetLogEvents().Count == 0)
                 {
                     logDBContext.addEvent("{derp:herp}", "/log/gps");
                 }
@@ -216,7 +208,10 @@ namespace MobileLoggerApp.src
                     System.Diagnostics.Debug.WriteLine(str);
                     count = readStream.Read(read, 0, 256);
                 }
+
                 System.Diagnostics.Debug.WriteLine("");
+
+                Console.WriteLine("");
                 // Releases the resources of the response.
                 response.Close();
                 // Releases the resources of the Stream.

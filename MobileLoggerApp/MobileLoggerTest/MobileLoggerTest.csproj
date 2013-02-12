@@ -68,7 +68,6 @@
   <ItemGroup>
     <Compile Include="tests\MessageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tests\LogManagerTest.cs" />
     <Compile Include="tests\DeviceToolsTest.cs" />
     <Compile Include="tests\MessagingServiceTest.cs" />
   </ItemGroup>

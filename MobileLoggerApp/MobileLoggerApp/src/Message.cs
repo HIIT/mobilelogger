@@ -1,14 +1,10 @@
-﻿using System;
-using Microsoft.Phone.Controls;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Windows;
-using System.Globalization;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.Phone.Controls;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
+using System.Net;
+using System.Windows;
 
 namespace MobileLoggerApp.src
 {

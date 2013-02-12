@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Devices.Sensors;
-using System.Windows.Threading;
+﻿using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -42,25 +37,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 joGyro = new JObject();
             }
         }
+
         void gyroscope_CurrentValueChanged(object sender, SensorReadingEventArgs<GyroscopeReading> e)
         {
-            //if (joGyro["lastUpdateTimeMilli"] == null)
-            //{
-            //    joGyro.Add("lastUpdateTimeMilli", (float)e.SensorReading.Timestamp.LocalDateTime.Millisecond);
-            //}
-            //else
-            //{
-            //    joGyro["lastUpdateTimeMilli"].Replace((float)e.SensorReading.Timestamp.LocalDateTime.Millisecond);
-            //}
-            //if (joGyro["lastUpdateTimeSecond"] == null)
-            //{
-            //    joGyro.Add("lastUpdateTimeSecond", (float)e.SensorReading.Timestamp.Second);
-            //}
-            //else
-            //{
-            //    joGyro["lastUpdateTimeSecond"].Replace((float)e.SensorReading.Timestamp.Second);
-            //}
-
             // Get the current rotation rate. This value is in 
             // radians per second.
             if (joGyro["currentRotationRateX"] == null)

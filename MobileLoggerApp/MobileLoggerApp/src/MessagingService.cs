@@ -48,13 +48,9 @@ namespace MobileLoggerApp.src
 
         private void AsyncSendMessages(object sender, DoWorkEventArgs args)
         {
+            
             BackgroundWorker worker = sender as BackgroundWorker;
-            System.Diagnostics.Debug.WriteLine("event working");
-            for (int i = 0; i < 500; i++)
-            {
-                System.Diagnostics.Debug.WriteLine(i);
-            }
-            /*
+
             using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
             {
                 if (!logDBContext.DatabaseExists()) return;
@@ -63,7 +59,7 @@ namespace MobileLoggerApp.src
                     SendMessage(e);
                 }
             }
-             */ 
+             
         }
 
         private void SendMessagesWorkComplete(object sender, EventArgs args)

@@ -6,19 +6,20 @@ using Microsoft.Devices.Sensors;
 using System.Windows.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.Xna.Framework;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class CompassHandler : AbstractLogHandler
     {
         Compass compass;
-        DispatcherTimer timer;
+        //DispatcherTimer timer;
         JObject joCompass;
 
         double magneticHeading;
         double trueHeading;
         double headingAccuracy;
-        //Vector3 rawMagnetometerReading;
+        Vector3 rawMagnetometerReading;
         bool isDataValid;
 
         bool calibrating = false;
@@ -42,7 +43,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             if (joCompass == null)
             {
                 joCompass = new JObject();
-            } 
+            }
 
         }
 

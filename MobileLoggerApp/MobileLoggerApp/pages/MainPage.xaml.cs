@@ -130,6 +130,8 @@ namespace MobileLoggerApp
                 search.Search(SearchTextBox.Text);
                 MessagingService msgserv = new MessagingService();
                 msgserv.SendMessages();
+
+                this.Focus();
             }
         }
 
@@ -151,5 +153,12 @@ namespace MobileLoggerApp
         //        this.NavigationService.RemoveBackEntry();
         //    }
         //}
+
+        internal void OpenBrowser(string searchQuery)
+        {
+            WebBrowserTask browser = new WebBrowserTask();
+            browser.Uri = new Uri(String.Format("http://www.bing.com/search?q={0}", searchQuery));
+            browser.Show();
+        }
     }
 }

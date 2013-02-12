@@ -24,6 +24,7 @@ namespace MobileLoggerApp
         CompassHandler compass;
         AccelHandler accelerometer;
         GyroHandler gyroscope;
+        OperatorHandler mobileoperator;
 
         private static pages.MainViewModel viewModel = null;
 
@@ -104,6 +105,12 @@ namespace MobileLoggerApp
             gyroscope = new GyroHandler();
             Application.Current.Resources.Add("gyroHandler", gyroscope);
             logManager.addHandler(gyroscope);
+
+            mobileoperator = new OperatorHandler();
+            Application.Current.Resources.Add("operatorHandler", mobileoperator);
+            logManager.addHandler(mobileoperator);
+
+        
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -116,6 +123,7 @@ namespace MobileLoggerApp
             gps.startCoordinateWatcher();
             compass.startCompassWatcher();
             gyroscope.startGyroWatcher();
+            mobileoperator.startOperator();
         }
 
         // Code to execute when the application is activated (brought to foreground)

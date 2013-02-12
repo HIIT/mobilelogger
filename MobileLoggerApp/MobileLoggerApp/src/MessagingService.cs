@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MobileLoggerApp.src.mobilelogger.model;
+using System;
 using System.ComponentModel;
-using MobileLoggerApp.src.mobilelogger.model;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Security.Cryptography;
-using System.Security;
-using System.Windows.Threading;
 using System.Net;
-
+using System.Text;
 
 namespace MobileLoggerApp.src
 {
     public class MessagingService// : DispatcherTimer
-    {
-
-        
-
+    {   
         public BackgroundWorker bgworker;
 
         public MessagingService()
@@ -42,8 +31,7 @@ namespace MobileLoggerApp.src
         {
             Console.WriteLine("SendMessages");
             System.Diagnostics.Debug.WriteLine("SendMessages");
-            this.bgworker.RunWorkerAsync();
-        
+            this.bgworker.RunWorkerAsync();        
         }
 
         /// <summary>
@@ -121,14 +109,12 @@ namespace MobileLoggerApp.src
                 }
                 Console.WriteLine("");
 
-
                 // Releases the resources of the response.
                 response.Close();
                 // Releases the resources of the Stream.
                 readStream.Close();
 
                 //validate response checksum
-
             }
         }
     }

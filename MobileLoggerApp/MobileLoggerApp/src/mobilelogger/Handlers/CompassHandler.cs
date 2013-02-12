@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Devices.Sensors;
-using System.Windows.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -44,9 +39,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 joCompass = new JObject();
             }
-
         }
-
 
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
         {

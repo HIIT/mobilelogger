@@ -1,21 +1,17 @@
-﻿using System;
-using System.Windows;
-using System.Collections.Generic;
-using Microsoft.Phone.Controls;
+﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
+using MobileLoggerApp.pages;
 using MobileLoggerApp.src;
 using MobileLoggerApp.src.mobilelogger.model;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Windows.Input;
-using MobileLoggerApp.pages;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Phone.Tasks;
+using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
-
-
-
     public partial class MainPage : PhoneApplicationPage
     {
 
@@ -36,29 +32,29 @@ namespace MobileLoggerApp
                     {
                         logDBContext.CreateDatabase();
                     }
-                    catch (InvalidOperationException ioe) {
-                        System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..."+ioe);
+                    catch (InvalidOperationException ioe)
+                    {
+                        System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..." + ioe);
                     }
                 }
 
-                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3));
-                
+                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3), ServerLocations.serverRoot);
+
                 IList<LogEvent> list = logDBContext.GetLogEvents();
                 if (list != null)
                 {
 
                     foreach (LogEvent e in list)
                     {
-                        System.Diagnostics.Debug.WriteLine(e.ToString()+":"+e.sensorEvent);
+                        System.Diagnostics.Debug.WriteLine(e.ToString() + ":" + e.sensorEvent);
                     }
                 }
-                
             }
-
 
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
         }
 
         //private void onKeyUp(KeyEventArgs e)
@@ -159,6 +155,17 @@ namespace MobileLoggerApp
             WebBrowserTask browser = new WebBrowserTask();
             browser.Uri = new Uri(String.Format("http://www.bing.com/search?q={0}", searchQuery));
             browser.Show();
+        }
+
+        private void currentPivotItem(object sender, SelectionChangedEventArgs e)
+        {
+            Pivot pivot = (Pivot)sender;
+
+            // Settings PivotItem
+            if (pivot.SelectedIndex == 1)
+            {
+                App.ViewModel.LoadData();
+            }
         }
     }
 }

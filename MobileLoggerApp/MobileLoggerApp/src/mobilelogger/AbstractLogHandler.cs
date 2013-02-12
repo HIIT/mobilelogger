@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MobileLoggerApp.src.mobilelogger.model;
 using Newtonsoft.Json.Linq;
-using MobileLoggerApp.src.mobilelogger.model;
-using System.Text;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger
 {
@@ -15,7 +12,6 @@ namespace MobileLoggerApp.src.mobilelogger
         {
             using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
             {
-
                 if (!logDBContext.DatabaseExists()) return false;
 
                 logDBContext.addEvent(logEvent.ToString(), url);

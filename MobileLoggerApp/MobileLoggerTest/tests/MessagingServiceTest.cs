@@ -16,7 +16,10 @@ namespace MobileLoggerTest.tests
         {
 
             
-           // MessagingService service = new MessagingService();
+            MessagingService service = new MessagingService();
+
+
+            
             Console.WriteLine("before sendmessages");
            // service.SendMessages();
             Console.WriteLine("after sendmessages");

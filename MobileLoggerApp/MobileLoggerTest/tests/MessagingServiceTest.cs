@@ -17,7 +17,7 @@ namespace MobileLoggerTest.tests
         public void TestSendMessage()
         {
 
-            MessagingService service = new MessagingService();
+            //MessagingService service = new MessagingService();
             System.Diagnostics.Debug.WriteLine("before sendmessages");
 
             System.Diagnostics.Debug.WriteLine("after sendmessages");

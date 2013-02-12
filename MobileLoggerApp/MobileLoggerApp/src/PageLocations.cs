@@ -12,6 +12,6 @@ namespace MobileLoggerApp.src
 
     class ServerLocations
     {
-        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/";
+        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev";
     }
 }

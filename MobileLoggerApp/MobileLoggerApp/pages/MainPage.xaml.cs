@@ -10,6 +10,8 @@ using System.Windows.Input;
 using MobileLoggerApp.pages;
 using System.Windows.Controls;
 using Microsoft.Phone.Tasks;
+using Microsoft.Phone.Scheduler;
+using System.Threading.Tasks;
 
 namespace MobileLoggerApp
 {
@@ -20,12 +22,13 @@ namespace MobileLoggerApp
     {
 
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
+        private MessagingService messageserivce;
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-
+            InitializePeriodicTask();
             using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
             {
 
@@ -61,6 +64,12 @@ namespace MobileLoggerApp
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
+        private void InitializePeriodicTask()
+        {
+            messageserivce = new MessagingService("task");
+        }
+        
+
         //private void onKeyUp(KeyEventArgs e)
         //{
         //    if (e.Key.Equals(Key.Enter)) {
@@ -95,11 +104,12 @@ namespace MobileLoggerApp
         {
             JArray searchResults = (JArray)JSON["items"];
             App.ViewModel.Items.Clear();
-            foreach (JToken t in searchResults)
-            {
-                System.Diagnostics.Debug.WriteLine(t["title"]);
-                App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = (string)t["link"] });
-            }
+            if(searchResults != null)
+                foreach (JToken t in searchResults)
+                {
+                    System.Diagnostics.Debug.WriteLine(t["title"]);
+                    App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = (string)t["link"] });
+                }
         }
 
         /// <summary>
@@ -128,9 +138,6 @@ namespace MobileLoggerApp
             {
                 ElGoog search = new ElGoog(this);
                 search.Search(SearchTextBox.Text);
-
-                MessagingService serv = new MessagingService();
-                serv.SendMessages();
 
                 this.Focus();
 

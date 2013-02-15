@@ -1,25 +1,23 @@
-﻿using MobileLoggerApp.src.mobilelogger.model;
-using System;
-using System.ComponentModel;
-using System.Net;
-using System.Windows;
-using System.Threading.Tasks;
-using System.Threading;
-using System.IO;
+﻿using System.Windows;
 using Microsoft.Phone.Scheduler;
+using System;
+using System.Net;
 using System.Text;
+using System.IO;
 
-namespace MobileLoggerApp.src
+namespace MobileLoggerScheduledAgent
 {
-    public class MessagingService : ScheduledTaskAgent
+    public class MobileLoggerScheduledAgent : ScheduledTaskAgent
     {
-        public BackgroundWorker bgworker;
-        private bool _classInitialized = false;
-        private string taskName;
+        private static volatile bool _classInitialized;
+        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev";
 
-        public MessagingService(string name)
+        /// <remarks>
+        /// ScheduledAgent constructor, initializes the UnhandledException handler
+        /// </remarks>
+        public MobileLoggerScheduledAgent()
         {
-            this.taskName = name;
+            System.Diagnostics.Debug.WriteLine("Initializing background task agent");
             if (!_classInitialized)
             {
                 _classInitialized = true;
@@ -29,17 +27,16 @@ namespace MobileLoggerApp.src
                     Application.Current.UnhandledException += ScheduledAgent_UnhandledException;
                 });
             }
-
-            InitializeBackgroundWorker();
         }
 
         /// Code to execute on Unhandled Exceptions
         private void ScheduledAgent_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Unhandled exception"); 
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
-                System.Diagnostics.Debugger.Break();
+                //System.Diagnostics.Debugger.Break();
             }
         }
 
@@ -54,31 +51,18 @@ namespace MobileLoggerApp.src
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-            SendMessages();
-
-            //NotifyComplete();
+            System.Diagnostics.Debug.WriteLine("OnInvoke");
+            //TODO: Add code to perform your task in background
+            //SendMessages();
+            NotifyComplete();
         }
+
 
         private void SendMessages()
         {
             System.Diagnostics.Debug.WriteLine("SendMessages");
-            bgworker.RunWorkerAsync();
-        }
-        
-        private void InitializeBackgroundWorker()
-        {
-            bgworker = new BackgroundWorker();
-            bgworker.DoWork += new DoWorkEventHandler(AsyncSendMessages);
-            bgworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(SendMessagesWorkComplete);
-            this.bgworker.RunWorkerAsync();        
-        }
 
-        private void AsyncSendMessages(object sender, DoWorkEventArgs args)
-        {
-            System.Diagnostics.Debug.WriteLine(this.GetType().Name + ".AsyncSendMessages event handler");
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
+            using (LogEventDataContext logDBContext = new LogEventDataContext(LogEventDataContext.ConnectionString))
             {
                 if (!logDBContext.DatabaseExists())
                 {
@@ -105,7 +89,7 @@ namespace MobileLoggerApp.src
             System.Diagnostics.Debug.WriteLine("finished send messages work");
             System.Diagnostics.Debug.WriteLine(sender.ToString() + " " + args.ToString());
         }
-        
+
         //get checksum
         //send data to server
         //wait for answer checksum
@@ -115,7 +99,7 @@ namespace MobileLoggerApp.src
         private async void SendMessage(LogEvent e)
         {
             //create request message
-            Message message = Message.Create(ServerLocations.serverRoot + e.relativeUrl, e.sensorEvent, "PUT");
+            Message message = Message.Create(serverRoot + e.relativeUrl, e.sensorEvent, "PUT");
 
             System.Diagnostics.Debug.WriteLine("request uri " + message.request.RequestUri);
 
@@ -150,7 +134,7 @@ namespace MobileLoggerApp.src
                 //write to stream when requeststream is got
                 WriteMessageToStream(result, message, e);
             }, null);
-             */ 
+             */
         }
 
         private void WriteMessageToStream(IAsyncResult asynchronousResult, Message message, LogEvent e)
@@ -166,7 +150,7 @@ namespace MobileLoggerApp.src
             }
 
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-            
+
             System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": " + request.ToString());
             using (var outStream = request.EndGetRequestStream(asynchronousResult))
             {
@@ -182,9 +166,9 @@ namespace MobileLoggerApp.src
                 //after getting response validate the response
                 FinishWebRequest(result, message, e);
             }, null);
-             */ 
+             */
         }
-        
+
         //validates the response based on the checksums
         private void FinishWebRequest(IAsyncResult result, Message message, LogEvent e)
         {
@@ -196,7 +180,7 @@ namespace MobileLoggerApp.src
                 System.IO.Stream receiveStream = response.GetResponseStream();
                 Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
                 System.IO.StreamReader readStream = new System.IO.StreamReader(receiveStream, encode);
-                
+
                 Char[] read = new Char[256];
                 // Reads 256 characters at a time.     
                 int count = readStream.Read(read, 0, 256);
@@ -219,5 +203,7 @@ namespace MobileLoggerApp.src
                 //validate response checksum
             }
         }
+
+
     }
 }

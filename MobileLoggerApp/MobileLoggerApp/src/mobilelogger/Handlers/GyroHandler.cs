@@ -21,17 +21,19 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         }
         public void startGyroWatcher()
         {
-            if (gyroscope == null)
+            if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
-                // Instantiate the Gyroscope.
-                gyroscope = new Gyroscope();
-                // Specify the desired time between updates. The sensor accepts
-                // intervals in multiples of 20 ms.
-                //gyroscope.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                gyroscope.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
+                if (gyroscope == null)
+                {
+                    // Instantiate the Gyroscope.
+                    gyroscope = new Gyroscope();
+                    // Specify the desired time between updates. The sensor accepts
+                    // intervals in multiples of 20 ms.
+                    //gyroscope.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                    gyroscope.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
+                }
+                gyroscope.Start();
             }
-            gyroscope.Start();
-
             if (joGyro == null)
             {
                 joGyro = new JObject();

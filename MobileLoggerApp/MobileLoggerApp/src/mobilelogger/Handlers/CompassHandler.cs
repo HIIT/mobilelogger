@@ -25,16 +25,20 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         }
         public void startCompassWatcher()
         {
-            if (compass == null)
-            {
-                // Instantiate the Compass.
-                compass = new Compass();
-                //compass.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                compass.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
-                //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
+#if EMULATOR
+#endif
+            if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
+            { 
+                if (compass == null)
+                {
+                    // Instantiate the Compass.
+                    compass = new Compass();
+                    //compass.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                    compass.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
+                    //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
+                }
+                compass.Start();
             }
-            compass.Start();
-
             if (joCompass == null)
             {
                 joCompass = new JObject();

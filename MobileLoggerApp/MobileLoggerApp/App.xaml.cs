@@ -1,6 +1,8 @@
 ﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
 using MobileLoggerApp.src.mobilelogger.Handlers;
+using System;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -95,6 +97,7 @@ namespace MobileLoggerApp
             Application.Current.Resources.Add("operatorHandler", mobileoperator);
             mobileoperator.startOperator();
         }
+
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated

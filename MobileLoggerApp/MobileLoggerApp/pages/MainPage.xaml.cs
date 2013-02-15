@@ -18,13 +18,13 @@ namespace MobileLoggerApp
     {
 
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
-        private MessagingService messageserivce;
-
+        private const string TASK_NAME = "MobileLoggerScheduledAgent";
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            InitializePeriodicTask();
+            //start background agent
+            StartAgent();
             using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
             {
 
@@ -60,11 +60,6 @@ namespace MobileLoggerApp
 
         }
 
-        private void InitializePeriodicTask()
-        {
-            messageserivce = new MessagingService("task");
-        }
-        
 
         //private void onKeyUp(KeyEventArgs e)
         //{
@@ -176,5 +171,65 @@ namespace MobileLoggerApp
                 App.ViewModel.LoadData();
             }
         }
+
+        private void StartAgent()
+        {
+            System.Diagnostics.Debug.WriteLine("Start agent");
+            StopAgentIfStarted();
+
+            PeriodicTask task = new PeriodicTask(TASK_NAME);
+            task.ExpirationTime = DateTime.Now.AddDays(14);
+            System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
+            //task.ExpirationTime = new DateTime(0,0,7);
+            System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
+            task.Description = "This is the background upload agent for MobileLoggerApp";
+            // Place the call to Add in a try block in case the user has disabled agents.
+            try
+            {
+                ScheduledActionService.Add(task);
+            }
+            catch (InvalidOperationException exception)
+            {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+                if (exception.Message.Contains("BNS Error: The action is disabled"))
+                {
+                    MessageBox.Show("Background agents for this application have been disabled by the user.");
+                    //agentsAreEnabled = false;
+                }
+                if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
+                {
+                    // No user action required. The system prompts the user when the hard limit of periodic tasks has been reached.
+                }
+            }
+            catch (SchedulerServiceException)
+            {
+                // No user action required.
+            }
+
+
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
+            // If we're debugging, attempt to start the task immediately 
+            try
+            {
+                ScheduledActionService.LaunchForTest(TASK_NAME, new TimeSpan(0, 0, 1));
+            }
+            catch (InvalidOperationException exception)
+            {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+            }
+#endif
+        }
+
+        private void StopAgentIfStarted()
+        {
+            if (ScheduledActionService.Find(TASK_NAME) != null)
+            {
+                System.Diagnostics.Debug.WriteLine("removing " + TASK_NAME);
+                ScheduledActionService.Remove(TASK_NAME);
+            }
+        }
+
+        
     }
 }

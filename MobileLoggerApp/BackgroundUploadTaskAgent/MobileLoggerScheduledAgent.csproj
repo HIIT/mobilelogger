@@ -5,26 +5,20 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9334832D-33EC-46D4-9DC2-5F81502BE946}</ProjectGuid>
+    <ProjectGuid>{A52C8566-D8D1-4755-907B-7BA12A9E70DA}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MobileLoggerApp</RootNamespace>
-    <AssemblyName>MobileLoggerApp</AssemblyName>
+    <RootNamespace>MobileLoggerScheduledAgent</RootNamespace>
+    <AssemblyName>MobileLoggerScheduledAgent</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>
-    </SupportedCultures>
-    <XapOutputs>true</XapOutputs>
-    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>MobileLoggerApp.xap</XapFilename>
-    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>MobileLoggerApp.App</SilverlightAppEntry>
+    <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <BackgroundAgentType>ScheduledTaskAgent</BackgroundAgentType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,7 +30,6 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -59,10 +52,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Phone" />
-    <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.14-rc\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -72,13 +62,10 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Phone">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.14-rc\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.Extensions.Phone.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Phone.Reactive" />
-    <Reference Include="Microsoft.Xna.Framework" />
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="system.data.linq" />
-    <Reference Include="System.Device" />
     <Reference Include="System.Runtime">
       <HintPath>..\packages\Microsoft.Bcl.1.0.16-rc\lib\sl4-windowsphone71\System.Runtime.dll</HintPath>
     </Reference>
@@ -88,77 +75,25 @@
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
     <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="pages\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DeviceTools.cs" />
+    <Compile Include="LogDatabase.cs" />
+    <Compile Include="MobileLoggerScheduledAgent.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\DeviceTools.cs" />
-    <Compile Include="src\ElGoog.cs" />
-    <Compile Include="src\Message.cs" />
-    <Compile Include="src\mobilelogger\AbstractLogHandler.cs" />
-    <Compile Include="src\mobilelogger\Handlers\AccelHandler.cs" />
-    <Compile Include="src\mobilelogger\Handlers\OperatorHandler.cs" />
-    <Compile Include="src\mobilelogger\Handlers\MicrophoneHandler.cs" />
-    <Compile Include="src\mobilelogger\Handlers\GyroHandler.cs" />
-    <Compile Include="src\mobilelogger\Handlers\CompassHandler.cs" />
-    <Compile Include="src\mobilelogger\Handlers\NetworkHandler.cs" />
-    <Compile Include="src\mobilelogger\LogDatabase.cs" />
-    <Compile Include="src\mobilelogger\Handlers\GpsHandler.cs" />
-    <Compile Include="src\PageLocations.cs" />
-    <Compile Include="pages\ViewModels\ItemViewModel.cs" />
-    <Compile Include="pages\ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </ApplicationDefinition>
-    <Page Include="pages\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Properties\AppManifest.xml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\WMAppManifest.xml">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ApplicationIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Background.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SplashScreenImage.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BackgroundUploadTaskAgent\MobileLoggerScheduledAgent.csproj">
-      <Project>{A52C8566-D8D1-4755-907B-7BA12A9E70DA}</Project>
-      <Name>MobileLoggerScheduledAgent</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.0-rc\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -166,6 +101,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ProjectExtensions />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.0-rc\tools\Microsoft.Bcl.Build.targets" />
 </Project>

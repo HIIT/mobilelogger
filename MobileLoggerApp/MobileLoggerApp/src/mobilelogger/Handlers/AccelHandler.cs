@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Devices.Sensors;
-using Newtonsoft.Json;
+﻿using Microsoft.Devices.Sensors;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class AccelHandler : AbstractLogHandler
     {
         Accelerometer accelerometerwatcher;
-
         JObject joAccel;
+
+        DateTime lastSaved;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joAccel, "/log/accel");
+            TimeSpan timeSpan = DateTime.UtcNow - lastSaved;
+
+            if (timeSpan.TotalMilliseconds > 10000)
+            {
+                SaveLogToDB(joAccel, "/log/accel");
+                lastSaved = DateTime.UtcNow;
+            }
         }
 
         public void startAccelWatcher()
@@ -25,12 +28,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 // Instantiate the Accelerometer.
                 accelerometerwatcher = new Accelerometer();
-                //accelerometer.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                //accelerometerwatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                 accelerometerwatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
-
             }
-
-
 
             accelerometerwatcher.Start();
 
@@ -38,12 +38,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 joAccel = new JObject();
             }
-
-
         }
+
         void accelerometer_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
         {
-
             if (joAccel["X"] == null)
             {
                 joAccel.Add("X", (float)e.SensorReading.Acceleration.X);
@@ -70,13 +68,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 joAccel["Z"].Replace((float)e.SensorReading.Acceleration.Z);
             }
+            SaveSensorLog();
         }
     }
 }
-
-
-
-
-    
-
-

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Device.Location;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -23,7 +19,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             if (watcher == null)
             {
                 watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-                //watcher.MovementThreshold = 20;
+                //watcher.MovementThreshold = 2;
 
                 watcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(watcher_StatusChanged);
                 watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
@@ -62,6 +58,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
+
             if (joCoordinates["lat"] == null)
             {
                 joCoordinates.Add("lat", (float)e.Position.Location.Latitude);

@@ -1,31 +1,30 @@
-﻿using System;
-using System.Windows;
-using System.Collections.Generic;
-using Microsoft.Phone.Controls;
+﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
+using MobileLoggerApp.pages;
 using MobileLoggerApp.src;
 using MobileLoggerApp.src.mobilelogger.model;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Windows.Input;
-using MobileLoggerApp.pages;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Phone.Tasks;
+using Microsoft.Phone.Scheduler;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
-
-
-
     public partial class MainPage : PhoneApplicationPage
     {
 
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
-
+        private const string TASK_NAME = "MobileLoggerScheduledAgent";
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-
+            //start background agent
+            StartAgent();
             using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
             {
 
@@ -36,30 +35,31 @@ namespace MobileLoggerApp
                     {
                         logDBContext.CreateDatabase();
                     }
-                    catch (InvalidOperationException ioe) {
-                        System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..."+ioe);
+                    catch (InvalidOperationException ioe)
+                    {
+                        System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..." + ioe);
                     }
                 }
 
-                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3));
-                
+                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3), ServerLocations.serverRoot);
+
                 IList<LogEvent> list = logDBContext.GetLogEvents();
                 if (list != null)
                 {
 
                     foreach (LogEvent e in list)
                     {
-                        System.Diagnostics.Debug.WriteLine(e.ToString()+":"+e.sensorEvent);
+                        System.Diagnostics.Debug.WriteLine(e.ToString() + ":" + e.sensorEvent);
                     }
                 }
-                
             }
-
 
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
         }
+
 
         //private void onKeyUp(KeyEventArgs e)
         //{
@@ -95,11 +95,12 @@ namespace MobileLoggerApp
         {
             JArray searchResults = (JArray)JSON["items"];
             App.ViewModel.Items.Clear();
-            foreach (JToken t in searchResults)
-            {
-                System.Diagnostics.Debug.WriteLine(t["title"]);
-                App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = (string)t["link"] });
-            }
+            if(searchResults != null)
+                foreach (JToken t in searchResults)
+                {
+                    System.Diagnostics.Debug.WriteLine(t["title"]);
+                    App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = (string)t["link"] });
+                }
         }
 
         /// <summary>
@@ -128,10 +129,9 @@ namespace MobileLoggerApp
             {
                 ElGoog search = new ElGoog(this);
                 search.Search(SearchTextBox.Text);
-                MessagingService msgserv = new MessagingService();
-                msgserv.SendMessages();
 
                 this.Focus();
+
             }
         }
 
@@ -160,5 +160,76 @@ namespace MobileLoggerApp
             browser.Uri = new Uri(String.Format("http://www.bing.com/search?q={0}", searchQuery));
             browser.Show();
         }
+
+        private void currentPivotItem(object sender, SelectionChangedEventArgs e)
+        {
+            Pivot pivot = (Pivot)sender;
+
+            // Settings PivotItem
+            if (pivot.SelectedIndex == 1)
+            {
+                App.ViewModel.LoadData();
+            }
+        }
+
+        private void StartAgent()
+        {
+            System.Diagnostics.Debug.WriteLine("Start agent");
+            StopAgentIfStarted();
+
+            PeriodicTask task = new PeriodicTask(TASK_NAME);
+            task.ExpirationTime = DateTime.Now.AddDays(14);
+            System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
+            //task.ExpirationTime = new DateTime(0,0,7);
+            System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
+            task.Description = "This is the background upload agent for MobileLoggerApp";
+            // Place the call to Add in a try block in case the user has disabled agents.
+            try
+            {
+                ScheduledActionService.Add(task);
+            }
+            catch (InvalidOperationException exception)
+            {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+                if (exception.Message.Contains("BNS Error: The action is disabled"))
+                {
+                    MessageBox.Show("Background agents for this application have been disabled by the user.");
+                    //agentsAreEnabled = false;
+                }
+                if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
+                {
+                    // No user action required. The system prompts the user when the hard limit of periodic tasks has been reached.
+                }
+            }
+            catch (SchedulerServiceException)
+            {
+                // No user action required.
+            }
+
+
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
+            // If we're debugging, attempt to start the task immediately 
+            try
+            {
+                ScheduledActionService.LaunchForTest(TASK_NAME, new TimeSpan(0, 0, 1));
+            }
+            catch (InvalidOperationException exception)
+            {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+            }
+#endif
+        }
+
+        private void StopAgentIfStarted()
+        {
+            if (ScheduledActionService.Find(TASK_NAME) != null)
+            {
+                System.Diagnostics.Debug.WriteLine("removing " + TASK_NAME);
+                ScheduledActionService.Remove(TASK_NAME);
+            }
+        }
+
+        
     }
 }

@@ -38,15 +38,25 @@ public class LogController {
     @Autowired
     ILogService logService;
     
+    
+    @RequestMapping(method= RequestMethod.GET)
+    @ResponseBody
+    public String testGet() {
+        System.out.println("test get");
+        return Long.toString(System.currentTimeMillis());
+    }
+    
     @RequestMapping(method= RequestMethod.POST)
     @ResponseBody
     public String testPost() {
+        System.out.println("test post");
         return Long.toString(System.currentTimeMillis());
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putPlainLog(@Valid @RequestBody Log log, BindingResult result) {
+        System.out.println("put plain log");
         if(result.hasErrors()) {
             System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())
@@ -60,6 +70,7 @@ public class LogController {
     @RequestMapping(value="/gps", method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putPlainGps(@Valid @RequestBody GpsLog log, BindingResult result) {
+        System.out.println("put gps");
         if(result.hasErrors()) {
             System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())

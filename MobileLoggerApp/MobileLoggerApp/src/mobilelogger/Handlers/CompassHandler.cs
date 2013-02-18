@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Devices.Sensors;
-using System.Windows.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -30,23 +25,25 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         }
         public void startCompassWatcher()
         {
-            if (compass == null)
-            {
-                // Instantiate the Compass.
-                compass = new Compass();
-                //compass.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                compass.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
-                //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
+#if EMULATOR
+#endif
+            if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
+            { 
+                if (compass == null)
+                {
+                    // Instantiate the Compass.
+                    compass = new Compass();
+                    //compass.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                    compass.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
+                    //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
+                }
+                compass.Start();
             }
-            compass.Start();
-
             if (joCompass == null)
             {
                 joCompass = new JObject();
             }
-
         }
-
 
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
         {

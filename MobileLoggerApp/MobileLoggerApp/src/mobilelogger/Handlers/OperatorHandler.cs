@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Phone.Net.NetworkInformation;
-using Newtonsoft.Json;
+﻿using Microsoft.Phone.Net.NetworkInformation;
 using Newtonsoft.Json.Linq;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
@@ -25,6 +20,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
             show_operator();
         }
+
         private void show_operator()
         {
             if (joOperator["operator"] == null)

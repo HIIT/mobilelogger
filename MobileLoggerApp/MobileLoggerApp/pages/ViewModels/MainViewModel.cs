@@ -1,17 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using MobileLoggerApp.src;
+using MobileLoggerApp.src.mobilelogger.model;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 
 namespace MobileLoggerApp.pages
@@ -62,25 +54,38 @@ namespace MobileLoggerApp.pages
         /// </summary>
         public void LoadData()
         {
-            // Sample data; replace with real data
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting one", LineTwo = "Yo Dawg", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting two", LineTwo = "I heard", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting three", LineTwo = "You Like", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting four", LineTwo = "Settings", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting five", LineTwo = "So We", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting six", LineTwo = "Put Settings", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting seven", LineTwo = "In Your", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting eight", LineTwo = "Settings", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting nine", LineTwo = "So You", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting ten", LineTwo = "Can Set", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting eleven", LineTwo = "Settings", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting twelve", LineTwo = "While You", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting thirteen", LineTwo = "Set Settings", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting fourteen", LineTwo = "Gooby", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting fifteen", LineTwo = "Plz", LineThree = "Some relevant setting" });
-            this.Settings.Add(new ItemViewModel() { LineOne = "setting sixteen", LineTwo = "Dolan", LineThree = "Some relevant setting" });
+            const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
 
-            this.IsDataLoaded = true;
+            using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
+            {
+
+                if (!logDBContext.DatabaseExists())
+                {
+                    // create database if it does not exist
+                    try
+                    {
+                        logDBContext.CreateDatabase();
+                    }
+                    catch (InvalidOperationException ioe)
+                    {
+                        System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..." + ioe);
+                    }
+                }
+
+                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3));
+
+                IList<LogEvent> list = logDBContext.GetLogEvents();
+                if (list != null)
+                {
+                    App.ViewModel.Settings.Clear();
+
+                    foreach (LogEvent e in list)
+                    {
+                        App.ViewModel.Settings.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
+                    }
+                    this.IsDataLoaded = true;
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

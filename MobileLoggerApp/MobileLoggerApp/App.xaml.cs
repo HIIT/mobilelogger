@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Phone.Controls;
+﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
-using MobileLoggerApp.src;
 using MobileLoggerApp.src.mobilelogger.Handlers;
+using System;
+using System.Windows;
+using System.Windows.Navigation;
 
 namespace MobileLoggerApp
 {
     public partial class App : Application
     {
-        LogManager logManager;
         GpsHandler gps;
         CompassHandler compass;
         AccelHandler accelerometer;
@@ -83,47 +73,37 @@ namespace MobileLoggerApp
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
         }
 
         private void initHandlers()
         {
-            logManager = new LogManager();
             gps = new GpsHandler();
             Application.Current.Resources.Add("gpsHandler",gps);
-
-            logManager.addHandler(gps);
+            gps.startCoordinateWatcher();
 
             accelerometer = new AccelHandler();
             Application.Current.Resources.Add("accelHandler", accelerometer);
-            logManager.addHandler(accelerometer);
+            accelerometer.startAccelWatcher();
 
             compass = new CompassHandler();
             Application.Current.Resources.Add("compassHandler", compass);
-            logManager.addHandler(compass);
+            compass.startCompassWatcher();
 
             gyroscope = new GyroHandler();
             Application.Current.Resources.Add("gyroHandler", gyroscope);
-            logManager.addHandler(gyroscope);
+            gyroscope.startGyroWatcher();
 
             mobileoperator = new OperatorHandler();
             Application.Current.Resources.Add("operatorHandler", mobileoperator);
-            logManager.addHandler(mobileoperator);
-
-        
+            mobileoperator.startOperator();
         }
+
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             initHandlers();
-
-            accelerometer.startAccelWatcher();
-            gps.startCoordinateWatcher();
-            compass.startCompassWatcher();
-            gyroscope.startGyroWatcher();
-            mobileoperator.startOperator();
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -169,7 +149,6 @@ namespace MobileLoggerApp
                 System.Diagnostics.Debugger.Break();
             }
         }
-
         #region Phone application initialization
 
         // Avoid double-initialization

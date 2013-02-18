@@ -39,7 +39,7 @@ public class LogServiceTest extends AbstractTest{
         //sanity checks for mocking
         long logCount = logRepository.count();
         Log log = new Log();
-        log.setPhoneId(123456789012345l);
+        log.setPhoneId(123456789012345l+"");
         assertTrue(logService.saveLog(log));
         
         assertEquals(logCount, logRepository.count());
@@ -53,7 +53,7 @@ public class LogServiceTest extends AbstractTest{
         GpsLog log = new GpsLog();
         log.setLon(50.0f);
         log.setLat(51.0f);
-        log.setPhoneId(123456789012345l);
+        log.setPhoneId(123456789012345l+"");
         assertTrue(logService.saveLog(log));
         
         assertEquals(logCount, logRepository.count());

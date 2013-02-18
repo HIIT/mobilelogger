@@ -6,6 +6,7 @@ package cs.wintoosa.controller;
 
 import com.google.gson.Gson;
 import cs.wintoosa.AbstractTest;
+import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,9 +37,13 @@ public class GPSControllerTest extends AbstractTest{
     
     @Test
     public void testPutGPSLog() throws Exception {
-        Log log = new Log();
-        log.setPhoneId(123456789012345l);
+        GpsLog log = new GpsLog();
+        log.setPhoneId(123456789012345l+"");
         log.setTimestamp(Long.MIN_VALUE);
+        log.setAlt(Float.MAX_VALUE);
+        log.setLat(Float.MAX_VALUE);
+        log.setLon(Float.MAX_VALUE);
+        log.setTimestamp(Long.MAX_VALUE);
         Gson gson = new Gson();
         this.mockMvc.perform(put("/log/gps").contentType(MediaType.APPLICATION_JSON).content(gson.toJson(log)))
                 .andExpect(status().isOk())

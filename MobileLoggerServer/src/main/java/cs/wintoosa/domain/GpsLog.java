@@ -15,7 +15,7 @@ public class GpsLog extends Log{
     @NotNull(message="Lognitude must not be null")
     private Float lon;
     @NotNull(message="Altitude must not be null")
-    private float alt;
+    private Float alt;
     
 
     public Float getLat() {
@@ -34,11 +34,11 @@ public class GpsLog extends Log{
         this.lon = lon;
     }
 
-    public float getAlt() {
+    public Float getAlt() {
         return alt;
     }
 
-    public void setAlt(float alt) {
+    public void setAlt(Float alt) {
         this.alt = alt;
     }
 

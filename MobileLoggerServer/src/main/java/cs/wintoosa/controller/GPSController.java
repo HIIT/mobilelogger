@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -39,7 +40,7 @@ public class GPSController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putGPSLog(@Valid @RequestBody Log log, BindingResult result) {
+    public boolean putGPSLog(@Valid @RequestBody GpsLog log, BindingResult result) {
         System.out.println("put plain log");
         if(result.hasErrors()) {
             System.out.println("result had errors");
@@ -52,7 +53,7 @@ public class GPSController {
     
     @RequestMapping(value="/put", method=RequestMethod.GET)
     public String putDummyLog(){
-        Log log = new Log(1234);
+        Log log = new Log(1234+"");
         log.setTimestamp(System.currentTimeMillis());
         logService.saveLog(log);
         System.out.println("Added dumy log");

@@ -24,37 +24,37 @@ import org.jboss.logging.FormatWith;
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class Log implements Serializable{
-    private static final long serialVersionUID = 1234l;
+    protected static final long serialVersionUID = 1234l;
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    protected Long id;
     
     @NotNull
-    private Long phoneId;
+    protected String phoneId;
     
     @ManyToOne
-    private Phone phone;
+    protected Phone phone;
     
     @NotNull (message="timestamp must represent valid unixtime in seconds")
-    private Long timestamp;
+    protected Long timestamp;
     
     /**
      * This is used for storing user search terms
      */
-    private String text;
+    protected String text;
     
     public Log() {}
     
-    public Log(long phoneId) {
+    public Log(String phoneId) {
         this.phoneId = phoneId;
     }
     
-    public Long getPhoneId() {
+    public String getPhoneId() {
         return phoneId;
     }
 
-    public void setPhoneId(Long id) {
+    public void setPhoneId(String id) {
         this.phoneId = id;
     }
 

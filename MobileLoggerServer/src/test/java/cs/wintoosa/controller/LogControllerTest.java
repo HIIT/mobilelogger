@@ -41,7 +41,7 @@ public class LogControllerTest extends AbstractTest {
     public void testPutPlainLog() throws Exception {
         System.out.println("testPutPlainLog");
         Log log = new Log();
-        log.setPhoneId(123456789012345l);
+        log.setPhoneId(123456789012345l+"");
         log.setTimestamp(Long.MIN_VALUE);
         Gson gson = new Gson();
         this.mockMvc.perform(put("/log").contentType(MediaType.APPLICATION_JSON).content(gson.toJson(log)))

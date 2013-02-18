@@ -174,18 +174,19 @@ namespace MobileLoggerApp
 
         private void StartAgent()
         {
-            System.Diagnostics.Debug.WriteLine("Start agent");
-            StopAgentIfStarted();
-
-            PeriodicTask task = new PeriodicTask(TASK_NAME);
-            task.ExpirationTime = DateTime.Now.AddDays(14);
-            System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
-            //task.ExpirationTime = new DateTime(0,0,7);
-            System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
-            task.Description = "This is the background upload agent for MobileLoggerApp";
-            // Place the call to Add in a try block in case the user has disabled agents.
             try
             {
+                System.Diagnostics.Debug.WriteLine("Start agent");
+                StopAgentIfStarted();
+
+                PeriodicTask task = new PeriodicTask(TASK_NAME);
+                task.ExpirationTime = DateTime.Now.AddDays(14);
+                System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
+                //task.ExpirationTime = new DateTime(0,0,7);
+                System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
+                task.Description = "This is the background upload agent for MobileLoggerApp";
+                // Place the call to Add in a try block in case the user has disabled agents.
+            
                 ScheduledActionService.Add(task);
             }
             catch (InvalidOperationException exception)
@@ -212,7 +213,7 @@ namespace MobileLoggerApp
             // If we're debugging, attempt to start the task immediately 
             try
             {
-                ScheduledActionService.LaunchForTest(TASK_NAME, new TimeSpan(0, 0, 1));
+                ScheduledActionService.LaunchForTest(TASK_NAME, new TimeSpan(0, 0, 0));
             }
             catch (InvalidOperationException exception)
             {
@@ -223,10 +224,19 @@ namespace MobileLoggerApp
 
         private void StopAgentIfStarted()
         {
-            if (ScheduledActionService.Find(TASK_NAME) != null)
+            try
             {
-                System.Diagnostics.Debug.WriteLine("removing " + TASK_NAME);
-                ScheduledActionService.Remove(TASK_NAME);
+                if (ScheduledActionService.Find(TASK_NAME) != null)
+                {
+                    ScheduledAction task = ScheduledActionService.Find(TASK_NAME);
+                    System.Diagnostics.Debug.WriteLine(task.ToString());
+                    System.Diagnostics.Debug.WriteLine("removing " + TASK_NAME);
+                    ScheduledActionService.Remove(TASK_NAME);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+
             }
         }
 

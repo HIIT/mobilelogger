@@ -7,7 +7,7 @@ using System.IO;
 
 namespace MobileLoggerScheduledAgent
 {
-    public class MobileLoggerScheduledAgent : ScheduledTaskAgent
+    public class ScheduledAgent : ScheduledTaskAgent
     {
         private static volatile bool _classInitialized;
         public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev";
@@ -15,7 +15,7 @@ namespace MobileLoggerScheduledAgent
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
         /// </remarks>
-        public MobileLoggerScheduledAgent()
+        public ScheduledAgent()
         {
             System.Diagnostics.Debug.WriteLine("Initializing background task agent");
             if (!_classInitialized)
@@ -53,7 +53,7 @@ namespace MobileLoggerScheduledAgent
         {
             System.Diagnostics.Debug.WriteLine("OnInvoke");
             //TODO: Add code to perform your task in background
-            //SendMessages();
+            SendMessages();
             NotifyComplete();
         }
 
@@ -62,21 +62,21 @@ namespace MobileLoggerScheduledAgent
         {
             System.Diagnostics.Debug.WriteLine("SendMessages");
 
-            using (LogEventDataContext logDBContext = new LogEventDataContext(LogEventDataContext.ConnectionString))
+            using (LogEventDataContext logDb = new LogEventDataContext(LogEventDataContext.ConnectionString))
             {
-                if (!logDBContext.DatabaseExists())
+                if (!logDb.DatabaseExists())
                 {
                     System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": DB does not exist");
                     return;
                 }
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": GetLogEvents().size() " + logDBContext.GetLogEvents().Count);
-                if (logDBContext.GetLogEvents().Count == 0)
+                System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": GetLogEvents().size() " + logDb.GetLogEvents().Count);
+                if (logDb.GetLogEvents().Count == 0)
                 {
-                    logDBContext.addEvent("{derp:herp}", "/log/gps");
+                    logDb.addEvent("{derp:herp}", "/log/gps");
                 }
 #endif
-                foreach (LogEvent e in logDBContext.GetLogEvents())
+                foreach (LogEvent e in logDb.GetLogEvents())
                 {
                     SendMessage(e);
                 }

@@ -15,3 +15,4 @@ C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\Backg
 C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\Bin\Release\System.Threading.Tasks.xml
 C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Release\MobileLoggerScheduledAgent.dll
 C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Release\MobileLoggerScheduledAgent.pdb
+C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Release\MobileLoggerScheduledAgent.csprojResolveAssemblyReference.cache

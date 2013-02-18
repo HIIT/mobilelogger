@@ -22,6 +22,8 @@ public class HomeController {
     @Autowired
     ILogService logService;
     
+    
+    
     @RequestMapping(value = "/")
     public String index() {
         System.out.println("index");

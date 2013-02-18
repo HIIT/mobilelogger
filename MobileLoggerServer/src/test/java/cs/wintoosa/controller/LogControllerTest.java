@@ -49,7 +49,7 @@ public class LogControllerTest extends AbstractTest {
                 .andExpect(content().string("true"))
                 .andReturn();
     }
-
+/*
     @Test
     public void testPutGps() throws Exception {
         System.out.println("testPutGps");
@@ -65,5 +65,5 @@ public class LogControllerTest extends AbstractTest {
                 .andExpect(content().string("true"))
                 .andReturn();
     }
-
+*/
 }

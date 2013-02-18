@@ -16,5 +16,46 @@
     <body>
         <h1>Mobile Logger Index</h1>
         <h2>${ContextPath}</h2>
-    </body>
+        
+        <ul>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/">All logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/gps">GPS logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/sound">Soundspace logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/compass">Compass logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/acceleration">Acceleration logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/orientation">Gyroscope/Orientation logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/light">Environmental lighting intensity logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/wifi">Wifi logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/proximity">Display proximity sensor logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/bluetooth">Bluetooth logs</a>
+            </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/network">Mobile network logs</a>
+            </li>
+            <p>Add a new dummy GPS log</p>
+            <form action="${ContextPath}/MobileLoggerServer/log/gps/put" method="put">
+                <input type="submit" value="Add Dummy" >
+            </form>
+        </ul>
+    
+</body>
 </html>

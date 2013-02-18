@@ -42,7 +42,7 @@ namespace MobileLoggerApp
                 }
 
                 //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3), ServerLocations.serverRoot);
-
+                /*
                 IList<LogEvent> list = logDBContext.GetLogEvents();
                 if (list != null)
                 {
@@ -51,7 +51,7 @@ namespace MobileLoggerApp
                     {
                         System.Diagnostics.Debug.WriteLine(e.ToString() + ":" + e.sensorEvent);
                     }
-                }
+                }*/
             }
 
             // Set the data context of the listbox control to the sample data
@@ -98,7 +98,7 @@ namespace MobileLoggerApp
             if(searchResults != null)
                 foreach (JToken t in searchResults)
                 {
-                    System.Diagnostics.Debug.WriteLine(t["title"]);
+                    //System.Diagnostics.Debug.WriteLine(t["title"]);
                     App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = (string)t["link"] });
                 }
         }
@@ -112,7 +112,7 @@ namespace MobileLoggerApp
         {
             StackPanel stackPanel = (StackPanel)sender;
             ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
-            System.Diagnostics.Debug.WriteLine(item.LineThree);
+            //System.Diagnostics.Debug.WriteLine(item.LineThree);
             WebBrowserTask browser = new WebBrowserTask();
             browser.Uri = new Uri(item.LineThree);
             browser.Show();
@@ -176,14 +176,15 @@ namespace MobileLoggerApp
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("Start agent");
+                //System.Diagnostics.Debug.WriteLine("Start agent");
                 StopAgentIfStarted();
 
                 PeriodicTask task = new PeriodicTask(TASK_NAME);
+//                PeriodicTask task = new PeriodicTask(TASK_NAME);
                 task.ExpirationTime = DateTime.Now.AddDays(14);
-                System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
+               // System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
                 //task.ExpirationTime = new DateTime(0,0,7);
-                System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
+                //System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
                 task.Description = "This is the background upload agent for MobileLoggerApp";
                 // Place the call to Add in a try block in case the user has disabled agents.
             
@@ -209,7 +210,7 @@ namespace MobileLoggerApp
 
 
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
+           // System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
             // If we're debugging, attempt to start the task immediately 
             try
             {
@@ -229,8 +230,6 @@ namespace MobileLoggerApp
                 if (ScheduledActionService.Find(TASK_NAME) != null)
                 {
                     ScheduledAction task = ScheduledActionService.Find(TASK_NAME);
-                    System.Diagnostics.Debug.WriteLine(task.ToString());
-                    System.Diagnostics.Debug.WriteLine("removing " + TASK_NAME);
                     ScheduledActionService.Remove(TASK_NAME);
                 }
             }

@@ -130,10 +130,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 } catch (System.SystemException e) {
                     System.Diagnostics.Debug.WriteLine("SQLException"+e);
                 }
-
-
             }
-
         }
 
         public IList<LogEvent> GetLogEvents()

@@ -116,7 +116,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 le.sensorEvent = sensorEvent;
                 le.Time = DeviceTools.GetUnixTime(DateTime.Now);
                 le.relativeUrl = url;
-                System.Diagnostics.Debug.WriteLine(DeviceTools.GetUnixTime(DateTime.Now));
+                //System.Diagnostics.Debug.WriteLine(DeviceTools.GetUnixTime(DateTime.Now));
 
                 System.Diagnostics.Debug.WriteLine(sensorEvent);
                 System.Diagnostics.Debug.WriteLine(le);

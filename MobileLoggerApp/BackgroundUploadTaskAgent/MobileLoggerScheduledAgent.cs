@@ -99,7 +99,7 @@ namespace MobileLoggerScheduledAgent
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serverRoot + logevent.relativeUrl);
             request.Method = "PUT";
             request.ContentType = "application/json";
-            request.BeginGetRequestStream(asynchronousResult => 
+            request.BeginGetRequestStream(asynchronousResult =>
             {
                 HttpWebRequest requestStream = (HttpWebRequest)asynchronousResult.AsyncState;
 
@@ -117,7 +117,7 @@ namespace MobileLoggerScheduledAgent
                 putStream.Close();
 
                 // Start the asynchronous operation to get the response
-                requestStream.BeginGetResponse(response => 
+                requestStream.BeginGetResponse(response =>
                 {
                     try
                     {
@@ -143,28 +143,8 @@ namespace MobileLoggerScheduledAgent
 
                 }, request);//new AsyncCallback(GetResponseCallback), request);
             }, request);
-             
-        }
 
-        private void WriteData(IAsyncResult asynchronousResult, LogEvent logevent)
-        {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-
-            // End the operation
-            Stream putStream = request.EndGetRequestStream(asynchronousResult);
-
-            //Console.WriteLine("Please enter the input data to be posted:");
-            string putData = logevent.sensorEvent;
-
-            // Convert the string into a byte array. 
-            byte[] byteArray = Encoding.UTF8.GetBytes(putData);
-
-            // Write to the request stream.
-            putStream.Write(byteArray, 0, putData.Length);
-            putStream.Close();
-
-            // Start the asynchronous operation to get the response
-            //request.BeginGetResponse(response => 
-        }
+        }       
+        
     }
 }

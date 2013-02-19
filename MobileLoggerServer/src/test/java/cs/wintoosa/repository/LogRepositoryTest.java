@@ -24,7 +24,7 @@ public class LogRepositoryTest extends AbstractTest{
     public void testSavePlainLog() throws Exception{
 
         Log log = new Log();
-        log.setPhoneId(Long.MIN_VALUE);
+        log.setPhoneId(Long.MIN_VALUE+"");
         long timestampSeconds = System.currentTimeMillis()/1000;
         log.setTimestamp(timestampSeconds);
         
@@ -39,12 +39,12 @@ public class LogRepositoryTest extends AbstractTest{
     public void testSaveGpsLog() throws Exception{
 
         GpsLog log = new GpsLog();
-        log.setPhoneId(Long.MIN_VALUE);
+        log.setPhoneId(Long.MIN_VALUE+"");
         long timestampSeconds = System.currentTimeMillis()/1000;
         log.setTimestamp(timestampSeconds);
         log.setLat(Float.MAX_VALUE);
         log.setLon(Float.MIN_VALUE);
-        
+        log.setAlt(Float.MAX_VALUE);
         GpsLog save = logRepository.save(log);
         
         assertTrue(save.getId() != null);

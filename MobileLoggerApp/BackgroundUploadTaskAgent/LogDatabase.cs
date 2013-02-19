@@ -119,10 +119,6 @@ namespace MobileLoggerScheduledAgent
                 le.sensorEvent = sensorEvent;
                 le.Time = DeviceTools.GetUnixTime(DateTime.Now);
                 le.relativeUrl = url;
-                System.Diagnostics.Debug.WriteLine(DeviceTools.GetUnixTime(DateTime.Now));
-
-                System.Diagnostics.Debug.WriteLine(sensorEvent);
-                System.Diagnostics.Debug.WriteLine(le);
 
                 // add the new logEvent to the context
                 context.LogEvents.InsertOnSubmit(le);

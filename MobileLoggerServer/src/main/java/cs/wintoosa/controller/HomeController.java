@@ -22,6 +22,8 @@ public class HomeController {
     @Autowired
     ILogService logService;
     
+    
+    
     @RequestMapping(value = "/")
     public String index() {
         System.out.println("index");
@@ -34,7 +36,7 @@ public class HomeController {
     public List<Log> demoView() {
         List<Log> demolist = new ArrayList();
         Log log = new Log();
-        log.setPhoneId(Long.MIN_VALUE);
+        log.setPhoneId(Long.MIN_VALUE+"");
         log.setTimestamp(Long.MAX_VALUE);
         
         
@@ -43,7 +45,7 @@ public class HomeController {
         gpslog.setLat(50.5f);
         gpslog.setLon(66f);
         gpslog.setAlt(120f);
-        gpslog.setPhoneId(Long.MIN_VALUE);
+        gpslog.setPhoneId(Long.MIN_VALUE+"");
         gpslog.setTimestamp(Long.MIN_VALUE);
 
         logService.saveLog(log);

@@ -38,7 +38,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 joOperator["operator"]. Replace(DeviceNetworkInformation.CellularMobileOperator.ToString());
             }
-            System.Diagnostics.Debug.WriteLine(joOperator["operator"]);
         }
     }
 }

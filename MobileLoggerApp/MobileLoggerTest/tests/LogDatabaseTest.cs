@@ -20,7 +20,7 @@ namespace MobileLoggerTest.tests
         {
             using(LogEventDataContext context = new LogEventDataContext(MobileLoggerApp.MainPage.ConnectionString))
             {
-                
+
             }
         }
     }

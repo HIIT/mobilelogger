@@ -65,6 +65,7 @@
     <Compile Include="tests\LogManagerTest.cs" />
     <Compile Include="tests\DeviceToolsTest.cs" />
     <Compile Include="tests\MessagingServiceTest.cs" />
+    <Compile Include="tests\LogDatabaseTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobileLoggerApp\MobileLoggerApp.csproj">

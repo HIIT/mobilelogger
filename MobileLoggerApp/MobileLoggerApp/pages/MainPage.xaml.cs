@@ -93,14 +93,32 @@ namespace MobileLoggerApp
         /// <param name="JSON">JSON data in JObject form, must be in format from Google Custom Search</param>
         public void Update(JObject JSON)
         {
+            //SaveLogToDB(JSON, "/log/google"); DB maksimi merkkijono (4000 merkkiä) ylittyy(noin 10 000 merkillä)
             JArray searchResults = (JArray)JSON["items"];
             App.ViewModel.Items.Clear();
             if(searchResults != null)
                 foreach (JToken t in searchResults)
                 {
                     //System.Diagnostics.Debug.WriteLine(t["title"]);
-                    App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = (string)t["link"] });
+                    App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = t.ToString() });
                 }
+        }
+
+        /// <summary>
+        /// Saves an event to the local database
+        /// </summary>
+        /// <param name="logEvent">JSON representation of the event</param>
+        /// <param name="url">relative url on the server where the event is sent to</param>
+        /// <returns>false if database does not exist</returns>
+        private Boolean SaveLogToDB(JObject logEvent, string url)
+        {
+            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
+            {
+                if (!logDBContext.DatabaseExists()) return false;
+
+                logDBContext.addEvent(logEvent.ToString(), url);
+            }
+            return true;
         }
 
         /// <summary>
@@ -112,9 +130,12 @@ namespace MobileLoggerApp
         {
             StackPanel stackPanel = (StackPanel)sender;
             ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
+            
             //System.Diagnostics.Debug.WriteLine(item.LineThree);
             WebBrowserTask browser = new WebBrowserTask();
-            browser.Uri = new Uri(item.LineThree);
+            JObject link = JObject.Parse(item.LineThree);
+            SaveLogToDB(link, "/log/clicked");
+            browser.Uri = new Uri((string)link["link"]);
             browser.Show();
         }
 

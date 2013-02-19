@@ -20,6 +20,7 @@
 /MobileLoggerApp/MobileLoggerApp/*.ilk
 /MobileLoggerApp/MobileLoggerApp/*.log
 /MobileLoggerApp/MobileLoggerApp/[Bb]in
+/MobileLoggerApp/MobileLoggerApp/bin/
 /MobileLoggerApp/MobileLoggerApp/[Dd]ebug*/
 /MobileLoggerApp/MobileLoggerApp/*.lib
 /MobileLoggerApp/MobileLoggerApp/*.sbr

@@ -4,7 +4,7 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.LightLog;
 import cs.wintoosa.service.ILogService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class LightController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putPlainLog(@Valid @RequestBody Log log, BindingResult result) {
+    public boolean putPlainLog(@Valid @RequestBody LightLog log, BindingResult result) {
         System.out.println("put plain log");
         if(result.hasErrors()) {
             System.out.println("result had errors");

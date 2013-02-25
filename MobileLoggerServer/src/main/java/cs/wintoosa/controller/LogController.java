@@ -41,9 +41,9 @@ public class LogController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public String testGet() {
+    public List<Log> testGet() {
         System.out.println("test get");
-        return Long.toString(System.currentTimeMillis());//currently returns system time in milliseconds
+        return logService.getAll();//currently returns system time in milliseconds
     }
     
     @RequestMapping(method= RequestMethod.POST)
@@ -52,19 +52,5 @@ public class LogController {
         System.out.println("test post");
         return Long.toString(System.currentTimeMillis());
     }
-    
-    @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public boolean putPlainLog(@Valid @RequestBody Log log, BindingResult result) {
-        System.out.println("put plain log");
-        if(result.hasErrors()) {
-            System.out.println("result had errors");
-            for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
-            return false;
-        }
-        return logService.saveLog(log);
-    }
-    
     
 }

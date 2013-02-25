@@ -50,6 +50,13 @@
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.commons-codec</artifactId>
+            <version>1.3_5</version>
+        </dependency>
+            
+        
         
         <!-- jstl -->
         <dependency>

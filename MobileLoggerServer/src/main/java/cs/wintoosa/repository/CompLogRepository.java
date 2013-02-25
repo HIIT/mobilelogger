@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * @author jonimake
  */
 @Repository
-public class LogRepository implements ILogRepositoryCustom{
+public class CompLogRepository implements ICompLogRepositoryCustom {
     
     @PersistenceContext
     EntityManager em;

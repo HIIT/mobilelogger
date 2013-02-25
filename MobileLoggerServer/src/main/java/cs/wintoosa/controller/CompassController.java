@@ -4,8 +4,10 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.CompLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.service.ILogService;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,14 +32,13 @@ public class CompassController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public String getLogs() {
-        logService.getAll();
-        return "Under Contstruction!";
+    public List<CompLog> getLogs() {
+        return logService.getCompassLogs();
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putPlainLog(@Valid @RequestBody Log log, BindingResult result) {
+    public boolean putPlainLog(@Valid @RequestBody CompLog log, BindingResult result) {
         System.out.println("put plain log");
         if(result.hasErrors()) {
             System.out.println("result had errors");

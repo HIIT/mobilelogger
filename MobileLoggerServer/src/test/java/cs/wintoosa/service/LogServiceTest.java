@@ -8,7 +8,7 @@ import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
-import cs.wintoosa.repository.ILogRepository;
+import cs.wintoosa.repository.IGpsLogRepository;
 import cs.wintoosa.repository.IPhoneRepository;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -25,16 +25,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class LogServiceTest extends AbstractTest{
     
     @Mock private IPhoneRepository phoneRepository;
-    @Mock private ILogRepository logRepository;
+    @Mock private IGpsLogRepository logRepository;
     @InjectMocks private LogService logService;
     
     @Test
     public void testFailingSave() {
-        Log log = new Log();
+        GpsLog log = new GpsLog();
         assertFalse("Supposed to fail when phoneId not set for log", logService.saveLog(log));
     }
     
-    @Test
+    /*@Test
     public void testSavePlainLog() {
         //sanity checks for mocking
         long logCount = logRepository.count();
@@ -44,7 +44,7 @@ public class LogServiceTest extends AbstractTest{
         
         assertEquals(logCount, logRepository.count());
         
-    }
+    }*/
     
     @Test
     public void testSaveGpsLog() {

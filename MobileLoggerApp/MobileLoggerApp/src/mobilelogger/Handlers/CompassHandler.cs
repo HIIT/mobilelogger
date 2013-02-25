@@ -1,5 +1,4 @@
 ﻿using Microsoft.Devices.Sensors;
-using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -8,27 +7,24 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class CompassHandler : AbstractLogHandler
     {
         Compass compass;
-        //DispatcherTimer timer;
         JObject joCompass;
 
-        double magneticHeading;
-        double trueHeading;
-        double headingAccuracy;
-        Vector3 rawMagnetometerReading;
-        bool isDataValid;
-
-        bool calibrating = false;
+        DateTime lastSaved;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joCompass, "/log/compass");
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                SaveLogToDB(joCompass, "/log/compass");
+                lastSaved = DateTime.UtcNow;
+            }
         }
         public void startCompassWatcher()
         {
 #if EMULATOR
 #endif
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
-            { 
+            {
                 if (compass == null)
                 {
                     // Instantiate the Compass.
@@ -98,8 +94,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 joCompass["rawMagneticReadingZ"].Replace((float)e.SensorReading.MagnetometerReading.Z);
             }
-
         }
-
     }
 }

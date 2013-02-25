@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Net.Sockets;
-using Microsoft.Phone.Net.NetworkInformation;
-using System.Threading;
+﻿using Microsoft.Phone.Net.NetworkInformation;
+using System;
 using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class NetworkHandler : AbstractLogHandler
     {
-        JObject joNetwork;
+        DateTime lastSaved;
 
         public override void SaveSensorLog()
         {
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                lastSaved = DateTime.UtcNow;
+            }
         }
 
         public void startNetworkiInformation()

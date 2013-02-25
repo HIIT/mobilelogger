@@ -42,5 +42,6 @@ public class GpsLog extends Log{
         this.alt = alt;
     }
 
+
     
 }

@@ -32,9 +32,9 @@ public class GPSController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs() {
+    public List<GpsLog> getLogs() {
         System.out.println("printing logs");
-        return logService.getAll(); //Currently returns all logs, not only gps logs
+        return logService.getGpsLogs(); //Currently returns all logs, not only gps logs
         //return "Under Contsrtuction!";
     }
     
@@ -53,7 +53,11 @@ public class GPSController {
     
     @RequestMapping(value="/put", method=RequestMethod.GET)
     public String putDummyLog(){
-        Log log = new Log(1234+"");
+        GpsLog log = new GpsLog();
+        log.setAlt(1f);
+        log.setLat(2f);
+        log.setLon(2f);
+        log.setPhoneId("13245687890");
         log.setTimestamp(System.currentTimeMillis());
         logService.saveLog(log);
         System.out.println("Added dumy log");

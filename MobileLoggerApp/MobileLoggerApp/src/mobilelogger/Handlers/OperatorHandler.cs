@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -7,9 +8,15 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     {
         JObject joOperator;
 
+        DateTime lastSaved;
+
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joOperator, "/log/operator");
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                SaveLogToDB(joOperator, "/log/operator");
+                lastSaved = DateTime.UtcNow;
+            }
         }
 
         public void startOperator()
@@ -18,10 +25,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 joOperator = new JObject();
             }
-            show_operator();
+            showOperator();
         }
 
-        private void show_operator()
+        private void showOperator()
         {
             if (joOperator["operator"] == null)
             {
@@ -36,9 +43,8 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
             else
             {
-                joOperator["operator"]. Replace(DeviceNetworkInformation.CellularMobileOperator.ToString());
+                joOperator["operator"].Replace(DeviceNetworkInformation.CellularMobileOperator.ToString());
             }
         }
     }
 }
-    

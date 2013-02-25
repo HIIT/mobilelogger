@@ -1,15 +1,14 @@
 ﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Tasks;
 using MobileLoggerApp.pages;
 using MobileLoggerApp.src;
+using MobileLoggerApp.src.mobilelogger;
 using MobileLoggerApp.src.mobilelogger.model;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Phone.Scheduler;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MobileLoggerApp
@@ -152,7 +151,14 @@ namespace MobileLoggerApp
                 search.Search(SearchTextBox.Text);
 
                 this.Focus();
+            }
+            SaveSensorLog();
+        }
 
+        private void SaveSensorLog()
+        {
+            foreach (AbstractLogHandler logHandler in App.logHandlers) {
+                logHandler.SaveSensorLog();
             }
         }
 

@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Windows.Threading;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework.Audio;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class MicrophoneHandler : AbstractLogHandler
     {
-
         Microphone microphone;
         JObject joMicro;
 
+        DateTime lastSaved;
+
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joMicro, "/log/micro");
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                SaveLogToDB(joMicro, "/log/micro");
+                lastSaved = DateTime.UtcNow;
+            }
         }
     }
 }

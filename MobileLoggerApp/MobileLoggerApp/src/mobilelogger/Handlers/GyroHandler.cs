@@ -1,5 +1,4 @@
 ﻿using Microsoft.Devices.Sensors;
-using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -10,15 +9,17 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         Gyroscope gyroscope;
         JObject joGyro;
 
-        Vector3 currentRotationRate = Vector3.Zero;
-        Vector3 cumulativeRotation = Vector3.Zero;
-        DateTimeOffset lastUpdateTime = DateTimeOffset.MinValue;
-        bool isDataValid;
+        DateTime lastSaved;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joGyro, "/log/gyro");
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                SaveLogToDB(joGyro, "/log/gyro");
+                lastSaved = DateTime.UtcNow;
+            }
         }
+
         public void startGyroWatcher()
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
@@ -59,7 +60,8 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             else
             {
                 joGyro["currentRotationRateY"].Replace((float)e.SensorReading.RotationRate.Y);
-            } if (joGyro["currentRotationRateZ"] == null)
+            }
+            if (joGyro["currentRotationRateZ"] == null)
             {
                 joGyro.Add("currentRotationRateZ", (float)e.SensorReading.RotationRate.Z);
             }

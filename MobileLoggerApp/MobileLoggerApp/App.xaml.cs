@@ -1,8 +1,8 @@
 ﻿using Microsoft.Phone.Controls;
-using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
+using MobileLoggerApp.src.mobilelogger;
 using MobileLoggerApp.src.mobilelogger.Handlers;
-using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -10,6 +10,8 @@ namespace MobileLoggerApp
 {
     public partial class App : Application
     {
+        public static List<AbstractLogHandler> logHandlers;
+
         GpsHandler gps;
         CompassHandler compass;
         AccelHandler accelerometer;
@@ -77,25 +79,35 @@ namespace MobileLoggerApp
 
         private void initHandlers()
         {
+            if (logHandlers == null)
+            {
+                logHandlers = new List<AbstractLogHandler>();
+            }
+
             gps = new GpsHandler();
             Application.Current.Resources.Add("gpsHandler",gps);
             gps.startCoordinateWatcher();
+            logHandlers.Add(gps);
 
             accelerometer = new AccelHandler();
             Application.Current.Resources.Add("accelHandler", accelerometer);
             accelerometer.startAccelWatcher();
+            logHandlers.Add(accelerometer);
 
             compass = new CompassHandler();
             Application.Current.Resources.Add("compassHandler", compass);
             compass.startCompassWatcher();
+            logHandlers.Add(compass);
 
             gyroscope = new GyroHandler();
             Application.Current.Resources.Add("gyroHandler", gyroscope);
             gyroscope.startGyroWatcher();
+            logHandlers.Add(gyroscope);
 
             mobileoperator = new OperatorHandler();
             Application.Current.Resources.Add("operatorHandler", mobileoperator);
             mobileoperator.startOperator();
+            logHandlers.Add(mobileoperator);
         }
 
 

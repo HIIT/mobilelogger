@@ -1,9 +1,11 @@
 /MobileLoggerServer/target/
+/MobileLoggerApp/packages/
 
 /MobileLoggerApp/MobileLoggerApp/Thumbs.db
 /MobileLoggerApp/MobileLoggerApp/*.obj
 /MobileLoggerApp/MobileLoggerApp/*.exe
 /MobileLoggerApp/MobileLoggerApp/*.pdb
+/MobileLoggerApp/MobileLoggerApp/*.dll
 /MobileLoggerApp/MobileLoggerApp/*.user
 /MobileLoggerApp/MobileLoggerApp/*.aps
 /MobileLoggerApp/MobileLoggerApp/*.pch

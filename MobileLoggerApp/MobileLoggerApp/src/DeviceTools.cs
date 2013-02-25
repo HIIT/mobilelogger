@@ -45,6 +45,16 @@ namespace MobileLoggerApp.src
             }
         }
 
+        public static bool SensorLastSavedTimeSpan(DateTime lastSaved)
+        {
+            TimeSpan timeSpan = DateTime.UtcNow - lastSaved;
+            if (timeSpan.TotalMilliseconds > 1000)
+            {
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Calculates SHA1 checksum based on string source, source is assumed to be of json format
         /// </summary>

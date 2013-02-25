@@ -13,9 +13,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         public override void SaveSensorLog()
         {
-            TimeSpan timeSpan = DateTime.UtcNow - lastSaved;
-
-            if (timeSpan.TotalMilliseconds > 10000)
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
             {
                 SaveLogToDB(joAccel, "/log/accel");
                 lastSaved = DateTime.UtcNow;
@@ -31,7 +29,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 //accelerometerwatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                 accelerometerwatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
             }
-
             accelerometerwatcher.Start();
 
             if (joAccel == null)
@@ -68,7 +65,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 joAccel["Z"].Replace((float)e.SensorReading.Acceleration.Z);
             }
-            SaveSensorLog();
         }
     }
 }

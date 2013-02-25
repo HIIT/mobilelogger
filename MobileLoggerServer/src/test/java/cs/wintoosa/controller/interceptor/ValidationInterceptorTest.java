@@ -56,7 +56,7 @@ public class ValidationInterceptorTest extends AbstractTest {
         HttpServletResponse response = null;
         Object handler = null;
         ValidationInterceptor instance = new ValidationInterceptor();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.preHandle(request, response, handler);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.

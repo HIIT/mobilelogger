@@ -33,6 +33,9 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     }
     
     private JsonObject convertToJsonObject(HttpServletRequest request) {
+        logger.info("method = " + request.getMethod());
+        logger.info("requestUri = " + request.getRequestURI());
+        logger.info("queryString = " + request.getQueryString());
         JsonObject json = null;
         JsonParser parser = new JsonParser();
         if(request.getQueryString() != null) {

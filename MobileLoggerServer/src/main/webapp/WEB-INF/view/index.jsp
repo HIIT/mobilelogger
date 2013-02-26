@@ -37,6 +37,9 @@
                 <a href="${ContextPath}/MobileLoggerServer/log/gyro">Gyroscope/Orientation logs</a>
             </li>
             <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/clicked">Clicked Search Results</a>
+            </li>
+            <li>
                 <a href="${ContextPath}/MobileLoggerServer/log/micro">Soundspace logs</a>
             </li>
             <li>

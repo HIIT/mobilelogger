@@ -25,12 +25,14 @@ public interface ILogService {
     public boolean saveLog(ProximityLog log);
     public boolean saveLog(SoundLog log);
     public boolean saveLog(WifiLog log);
+    public boolean saveLog(TextLog log);
     
     public List<GpsLog> getGpsLogs();
     public List<CompLog> getCompassLogs();
     public List<AccLog> getAccelLogs();
     public List<OrientationLog> getGyroLogs();
     public List<NetLog> getNetworkLogs();
+    public List<TextLog> getTextLogs();
 
     public List<Log> getAll();
     

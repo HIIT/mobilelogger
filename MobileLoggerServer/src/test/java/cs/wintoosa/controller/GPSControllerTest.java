@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
+import java.util.LinkedList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,19 @@ public class GPSControllerTest extends AbstractTest{
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"))
                 .andReturn();
+    }
+    
+    @Test
+    public void testPutDummyAndGet() throws Exception {
+        this.mockMvc.perform(get("/log/gps/put"))
+                .andExpect(status().is(302))
+                .andReturn();
+        
+        this.mockMvc.perform(get("/log/gps"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andReturn();
+        
     }
     
     

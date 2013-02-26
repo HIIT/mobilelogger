@@ -39,7 +39,7 @@ public class CompassController {
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putPlainLog(@Valid @RequestBody CompLog log, BindingResult result) {
-        System.out.println("put plain log");
+        System.out.println("put compass log");
         if(result.hasErrors()) {
             System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())

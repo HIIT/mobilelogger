@@ -1,4 +1,3 @@
-
 package cs.wintoosa.controller.interceptor;
 
 import com.google.gson.*;

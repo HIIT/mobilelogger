@@ -13,34 +13,34 @@ import javax.persistence.Entity;
 @Entity
 public class AccLog extends Log{
 
-    private Float X;
+    private Float accX;
     
-    private Float Y;
+    private Float accY;
     
-    private Float Z;
+    private Float accZ;
 
-    public Float getX() {
-        return X;
+    public Float getAccX() {
+        return accX;
     }
 
-    public void setX(Float X) {
-        this.X = X;
+    public void setAccX(Float X) {
+        this.accX = X;
     }
 
-    public Float getY() {
-        return Y;
+    public Float getAccY() {
+        return accY;
     }
 
-    public void setY(Float Y) {
-        this.Y = Y;
+    public void setAccY(Float Y) {
+        this.accY = Y;
     }
 
-    public Float getZ() {
-        return Z;
+    public Float getAccZ() {
+        return accZ;
     }
 
-    public void setZ(Float Z) {
-        this.Z = Z;
+    public void setAccZ(Float Z) {
+        this.accZ = Z;
     }
     
 }

@@ -64,6 +64,42 @@ public class ValidationInterceptorTest extends AbstractTest {
     }
     
     @Test
+    public void testPreHandleWithMissingChecksum() throws Exception {
+        System.out.println("testPreHandleWithInvalidJson");
+        
+        //lon is wrong now, 2.1 instead of 2.0
+        String jsondata = "{\"lat\":1.0,\"lon\":2.1,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365}";
+        
+        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
+        request.setQueryString(jsondata);
+        HttpServletResponse response = new MockHttpServletResponse();
+        Object handler = null;
+        ValidationInterceptor instance = new ValidationInterceptor();
+        
+        boolean expResult = false;
+        boolean result = instance.preHandle(request, response, handler);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testPreHandleGet() throws Exception {
+        System.out.println("testPreHandleWithInvalidJson");
+        
+        //lon is wrong now, 2.1 instead of 2.0
+        String jsondata = "{\"lat\":1.0,\"lon\":2.1,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365}";
+        
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/log/");
+        request.setQueryString(jsondata);
+        HttpServletResponse response = new MockHttpServletResponse();
+        Object handler = null;
+        ValidationInterceptor instance = new ValidationInterceptor();
+        
+        boolean expResult = true;
+        boolean result = instance.preHandle(request, response, handler);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
     public void testPreHandleWithMissingJson() throws Exception {
         System.out.println("testPreHandleWithMissingJson");
         

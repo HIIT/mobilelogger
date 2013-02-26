@@ -39,7 +39,7 @@ namespace MobileLoggerApp.src
             {
                 return origin.AddSeconds(unixTimeStamp);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return origin.AddMilliseconds(unixTimeStamp);
             }

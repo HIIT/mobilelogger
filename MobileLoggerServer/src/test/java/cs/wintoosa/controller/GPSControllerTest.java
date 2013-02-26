@@ -33,6 +33,7 @@ public class GPSControllerTest extends AbstractTest{
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        
     }
     
     @Test

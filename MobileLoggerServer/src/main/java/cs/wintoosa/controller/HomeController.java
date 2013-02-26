@@ -31,7 +31,7 @@ public class HomeController {
         return "index";
     }
     
-    @RequestMapping(value="/demoview", produces=MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value="/demoview", produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Log> demoView() {
         List<Log> demolist = new ArrayList();
@@ -54,7 +54,7 @@ public class HomeController {
         
         
         return logService.getAll();
-    }
+    }*/
     
     
     

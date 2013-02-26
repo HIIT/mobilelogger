@@ -39,6 +39,9 @@
 /MobileLoggerApp/MobileLoggerApp/Release/
 /MobileLoggerApp/MobileLoggerApp/CodeAnalyst/
 
+**.dll
+**.pdb
+
 /MobileLoggerApp/BackgroundUploadTaskAgent/Thumbs.db
 /MobileLoggerApp/BackgroundUploadTaskAgent/*.obj
 /MobileLoggerApp/BackgroundUploadTaskAgent/*.exe

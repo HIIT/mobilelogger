@@ -11,7 +11,7 @@ namespace MobileLoggerScheduledAgent
     public class ScheduledAgent : ScheduledTaskAgent
     {
         private static volatile bool _classInitialized;
-        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev";
+        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
 
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
@@ -86,13 +86,6 @@ namespace MobileLoggerScheduledAgent
             System.Diagnostics.Debug.WriteLine(this.GetType().Name + ".AsyncSendMessages event handler finished");
         }
 
-        private void SendMessagesWorkComplete(object sender, EventArgs args)
-        {
-            System.Diagnostics.Debug.WriteLine("finished send messages work");
-            System.Diagnostics.Debug.WriteLine(sender.ToString() + " " + args.ToString());
-        }
-
-
         private void SendMessage(LogEvent logevent)
         {
 
@@ -101,17 +94,17 @@ namespace MobileLoggerScheduledAgent
             request.ContentType = "application/json";
             request.BeginGetRequestStream(asynchronousResult =>
             {
-                SendData(logevent, request, asynchronousResult);
+                SendData(logevent, asynchronousResult);
             }, request);
 
         }
 
-        private void SendData(LogEvent logevent, HttpWebRequest request, IAsyncResult asynchronousResult)
+        private void SendData(LogEvent logevent, IAsyncResult asynchronousResult)
         {
-            HttpWebRequest requestStream = (HttpWebRequest)asynchronousResult.AsyncState;
+            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
 
             // End the operation
-            Stream putStream = requestStream.EndGetRequestStream(asynchronousResult);
+            Stream putStream = request.EndGetRequestStream(asynchronousResult);
 
             //Console.WriteLine("Please enter the input data to be posted:");
             string putData = logevent.sensorEvent;
@@ -124,28 +117,29 @@ namespace MobileLoggerScheduledAgent
             putStream.Close();
 
             // Start the asynchronous operation to get the response
-            requestStream.BeginGetResponse(response =>
+            request.BeginGetResponse(responseAsynchronousResult =>
             {
-                GetResponse(response);
+                GetResponse(responseAsynchronousResult);
 
-            }, request);//new AsyncCallback(GetResponseCallback), request);
+            }, request);
         }
 
-        private void GetResponse(IAsyncResult response)
+        private void GetResponse(IAsyncResult asynchronousResult)
         {
             try
             {
-                HttpWebRequest request1 = (HttpWebRequest)response.AsyncState;
+                HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
 
                 // End the operation
-                HttpWebResponse finalresponse = (HttpWebResponse)request1.EndGetResponse(response);
+                HttpWebResponse finalresponse = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
                 Stream streamResponse = finalresponse.GetResponseStream();
                 StreamReader streamRead = new StreamReader(streamResponse);
                 string responseString = streamRead.ReadToEnd();
-                Console.WriteLine(responseString);
+                System.Diagnostics.Debug.WriteLine("response " + responseString);
                 // Close the stream object
-                streamResponse.Close();
+               
                 streamRead.Close();
+                streamResponse.Close();
 
                 // Release the HttpWebResponse
                 finalresponse.Close();

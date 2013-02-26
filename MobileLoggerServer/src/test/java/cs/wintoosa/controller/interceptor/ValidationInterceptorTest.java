@@ -15,6 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -23,24 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ValidationInterceptorTest extends AbstractTest {
     
-    public ValidationInterceptorTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of preHandle method, of class ValidationInterceptor.
@@ -49,32 +32,16 @@ public class ValidationInterceptorTest extends AbstractTest {
     public void testPreHandle() throws Exception {
         System.out.println("preHandle");
         
-        String jsondata = "{\"lat\":1.0,\"lon\":2.0,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365}";
+        String jsondata = "{\"lat\":1.0,\"lon\":2.0,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"f0e3fc8f9a3e3d27789482075293c7a6a3a24c06\"}";
        
         MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
         request.setQueryString(jsondata);
-        HttpServletResponse response = null;
+        HttpServletResponse response = new MockHttpServletResponse();
         Object handler = null;
         ValidationInterceptor instance = new ValidationInterceptor();
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = instance.preHandle(request, response, handler);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-    }
-
-    /**
-     * Test of postHandle method, of class ValidationInterceptor.
-     */
-    @Test
-    public void testPostHandle() throws Exception {
-        System.out.println("postHandle");
-        HttpServletRequest request = null;
-        HttpServletResponse response = null;
-        Object handler = null;
-        ModelAndView modelAndView = null;
-        ValidationInterceptor instance = new ValidationInterceptor();
-       // instance.postHandle(request, response, handler, modelAndView);
-        // TODO review the generated test code and remove the default call to fail.
-
     }
 }

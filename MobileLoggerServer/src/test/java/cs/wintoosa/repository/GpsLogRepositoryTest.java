@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author jonimake
  */
-public class LogRepositoryTest extends AbstractTest{
+public class GpsLogRepositoryTest extends AbstractTest{
     
     @Autowired
-    ILogRepository logRepository;
+    IGpsLogRepository logRepository;
     
-    @Test
+    /*@Test
     public void testSavePlainLog() throws Exception{
 
         Log log = new Log();
@@ -33,7 +33,7 @@ public class LogRepositoryTest extends AbstractTest{
         assertTrue(save.getId() != null);
         assertEquals("timestamp was incorrect", timestampSeconds, (long)save.getTimestamp());
         
-    }
+    }*/
     
     @Test
     public void testSaveGpsLog() throws Exception{

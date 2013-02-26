@@ -35,6 +35,7 @@ public class ValidationInterceptorTest extends AbstractTest {
         String jsondata = "{\"lat\":1.0,\"lon\":2.0,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"2413a9ab3dc40a4a0de28316422f321c4bcd179a\"}";
         
         MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
+        request.setContent(jsondata.getBytes());
         request.setQueryString(jsondata);
         HttpServletResponse response = new MockHttpServletResponse();
         Object handler = null;
@@ -54,6 +55,7 @@ public class ValidationInterceptorTest extends AbstractTest {
         
         MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
         request.setQueryString(jsondata);
+        request.setContent(jsondata.getBytes());
         HttpServletResponse response = new MockHttpServletResponse();
         Object handler = null;
         ValidationInterceptor instance = new ValidationInterceptor();
@@ -72,6 +74,7 @@ public class ValidationInterceptorTest extends AbstractTest {
         
         MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
         request.setQueryString(jsondata);
+        request.setContent(jsondata.getBytes());
         HttpServletResponse response = new MockHttpServletResponse();
         Object handler = null;
         ValidationInterceptor instance = new ValidationInterceptor();
@@ -90,6 +93,7 @@ public class ValidationInterceptorTest extends AbstractTest {
         
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/log/");
         request.setQueryString(jsondata);
+        request.setContent(jsondata.getBytes());
         HttpServletResponse response = new MockHttpServletResponse();
         Object handler = null;
         ValidationInterceptor instance = new ValidationInterceptor();
@@ -107,7 +111,8 @@ public class ValidationInterceptorTest extends AbstractTest {
         String jsondata = null;//"{\"lat\":1.0,\"lon\":2.1,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"2413a9ab3dc40a4a0de28316422f321c4bcd179a\"}";
         
         MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
-        request.setQueryString(jsondata);
+//        request.setQueryString(jsondata);
+  //      request.setContent(jsondata.getBytes());
         HttpServletResponse response = new MockHttpServletResponse();
         Object handler = null;
         ValidationInterceptor instance = new ValidationInterceptor();

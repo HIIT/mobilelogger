@@ -39,6 +39,8 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         logger.info("method = " + request.getMethod() + "\n" +
                     "requestUri = " + request.getRequestURI() + "\n" +
                     "queryString = " + request.getQueryString());
+        if(request.getContentLength() == -1)
+            return null;
         byte[] buffer = new byte[request.getContentLength()];
         try{
             request.getInputStream().readLine(buffer, 0, request.getContentLength());

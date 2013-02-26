@@ -1,5 +1,5 @@
 ﻿using MobileLoggerApp.src;
-using MobileLoggerApp.src.mobilelogger.model;
+using MobileLoggerScheduledAgent;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

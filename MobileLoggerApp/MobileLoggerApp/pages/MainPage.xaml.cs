@@ -4,7 +4,7 @@ using Microsoft.Phone.Tasks;
 using MobileLoggerApp.pages;
 using MobileLoggerApp.src;
 using MobileLoggerApp.src.mobilelogger;
-using MobileLoggerApp.src.mobilelogger.model;
+using MobileLoggerScheduledAgent;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Windows;
@@ -119,7 +119,7 @@ namespace MobileLoggerApp
                 GoogleSearch();
                 GetWeatherData();
             }
-            //SaveSensorLog();
+            SaveSensorLog();
         }
 
         private void GoogleSearch()

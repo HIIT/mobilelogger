@@ -39,9 +39,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         void accelerometer_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
         {
-            AddJOValue("X", e.SensorReading.Acceleration.X);
-            AddJOValue("Y", e.SensorReading.Acceleration.Y);
-            AddJOValue("Z", e.SensorReading.Acceleration.Z);
+            AddJOValue("accX", e.SensorReading.Acceleration.X);
+            AddJOValue("accY", e.SensorReading.Acceleration.Y);
+            AddJOValue("accZ", e.SensorReading.Acceleration.Z);
         }
 
         private void AddJOValue(String key, double value)

@@ -27,11 +27,9 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         
         if(!request.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
-       // HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
         
         JsonObject json = convertToJsonObject(request);
         isOk = isValid(json);
-        logger.info("isOk " + isOk);
         return isOk;
     }
     
@@ -39,6 +37,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         JsonObject json = null;
         JsonParser parser = new JsonParser();
         if(request.getQueryString() != null) {
+            logger.info("queryString = " + request.getQueryString());
             JsonElement parse = parser.parse(request.getQueryString());
             json = parse.getAsJsonObject();
             logger.info("json: " + json.toString());

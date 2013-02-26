@@ -6,6 +6,7 @@ using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using MobileLoggerApp.src;
 
 
 
@@ -20,7 +21,7 @@ namespace MobileLoggerScheduledAgent
         private Double _time;
         private String _relativeUrl;
 
-        private String json = "123";
+        private String json;
         
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)] //, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
@@ -129,10 +130,15 @@ namespace MobileLoggerScheduledAgent
                 } catch (System.SystemException e) {
                     System.Diagnostics.Debug.WriteLine("SQLException"+e);
                 }
-
-
             }
+        }
 
+        public void removeEvent(LogEvent e)
+        {
+            using (LogEventDataContext context = new LogEventDataContext(ConnectionString))
+            {
+                context.LogEvents.DeleteOnSubmit(e);
+            }
         }
 
         public IList<LogEvent> GetLogEvents()

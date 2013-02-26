@@ -84,6 +84,10 @@
     <Compile Include="tests\MessagingServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackgroundUploadTaskAgent\MobileLoggerScheduledAgent.csproj">
+      <Project>{a52c8566-d8d1-4755-907b-7ba12a9e70da}</Project>
+      <Name>MobileLoggerScheduledAgent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MobileLoggerApp\MobileLoggerApp.csproj">
       <Project>{9334832d-33ec-46d4-9dc2-5f81502be946}</Project>
       <Name>MobileLoggerApp</Name>

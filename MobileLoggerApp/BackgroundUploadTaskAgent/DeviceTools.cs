@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace MobileLoggerScheduledAgent
+namespace MobileLoggerApp.src
 {
     public class DeviceTools
     {
@@ -20,11 +20,11 @@ namespace MobileLoggerScheduledAgent
         /// </summary>
         /// <param name="time">The timestamp to be translated</param>
         /// <returns>unix timestamp</returns>
-        public static double GetUnixTime(DateTime time)
+        public static long GetUnixTime(DateTime time)
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             TimeSpan diff = time - origin;
-            return Math.Floor(diff.TotalSeconds);
+            return (long) Math.Floor(diff.TotalSeconds);
         }
 
         /// <summary>
@@ -39,10 +39,20 @@ namespace MobileLoggerScheduledAgent
             {
                 return origin.AddSeconds(unixTimeStamp);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return origin.AddMilliseconds(unixTimeStamp);
             }
+        }
+
+        public static bool SensorLastSavedTimeSpan(DateTime lastSaved)
+        {
+            TimeSpan timeSpan = DateTime.UtcNow - lastSaved;
+            if (timeSpan.TotalMilliseconds > 1000)
+            {
+                return true;
+            }
+            return false;
         }
 
         /// <summary>

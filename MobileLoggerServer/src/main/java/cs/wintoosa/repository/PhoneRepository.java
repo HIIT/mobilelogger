@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
  * @author jonimake
  */
 @Repository
+@Deprecated
 public class PhoneRepository implements IPhoneRepositoryCustom{
     
     @PersistenceContext

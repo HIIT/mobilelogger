@@ -152,7 +152,7 @@ namespace MobileLoggerApp
 
                 this.Focus();
             }
-            SaveSensorLog();
+            //SaveSensorLog();
         }
 
         private void SaveSensorLog()

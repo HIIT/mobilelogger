@@ -6,7 +6,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class CompassHandler : AbstractLogHandler
     {
-        Compass compass;
+        Compass compassWatcher;
         JObject joCompass;
 
         DateTime lastSaved;
@@ -19,21 +19,21 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 lastSaved = DateTime.UtcNow;
             }
         }
-        public void startCompassWatcher()
+        public void StartCompassWatcher()
         {
 #if EMULATOR
 #endif
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
-                if (compass == null)
+                if (compassWatcher == null)
                 {
                     // Instantiate the Compass.
-                    compass = new Compass();
+                    compassWatcher = new Compass();
                     //compass.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                    compass.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
+                    compassWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
                     //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
                 }
-                compass.Start();
+                compassWatcher.Start();
             }
             if (joCompass == null)
             {
@@ -43,56 +43,23 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
         {
-            if (joCompass["trueHeading"] == null)
-            {
-                joCompass.Add("trueHeading", (float)e.SensorReading.TrueHeading);
-            }
-            else
-            {
-                joCompass["trueHeading"].Replace((float)e.SensorReading.TrueHeading);
-            }
+            AddJOValue("trueHeading", e.SensorReading.TrueHeading);
+            AddJOValue("magneticHeading", e.SensorReading.MagneticHeading);
+            AddJOValue("headingAccuracy", e.SensorReading.HeadingAccuracy);
+            AddJOValue("rawMagneticReadingX", e.SensorReading.MagnetometerReading.X);
+            AddJOValue("rawMagneticReadingY", e.SensorReading.MagnetometerReading.Y);
+            AddJOValue("rawMagneticReadingZ", e.SensorReading.MagnetometerReading.Z);
+        }
 
-            if (joCompass["magneticHeading"] == null)
+        private void AddJOValue(String key, double value)
+        {
+            if (joCompass[key] == null)
             {
-                joCompass.Add("magneticHeading", (float)e.SensorReading.MagneticHeading);
+                joCompass.Add(key, (float)value);
             }
             else
             {
-                joCompass["magneticHeading"].Replace((float)e.SensorReading.MagneticHeading);
-            }
-
-            if (joCompass["headingAccuracy"] == null)
-            {
-                joCompass.Add("headingAccuracy", (float)Math.Abs(e.SensorReading.HeadingAccuracy));
-            }
-            else
-            {
-                joCompass["headingAccuracy"].Replace((float)Math.Abs(e.SensorReading.HeadingAccuracy));
-            }
-            if (joCompass["rawMagneticReadingX"] == null)
-            {
-                joCompass.Add("rawMagneticReadingX", (float)e.SensorReading.MagnetometerReading.X);
-            }
-            else
-            {
-                joCompass["rawMagneticReadingX"].Replace((float)e.SensorReading.MagnetometerReading.X);
-            }
-
-            if (joCompass["rawMagneticReadingY"] == null)
-            {
-                joCompass.Add("rawMagneticReadingY", (float)e.SensorReading.MagnetometerReading.Y);
-            }
-            else
-            {
-                joCompass["rawMagneticReadingY"].Replace((float)e.SensorReading.MagnetometerReading.Y);
-            }
-            if (joCompass["rawMagneticReadingZ"] == null)
-            {
-                joCompass.Add("rawMagneticReadingZ", (float)e.SensorReading.MagnetometerReading.Z);
-            }
-            else
-            {
-                joCompass["rawMagneticReadingZ"].Replace((float)e.SensorReading.MagnetometerReading.Z);
+                joCompass[key].Replace((float)value);
             }
         }
     }

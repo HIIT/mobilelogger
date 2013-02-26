@@ -26,6 +26,9 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         
         boolean isOk = super.preHandle(request, response, handler);
         
+        logger.info("header queryString = " + request.getHeader("queryString"));
+        
+        
         if(!request.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
         
@@ -33,6 +36,14 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
        
         isOk = isValid(json);
         return isOk;
+    }
+    
+    @Override 
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+         
+        logger.info("header queryString = " + request.getHeader("queryString"));
+        JsonObject json = convertToJsonObject(request);
+       
     }
     
     private JsonObject convertToJsonObject(HttpServletRequest request) {

@@ -34,9 +34,6 @@ public abstract class Log implements Serializable{
     @NotNull
     protected String phoneId;
     
-    @ManyToOne
-    protected Phone phone;
-    
     @NotNull (message="timestamp must represent valid unixtime in seconds")
     protected Long timestamp;
     
@@ -84,14 +81,6 @@ public abstract class Log implements Serializable{
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Phone phone) {
-        this.phone = phone;
     }
 
     public String getChecksum() {

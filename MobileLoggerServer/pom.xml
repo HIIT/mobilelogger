@@ -306,6 +306,14 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.5.2</version>
+                <configuration>
+                    <instrumentation>
+                        <ignores>
+                            <ignore>I*.class</ignore>
+                            <ignore>cs/wintoosa/repository/I*</ignore>
+                        </ignores>
+                    </instrumentation>
+                </configuration>
             </plugin>
         </plugins>
     </build>

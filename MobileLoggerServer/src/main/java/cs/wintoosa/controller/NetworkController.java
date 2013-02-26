@@ -36,7 +36,7 @@ public class NetworkController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putPlainLog(@Valid @RequestBody NetLog log, BindingResult result) {
+    public boolean putOperatorLog(@Valid @RequestBody NetLog log, BindingResult result) {
         System.out.println("put plain log");
         if(result.hasErrors()) {
             System.out.println("result had errors");

@@ -1,5 +1,4 @@
-﻿
-namespace MobileLoggerApp.src
+﻿namespace MobileLoggerApp.src
 {
     /// <summary>
     /// Location strings of important locations

@@ -6,8 +6,10 @@ package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
+import cs.wintoosa.service.IGenericLogService;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,6 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/log/gps")
 public class GPSController {
     
+    private final static Logger logger = Logger.getLogger(GPSController.class.getName()); 
+    
+    @Autowired
+    private IGenericLogService genericLogService;
+    
     @Autowired
     ILogService logService;
     
@@ -41,11 +48,11 @@ public class GPSController {
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putGPSLog(@Valid @RequestBody GpsLog log, BindingResult result) {
-        System.out.println("put plain log");
+        logger.info("put plain log");
         if(result.hasErrors()) {
-            System.out.println("result had errors");
+            logger.info("result had errors");
             for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
+                logger.info(error.toString());
             return false;
         }
         return logService.saveLog(log);
@@ -63,4 +70,15 @@ public class GPSController {
         System.out.println("Added dumy log");
         return "redirect:/";
     }
+
+    public IGenericLogService getGenericLogService() {
+        return genericLogService;
+    }
+
+    public void setGenericLogService(IGenericLogService genericLogService) {
+        this.genericLogService = genericLogService;
+    }
+
+
+    
 }

@@ -4,6 +4,9 @@
  */
 package cs.wintoosa.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import cs.wintoosa.domain.TextLog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -39,15 +42,24 @@ public class SearchClickedController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putGPSLog(@Valid @RequestBody TextLog log, BindingResult result) {
-        System.out.println("put plain log");
+    public boolean putTextLog(@RequestBody String log, BindingResult result) {
+        System.out.println("put text log");
         if(result.hasErrors()) {
             System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())
                 System.out.println(error.toString());
             return false;
         }
-        return logService.saveLog(log);
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(log).getAsJsonObject();
+        TextLog tLog = new TextLog();
+        tLog.setPhoneId(json.get("phoneId").getAsString());
+        json.remove("phoneId");
+        tLog.setTimestamp(json.get("timestamp").getAsLong());
+        json.remove("timestamp");
+        tLog.setText(json.toString());
+        
+        return logService.saveLog(tLog);
     }
     
 }

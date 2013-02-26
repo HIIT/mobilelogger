@@ -91,6 +91,7 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib.extensions" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -115,6 +116,7 @@
     <Compile Include="src\PageLocations.cs" />
     <Compile Include="pages\ViewModels\ItemViewModel.cs" />
     <Compile Include="pages\ViewModels\MainViewModel.cs" />
+    <Compile Include="src\WeatherInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

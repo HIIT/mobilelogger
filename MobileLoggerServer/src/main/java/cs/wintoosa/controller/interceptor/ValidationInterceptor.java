@@ -27,31 +27,41 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         
         if(!request.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
-        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
+       // HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
         
         JsonObject json = convertToJsonObject(request);
         isOk = isValid(json);
+        logger.info("isOk " + isOk);
         return isOk;
     }
     
     private JsonObject convertToJsonObject(HttpServletRequest request) {
+        JsonObject json = null;
         JsonParser parser = new JsonParser();
-        try{
-            logger.info("request: "+request.getQueryString());
-            logger.info("content: "+request.getAttribute("lat"));
-        }catch(Exception e){
-            logger.info(e.getMessage());
+        if(request.getQueryString() != null) {
+            JsonElement parse = parser.parse(request.getQueryString());
+            json = parse.getAsJsonObject();
+            logger.info("json: " + json.toString());
         }
-        JsonElement parse = parser.parse(request.getQueryString());
-        JsonObject json = parse.getAsJsonObject();
         return json;
     }
     
     private boolean isValid(JsonObject json) {
-        String checksum = json.get("checksum").getAsString();
+        
+        if(json == null)
+            return false;
+        
+        JsonElement checksumJson = json.get("checksum");
+        
+        if(checksumJson == null)
+            return false;
+        
+        String checksum = checksumJson.getAsString();
         json.remove("checksum");
         String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
+        
         logger.info(checksum + " equals " + calculatedChecksum + ": " + checksum.equals(calculatedChecksum));
+        
         return calculatedChecksum.equals(checksum);
     }
 }

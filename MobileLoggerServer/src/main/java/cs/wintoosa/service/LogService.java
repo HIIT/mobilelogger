@@ -140,22 +140,6 @@ public class LogService implements ILogService {
         log = getWifiLogRepository().save(log);
         return true;
     }
-    
-    public IGpsLogRepository getGpsLogRepository() {
-        return gpsLogRepository;
-    }
-
-    public void setGpsLogRepository(IGpsLogRepository logRepository) {
-        this.gpsLogRepository = logRepository;
-    }
-
-    public IPhoneRepository getPhoneRepository() {
-        return phoneRepository;
-    }
-
-    public void setPhoneRepository(IPhoneRepository phoneRepository) {
-        this.phoneRepository = phoneRepository;
-    }
 
     @Override
     @Transactional(readOnly=true)
@@ -173,11 +157,28 @@ public class LogService implements ILogService {
         logs.addAll(wifiLogRepository.findAll());
         return logs;
     }
-
+// <editor-fold defaultstate="collapsed">
     public IAccLogRepository getAccLogRepository() {
         return accLogRepository;
     }
 
+        
+    public IGpsLogRepository getGpsLogRepository() {
+        return gpsLogRepository;
+    }
+
+    public void setGpsLogRepository(IGpsLogRepository logRepository) {
+        this.gpsLogRepository = logRepository;
+    }
+
+    public IPhoneRepository getPhoneRepository() {
+        return phoneRepository;
+    }
+
+    public void setPhoneRepository(IPhoneRepository phoneRepository) {
+        this.phoneRepository = phoneRepository;
+    }
+    
     public void setAccLogRepository(IAccLogRepository accLogRepository) {
         this.accLogRepository = accLogRepository;
     }
@@ -245,10 +246,7 @@ public class LogService implements ILogService {
     public void setWifiLogRepository(IWifiLogRepository wifiLogRepository) {
         this.wifiLogRepository = wifiLogRepository;
     }
-    
-    public List<TextLog> getTextLogs(){
-        return getTextLogRepository().findAll();
-    }
+// </editor-fold>
 
     @Override
     public List<GpsLog> getGpsLogs() {
@@ -282,5 +280,10 @@ public class LogService implements ILogService {
 
     public void setTextLogRepository(ITextLogRepository textLogRepository) {
         this.textLogRepository = textLogRepository;
+    }
+
+    @Override
+    public List<TextLog> getTextLogs() {
+        return textLogRepository.findAll();
     }
 }

@@ -2,6 +2,7 @@
 package cs.wintoosa.controller.interceptor;
 
 import com.google.gson.*;
+import cs.wintoosa.service.ChecksumChecker;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +27,11 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         
         if(!request.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
-        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
+       // HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
         
         JsonObject json = convertToJsonObject(request);
         isOk = isValid(json);
+        logger.info("isOk " + isOk);
         return isOk;
     }
     
@@ -39,15 +41,27 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         if(request.getQueryString() != null) {
             JsonElement parse = parser.parse(request.getQueryString());
             json = parse.getAsJsonObject();
+            logger.info("json: " + json.toString());
         }
         return json;
     }
     
     private boolean isValid(JsonObject json) {
-        String checksum = json.get("checksum").getAsString();
+        
+        if(json == null)
+            return false;
+        
+        JsonElement checksumJson = json.get("checksum");
+        
+        if(checksumJson == null)
+            return false;
+        
+        String checksum = checksumJson.getAsString();
         json.remove("checksum");
-        String calculatedChecksum = "checksum";
+        String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
+        
         logger.info(checksum + " equals " + calculatedChecksum + ": " + checksum.equals(calculatedChecksum));
+        
         return calculatedChecksum.equals(checksum);
     }
 }

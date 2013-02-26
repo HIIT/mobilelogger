@@ -41,7 +41,7 @@ public abstract class Log implements Serializable{
     protected Long timestamp;
     
     @Transient
-    protected String checksum;
+    private String checksum;
     
     /**
      * This is used for storing user search terms
@@ -92,6 +92,14 @@ public abstract class Log implements Serializable{
 
     public void setPhone(Phone phone) {
         this.phone = phone;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
     }
 
 }

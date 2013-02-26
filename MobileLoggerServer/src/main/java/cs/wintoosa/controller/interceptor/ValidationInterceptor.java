@@ -2,6 +2,7 @@ package cs.wintoosa.controller.interceptor;
 
 import com.google.gson.*;
 import cs.wintoosa.service.ChecksumChecker;
+import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import java.util.logging.*;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
@@ -28,14 +30,25 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
             return isOk; //only handle PUTs
         
         JsonObject json = convertToJsonObject(request);
+       
         isOk = isValid(json);
         return isOk;
     }
     
     private JsonObject convertToJsonObject(HttpServletRequest request) {
-        logger.info("method = " + request.getMethod());
-        logger.info("requestUri = " + request.getRequestURI());
-        logger.info("queryString = " + request.getQueryString());
+        logger.info("method = " + request.getMethod() + "\n" +
+                    "requestUri = " + request.getRequestURI() + "\n" +
+                    "queryString = " + request.getQueryString());
+        byte[] buffer = new byte[request.getContentLength()];
+        try{
+            request.getInputStream().readLine(buffer, 0, request.getContentLength());
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+        
+        String data = new String(buffer);
+        logger.info("data = " + data);
+        
         JsonObject json = null;
         JsonParser parser = new JsonParser();
         if(request.getQueryString() != null) {

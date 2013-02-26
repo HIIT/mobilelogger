@@ -112,7 +112,7 @@ namespace MobileLoggerScheduledAgent
 
             // End the operation
             Stream putStream = request.EndGetRequestStream(asynchronousResult);
-
+            
             //Console.WriteLine("Please enter the input data to be posted:");
             string putData = logevent.sensorEvent.ToString();
 

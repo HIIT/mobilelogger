@@ -38,6 +38,9 @@ public class LogService implements ILogService {
     private IWifiLogRepository wifiLogRepository;
     @Autowired
     private IPhoneRepository phoneRepository;
+    
+    @Autowired
+    private ITextLogRepository textLogRepository;
 
     @Override
     @Transactional
@@ -45,6 +48,15 @@ public class LogService implements ILogService {
         if(log == null || log.getPhoneId() == null)
             return false;
         log = gpsLogRepository.save(log);
+        return true;
+    }
+    
+    @Override
+    @Transactional
+    public boolean saveLog(TextLog log) {
+        if(log == null || log.getPhoneId() == null)
+            return false;
+        log = getTextLogRepository().save(log);
         return true;
     }
     
@@ -233,6 +245,10 @@ public class LogService implements ILogService {
     public void setWifiLogRepository(IWifiLogRepository wifiLogRepository) {
         this.wifiLogRepository = wifiLogRepository;
     }
+    
+    public List<TextLog> getTextLogs(){
+        return getTextLogRepository().findAll();
+    }
 
     @Override
     public List<GpsLog> getGpsLogs() {
@@ -258,5 +274,13 @@ public class LogService implements ILogService {
     @Override
     public List<NetLog> getNetworkLogs() {
         return netLogRepository.findAll();
+    }
+
+    public ITextLogRepository getTextLogRepository() {
+        return textLogRepository;
+    }
+
+    public void setTextLogRepository(ITextLogRepository textLogRepository) {
+        this.textLogRepository = textLogRepository;
     }
 }

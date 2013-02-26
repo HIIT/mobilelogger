@@ -2,6 +2,7 @@
 package cs.wintoosa.controller.interceptor;
 
 import com.google.gson.*;
+import cs.wintoosa.service.ChecksumChecker;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,12 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
     private JsonObject convertToJsonObject(HttpServletRequest request) {
         JsonParser parser = new JsonParser();
+        try{
+            logger.info("request: "+request.getQueryString());
+            logger.info("content: "+request.getAttribute("lat"));
+        }catch(Exception e){
+            logger.info(e.getMessage());
+        }
         JsonElement parse = parser.parse(request.getQueryString());
         JsonObject json = parse.getAsJsonObject();
         return json;
@@ -43,7 +50,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     private boolean isValid(JsonObject json) {
         String checksum = json.get("checksum").getAsString();
         json.remove("checksum");
-        String calculatedChecksum = "checksum";
+        String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
         logger.info(checksum + " equals " + calculatedChecksum + ": " + checksum.equals(calculatedChecksum));
         return calculatedChecksum.equals(checksum);
     }

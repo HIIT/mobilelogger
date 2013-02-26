@@ -48,6 +48,7 @@ namespace MobileLoggerApp.pages
         }
 
         private string _lineThree;
+
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>

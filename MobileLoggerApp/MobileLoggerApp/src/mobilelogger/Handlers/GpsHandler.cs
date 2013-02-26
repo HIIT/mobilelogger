@@ -7,7 +7,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class GpsHandler : AbstractLogHandler
     {
         GeoCoordinateWatcher coordinateWatcher;
-        JObject joCoordinates;
+        public static JObject joCoordinates;
 
         DateTime lastSaved;
 
@@ -25,7 +25,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             if (coordinateWatcher == null)
             {
                 coordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-                //watcher.MovementThreshold = 2;
+                coordinateWatcher.MovementThreshold = 20;
 
                 coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
                 coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);

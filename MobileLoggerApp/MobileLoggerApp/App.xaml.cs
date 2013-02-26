@@ -31,8 +31,9 @@ namespace MobileLoggerApp
             {
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
+                {
                     viewModel = new pages.MainViewModel();
-
+                }
                 return viewModel;
             }
         }
@@ -115,7 +116,6 @@ namespace MobileLoggerApp
             mobileOperator.StartOperator();
             logHandlers.Add(mobileOperator);
         }
-
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated

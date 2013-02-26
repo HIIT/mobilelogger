@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-
-
+using System.Linq;
 
 namespace MobileLoggerApp.src.mobilelogger.model
 {
-    
     [Table(Name = "LogEvents")]
     public class LogEvent
     {
@@ -20,7 +14,6 @@ namespace MobileLoggerApp.src.mobilelogger.model
         private String _relativeUrl;
 
         private String json = "123";
-        
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)] //, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
         public int EventId
@@ -53,7 +46,7 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 }
             }
         }
-        
+
         [Column]
         public String sensorEvent
         {
@@ -69,7 +62,8 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 }
             }
         }
-        [Column(CanBeNull=false)] 
+
+        [Column(CanBeNull = false)]
         public String relativeUrl
         {
             get
@@ -87,10 +81,9 @@ namespace MobileLoggerApp.src.mobilelogger.model
 
         public override String ToString()
         {
-            return "LogEvent:" + EventId +"{"+DeviceTools.GetDateTime(_time)+"}";
+            return "LogEvent:" + EventId + "{" + DeviceTools.GetDateTime(_time) + "}";
         }
     }
-
 
     public class LogEventDataContext : DataContext
     {
@@ -122,13 +115,12 @@ namespace MobileLoggerApp.src.mobilelogger.model
                 {
                     // save changes to the database
                     context.SubmitChanges();
-                } catch (System.SystemException e) {
-                    System.Diagnostics.Debug.WriteLine("SQLException"+e);
                 }
-
-
+                catch (System.SystemException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("SQLException" + e);
+                }
             }
-
         }
 
         public IList<LogEvent> GetLogEvents()
@@ -149,5 +141,4 @@ namespace MobileLoggerApp.src.mobilelogger.model
             return logEventList;
         }
     }
-
 }

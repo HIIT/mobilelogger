@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-
 namespace MobileLoggerApp.pages
 {
     public class MainViewModel : INotifyPropertyChanged
@@ -58,7 +57,6 @@ namespace MobileLoggerApp.pages
 
             using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
             {
-
                 if (!logDBContext.DatabaseExists())
                 {
                     // create database if it does not exist
@@ -89,6 +87,7 @@ namespace MobileLoggerApp.pages
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

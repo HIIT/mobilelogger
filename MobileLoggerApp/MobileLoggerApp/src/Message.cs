@@ -1,10 +1,4 @@
-﻿using Microsoft.Phone.Controls;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.IO;
-using System.Net;
-using System.Windows;
+﻿using System.Net;
 
 namespace MobileLoggerApp.src
 {
@@ -29,6 +23,6 @@ namespace MobileLoggerApp.src
             message.request.ContentType = "application/json";
             message.Payload = payload;
             return message;
-        }        
-    }  
+        }
+    }
 }

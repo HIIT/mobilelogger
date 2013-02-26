@@ -6,6 +6,7 @@ package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
+import cs.wintoosa.service.IGenericLogService;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import javax.validation.Valid;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/log/gps")
 public class GPSController {
+    @Autowired
+    private IGenericLogService<GpsLog> genericLogService;
     
     @Autowired
     ILogService logService;
@@ -34,7 +37,7 @@ public class GPSController {
     @ResponseBody
     public List<GpsLog> getLogs() {
         System.out.println("printing logs");
-        return logService.getGpsLogs(); //Currently returns all logs, not only gps logs
+        return genericLogService.getAll(); //Currently returns all logs, not only gps logs
         //return "Under Contsrtuction!";
     }
     
@@ -62,5 +65,13 @@ public class GPSController {
         logService.saveLog(log);
         System.out.println("Added dumy log");
         return "redirect:/";
+    }
+
+    public IGenericLogService<GpsLog> getGenericLogService() {
+        return genericLogService;
+    }
+
+    public void setGenericLogService(IGenericLogService<GpsLog> genericLogService) {
+        this.genericLogService = genericLogService;
     }
 }

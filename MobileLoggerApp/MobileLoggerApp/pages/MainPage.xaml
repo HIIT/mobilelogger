@@ -52,6 +52,16 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PivotItem>
+            
+            <!--Pivot item three debug send data-->
+            <controls:PivotItem Header="Debug Menu">
+                <Button Name="debugButton" 
+                        Width="256" Height="128" 
+                        Background="#FF493737"
+                        Click="debugButton_Click_1" >
+                    Send data
+                </Button>
+            </controls:PivotItem>
         </controls:Pivot>
     </Grid>
 

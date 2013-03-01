@@ -224,5 +224,11 @@ namespace MobileLoggerApp
             {
             }
         }
+
+        private void debugButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Debug send data");
+            StartAgent();
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace MobileLoggerApp.src
     {
         private MainPage context;
         private string searchQuery;
+        private int page;
 
         /// <summary>
         /// Constructor for the Google Search handles a Google search asynchronously
@@ -24,12 +25,13 @@ namespace MobileLoggerApp.src
         /// Synchronous public method that initiates the Google Search
         /// </summary>
         /// <param name="query">The search string that is queryed from Google</param>
-        public void Search(string query)
+        public void Search(string query, int page)
         {
+            this.page = page;
             searchQuery = query;
             System.Diagnostics.Debug.WriteLine("Search query is: " + query + " at ElGoog.Search");
             //string that contains required api key and information for google api
-            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c&cx=011471749289680283085:rxjokcqp-ae&q={0}", query);
+            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, page);
             //alternatiivinen hakukone ja api-key, käytetty testaukseen
             //string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyCurZXbVyfaksuWlOaQVys5YwbewaBrtCs&cx=014771188109725738891:bcuskpsruhe&q={0}", query);
 
@@ -73,7 +75,14 @@ namespace MobileLoggerApp.src
 
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    context.Update(JSON);
+                    if (page == 1)
+                    {
+                        context.Update(JSON, true);
+                    }
+                    else 
+                    {
+                        context.Update(JSON, false);
+                    }
                 });
             }
             catch (Exception exception)
@@ -82,7 +91,10 @@ namespace MobileLoggerApp.src
                 data = null;
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    context.OpenBrowser(searchQuery);
+                    if (page > 1)
+                    {
+                        context.OpenBrowser(searchQuery);
+                    }
                 });
             }
         }

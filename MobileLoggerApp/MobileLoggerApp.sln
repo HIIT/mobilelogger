@@ -9,9 +9,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileLoggerTest", "MobileLoggerTest\MobileLoggerTest.csproj", "{07A5C268-8FEB-45F8-8FA0-DBD6650C0EBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{78231F04-2F85-4CE1-BC91-80B857FA6C97}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileLoggerScheduledAgent", "BackgroundUploadTaskAgent\MobileLoggerScheduledAgent.csproj", "{A52C8566-D8D1-4755-907B-7BA12A9E70DA}"
 EndProject

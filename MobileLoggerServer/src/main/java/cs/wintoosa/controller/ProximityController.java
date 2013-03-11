@@ -4,8 +4,10 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.ProximityLog;
 import cs.wintoosa.service.ILogService;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,9 +31,8 @@ public class ProximityController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public String getLogs() {
-        logService.getAll();
-        return "Under Contstruction!";
+    public List<Log> getLogs() {
+        return logService.getAll(ProximityLog.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)

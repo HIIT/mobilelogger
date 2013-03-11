@@ -32,8 +32,8 @@ public class CompassController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<CompLog> getLogs() {
-        return logService.getCompassLogs();
+    public List<Log> getLogs() {
+        return logService.getAll(CompLog.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)

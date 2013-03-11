@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.NetLog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -30,8 +31,8 @@ public class NetworkController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<NetLog> getLogs() {
-        return logService.getNetworkLogs();
+    public List<Log> getLogs() {
+        return logService.getAll(NetLog.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)

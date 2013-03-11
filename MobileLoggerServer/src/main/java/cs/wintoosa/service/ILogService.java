@@ -1,7 +1,10 @@
 package cs.wintoosa.service;
 
 import cs.wintoosa.domain.*;
+import java.awt.print.Pageable;
+import java.lang.reflect.Type;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  *
@@ -15,25 +18,12 @@ public interface ILogService {
      * @return true if successful, false if not
      */
     
-    public boolean saveLog(GpsLog log);
-    public boolean saveLog(AccLog log);
-    public boolean saveLog(BTLog log);
-    public boolean saveLog(CompLog log);
-    public boolean saveLog(LightLog log);
-    public boolean saveLog(NetLog log);
-    public boolean saveLog(OrientationLog log);
-    public boolean saveLog(ProximityLog log);
-    public boolean saveLog(SoundLog log);
-    public boolean saveLog(WifiLog log);
-    public boolean saveLog(TextLog log);
+    public boolean saveLog(Log log);
     
-    public List<GpsLog> getGpsLogs();
-    public List<CompLog> getCompassLogs();
-    public List<AccLog> getAccelLogs();
-    public List<OrientationLog> getGyroLogs();
-    public List<NetLog> getNetworkLogs();
-    public List<TextLog> getTextLogs();
-
     public List<Log> getAll();
+    
+    public List<Log> getAll(Class cls);
+    
+    
     
 }

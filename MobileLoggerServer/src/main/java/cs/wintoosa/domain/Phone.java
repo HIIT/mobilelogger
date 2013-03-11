@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
  * @author jonimake
  */
 @Entity
+@Deprecated
 public class Phone implements Serializable{
     
     private static final long serialVersionUID = 999l;

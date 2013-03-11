@@ -6,33 +6,30 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class AccelHandler : AbstractLogHandler
     {
-        Accelerometer accelerometerwatcher;
+        Accelerometer accelerometerWatcher;
         JObject joAccel;
 
         DateTime lastSaved;
 
         public override void SaveSensorLog()
         {
-            TimeSpan timeSpan = DateTime.UtcNow - lastSaved;
-
-            if (timeSpan.TotalMilliseconds > 10000)
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
             {
                 SaveLogToDB(joAccel, "/log/accel");
                 lastSaved = DateTime.UtcNow;
             }
         }
 
-        public void startAccelWatcher()
+        public void StartAccelWatcher()
         {
-            if (accelerometerwatcher == null)
+            if (accelerometerWatcher == null)
             {
                 // Instantiate the Accelerometer.
-                accelerometerwatcher = new Accelerometer();
+                accelerometerWatcher = new Accelerometer();
                 //accelerometerwatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                accelerometerwatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
+                accelerometerWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
             }
-
-            accelerometerwatcher.Start();
+            accelerometerWatcher.Start();
 
             if (joAccel == null)
             {
@@ -42,33 +39,21 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         void accelerometer_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
         {
-            if (joAccel["X"] == null)
-            {
-                joAccel.Add("X", (float)e.SensorReading.Acceleration.X);
-            }
-            else
-            {
-                joAccel["X"].Replace((float)e.SensorReading.Acceleration.X);
-            }
+            AddJOValue("accX", e.SensorReading.Acceleration.X);
+            AddJOValue("accY", e.SensorReading.Acceleration.Y);
+            AddJOValue("accZ", e.SensorReading.Acceleration.Z);
+        }
 
-            if (joAccel["Y"] == null)
+        private void AddJOValue(String key, double value)
+        {
+            if (joAccel[key] == null)
             {
-                joAccel.Add("Y", (float)e.SensorReading.Acceleration.Y);
+                joAccel.Add(key, (float)value);
             }
             else
             {
-                joAccel["Y"].Replace((float)e.SensorReading.Acceleration.Y);
+                joAccel[key].Replace((float)value);
             }
-
-            if (joAccel["Z"] == null)
-            {
-                joAccel.Add("Z", (float)e.SensorReading.Acceleration.Z);
-            }
-            else
-            {
-                joAccel["Z"].Replace((float)e.SensorReading.Acceleration.Z);
-            }
-            SaveSensorLog();
         }
     }
 }

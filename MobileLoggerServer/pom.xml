@@ -50,6 +50,13 @@
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.commons-codec</artifactId>
+            <version>1.3_5</version>
+        </dependency>
+            
+        
         
         <!-- jstl -->
         <dependency>
@@ -299,6 +306,14 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.5.2</version>
+                <configuration>
+                    <instrumentation>
+                        <ignores>
+                            <ignore>I*.class</ignore>
+                            <ignore>cs/wintoosa/repository/I*</ignore>
+                        </ignores>
+                    </instrumentation>
+                </configuration>
             </plugin>
         </plugins>
     </build>

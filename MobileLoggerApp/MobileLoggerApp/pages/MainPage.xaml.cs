@@ -1,22 +1,20 @@
 ﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Tasks;
 using MobileLoggerApp.pages;
 using MobileLoggerApp.src;
-using MobileLoggerApp.src.mobilelogger.model;
+using MobileLoggerApp.src.mobilelogger;
+using MobileLoggerScheduledAgent;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Phone.Scheduler;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
         // Constructor
@@ -27,7 +25,6 @@ namespace MobileLoggerApp
             StartAgent();
             using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
             {
-
                 if (!logDBContext.DatabaseExists())
                 {
                     // create database if it does not exist
@@ -40,32 +37,12 @@ namespace MobileLoggerApp
                         System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..." + ioe);
                     }
                 }
-
-                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3), ServerLocations.serverRoot);
-                /*
-                IList<LogEvent> list = logDBContext.GetLogEvents();
-                if (list != null)
-                {
-
-                    foreach (LogEvent e in list)
-                    {
-                        System.Diagnostics.Debug.WriteLine(e.ToString() + ":" + e.sensorEvent);
-                    }
-                }*/
             }
 
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
-
         }
-
-
-        //private void onKeyUp(KeyEventArgs e)
-        //{
-        //    if (e.Key.Equals(Key.Enter)) {
-        //    }
-        //}
 
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -76,17 +53,6 @@ namespace MobileLoggerApp
             }
         }
 
-        //private void sendPostToServer(object sender, RoutedEventArgs e)
-        //{
-        //    ElGoog search = new ElGoog(this);
-        //    search.Search("testi");
-        //    /*string testiUri = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerDev/log";
-        //    string testiViesti = "terve";
-        //    string testiMetodi = "POST";
-        //    Message msg = new Message(testiUri, testiViesti, testiMetodi, this);
-        //    msg.SendMessage();*/
-        //}
-
         /// <summary>
         /// Updates search results to screen
         /// </summary>
@@ -96,7 +62,7 @@ namespace MobileLoggerApp
             //SaveLogToDB(JSON, "/log/google"); DB maksimi merkkijono (4000 merkkiä) ylittyy(noin 10 000 merkillä)
             JArray searchResults = (JArray)JSON["items"];
             App.ViewModel.Items.Clear();
-            if(searchResults != null)
+            if (searchResults != null)
                 foreach (JToken t in searchResults)
                 {
                     //System.Diagnostics.Debug.WriteLine(t["title"]);
@@ -130,7 +96,7 @@ namespace MobileLoggerApp
         {
             StackPanel stackPanel = (StackPanel)sender;
             ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
-            
+
             //System.Diagnostics.Debug.WriteLine(item.LineThree);
             WebBrowserTask browser = new WebBrowserTask();
             JObject link = JObject.Parse(item.LineThree);
@@ -148,32 +114,33 @@ namespace MobileLoggerApp
         {
             if (e.Key.Equals(Key.Enter))
             {
-                ElGoog search = new ElGoog(this);
-                search.Search(SearchTextBox.Text);
-
                 this.Focus();
 
+                GoogleSearch();
+                GetWeatherData();
             }
+            SaveSensorLog();
         }
 
-        //private void showGPSCoords(object sender, RoutedEventArgs e)
-        //{
-        //    string coords = Application.Current.Resources["gpsHandler"].ToString();
-        //    navigateToPage(string.Format( PageLocations.responsePageUri + "?Val1={0}", coords));
-        //}
+        private void GoogleSearch()
+        {
+            ElGoog search = new ElGoog(this);
+            search.Search(SearchTextBox.Text);
+        }
 
-        //public void navigateToPage(string pageUri)
-        //{
-        //    this.NavigationService.Navigate(new Uri(pageUri, UriKind.Relative));
-        //}
+        private void GetWeatherData()
+        {
+            WeatherInformation weatherInfo = new WeatherInformation();
+            weatherInfo.GetForecast();
+        }
 
-        //protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        //{
-        //    while(this.NavigationService.CanGoBack)
-        //    {
-        //        this.NavigationService.RemoveBackEntry();
-        //    }
-        //}
+        private void SaveSensorLog()
+        {
+            foreach (AbstractLogHandler logHandler in App.logHandlers)
+            {
+                logHandler.SaveSensorLog();
+            }
+        }
 
         internal void OpenBrowser(string searchQuery)
         {
@@ -201,14 +168,14 @@ namespace MobileLoggerApp
                 StopAgentIfStarted();
 
                 PeriodicTask task = new PeriodicTask(TASK_NAME);
-//                PeriodicTask task = new PeriodicTask(TASK_NAME);
+                //                PeriodicTask task = new PeriodicTask(TASK_NAME);
                 task.ExpirationTime = DateTime.Now.AddDays(14);
-               // System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
+                // System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
                 //task.ExpirationTime = new DateTime(0,0,7);
                 //System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
                 task.Description = "This is the background upload agent for MobileLoggerApp";
                 // Place the call to Add in a try block in case the user has disabled agents.
-            
+
                 ScheduledActionService.Add(task);
             }
             catch (InvalidOperationException exception)
@@ -229,9 +196,8 @@ namespace MobileLoggerApp
                 // No user action required.
             }
 
-
 #if DEBUG
-           // System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
+            // System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
             // If we're debugging, attempt to start the task immediately 
             try
             {
@@ -256,10 +222,13 @@ namespace MobileLoggerApp
             }
             catch (InvalidOperationException)
             {
-
             }
         }
 
-        
+        private void debugButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Debug send data");
+            StartAgent();
+        }
     }
 }

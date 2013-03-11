@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import org.hibernate.mapping.ForeignKey;
 import org.jboss.logging.FormatWith;
@@ -23,7 +24,7 @@ import org.jboss.logging.FormatWith;
  */
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public class Log implements Serializable{
+public abstract class Log implements Serializable{
     protected static final long serialVersionUID = 1234l;
     
     @Id
@@ -33,11 +34,11 @@ public class Log implements Serializable{
     @NotNull
     protected String phoneId;
     
-    @ManyToOne
-    protected Phone phone;
-    
     @NotNull (message="timestamp must represent valid unixtime in seconds")
     protected Long timestamp;
+    
+    @Transient
+    private String checksum;
     
     /**
      * This is used for storing user search terms
@@ -82,11 +83,12 @@ public class Log implements Serializable{
         this.timestamp = timestamp;
     }
 
-    public Phone getPhone() {
-        return phone;
+    public String getChecksum() {
+        return checksum;
     }
 
-    public void setPhone(Phone phone) {
-        this.phone = phone;
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
     }
+
 }

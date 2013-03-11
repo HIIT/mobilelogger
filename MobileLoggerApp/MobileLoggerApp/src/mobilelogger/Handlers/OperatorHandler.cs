@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -7,38 +8,48 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     {
         JObject joOperator;
 
+        DateTime lastSaved;
+
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joOperator, "/log/operator");
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                SaveLogToDB(joOperator, "/log/operator");
+                lastSaved = DateTime.UtcNow;
+            }
         }
 
-        public void startOperator()
+        public void StartOperator()
         {
             if (joOperator == null)
             {
                 joOperator = new JObject();
             }
-            show_operator();
+            ShowOperator();
         }
 
-        private void show_operator()
+        private void ShowOperator()
         {
-            if (joOperator["operator"] == null)
+            if (DeviceNetworkInformation.CellularMobileOperator != null)
             {
-                if (DeviceNetworkInformation.CellularMobileOperator != null)
-                {
-                    joOperator.Add("operator", DeviceNetworkInformation.CellularMobileOperator.ToString());
-                }
-                else
-                {
-                    joOperator.Add("operator", "null");
-                }
+                AddJOValue("operator", DeviceNetworkInformation.CellularMobileOperator.ToString());
             }
             else
             {
-                joOperator["operator"]. Replace(DeviceNetworkInformation.CellularMobileOperator.ToString());
+                AddJOValue("operator", "null");
+            }
+        }
+
+        private void AddJOValue(String key, String value)
+        {
+            if (joOperator[key] == null)
+            {
+                joOperator.Add(key, value);
+            }
+            else
+            {
+                joOperator[key].Replace(value);
             }
         }
     }
 }
-    

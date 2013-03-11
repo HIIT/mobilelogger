@@ -19,40 +19,44 @@
         
         <ul>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/">All logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/">All logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/gps">GPS logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/gps">GPS logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/sound">Soundspace logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/operator">Mobile network logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/compass">Compass logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/compass">Compass logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/acceleration">Acceleration logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/accel">Acceleration logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/orientation">Gyroscope/Orientation logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/gyro">Gyroscope/Orientation logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/light">Environmental lighting intensity logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/clicked">Clicked Search Results</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/wifi">Wifi logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/micro">Soundspace logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/proximity">Display proximity sensor logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/light">Environmental lighting intensity logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/bluetooth">Bluetooth logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/wifi">Wifi logs</a>
             </li>
             <li>
-                <a href="${ContextPath}/MobileLoggerServerDev/log/network">Mobile network logs</a>
+                <a href="${ContextPath}/MobileLoggerServer/log/proximity">Display proximity sensor logs</a>
             </li>
+            <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/bluetooth">Bluetooth logs</a>
+            </li>
+            
             <p>Add a new dummy GPS log</p>
-            <form action="${ContextPath}/MobileLoggerServerDev/log/gps/put" method="put">
+            <form action="${ContextPath}/MobileLoggerServer/log/gps/put" method="put">
                 <input type="submit" value="Add Dummy" >
             </form>
         </ul>

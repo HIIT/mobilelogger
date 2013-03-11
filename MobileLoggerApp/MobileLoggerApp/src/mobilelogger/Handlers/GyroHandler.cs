@@ -1,5 +1,4 @@
 ﻿using Microsoft.Devices.Sensors;
-using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -7,32 +6,34 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class GyroHandler : AbstractLogHandler
     {
-        Gyroscope gyroscope;
+        Gyroscope gyroWatcher;
         JObject joGyro;
 
-        Vector3 currentRotationRate = Vector3.Zero;
-        Vector3 cumulativeRotation = Vector3.Zero;
-        DateTimeOffset lastUpdateTime = DateTimeOffset.MinValue;
-        bool isDataValid;
+        DateTime lastSaved;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joGyro, "/log/gyro");
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                SaveLogToDB(joGyro, "/log/gyro");
+                lastSaved = DateTime.UtcNow;
+            }
         }
-        public void startGyroWatcher()
+
+        public void StartGyroWatcher()
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
-                if (gyroscope == null)
+                if (gyroWatcher == null)
                 {
                     // Instantiate the Gyroscope.
-                    gyroscope = new Gyroscope();
+                    gyroWatcher = new Gyroscope();
                     // Specify the desired time between updates. The sensor accepts
                     // intervals in multiples of 20 ms.
                     //gyroscope.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                    gyroscope.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
+                    gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
                 }
-                gyroscope.Start();
+                gyroWatcher.Start();
             }
             if (joGyro == null)
             {
@@ -40,32 +41,26 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
         }
 
+        /// <summary>
+        /// Get the current rotation rate. This value is in radians per second.
+        /// </summary>
+        /// <returns>The MainViewModel object.</returns>
         void gyroscope_CurrentValueChanged(object sender, SensorReadingEventArgs<GyroscopeReading> e)
         {
-            // Get the current rotation rate. This value is in 
-            // radians per second.
-            if (joGyro["currentRotationRateX"] == null)
+            AddJOValue("currentRotationRateX", e.SensorReading.RotationRate.X);
+            AddJOValue("currentRotationRateY", e.SensorReading.RotationRate.Y);
+            AddJOValue("currentRotationRateZ", e.SensorReading.RotationRate.Z);
+        }
+
+        private void AddJOValue(String key, double value)
+        {
+            if (joGyro[key] == null)
             {
-                joGyro.Add("currentRotationRateX", (float)e.SensorReading.RotationRate.X);
+                joGyro.Add(key, (float)value);
             }
             else
             {
-                joGyro["currentRotationRateX"].Replace((float)e.SensorReading.RotationRate.X);
-            }
-            if (joGyro["currentRotationRateY"] == null)
-            {
-                joGyro.Add("currentRotationRateY", (float)e.SensorReading.RotationRate.Y);
-            }
-            else
-            {
-                joGyro["currentRotationRateY"].Replace((float)e.SensorReading.RotationRate.Y);
-            } if (joGyro["currentRotationRateZ"] == null)
-            {
-                joGyro.Add("currentRotationRateZ", (float)e.SensorReading.RotationRate.Z);
-            }
-            else
-            {
-                joGyro["currentRotationRateZ"].Replace((float)e.SensorReading.RotationRate.Z);
+                joGyro[key].Replace((float)value);
             }
         }
     }

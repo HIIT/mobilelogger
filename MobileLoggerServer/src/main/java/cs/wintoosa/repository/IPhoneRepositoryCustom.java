@@ -8,6 +8,7 @@ package cs.wintoosa.repository;
  *
  * @author jonimake
  */
+@Deprecated
 public interface IPhoneRepositoryCustom {
     
 }

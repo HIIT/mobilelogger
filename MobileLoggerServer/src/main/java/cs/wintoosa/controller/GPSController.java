@@ -6,8 +6,10 @@ package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
+import cs.wintoosa.service.IGenericLogService;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,25 +29,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/log/gps")
 public class GPSController {
     
+    private final static Logger logger = Logger.getLogger(GPSController.class.getName()); 
+    
+    @Autowired
+    private IGenericLogService genericLogService;
+    
     @Autowired
     ILogService logService;
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs() {
+    public List<GpsLog> getLogs() {
         System.out.println("printing logs");
-        return logService.getAll(); //Currently returns all logs, not only gps logs
+        return logService.getGpsLogs(); //Currently returns all logs, not only gps logs
         //return "Under Contsrtuction!";
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putGPSLog(@Valid @RequestBody GpsLog log, BindingResult result) {
-        System.out.println("put plain log");
+        logger.info("put plain log");
         if(result.hasErrors()) {
-            System.out.println("result had errors");
+            logger.info("result had errors");
             for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
+                logger.info(error.toString());
             return false;
         }
         return logService.saveLog(log);
@@ -53,10 +60,25 @@ public class GPSController {
     
     @RequestMapping(value="/put", method=RequestMethod.GET)
     public String putDummyLog(){
-        Log log = new Log(1234+"");
+        GpsLog log = new GpsLog();
+        log.setAlt(1f);
+        log.setLat(2f);
+        log.setLon(2f);
+        log.setPhoneId("13245687890");
         log.setTimestamp(System.currentTimeMillis());
         logService.saveLog(log);
         System.out.println("Added dumy log");
         return "redirect:/";
     }
+
+    public IGenericLogService getGenericLogService() {
+        return genericLogService;
+    }
+
+    public void setGenericLogService(IGenericLogService genericLogService) {
+        this.genericLogService = genericLogService;
+    }
+
+
+    
 }

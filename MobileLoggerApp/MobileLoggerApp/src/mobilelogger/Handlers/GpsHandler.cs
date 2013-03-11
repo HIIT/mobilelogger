@@ -6,25 +6,31 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class GpsHandler : AbstractLogHandler
     {
-        GeoCoordinateWatcher watcher;
-        JObject joCoordinates;
+        GeoCoordinateWatcher coordinateWatcher;
+        public static JObject joCoordinates;
+
+        DateTime lastSaved;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joCoordinates, "/log/gps");
+            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
+            {
+                SaveLogToDB(joCoordinates, "/log/gps");
+                lastSaved = DateTime.UtcNow;
+            }
         }
 
-        public void startCoordinateWatcher()
+        public void StartCoordinateWatcher()
         {
-            if (watcher == null)
+            if (coordinateWatcher == null)
             {
-                watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-                //watcher.MovementThreshold = 2;
+                coordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+                coordinateWatcher.MovementThreshold = 20;
 
-                watcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(watcher_StatusChanged);
-                watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
+                coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
+                coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);
             }
-            watcher.Start();
+            coordinateWatcher.Start();
 
             if (joCoordinates == null)
             {
@@ -32,12 +38,12 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
         }
 
-        void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
+        void coordinate_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
         {
             switch (e.Status)
             {
                 case GeoPositionStatus.Disabled:
-                    if (watcher.Permission == GeoPositionPermission.Denied)
+                    if (coordinateWatcher.Permission == GeoPositionPermission.Denied)
                     {
                     }
                     else
@@ -56,34 +62,22 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
         }
 
-        void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        void coordinate_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
+            AddJOValue("lat", e.Position.Location.Latitude);
+            AddJOValue("lon", e.Position.Location.Longitude);
+            AddJOValue("alt", e.Position.Location.Altitude);
+        }
 
-            if (joCoordinates["lat"] == null)
+        private void AddJOValue(String key, double value)
+        {
+            if (joCoordinates[key] == null)
             {
-                joCoordinates.Add("lat", (float)e.Position.Location.Latitude);
+                joCoordinates.Add(key, (float)value);
             }
             else
             {
-                joCoordinates["lat"].Replace((float)e.Position.Location.Latitude);
-            }
-
-            if (joCoordinates["lon"] == null)
-            {
-                joCoordinates.Add("lon", (float)e.Position.Location.Longitude);
-            }
-            else
-            {
-                joCoordinates["lon"].Replace((float)e.Position.Location.Longitude);
-            }
-
-            if (joCoordinates["alt"] == null)
-            {
-                joCoordinates.Add("alt", (float)e.Position.Location.Altitude);
-            }
-            else
-            {
-                joCoordinates["alt"].Replace((float)e.Position.Location.Altitude);
+                joCoordinates[key].Replace((float)value);
             }
         }
     }

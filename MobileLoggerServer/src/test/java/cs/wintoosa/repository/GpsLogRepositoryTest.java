@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class GpsLogRepositoryTest extends AbstractTest{
     
     @Autowired
-    IGpsLogRepository logRepository;
+    ILogRepository logRepository;
     
     /*@Test
     public void testSavePlainLog() throws Exception{

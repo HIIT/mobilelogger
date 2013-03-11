@@ -6,10 +6,7 @@ package cs.wintoosa.service;
 
 import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.GpsLog;
-import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.Phone;
-import cs.wintoosa.repository.IGpsLogRepository;
-import cs.wintoosa.repository.IPhoneRepository;
+import cs.wintoosa.repository.ILogRepository;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -24,8 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class LogServiceTest extends AbstractTest{
     
-    @Mock private IPhoneRepository phoneRepository;
-    @Mock private IGpsLogRepository logRepository;
+    @Mock private ILogRepository logRepository;
     @InjectMocks private LogService logService;
     
     @Test

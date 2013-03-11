@@ -7,6 +7,7 @@ package cs.wintoosa.controller;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.TextLog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -34,9 +35,9 @@ public class SearchClickedController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<TextLog> getLogs() {
+    public List<Log> getLogs() {
         System.out.println("printing logs");
-        return logService.getTextLogs(); //Currently returns all logs, not only gps logs
+        return logService.getAll(TextLog.class); //Currently returns all logs, not only gps logs
         //return "Under Contsrtuction!";
     }
     

@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.OrientationLog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -30,8 +31,8 @@ public class OrientationController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<OrientationLog> getLogs() {
-        return logService.getGyroLogs();
+    public List<Log> getLogs() {
+        return logService.getAll(OrientationLog.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)

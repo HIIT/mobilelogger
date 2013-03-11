@@ -5,7 +5,9 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.BTLog;
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.service.ILogService;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,9 +31,8 @@ public class BluetoothController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public String getLogs() {
-        logService.getAll();
-        return "Under Contstruction!";
+    public List<Log> getLogs() {
+        return logService.getAll(BTLog.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)

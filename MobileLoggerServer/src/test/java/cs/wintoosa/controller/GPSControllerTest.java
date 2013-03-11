@@ -55,7 +55,7 @@ public class GPSControllerTest extends AbstractTest{
                 .andExpect(status().is(302))
                 .andReturn();
         
-        this.mockMvc.perform(get("/log/gps"))
+        this.mockMvc.perform(get("/log/gps").contentType(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andReturn();

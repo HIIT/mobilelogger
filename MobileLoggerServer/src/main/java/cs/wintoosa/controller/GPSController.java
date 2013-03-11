@@ -6,7 +6,6 @@ package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
-import cs.wintoosa.service.IGenericLogService;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,17 +31,12 @@ public class GPSController {
     private final static Logger logger = Logger.getLogger(GPSController.class.getName()); 
     
     @Autowired
-    private IGenericLogService genericLogService;
-    
-    @Autowired
     ILogService logService;
-    
+
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<GpsLog> getLogs() {
-        System.out.println("printing logs");
-        return logService.getGpsLogs(); //Currently returns all logs, not only gps logs
-        //return "Under Contsrtuction!";
+    public List<Log> getLogs() {
+        return logService.getAll(GpsLog.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
@@ -70,15 +64,12 @@ public class GPSController {
         System.out.println("Added dumy log");
         return "redirect:/";
     }
-
-    public IGenericLogService getGenericLogService() {
-        return genericLogService;
-    }
-
-    public void setGenericLogService(IGenericLogService genericLogService) {
-        this.genericLogService = genericLogService;
-    }
-
-
     
+    public void setLogService(ILogService logService) {
+        this.logService = logService;
+    }
+
+    public ILogService getLogService() {
+        return logService;
+    }
 }

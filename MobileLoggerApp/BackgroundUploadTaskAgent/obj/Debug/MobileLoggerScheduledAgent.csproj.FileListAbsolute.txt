@@ -18,6 +18,7 @@ C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\Backg
 C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\Bin\Debug\MobileLoggerScheduledAgent.pdb
 C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Debug\MobileLoggerScheduledAgent.dll
 C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Debug\MobileLoggerScheduledAgent.pdb
+C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Debug\MobileLoggerScheduledAgent.csprojResolveAssemblyReference.cache
 C:\Users\vkukkola\VisualStudio\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\Bin\Debug\MobileLoggerScheduledAgent.dll.config
 C:\Users\vkukkola\VisualStudio\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\Bin\Debug\MobileLoggerScheduledAgent.dll
 C:\Users\vkukkola\VisualStudio\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\Bin\Debug\MobileLoggerScheduledAgent.pdb
@@ -35,4 +36,3 @@ C:\Users\vkukkola\VisualStudio\MobileLogger\MobileLoggerApp\BackgroundUploadTask
 C:\Users\vkukkola\VisualStudio\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\Bin\Debug\System.Threading.Tasks.xml
 C:\Users\vkukkola\VisualStudio\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Debug\MobileLoggerScheduledAgent.dll
 C:\Users\vkukkola\VisualStudio\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Debug\MobileLoggerScheduledAgent.pdb
-C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\BackgroundUploadTaskAgent\obj\Debug\MobileLoggerScheduledAgent.csprojResolveAssemblyReference.cache

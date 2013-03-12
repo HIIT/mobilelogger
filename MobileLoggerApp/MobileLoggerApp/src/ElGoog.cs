@@ -29,7 +29,7 @@ namespace MobileLoggerApp.src
         {
             this.page = page;
             searchQuery = query;
-            System.Diagnostics.Debug.WriteLine("Search query is: " + query + " at ElGoog.Search");
+            //System.Diagnostics.Debug.WriteLine("Search query is: " + query + " at ElGoog.Search");
             //string that contains required api key and information for google api
             string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, page);
             //alternatiivinen hakukone ja api-key, käytetty testaukseen
@@ -70,7 +70,7 @@ namespace MobileLoggerApp.src
                 var stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
-                System.Diagnostics.Debug.WriteLine(data.Length);
+                //Console.WriteLine(data);
                 JObject JSON = JObject.Parse(data);
 
                 Deployment.Current.Dispatcher.BeginInvoke(() =>

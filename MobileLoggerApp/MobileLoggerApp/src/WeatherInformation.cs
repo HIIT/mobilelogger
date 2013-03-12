@@ -58,6 +58,7 @@ namespace MobileLoggerApp.src
             catch (Exception exception)
             {
                 data = null;
+                System.Diagnostics.Debug.WriteLine("{0}, {1} exception at WeatherInformation.GetResponseCallback", exception.Message, exception.StackTrace);
             }
         }
     }

@@ -9,15 +9,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         Gyroscope gyroWatcher;
         JObject joGyro;
 
-        DateTime lastSaved;
-
         public override void SaveSensorLog()
         {
-            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
-            {
-                SaveLogToDB(joGyro, "/log/gyro");
-                lastSaved = DateTime.UtcNow;
-            }
+            SaveLogToDB(joGyro, "/log/gyro");
         }
 
         public void StartGyroWatcher()
@@ -30,7 +24,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                     gyroWatcher = new Gyroscope();
                     // Specify the desired time between updates. The sensor accepts
                     // intervals in multiples of 20 ms.
-                    //gyroscope.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                    gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                     gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
                 }
                 gyroWatcher.Start();

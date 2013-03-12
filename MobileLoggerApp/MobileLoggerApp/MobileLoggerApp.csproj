@@ -104,6 +104,8 @@
     <Compile Include="src\ElGoog.cs" />
     <Compile Include="src\mobilelogger\AbstractLogHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\AccelHandler.cs" />
+    <Compile Include="src\mobilelogger\Handlers\KeyboardHandler.cs" />
+    <Compile Include="src\mobilelogger\Handlers\KeyPressHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\OperatorHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\MicrophoneHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\GyroHandler.cs" />

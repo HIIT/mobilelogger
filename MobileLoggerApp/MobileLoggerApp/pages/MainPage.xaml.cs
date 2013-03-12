@@ -55,22 +55,33 @@ namespace MobileLoggerApp
         }
 
         /// <summary>
-        /// Updates search results to screen
+        /// Updates search results to screen and adds the result json to DB, result items are saved as separate entries because of the 4000 char limit of the db
+        /// a "time" field is added to all parts that contains the UTC time when this method was started as a unix-timestamp
         /// </summary>
         /// <param name="JSON">JSON data in JObject form, must be in format from Google Custom Search</param>
         public void Update(JObject JSON, Boolean reset)
         {
-            //SaveLogToDB(JSON, "/log/google"); DB maksimi merkkijono (4000 merkkiä) ylittyy(noin 10 000 merkillä)
+            DateTime timestamp = DateTime.UtcNow;
             JArray searchResults = (JArray)JSON["items"];
+            JSON.Remove("items");
+            JSON.Add("time", DeviceTools.GetUnixTime(timestamp));
+            JSON.Add("index", 0);
+            SaveLogToDB(JSON, "/log/google");
             if (reset)
             {
                 App.ViewModel.Items.Clear();
             }
             if (searchResults != null)
             {
-                foreach (JToken t in searchResults)
+                int index = 0;
+                int offset = (int)JSON["queries"]["request"].Value<int>("startIndex");
+                foreach (JToken t in searchResults) 
                 {
-                    //System.Diagnostics.Debug.WriteLine(t["title"]);
+                    JObject obj = (JObject)t;
+                    obj.Add("index", index+offset);
+                    index++;
+                    obj.Add("time", DeviceTools.GetUnixTime(timestamp));
+                    SaveLogToDB(obj, "/log/google");
                     App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = t.ToString() });
                 }
                 //nextPageButton.Visibility = Visibility.Visible;

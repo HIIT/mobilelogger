@@ -57,7 +57,7 @@ public class SessionLog{
     }
     
     
-    @OneToMany(mappedBy="sessionLog")
+    @OneToMany
     private List<Log> logs;
 
     public Long getSessionStart() {

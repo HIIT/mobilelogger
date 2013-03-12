@@ -74,7 +74,15 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public List<SessionLog> getAllSessions() {
-        return sessionRepositoryImpl.findAll();
+        List<SessionLog> sessionLogs = sessionRepositoryImpl.findAll();
+        for(SessionLog sessionLog : sessionLogs) {
+            //black magic with spring data
+            sessionLog.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(
+                                                sessionLog.getPhoneId(), 
+                                                sessionLog.getSessionStart(), 
+                                                sessionLog.getSessionEnd()));
+        }
+        return sessionLogs;
     }
     
     @Override

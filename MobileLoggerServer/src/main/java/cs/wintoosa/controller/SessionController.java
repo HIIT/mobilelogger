@@ -45,8 +45,8 @@ public class SessionController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs() {
-        return logService.getAll(SessionLog.class);
+    public List<SessionLog> getLogs() {
+        return logService.getAllSessions();
     }
     
     @RequestMapping(value = "{sessionId}", method = RequestMethod.GET)

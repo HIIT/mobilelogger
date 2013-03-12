@@ -17,6 +17,7 @@ namespace MobileLoggerApp
     {
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
+        private string searchTerm;
         // Constructor
         public MainPage()
         {
@@ -57,17 +58,23 @@ namespace MobileLoggerApp
         /// Updates search results to screen
         /// </summary>
         /// <param name="JSON">JSON data in JObject form, must be in format from Google Custom Search</param>
-        public void Update(JObject JSON)
+        public void Update(JObject JSON, Boolean reset)
         {
             //SaveLogToDB(JSON, "/log/google"); DB maksimi merkkijono (4000 merkkiä) ylittyy(noin 10 000 merkillä)
             JArray searchResults = (JArray)JSON["items"];
-            App.ViewModel.Items.Clear();
+            if (reset)
+            {
+                App.ViewModel.Items.Clear();
+            }
             if (searchResults != null)
+            {
                 foreach (JToken t in searchResults)
                 {
                     //System.Diagnostics.Debug.WriteLine(t["title"]);
                     App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = t.ToString() });
                 }
+                //nextPageButton.Visibility = Visibility.Visible;
+            }
         }
 
         /// <summary>
@@ -106,6 +113,23 @@ namespace MobileLoggerApp
         }
 
         /// <summary>
+        /// Loads the next page of Google search results, up to 10 pages can be viewed
+        /// </summary>
+        /// <param name="sender">The button that initiated this event</param>
+        /// <param name="e">Event arguments of the tap event</param>
+        private void LoadNextPage(object sender, RoutedEventArgs e)
+        {
+            if (App.ViewModel.Items.Count >= 100 || App.ViewModel.Items.Count <= 0)
+            {
+                //nextPageButton.Visibility = Visibility.Collapsed;
+            }
+            else 
+            {
+                GoogleSearch(App.ViewModel.Items.Count+1);
+            }
+        }
+
+        /// <summary>
         /// Event handler for search box, sends the search query to be queried from Google Custom Search
         /// </summary>
         /// <param name="sender">The object that initiated this event</param>
@@ -115,17 +139,23 @@ namespace MobileLoggerApp
             if (e.Key.Equals(Key.Enter))
             {
                 this.Focus();
-
-                GoogleSearch();
+                searchTerm = SearchTextBox.Text;
+                GoogleSearch(1);
                 GetWeatherData();
             }
             SaveSensorLog();
         }
 
-        private void GoogleSearch()
+        /// <summary>
+        /// Creates a Google Custom API search with the textbox contents as the search term
+        /// </summary>
+        private void GoogleSearch(int page)
         {
-            ElGoog search = new ElGoog(this);
-            search.Search(SearchTextBox.Text);
+            if (searchTerm != "")
+            {
+                ElGoog search = new ElGoog(this);
+                search.Search(searchTerm, page);
+            }
         }
 
         private void GetWeatherData()
@@ -142,6 +172,10 @@ namespace MobileLoggerApp
             }
         }
 
+        /// <summary>
+        /// Opens web browser with bing search for the textbox contents as the search term, used as a backup when the Google search fails
+        /// </summary>
+        /// <param name="searchQuery">the search terms in the textbox</param>
         internal void OpenBrowser(string searchQuery)
         {
             WebBrowserTask browser = new WebBrowserTask();
@@ -229,6 +263,11 @@ namespace MobileLoggerApp
         {
             System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();
+        }
+
+        private void nextPageButton_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

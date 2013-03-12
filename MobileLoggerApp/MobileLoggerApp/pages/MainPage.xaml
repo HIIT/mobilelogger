@@ -13,6 +13,35 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="ListBoxStyle1" TargetType="ListBox" x:Name="listStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template" x:Name="setter">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <ScrollViewer x:Name="ScrollViewer" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" Padding="{TemplateBinding Padding}">
+                            <StackPanel x:Name="stackPanel">
+                                <ItemsPresenter/>
+                                <Button Visibility="Visible"
+                                x:Name="nextPageButton"
+                                Click="LoadNextPage"
+                                Background="Gray"
+                                Width="auto" Height="72">
+                                    Next page
+                                </Button>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -25,7 +54,7 @@
                     <StackPanel Margin="0,0,0,557">
                         <TextBox x:Name="SearchTextBox" Text="" KeyUp="SearchTextBox_KeyUp_1"></TextBox>
                     </StackPanel>
-                    <ListBox x:Name="FirstListBox" ItemsSource="{Binding Items}" Margin="0,78,0,0">
+                    <ListBox x:Name="FirstListBox" ItemsSource="{Binding Items}" Margin="0,78,0,0" Style="{StaticResource ListBoxStyle1}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432" Height="auto" Tap="itemTappedEvent">
@@ -35,6 +64,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                        
                 </Grid>
             </controls:PivotItem>
 
@@ -52,7 +82,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PivotItem>
-            
+
             <!--Pivot item three debug send data-->
             <controls:PivotItem Header="Debug Menu">
                 <Button Name="debugButton" 
@@ -63,6 +93,7 @@
                 </Button>
             </controls:PivotItem>
         </controls:Pivot>
+
     </Grid>
 
 

@@ -40,6 +40,17 @@ public abstract class Log implements Serializable{
     @Transient
     private String checksum;
     
+    @ManyToOne
+    SessionLog sessionLog;
+
+    public SessionLog getSessionLog() {
+        return sessionLog;
+    }
+
+    public void setSessionLog(SessionLog sessionLog) {
+        this.sessionLog = sessionLog;
+    }
+    
     /**
      * This is used for storing user search terms
      */

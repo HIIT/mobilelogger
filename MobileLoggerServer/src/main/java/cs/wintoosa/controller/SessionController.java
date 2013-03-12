@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,11 +34,11 @@ public class SessionController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putAccelerationLog(@Valid @RequestBody SessionLog log, BindingResult result) {
+    public SessionLog putSessionLog(@Valid @RequestBody SessionLog log, BindingResult result) {
         if(result.hasErrors()) {
             for(ObjectError error : result.getAllErrors())
                 System.out.println(error.toString());
-            return false;
+            return null;
         }
         return logService.saveLog(log);
     }
@@ -46,6 +47,12 @@ public class SessionController {
     @ResponseBody
     public List<Log> getLogs() {
         return logService.getAll(SessionLog.class);
+    }
+    
+    @RequestMapping(value = "{sessionId}", method = RequestMethod.GET)
+    @ResponseBody
+    public SessionLog getLogsBySession(@PathVariable("sessionId") long sessionId) {
+        return logService.getSessionById(sessionId);
     }
     
 }

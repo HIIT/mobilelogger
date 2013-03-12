@@ -11,25 +11,38 @@ namespace MobileLoggerApp.src.mobilelogger
         private DateTime start;
         private DateTime end;
 
+        private static bool hasEnded = false;
+        private static bool hasStarted = false;
+
+        /// <summary>
+        /// Use End() instead
+        /// </summary>
         public override void SaveSensorLog()
         {
-            JObject obj = new JObject();
-            obj.Add("sessionStart", DeviceTools.GetUnixTime(start));
-            obj.Add("sessionEnd", DeviceTools.GetUnixTime(end));
-            SaveLogToDB(obj, "/log/session");          
         }
 
         public void Start()
         {
             System.Diagnostics.Debug.WriteLine("session start");
             this.start = DateTime.UtcNow;
+            hasStarted = true;
         }
 
         public void End()
         {
             System.Diagnostics.Debug.WriteLine("session end");
             this.end = DateTime.UtcNow;
-            SaveSensorLog();
+            hasEnded = true;
+
+            JObject obj = new JObject();
+            obj.Add("sessionStart", DeviceTools.GetUnixTime(start));
+            obj.Add("sessionEnd", DeviceTools.GetUnixTime(end));
+
+            if (hasStarted && hasEnded)
+            {
+                SaveLogToDB(obj, "/log/session");
+                hasStarted = hasEnded = false;
+            }
         }
     }
 }

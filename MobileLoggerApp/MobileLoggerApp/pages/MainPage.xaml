@@ -23,7 +23,7 @@
                 <!--Double line list with text wrapping-->
                 <Grid>
                     <StackPanel Margin="0,0,0,557">
-                        <TextBox x:Name="SearchTextBox" Text="" KeyUp="SearchTextBox_KeyUp_1"></TextBox>
+                        <TextBox x:Name="SearchTextBox" Text="" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" KeyUp="SearchTextBox_KeyUp"></TextBox>
                     </StackPanel>
                     <ListBox x:Name="FirstListBox" ItemsSource="{Binding Items}" Margin="0,78,0,0">
                         <ListBox.ItemTemplate>
@@ -58,7 +58,7 @@
                 <Button Name="debugButton" 
                         Width="256" Height="128" 
                         Background="#FF493737"
-                        Click="debugButton_Click_1" >
+                        Click="debugButton_Click" >
                     Send data
                 </Button>
             </controls:PivotItem>

@@ -16,6 +16,8 @@ namespace MobileLoggerApp
         CompassHandler compass;
         GpsHandler gps;
         GyroHandler gyroscope;
+        KeyboardHandler keyboard;
+        KeyPressHandler keyPress;
         NetworkHandler network;
         OperatorHandler mobileOperator;
 
@@ -105,6 +107,16 @@ namespace MobileLoggerApp
             Application.Current.Resources.Add("gyroHandler", gyroscope);
             gyroscope.StartGyroWatcher();
             logHandlers.Add(gyroscope);
+
+            keyboard = new KeyboardHandler();
+            //Application.Current.Resources.Add("keyboardHandler", keyboard);
+            keyboard.StartKeyBoardWatcher();
+            //logHandlers.Add(keyboard);
+
+            keyPress = new KeyPressHandler();
+            //Application.Current.Resources.Add("keyPressHandler", keyPress);
+            keyPress.StartKeyPressWatcher();
+            //logHandlers.Add(keyPress);
 
             network = new NetworkHandler();
             Application.Current.Resources.Add("networkHandler", network);

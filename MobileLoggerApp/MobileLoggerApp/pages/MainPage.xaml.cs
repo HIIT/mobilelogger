@@ -13,13 +13,21 @@ using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
+
     public partial class MainPage : PhoneApplicationPage
     {
+        public delegate void KeyPressEventHandler(object sender, KeyEventArgs e, Boolean press);
+        public delegate void KeyboardVisible(Boolean focus);
+
+        public static event KeyPressEventHandler keyPress;
+        public static event KeyboardVisible keyboardFocus;
+
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
         // Constructor
         public MainPage()
         {
+
             InitializeComponent();
             //start background agent
             StartAgent();
@@ -105,18 +113,38 @@ namespace MobileLoggerApp
             browser.Show();
         }
 
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            keyboardFocus(true);
+        }
+
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            keyboardFocus(true);
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyPress(sender, e, false);
+        }
+
         /// <summary>
         /// Event handler for search box, sends the search query to be queried from Google Custom Search
         /// </summary>
         /// <param name="sender">The object that initiated this event</param>
         /// <param name="e">Arguments for the key event that initiated this event</param>
-        private void SearchTextBox_KeyUp_1(object sender, KeyEventArgs e)
+        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
+            keyPress(sender, e, true);
+
             if (e.Key.Equals(Key.Enter))
             {
                 this.Focus();
 
-                GoogleSearch();
+                if (!SearchTextBox.Text.Equals(""))
+                {
+                    GoogleSearch();
+                }
                 GetWeatherData();
             }
             SaveSensorLog();
@@ -225,7 +253,7 @@ namespace MobileLoggerApp
             }
         }
 
-        private void debugButton_Click_1(object sender, RoutedEventArgs e)
+        private void debugButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();

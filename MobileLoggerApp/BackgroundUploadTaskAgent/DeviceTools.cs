@@ -24,7 +24,7 @@ namespace MobileLoggerApp.src
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             TimeSpan diff = time - origin;
-            return (long) Math.Floor(diff.TotalSeconds);
+            return (long) Math.Floor(diff.TotalMilliseconds);
         }
 
         /// <summary>

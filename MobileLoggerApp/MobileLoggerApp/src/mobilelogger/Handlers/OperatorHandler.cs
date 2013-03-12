@@ -8,19 +8,15 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     {
         JObject joOperator;
 
-        DateTime lastSaved;
-
         public override void SaveSensorLog()
         {
-            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
-            {
-                SaveLogToDB(joOperator, "/log/operator");
-                lastSaved = DateTime.UtcNow;
-            }
+            SaveLogToDB(joOperator, "/log/operator");
         }
 
         public void StartOperator()
         {
+            DeviceNetworkInformation.NetworkAvailabilityChanged += new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
+
             if (joOperator == null)
             {
                 joOperator = new JObject();
@@ -30,13 +26,30 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         private void ShowOperator()
         {
-            if (DeviceNetworkInformation.CellularMobileOperator != null)
+            string operatorName = DeviceNetworkInformation.CellularMobileOperator.ToString();
+
+            AddJOValue("operator", operatorName);
+        }
+
+        void NetWorkAvailibilityChanged(object sender, NetworkNotificationEventArgs e)
+        {
+            switch (e.NotificationType)
             {
-                AddJOValue("operator", DeviceNetworkInformation.CellularMobileOperator.ToString());
-            }
-            else
-            {
-                AddJOValue("operator", "null");
+                case NetworkNotificationType.InterfaceConnected:
+                    if (DeviceNetworkInformation.IsCellularDataEnabled)
+                    {
+                        AddJOValue("operator", DeviceNetworkInformation.CellularMobileOperator.ToString());
+                    }
+                    if (DeviceNetworkInformation.IsWiFiEnabled)
+                    {
+                    }
+                    break;
+                case NetworkNotificationType.InterfaceDisconnected:
+                    break;
+                case NetworkNotificationType.CharacteristicUpdate:
+                    break;
+                default:
+                    break;
             }
         }
 

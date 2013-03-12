@@ -9,15 +9,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         GeoCoordinateWatcher coordinateWatcher;
         public static JObject joCoordinates;
 
-        DateTime lastSaved;
-
         public override void SaveSensorLog()
         {
-            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
-            {
-                SaveLogToDB(joCoordinates, "/log/gps");
-                lastSaved = DateTime.UtcNow;
-            }
+            SaveLogToDB(joCoordinates, "/log/gps");
         }
 
         public void StartCoordinateWatcher()

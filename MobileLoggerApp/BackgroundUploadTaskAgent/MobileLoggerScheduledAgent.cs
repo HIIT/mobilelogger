@@ -142,8 +142,8 @@ namespace MobileLoggerScheduledAgent
                 Stream streamResponse = finalresponse.GetResponseStream();
                 StreamReader streamRead = new StreamReader(streamResponse);
                 string responseString = streamRead.ReadToEnd();
-                if (responseString.Equals("true"))
-                    deleteFromDB(logevent);
+                //if (responseString.Equals("true"))
+                deleteFromDB(logevent);
                 System.Diagnostics.Debug.WriteLine("response " + responseString);
                 // Close the stream object
                
@@ -168,7 +168,7 @@ namespace MobileLoggerScheduledAgent
                     System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": DB does not exist");
                     return;
                 }
-                logDb.removeEvent(logevent);
+                logDb.DeleteLogEvent(logevent.EventId);
             }
         }       
         

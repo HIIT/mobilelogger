@@ -39,7 +39,7 @@ public abstract class Log implements Serializable{
     
     @Transient
     private String checksum;
-    
+       
     /**
      * This is used for storing user search terms
      */

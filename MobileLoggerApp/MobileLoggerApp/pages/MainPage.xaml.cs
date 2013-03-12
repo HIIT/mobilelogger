@@ -13,14 +13,22 @@ using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
+
     public partial class MainPage : PhoneApplicationPage
     {
+        public delegate void KeyPressEventHandler(object sender, KeyEventArgs e, Boolean press);
+        public delegate void KeyboardVisible(Boolean focus);
+
+        public static event KeyPressEventHandler keyPress;
+        public static event KeyboardVisible keyboardFocus;
+
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
         private string searchTerm;
         // Constructor
         public MainPage()
         {
+
             InitializeComponent();
             //start background agent
             StartAgent();
@@ -42,7 +50,7 @@ namespace MobileLoggerApp
 
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
-            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+            this.Loaded += new RoutedEventHandler(MainPage_Loaded);     
         }
 
         // Load data for the ViewModel Items
@@ -123,6 +131,21 @@ namespace MobileLoggerApp
             browser.Show();
         }
 
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            keyboardFocus(true);
+        }
+
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            keyboardFocus(true);
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyPress(sender, e, false);
+        }
+
         /// <summary>
         /// Loads the next page of Google search results, up to 10 pages can be viewed
         /// </summary>
@@ -145,13 +168,19 @@ namespace MobileLoggerApp
         /// </summary>
         /// <param name="sender">The object that initiated this event</param>
         /// <param name="e">Arguments for the key event that initiated this event</param>
-        private void SearchTextBox_KeyUp_1(object sender, KeyEventArgs e)
+        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
+            keyPress(sender, e, true);
+
             if (e.Key.Equals(Key.Enter))
             {
                 this.Focus();
                 searchTerm = SearchTextBox.Text;
-                GoogleSearch(1);
+
+                if (!searchTerm.Equals(""))
+                {
+                    GoogleSearch(1);
+                }
                 GetWeatherData();
             }
             SaveSensorLog();
@@ -270,7 +299,7 @@ namespace MobileLoggerApp
             }
         }
 
-        private void debugButton_Click_1(object sender, RoutedEventArgs e)
+        private void debugButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();

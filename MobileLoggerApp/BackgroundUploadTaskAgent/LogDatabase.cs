@@ -101,6 +101,7 @@ namespace MobileLoggerScheduledAgent
         public LogEventDataContext(string connectionString)
             : base(connectionString)
         {
+            
         }
 
         public Table<LogEvent> LogEvents
@@ -110,6 +111,24 @@ namespace MobileLoggerScheduledAgent
                 return this.GetTable<LogEvent>();
             }
         }
+
+        public void DeleteLogEvent(int id)
+    	{
+            //LogEventDataContext context;
+            using (LogEventDataContext context = new LogEventDataContext(ConnectionString))
+        	{
+            IQueryable<LogEvent> query =
+                        from le in context.LogEvents
+                        where le.EventId == id
+                        select le;
+             
+                LogEvent leToDelete = query.FirstOrDefault();
+               
+                //context.LogEvents.Attach(leToDelete);
+                context.LogEvents.DeleteOnSubmit(leToDelete);
+                context.SubmitChanges();
+        	}
+    	}
 
         public void addEvent(String sensorEvent, String url)
         {
@@ -133,14 +152,6 @@ namespace MobileLoggerScheduledAgent
             }
         }
 
-        public void removeEvent(LogEvent e)
-        {
-            using (LogEventDataContext context = new LogEventDataContext(ConnectionString))
-            {
-                context.LogEvents.DeleteOnSubmit(e);
-            }
-        }
-
         public IList<LogEvent> GetLogEvents()
         {
             IList<LogEvent> logEventList = null;
@@ -158,6 +169,8 @@ namespace MobileLoggerScheduledAgent
 
             return logEventList;
         }
+
+        public LogEvent entity { get; set; }
     }
 
 }

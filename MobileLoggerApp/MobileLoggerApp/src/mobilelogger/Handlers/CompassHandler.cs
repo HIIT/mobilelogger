@@ -9,15 +9,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         Compass compassWatcher;
         JObject joCompass;
 
-        DateTime lastSaved;
-
         public override void SaveSensorLog()
         {
-            if (DeviceTools.SensorLastSavedTimeSpan(lastSaved))
-            {
-                SaveLogToDB(joCompass, "/log/compass");
-                lastSaved = DateTime.UtcNow;
-            }
+            SaveLogToDB(joCompass, "/log/compass");
         }
         public void StartCompassWatcher()
         {
@@ -29,7 +23,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 {
                     // Instantiate the Compass.
                     compassWatcher = new Compass();
-                    //compass.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                    compassWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                     compassWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
                     //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
                 }

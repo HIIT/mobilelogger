@@ -15,6 +15,16 @@ namespace MobileLoggerApp
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
 
+        AccelHandler accelerometer;
+        CompassHandler compass;
+        GpsHandler gps;
+        GyroHandler gyroscope;
+        KeyboardHandler keyboard;
+        KeyPressHandler keyPress;
+        NetworkHandler network;
+        OperatorHandler mobileOperator;
+
+
         private static pages.MainViewModel viewModel = null;
 
         /// <summary>
@@ -100,7 +110,21 @@ namespace MobileLoggerApp
             gyroscope.StartGyroWatcher();
             logHandlers.Add(gyroscope);
 
+
             NetworkHandler network = new NetworkHandler();
+
+            keyboard = new KeyboardHandler();
+            //Application.Current.Resources.Add("keyboardHandler", keyboard);
+            keyboard.StartKeyBoardWatcher();
+            //logHandlers.Add(keyboard);
+
+            keyPress = new KeyPressHandler();
+            //Application.Current.Resources.Add("keyPressHandler", keyPress);
+            keyPress.StartKeyPressWatcher();
+            //logHandlers.Add(keyPress);
+
+            network = new NetworkHandler();
+
             Application.Current.Resources.Add("networkHandler", network);
             network.StartNetworkInformation();
             logHandlers.Add(network);

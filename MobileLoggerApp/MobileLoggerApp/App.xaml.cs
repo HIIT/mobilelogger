@@ -12,12 +12,8 @@ namespace MobileLoggerApp
     {
         public static List<AbstractLogHandler> logHandlers;
 
-        AccelHandler accelerometer;
-        CompassHandler compass;
-        GpsHandler gps;
-        GyroHandler gyroscope;
-        NetworkHandler network;
-        OperatorHandler mobileOperator;
+        //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
+        public static SessionHandler sessionHandler;
 
         private static pages.MainViewModel viewModel = null;
 
@@ -80,38 +76,36 @@ namespace MobileLoggerApp
         }
 
         private void InitHandlers()
-        {
-            if (logHandlers == null)
-            {
-                logHandlers = new List<AbstractLogHandler>();
-            }
+        {           
+            //always create new to ensure no duplicates
+            logHandlers = new List<AbstractLogHandler>();
 
-            accelerometer = new AccelHandler();
+            AccelHandler accelerometer = new AccelHandler();
             Application.Current.Resources.Add("accelHandler", accelerometer);
             accelerometer.StartAccelWatcher();
             logHandlers.Add(accelerometer);
 
-            compass = new CompassHandler();
+            CompassHandler compass = new CompassHandler();
             Application.Current.Resources.Add("compassHandler", compass);
             compass.StartCompassWatcher();
             logHandlers.Add(compass);
 
-            gps = new GpsHandler();
+            GpsHandler gps = new GpsHandler();
             Application.Current.Resources.Add("gpsHandler", gps);
             gps.StartCoordinateWatcher();
             logHandlers.Add(gps);
 
-            gyroscope = new GyroHandler();
+            GyroHandler gyroscope = new GyroHandler();
             Application.Current.Resources.Add("gyroHandler", gyroscope);
             gyroscope.StartGyroWatcher();
             logHandlers.Add(gyroscope);
 
-            network = new NetworkHandler();
+            NetworkHandler network = new NetworkHandler();
             Application.Current.Resources.Add("networkHandler", network);
             network.StartNetworkInformation();
             logHandlers.Add(network);
 
-            mobileOperator = new OperatorHandler();
+            OperatorHandler mobileOperator = new OperatorHandler();
             Application.Current.Resources.Add("operatorHandler", mobileOperator);
             mobileOperator.StartOperator();
             logHandlers.Add(mobileOperator);
@@ -121,6 +115,8 @@ namespace MobileLoggerApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            sessionHandler = new SessionHandler();
+            sessionHandler.Start();
             InitHandlers();
         }
 
@@ -132,6 +128,7 @@ namespace MobileLoggerApp
             if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
+                sessionHandler.Start();
             }
         }
 
@@ -139,12 +136,14 @@ namespace MobileLoggerApp
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            sessionHandler.End();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            sessionHandler.End();
         }
 
         // Code to execute if a navigation fails

@@ -110,6 +110,7 @@
     <Compile Include="src\mobilelogger\Handlers\CompassHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\NetworkHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\GpsHandler.cs" />
+    <Compile Include="src\mobilelogger\Handlers\SessionHandler.cs" />
     <Compile Include="src\PageLocations.cs" />
     <Compile Include="pages\ViewModels\ItemViewModel.cs" />
     <Compile Include="pages\ViewModels\MainViewModel.cs" />

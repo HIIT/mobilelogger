@@ -5,6 +5,7 @@ import cs.wintoosa.repository.*;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.eclipse.persistence.exceptions.QueryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,17 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) {
-        return em.createNativeQuery("SELECT * FROM " + cls.getSimpleName().toUpperCase(), cls).getResultList();
+        try {
+            return em.createNativeQuery("SELECT * FROM " + cls.getSimpleName().toUpperCase(), cls).getResultList();
+        } catch (QueryException e) {
+            System.out.println("Failed query!");
+            System.out.println(e.getQuery().getSQLString());
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return null;
     }
 
     @Override

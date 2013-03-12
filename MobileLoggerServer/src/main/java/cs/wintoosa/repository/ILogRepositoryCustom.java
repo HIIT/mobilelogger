@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.Query;
  * @author jonimake
  */
 public interface ILogRepositoryCustom {
-    
 }

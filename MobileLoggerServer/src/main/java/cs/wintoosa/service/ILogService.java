@@ -23,7 +23,13 @@ public interface ILogService {
     public List<Log> getAll();
     
     public List<Log> getAll(Class cls);
+
+    public SessionLog getSessionById(long sessionId);
+
+    public SessionLog saveLog(SessionLog log);
     
+    public List<SessionLog> getSessionByPhoneId(String phoneId);
     
-    
+    public List<SessionLog> getAllSessions();
+
 }

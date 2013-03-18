@@ -16,7 +16,7 @@
         <ol>
             <c:forEach var="session" items="${sessions}">
                 <li>
-                    <a href="${ContextPath}/MobileLoggerServer/log/session/${session.id}">${session.id} - ${session.sessionStart} : ${session.sessionEnd}</a>
+                    <a href="${ContextPath}/log/session/${session.id}">${session.id} - ${session.sessionStart} : ${session.sessionEnd}</a>
                 </li>
             </c:forEach>
                 

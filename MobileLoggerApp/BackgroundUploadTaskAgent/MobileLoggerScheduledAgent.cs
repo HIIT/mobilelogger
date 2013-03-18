@@ -11,7 +11,7 @@ namespace MobileLoggerScheduledAgent
     public class ScheduledAgent : ScheduledTaskAgent
     {
         private static volatile bool _classInitialized;
-        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServerJoni";
+        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
 
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler

@@ -35,7 +35,6 @@ public class PhoneController {
     }
     
     @RequestMapping(value="/{phoneId}", method= RequestMethod.GET)
-    @ResponseBody
     public String getByPhoneId(@PathVariable String phoneId, Model model) {
         model.addAttribute("sessions", logService.getSessionByPhoneId(phoneId));
         return "session";

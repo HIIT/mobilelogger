@@ -113,5 +113,13 @@ public class LogService implements ILogService {
     }
 // </editor-fold>
 
+    @Override
+    @Transactional(readOnly= true)
+    public List<String> getAllPhoneIds() {
+        
+        List<String> phoneIds = em.createNativeQuery("SELECT DISTINCT PHONEID FROM SESSIONLOG").getResultList();
+        return phoneIds;
+    }
+
     
 }

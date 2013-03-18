@@ -1,0 +1,33 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cs.wintoosa.controller;
+
+import cs.wintoosa.service.ILogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ *
+ * @author jonimake
+ */
+@Controller
+@RequestMapping(value="/log/phone")
+public class PhoneController {
+    
+    @Autowired
+    ILogService logService;
+    
+    @RequestMapping(method= RequestMethod.GET)
+    public String listAll(Model model) {
+        
+        model.addAttribute("phoneIds", logService.getAllPhoneIds());
+        
+        return "phone";
+    }
+    
+}

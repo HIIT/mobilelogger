@@ -22,6 +22,9 @@
                 <a href="${ContextPath}/MobileLoggerServer/log/">All logs</a>
             </li>
             <li>
+                <a href="${ContextPath}/MobileLoggerServer/log/phone/">Phones</a>
+            </li>
+            <li>
                 <a href="${ContextPath}/MobileLoggerServer/log/session">Session logs</a>
             </li>
             <li>

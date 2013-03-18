@@ -1,5 +1,6 @@
 package cs.wintoosa.domain;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotNull;
  * @author jonimake
  */
 @Entity
-public class SessionLog{
+public class SessionLog implements Serializable{
     
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Id

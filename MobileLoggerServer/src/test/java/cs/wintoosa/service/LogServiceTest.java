@@ -7,6 +7,7 @@ package cs.wintoosa.service;
 import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.repository.ILogRepository;
+import cs.wintoosa.repository.ISessionRepository;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -22,6 +23,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class LogServiceTest extends AbstractTest{
     
     @Mock private ILogRepository logRepository;
+    @Mock private ISessionRepository sessionRepository;
     @InjectMocks private LogService logService;
     
     @Test
@@ -56,4 +58,8 @@ public class LogServiceTest extends AbstractTest{
         
     }
     
+    @Test
+    public void testSaveSession(){
+               
+    }
 }

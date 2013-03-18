@@ -7,6 +7,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,56 +19,66 @@
     <body>
         <h1>Mobile Logger Index</h1>
         <h2>${ContextPath}</h2>
-        
+
         <ul>
+
             <li>
-                <a href="${ContextPath}/log/">All logs</a>
+                <a href="<c:url value="/log/"/>" >All logs</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/phone/">Phones</a>
+                <a href="<c:url value="/log/phone"/>" >Phones</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/session">Session logs</a>
+                <a href="<c:url value="/log/session"/>" >Sessions</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/gps">GPS logs</a>
+               <a href=" <c:url value="/log/gps"/>" >Gps</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/operator">Mobile network logs</a>
+                <a href="<c:url value="/log/operator"/>" >Operator</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/compass">Compass logs</a>
+                <a href="<c:url value="/log/compass"/>" >Compass</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/accel">Acceleration logs</a>
+                <a href="<c:url value="/log/accel"/>" >Acceleration</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/gyro">Gyroscope/Orientation logs</a>
+                <a href="<c:url value="/log/gyro"/>" >Gyroscope</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/clicked">Clicked Search Results</a>
+                <a href="<c:url value="/log/clicked"/>" >Clicked</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/micro">Soundspace logs</a>
+                <a href="<c:url value="/log/micro"/>" >Sounds</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/light">Environmental lighting intensity logs</a>
+                <a href="<c:url value="/log/light"/>" >Light</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/wifi">Wifi logs</a>
+                <a href="<c:url value="/log/wifi"/>" >Wifi</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/proximity">Display proximity sensor logs</a>
+                <a href="<c:url value="/log/proximity"/>" >Proximity</a>
             </li>
+
             <li>
-                <a href="${ContextPath}/log/bluetooth">Bluetooth logs</a>
+                <a href="<c:url value="/log/bluetooth"/>" >Bluetooth</a>
             </li>
-            
-            <p>Add a new dummy GPS log</p>
-            <form action="${ContextPath}/log/gps/put" method="put">
-                <input type="submit" value="Add Dummy" >
-            </form>
+
         </ul>
-    
-</body>
+
+    </body>
 </html>

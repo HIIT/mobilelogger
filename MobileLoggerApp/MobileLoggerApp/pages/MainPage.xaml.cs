@@ -82,7 +82,7 @@ namespace MobileLoggerApp
             if (searchResults != null)
             {
                 int index = 0;
-                int offset = (int)JSON["queries"]["request"].Value<int>("startIndex");
+                int offset = (int)JSON["queries"]["request"][0].Value<int>("startIndex");
                 foreach (JToken t in searchResults) 
                 {
                     JObject obj = (JObject)t;

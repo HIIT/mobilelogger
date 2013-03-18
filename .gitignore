@@ -1,6 +1,10 @@
 /MobileLoggerServer/target/
 /MobileLoggerApp/packages/
 
+**.dll
+**.pdb
+**.sap
+
 /MobileLoggerApp/MobileLoggerApp/Thumbs.db
 /MobileLoggerApp/MobileLoggerApp/*.obj
 /MobileLoggerApp/MobileLoggerApp/*.exe
@@ -38,9 +42,7 @@
 /MobileLoggerApp/MobileLoggerApp/Debug/
 /MobileLoggerApp/MobileLoggerApp/Release/
 /MobileLoggerApp/MobileLoggerApp/CodeAnalyst/
-
-**.dll
-**.pdb
+/MobileLoggerApp/MobileLoggerApp/PerfLogs/
 
 /MobileLoggerApp/BackgroundUploadTaskAgent/Thumbs.db
 /MobileLoggerApp/BackgroundUploadTaskAgent/*.obj
@@ -76,7 +78,7 @@
 /MobileLoggerApp/BackgroundUploadTaskAgent/Debug/
 /MobileLoggerApp/BackgroundUploadTaskAgent/Release/
 /MobileLoggerApp/BackgroundUploadTaskAgent/CodeAnalyst/
-
+/MobileLoggerApp/BackgroundUploadTaskAgent/obj/**
 /MobileLoggerApp/TestResults/
 
 /MobileLoggerApp/MobileLoggerTest/Thumbs.db

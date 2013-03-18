@@ -133,6 +133,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="MobileLoggerApp_2013_03_18_10_39_27.sap" />
+    <None Include="MobileLoggerApp_2013_03_18_10_43_06.sap" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml">
       <SubType>Designer</SubType>

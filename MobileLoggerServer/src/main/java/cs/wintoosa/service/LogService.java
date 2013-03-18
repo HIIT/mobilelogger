@@ -26,14 +26,6 @@ public class LogService implements ILogService {
     @PersistenceContext
     EntityManager em;
 
-    public void setLogRepositoryImpl(ILogRepository logRepositoryImpl) {
-        this.logRepositoryImpl = logRepositoryImpl;
-    }
-
-    public ILogRepository getLogRepositoryImpl() {
-        return logRepositoryImpl;
-    }
-
     @Override
     @Transactional
     public boolean saveLog(Log log) {
@@ -106,16 +98,6 @@ public class LogService implements ILogService {
     public SessionLog saveLog(SessionLog sessionLog){
         return sessionRepositoryImpl.saveAndFlush(sessionLog);
     }
-    
-// <editor-fold defaultstate="collapsed">
-  public void setSessionRepositoryImpl(ISessionRepository sessionRepositoryImpl) {
-        this.sessionRepositoryImpl = sessionRepositoryImpl;
-    }
-
-    public ISessionRepository getSessionRepositoryImpl() {
-        return sessionRepositoryImpl;
-    }
-// </editor-fold>
 
     @Override
     @Transactional(readOnly= true)

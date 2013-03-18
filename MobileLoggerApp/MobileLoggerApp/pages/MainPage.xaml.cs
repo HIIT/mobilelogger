@@ -13,14 +13,16 @@ using System.Windows.Input;
 
 namespace MobileLoggerApp
 {
-
     public partial class MainPage : PhoneApplicationPage
     {
-        public delegate void KeyPressEventHandler(object sender, KeyEventArgs e, Boolean press);
-        public delegate void KeyboardVisible(Boolean focus);
+        public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
+        public delegate void KeyboardFocus();
 
-        public static event KeyPressEventHandler keyPress;
-        public static event KeyboardVisible keyboardFocus;
+        public static event KeyPressEventHandler keyDown;
+        public static event KeyPressEventHandler keyUp;
+
+        public static event KeyboardFocus keyboardGotFocus;
+        public static event KeyboardFocus keyboardLostFocus;
 
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
@@ -28,7 +30,6 @@ namespace MobileLoggerApp
         // Constructor
         public MainPage()
         {
-
             InitializeComponent();
             //start background agent
             StartAgent();
@@ -82,11 +83,13 @@ namespace MobileLoggerApp
             if (searchResults != null)
             {
                 int index = 0;
+                // TASK Not working without array index 0!
                 int offset = (int)JSON["queries"]["request"][0].Value<int>("startIndex");
+
                 foreach (JToken t in searchResults) 
                 {
                     JObject obj = (JObject)t;
-                    obj.Add("index", index+offset);
+                    obj.Add("index", index + offset);
                     index++;
                     obj.Add("time", DeviceTools.GetUnixTime(timestamp));
                     SaveLogToDB(obj, "/log/google");
@@ -133,17 +136,40 @@ namespace MobileLoggerApp
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            keyboardFocus(true);
+            keyboardGotFocus();
         }
 
         private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            keyboardFocus(true);
+            keyboardLostFocus();
         }
 
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            keyPress(sender, e, false);
+            keyDown(sender, e);
+        }
+
+        /// <summary>
+        /// Event handler for search box, sends the search query to be queried from Google Custom Search
+        /// </summary>
+        /// <param name="sender">The object that initiated this event</param>
+        /// <param name="e">Arguments for the key event that initiated this event</param>
+        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            keyUp(sender, e);
+
+            if (e.Key.Equals(Key.Enter))
+            {
+                this.Focus();
+                searchTerm = SearchTextBox.Text;
+
+                if (!searchTerm.Equals(""))
+                {
+                    GoogleSearch(1);
+                }
+                GetWeatherData();
+            }
+            SaveSensorLog();
         }
 
         /// <summary>
@@ -161,29 +187,6 @@ namespace MobileLoggerApp
             {
                 GoogleSearch(App.ViewModel.Items.Count+1);
             }
-        }
-
-        /// <summary>
-        /// Event handler for search box, sends the search query to be queried from Google Custom Search
-        /// </summary>
-        /// <param name="sender">The object that initiated this event</param>
-        /// <param name="e">Arguments for the key event that initiated this event</param>
-        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            keyPress(sender, e, true);
-
-            if (e.Key.Equals(Key.Enter))
-            {
-                this.Focus();
-                searchTerm = SearchTextBox.Text;
-
-                if (!searchTerm.Equals(""))
-                {
-                    GoogleSearch(1);
-                }
-                GetWeatherData();
-            }
-            SaveSensorLog();
         }
 
         /// <summary>

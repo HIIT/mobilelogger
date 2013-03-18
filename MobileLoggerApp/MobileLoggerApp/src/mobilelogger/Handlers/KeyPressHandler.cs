@@ -15,7 +15,8 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         public void StartKeyPressWatcher()
         {
-            MobileLoggerApp.MainPage.keyPress += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyPress);
+            MobileLoggerApp.MainPage.keyDown += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyDown);
+            MobileLoggerApp.MainPage.keyUp += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyUp);
 
             if (joKeyPress == null)
             {
@@ -23,15 +24,13 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
         }
 
-        void SearchTextBox_KeyPress(object sender, KeyEventArgs e, Boolean press)
+        void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (press)
-            {
-            }
-            else
-            {
-                AddJOValue("keyPressed", e.PlatformKeyCode);
-            }
+        }
+
+        void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            AddJOValue("keyPressed", e.PlatformKeyCode);
         }
 
         private void AddJOValue(String key, int value)

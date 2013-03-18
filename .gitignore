@@ -1,5 +1,7 @@
 /MobileLoggerServer/target/
 
+db.properties
+
 **.dll
 **.pdb
 **.sap

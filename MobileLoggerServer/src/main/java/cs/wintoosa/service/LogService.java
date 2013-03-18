@@ -52,7 +52,9 @@ public class LogService implements ILogService {
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) {
         try {
-            return em.createNativeQuery("SELECT * FROM " + cls.getSimpleName().toUpperCase(), cls).getResultList();
+            List<Log> resultList = em.createNativeQuery("SELECT * FROM " + cls.getSimpleName(), cls).getResultList();
+            System.out.println("resultList.size() = " + resultList.size());
+            return resultList;
         } catch (QueryException e) {
             System.out.println("Failed query!");
             System.out.println(e.getQuery().getSQLString());

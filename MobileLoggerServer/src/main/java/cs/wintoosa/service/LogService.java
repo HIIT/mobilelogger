@@ -52,7 +52,7 @@ public class LogService implements ILogService {
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) {
         try {
-            List<Log> resultList = em.createNativeQuery("SELECT * FROM " + cls.getSimpleName(), cls).getResultList();
+            List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
             System.out.println("resultList.size() = " + resultList.size());
             return resultList;
         } catch (QueryException e) {

@@ -104,11 +104,11 @@
             <version>3.2.0.RELEASE</version>
         </dependency>
         
-        <!-- mysql -->
+        <!-- postgresql -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.22</version>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>7.4.1</version>
         </dependency>
             
         <!-- loggauskirjastot -->

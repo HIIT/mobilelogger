@@ -26,9 +26,22 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         private void ShowOperator()
         {
-            string operatorName = DeviceNetworkInformation.CellularMobileOperator.ToString();
+            if (DeviceNetworkInformation.CellularMobileOperator != null)
+            {
+                string operatorName = DeviceNetworkInformation.CellularMobileOperator.ToString();
 
-            AddJOValue("operator", operatorName);
+                AddJOValue("operator", operatorName);
+            }
+
+            if (DeviceNetworkInformation.IsWiFiEnabled)
+            {
+                NetworkInterfaceList networkInterfaceList = new NetworkInterfaceList();
+
+                foreach (NetworkInterfaceInfo networkInterfaceInfo in networkInterfaceList)
+                {
+                    System.Diagnostics.Debug.WriteLine(networkInterfaceInfo.InterfaceName);
+                }
+            }
         }
 
         void NetWorkAvailibilityChanged(object sender, NetworkNotificationEventArgs e)
@@ -42,6 +55,12 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                     }
                     if (DeviceNetworkInformation.IsWiFiEnabled)
                     {
+                        NetworkInterfaceList networkInterfaceList = new NetworkInterfaceList();
+
+                        foreach (NetworkInterfaceInfo networkInterfaceInfo in networkInterfaceList)
+                        {
+                            System.Diagnostics.Debug.WriteLine(networkInterfaceInfo.InterfaceName);
+                        }
                     }
                     break;
                 case NetworkNotificationType.InterfaceDisconnected:

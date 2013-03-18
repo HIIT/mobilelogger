@@ -1,14 +1,9 @@
-﻿using System;
+﻿using MobileLoggerApp.src;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using MobileLoggerApp.src;
-
-
+using System.Linq;
 
 namespace MobileLoggerScheduledAgent
 {
@@ -152,9 +147,9 @@ namespace MobileLoggerScheduledAgent
             }
         }
 
-        public IList<LogEvent> GetLogEvents()
+        public List<LogEvent> GetLogEvents()
         {
-            IList<LogEvent> logEventList = null;
+            List<LogEvent> logEventList = null;
             using (LogEventDataContext context = new LogEventDataContext(ConnectionString))
             {
                 IQueryable<LogEvent> query =
@@ -166,11 +161,9 @@ namespace MobileLoggerScheduledAgent
                 }
                 catch (Exception e) { }
             }
-
             return logEventList;
         }
 
         public LogEvent entity { get; set; }
     }
-
 }

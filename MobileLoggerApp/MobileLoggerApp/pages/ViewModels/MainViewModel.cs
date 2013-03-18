@@ -50,6 +50,10 @@ namespace MobileLoggerApp.pages
 
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
+        /// 
+        /// @author     Jukka-Pekka Salo
+        /// @date       2013-03-18
+        /// @version    1.1 Iterate list in reverse order.
         /// </summary>
         public void LoadData()
         {
@@ -70,15 +74,17 @@ namespace MobileLoggerApp.pages
                     }
                 }
 
-                //logDBContext.addEvent(string.Format("Latitude: {0}, Longitude: {1}, Altitude: {2}", 0.1, 0.2, 0.3));
+                List<LogEvent> list = logDBContext.GetLogEvents();
 
-                IList<LogEvent> list = logDBContext.GetLogEvents();
                 if (list != null)
                 {
                     App.ViewModel.Settings.Clear();
 
-                    foreach (LogEvent e in list)
+                    int listCount = list.Count;
+
+                    for (int i = listCount - 1; i >= 0; i--)
                     {
+                        LogEvent e = list[i];
                         App.ViewModel.Settings.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
                     }
                     this.IsDataLoaded = true;

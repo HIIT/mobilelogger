@@ -10,5 +10,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author jonimake
  */
 public interface ILogRepository extends JpaRepository<Log, Long>{
-    public List<Log> findByPhoneIdAndTimestampBetween(String phoneId, Long start, Long end);
+    public List<Log> findByPhoneIdAndTimestampBetween(String phoneId, Long sessionStart, Long sessionEnd);
 }

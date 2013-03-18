@@ -90,7 +90,10 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public List<SessionLog> getSessionByPhoneId(String phoneId){
-        return sessionRepositoryImpl.findSessionByPhoneId(phoneId);
+        System.out.println("getSessionByPhoneId");
+        List<SessionLog> sessions = sessionRepositoryImpl.findSessionByPhoneId(phoneId);
+        System.out.println("sessions.size() = " + sessions.size());
+        return sessions;
     }
     
     @Override

@@ -109,14 +109,14 @@ namespace MobileLoggerApp
             logHandlers.Add(gyroscope);
 
             keyboard = new KeyboardHandler();
-            //Application.Current.Resources.Add("keyboardHandler", keyboard);
+            Application.Current.Resources.Add("keyboardHandler", keyboard);
             keyboard.StartKeyBoardWatcher();
-            //logHandlers.Add(keyboard);
+            logHandlers.Add(keyboard);
 
             keyPress = new KeyPressHandler();
-            //Application.Current.Resources.Add("keyPressHandler", keyPress);
+            Application.Current.Resources.Add("keyPressHandler", keyPress);
             keyPress.StartKeyPressWatcher();
-            //logHandlers.Add(keyPress);
+            logHandlers.Add(keyPress);
 
             network = new NetworkHandler();
             Application.Current.Resources.Add("networkHandler", network);

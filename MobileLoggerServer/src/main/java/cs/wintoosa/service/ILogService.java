@@ -25,7 +25,7 @@ public interface ILogService {
 
     public SessionLog getSessionById(long sessionId);
 
-    public SessionLog saveLog(SessionLog log);
+    public SessionLog saveSessionLog(SessionLog log);
     
     public List<SessionLog> getSessionByPhoneId(String phoneId);
     

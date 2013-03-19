@@ -40,7 +40,7 @@ public class SessionController {
                 System.out.println(error.toString());
             return null;
         }
-        return logService.saveLog(log);
+        return logService.saveSessionLog(log);
     }
     
     @RequestMapping(method= RequestMethod.GET)

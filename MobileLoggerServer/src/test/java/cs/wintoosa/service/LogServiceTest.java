@@ -80,7 +80,7 @@ public class LogServiceTest extends AbstractTest{
         sessionLog.setPhoneId(123456789012345l+"");
         sessionLog.setSessionStart(Long.MIN_VALUE);
         sessionLog.setSessionEnd(Long.MAX_VALUE);
-        SessionLog saveLog = logService.saveLog(sessionLog);
+        SessionLog saveLog = logService.saveSessionLog(sessionLog);
         assertTrue("log should be saved to db and returned",saveLog != null);
         assertTrue("phone should be in the log now", saveLog.getPhone() != null);
         assertTrue("phone list of sessions shouldn't be null or empty", saveLog.getPhone().getSessions() != null);

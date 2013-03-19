@@ -1,6 +1,7 @@
 package cs.wintoosa.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,7 +59,7 @@ public class SessionLog implements Serializable{
     }
     
     @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
-    private List<Log> logs;
+    private List<Log> logs = new ArrayList<Log>();
     
     @ManyToOne(targetEntity=Phone.class)
     private Phone phone;

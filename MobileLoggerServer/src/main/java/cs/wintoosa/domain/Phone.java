@@ -1,6 +1,7 @@
 package cs.wintoosa.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Phone implements Serializable{
     private String phoneId;
     
     @OneToMany(targetEntity=SessionLog.class, mappedBy="phone")
-    private List<SessionLog> sessions;
+    private List<SessionLog> sessions = new ArrayList<SessionLog>();
     
     private static final long serialVersionUID = 9654699l;
 

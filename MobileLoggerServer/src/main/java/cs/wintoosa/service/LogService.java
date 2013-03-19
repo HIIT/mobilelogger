@@ -75,13 +75,7 @@ public class LogService implements ILogService {
     @Transactional(readOnly = true)
     public List<SessionLog> getAllSessions() {
         List<SessionLog> sessionLogs = sessionRepositoryImpl.findAll();
-        for(SessionLog sessionLog : sessionLogs) {
-            //black magic with spring data
-            sessionLog.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(
-                                                sessionLog.getPhoneId(), 
-                                                sessionLog.getSessionStart(), 
-                                                sessionLog.getSessionEnd()));
-        }
+        System.out.println("sessionLogs.size() = " + sessionLogs.size());
         return sessionLogs;
     }
     

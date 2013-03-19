@@ -1,18 +1,11 @@
 package cs.wintoosa.domain;
 
 import java.io.Serializable;
-import java.nio.channels.SeekableByteChannel;
-import java.util.LinkedList;
 import java.util.List;
-import javax.annotation.Generated;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 

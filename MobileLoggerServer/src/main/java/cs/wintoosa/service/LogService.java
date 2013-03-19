@@ -132,10 +132,9 @@ public class LogService implements ILogService {
 
     @Override
     @Transactional(readOnly= true)
-    public List<String> getAllPhoneIds() {
+    public List<Phone> getAllPhones() {
         
-        List<String> phoneIds = em.createQuery("SELECT DISTINCT PHONEID FROM SESSIONLOG").getResultList();
-        return phoneIds;
+        return phoneRepositoryImpl.findAll();
     }
 
     

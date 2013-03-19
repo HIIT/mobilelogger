@@ -29,7 +29,7 @@ public class PhoneController {
     @RequestMapping(method= RequestMethod.GET)
     public String listAll(Model model) {
         
-        model.addAttribute("phoneIds", logService.getAllPhoneIds());
+        model.addAttribute("phones", logService.getAllPhones());
         
         return "phone";
     }

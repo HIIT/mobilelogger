@@ -21,9 +21,9 @@
         <h1>Hello World!</h1>
         
         <ol>
-            <c:forEach var="id" items="${phoneIds}">
+            <c:forEach var="phone" items="${phones}">
                 <li>
-                    <a href="<c:url value="/log/phone/${id}"/>">${id}</a>
+                    <a href="<c:url value="/log/phone/${phone.id}"/>">${phone.id}</a>
                 </li>
             </c:forEach>
                 

@@ -23,6 +23,8 @@
             <version>3.2.2.RELEASE</version>
         </dependency> 
         
+        
+        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
@@ -42,10 +44,6 @@
             <artifactId>postgresql</artifactId>
             <version>9.1-901.jdbc4</version>
         </dependency>
-        
-        
-        
-        
         
         <dependency>
             <groupId>org.springframework</groupId>
@@ -98,6 +96,26 @@
             <version>2.5</version>
             <type>jar</type>
         </dependency>
+        
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.commons-codec</artifactId>
+            <version>1.3_5</version>
+        </dependency>
+        
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
@@ -149,14 +167,6 @@
             <type>jar</type>
         </dependency>
         
-        <!--
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
-            <type>jar</type>
-             <scope>provided</scope>  
-        </dependency>-->
         
     </dependencies>
     

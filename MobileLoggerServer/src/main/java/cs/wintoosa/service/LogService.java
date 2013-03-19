@@ -26,14 +26,6 @@ public class LogService implements ILogService {
     @PersistenceContext
     EntityManager em;
 
-    public void setLogRepositoryImpl(ILogRepository logRepositoryImpl) {
-        this.logRepositoryImpl = logRepositoryImpl;
-    }
-
-    public ILogRepository getLogRepositoryImpl() {
-        return logRepositoryImpl;
-    }
-
     @Override
     @Transactional
     public boolean saveLog(Log log) {
@@ -52,7 +44,9 @@ public class LogService implements ILogService {
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) {
         try {
-            return em.createNativeQuery("SELECT * FROM " + cls.getSimpleName().toUpperCase(), cls).getResultList();
+            List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
+            System.out.println("resultList.size() = " + resultList.size());
+            return resultList;
         } catch (QueryException e) {
             System.out.println("Failed query!");
             System.out.println(e.getQuery().getSQLString());
@@ -75,26 +69,24 @@ public class LogService implements ILogService {
     @Transactional(readOnly = true)
     public List<SessionLog> getAllSessions() {
         List<SessionLog> sessionLogs = sessionRepositoryImpl.findAll();
-        for(SessionLog sessionLog : sessionLogs) {
-            //black magic with spring data
-            sessionLog.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(
-                                                sessionLog.getPhoneId(), 
-                                                sessionLog.getSessionStart(), 
-                                                sessionLog.getSessionEnd()));
-        }
         return sessionLogs;
     }
     
     @Override
     @Transactional(readOnly = true)
     public SessionLog getSessionById(long sessionId) {
-        return sessionRepositoryImpl.findSessionById(sessionId);
+        SessionLog session = sessionRepositoryImpl.findSessionById(sessionId);
+        session.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(session.getPhoneId(), session.getSessionStart(), session.getSessionEnd()));
+        return session;
     }
     
     @Override
     @Transactional(readOnly = true)
     public List<SessionLog> getSessionByPhoneId(String phoneId){
-        return sessionRepositoryImpl.findSessionByPhoneId(phoneId);
+        System.out.println("getSessionByPhoneId");
+        List<SessionLog> sessions = sessionRepositoryImpl.findSessionByPhoneId(phoneId);
+        System.out.println("sessions.size() = " + sessions.size());
+        return sessions;
     }
     
     @Override
@@ -102,16 +94,14 @@ public class LogService implements ILogService {
     public SessionLog saveLog(SessionLog sessionLog){
         return sessionRepositoryImpl.saveAndFlush(sessionLog);
     }
-    
-// <editor-fold defaultstate="collapsed">
-  public void setSessionRepositoryImpl(ISessionRepository sessionRepositoryImpl) {
-        this.sessionRepositoryImpl = sessionRepositoryImpl;
-    }
 
-    public ISessionRepository getSessionRepositoryImpl() {
-        return sessionRepositoryImpl;
+    @Override
+    @Transactional(readOnly= true)
+    public List<String> getAllPhoneIds() {
+        
+        List<String> phoneIds = em.createNativeQuery("SELECT DISTINCT PHONEID FROM SESSIONLOG").getResultList();
+        return phoneIds;
     }
-// </editor-fold>
 
     
 }

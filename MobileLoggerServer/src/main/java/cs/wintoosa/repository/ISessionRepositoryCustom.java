@@ -1,6 +1,7 @@
 package cs.wintoosa.repository;
 
 import cs.wintoosa.domain.SessionLog;
+import java.util.List;
 
 /**
  *

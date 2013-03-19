@@ -104,12 +104,13 @@
             <version>3.2.0.RELEASE</version>
         </dependency>
         
-        <!-- mysql -->
+        <!-- postgresql -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.22</version>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901.jdbc4</version>
         </dependency>
+            
             
         <!-- loggauskirjastot -->
         <dependency>
@@ -222,11 +223,7 @@
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
         </repository>
-        
-        <repository>
-            <id>jboss repo</id>
-            <url>http://repository.jboss.com/maven2</url>
-        </repository>
+       
         <repository>
             <id> jboss repo 2</id>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>

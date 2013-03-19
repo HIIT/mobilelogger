@@ -32,4 +32,6 @@ public interface ILogService {
     
     public List<SessionLog> getAllSessions();
 
+    public List<String> getAllPhoneIds();
+
 }

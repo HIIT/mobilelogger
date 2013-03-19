@@ -4,7 +4,6 @@ using System;
 using System.Net;
 using System.Text;
 using System.IO;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace MobileLoggerScheduledAgent

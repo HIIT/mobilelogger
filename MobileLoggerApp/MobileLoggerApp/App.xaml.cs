@@ -22,8 +22,6 @@ namespace MobileLoggerApp
         KeyboardHandler keyboard;
         KeyPressHandler keyPress;
         NetworkHandler network;
-        OperatorHandler mobileOperator;
-
 
         private static pages.MainViewModel viewModel = null;
 
@@ -90,28 +88,25 @@ namespace MobileLoggerApp
             //always create new to ensure no duplicates
             logHandlers = new List<AbstractLogHandler>();
 
-            AccelHandler accelerometer = new AccelHandler();
+            accelerometer = new AccelHandler();
             Application.Current.Resources.Add("accelHandler", accelerometer);
             accelerometer.StartAccelWatcher();
             logHandlers.Add(accelerometer);
 
-            CompassHandler compass = new CompassHandler();
+            compass = new CompassHandler();
             Application.Current.Resources.Add("compassHandler", compass);
             compass.StartCompassWatcher();
             logHandlers.Add(compass);
 
-            GpsHandler gps = new GpsHandler();
+            gps = new GpsHandler();
             Application.Current.Resources.Add("gpsHandler", gps);
             gps.StartCoordinateWatcher();
             logHandlers.Add(gps);
 
-            GyroHandler gyroscope = new GyroHandler();
+            gyroscope = new GyroHandler();
             Application.Current.Resources.Add("gyroHandler", gyroscope);
             gyroscope.StartGyroWatcher();
             logHandlers.Add(gyroscope);
-
-
-            NetworkHandler network = new NetworkHandler();
 
             keyboard = new KeyboardHandler();
             //Application.Current.Resources.Add("keyboardHandler", keyboard);
@@ -124,15 +119,9 @@ namespace MobileLoggerApp
             //logHandlers.Add(keyPress);
 
             network = new NetworkHandler();
-
             Application.Current.Resources.Add("networkHandler", network);
-            network.StartNetworkInformation();
+            network.StartNetwork();
             logHandlers.Add(network);
-
-            OperatorHandler mobileOperator = new OperatorHandler();
-            Application.Current.Resources.Add("operatorHandler", mobileOperator);
-            mobileOperator.StartOperator();
-            logHandlers.Add(mobileOperator);
         }
 
         // Code to execute when the application is launching (eg, from Start)

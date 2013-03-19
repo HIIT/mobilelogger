@@ -6,37 +6,81 @@ using System.Net.Sockets;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
-    public class NetworkHandler : AbstractLogHandler
+    class NetworkHandler : AbstractLogHandler
     {
         JObject joNetwork;
 
         public override void SaveSensorLog()
         {
+            SaveLogToDB(joNetwork, "/log/network");
         }
 
-        public void StartNetworkInformation()
+        public void StartNetwork()
+        {
+            DeviceNetworkInformation.NetworkAvailabilityChanged += new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
+
+            if (joNetwork == null)
+                joNetwork = new JObject();
+
+            UpdateNetworkValues();
+        }
+
+        private void NetWorkAvailibilityChanged(object sender, NetworkNotificationEventArgs e)
+        {
+            switch (e.NotificationType)
+            {
+                case NetworkNotificationType.InterfaceConnected:
+                    UpdateNetworkValues();
+                    break;
+                case NetworkNotificationType.InterfaceDisconnected:
+                    UpdateNetworkValues();
+                    break;
+                case NetworkNotificationType.CharacteristicUpdate:
+                    UpdateNetworkValues();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void UpdateNetworkValues()
+        {
+            if (DeviceNetworkInformation.IsNetworkAvailable)
+            {
+                UpdateCellularMobileOperator();
+                NetworkInterfaceInformation();
+            }
+        }
+
+        private void UpdateCellularMobileOperator()
+        {
+            if (DeviceNetworkInformation.IsCellularDataEnabled)
+            {
+                if (DeviceNetworkInformation.CellularMobileOperator != null)
+                    AddJOValue("operator", DeviceNetworkInformation.CellularMobileOperator.ToString());
+                else
+                    AddJOValue("operator", null);
+            }
+        }
+
+        private void NetworkInterfaceInformation()
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            string serverName = "www.google.com";
-            int portNumber = 7;
+            string serverName = "173.194.69.104";
+            int portNumber = 80;
 
             DnsEndPoint hostEntry = new DnsEndPoint(serverName, portNumber);
 
             SocketAsyncEventArgs socketEventArg = new SocketAsyncEventArgs();
             socketEventArg.RemoteEndPoint = hostEntry;
             socketEventArg.UserToken = socket;
-            socketEventArg.Completed += ShowNetworkInterfaceInformation;
+            socketEventArg.Completed += UpdateNetworkInterfaceInformation;
 
             socket.ConnectAsync(socketEventArg);
-
-            if (joNetwork == null)
-            {
-                joNetwork = new JObject();
-            }
         }
 
-        void ShowNetworkInterfaceInformation(object sender, SocketAsyncEventArgs e)
+        void UpdateNetworkInterfaceInformation(object sender, SocketAsyncEventArgs e)
         {
             Socket socket = e.UserToken as Socket;
 
@@ -44,31 +88,32 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 NetworkInterfaceInfo netInterfaceInfo = socket.GetCurrentNetworkInterface();
 
-                AddJOValue("interfaceName", netInterfaceInfo.InterfaceName);
-                AddJOValue("interfaceState", netInterfaceInfo.InterfaceState.ToString());
-                AddJOValue("interfaceType", netInterfaceInfo.InterfaceType.ToString());
-                AddJOValue("interfaceSubType", netInterfaceInfo.InterfaceSubtype.ToString());
+                AddJOValue("InterfaceBandwidth", netInterfaceInfo.Bandwidth.ToString());
+                AddJOValue("InterfaceCharacteristics", netInterfaceInfo.Characteristics.ToString());
+                AddJOValue("InterfaceDescription", netInterfaceInfo.Description);
+                AddJOValue("InterfaceName", netInterfaceInfo.InterfaceName);
+                AddJOValue("InterfaceState", netInterfaceInfo.InterfaceState.ToString());
+                AddJOValue("InterfaceSubtype", netInterfaceInfo.InterfaceSubtype.ToString());
+                AddJOValue("InterfaceType", netInterfaceInfo.InterfaceType.ToString());
             }
             else
             {
-                AddJOValue("interfaceName", "null");
-                AddJOValue("interfaceState", "null");
-                AddJOValue("interfaceType", "null");
-                AddJOValue("interfaceSubType", "null");
+                AddJOValue("InterfaceBandwidth", null);
+                AddJOValue("InterfaceCharacteristics", null);
+                AddJOValue("InterfaceDescription", null);
+                AddJOValue("InterfaceName", null);
+                AddJOValue("InterfaceState", null);
+                AddJOValue("InterfaceSubtype", null);
+                AddJOValue("InterfaceType", null);
             }
-            socket.Close();
         }
 
         private void AddJOValue(String key, String value)
         {
             if (joNetwork[key] == null)
-            {
                 joNetwork.Add(key, value);
-            }
             else
-            {
                 joNetwork[key].Replace(value);
-            }
         }
     }
 }

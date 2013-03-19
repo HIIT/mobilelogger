@@ -27,9 +27,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             coordinateWatcher.Start();
 
             if (joCoordinates == null)
-            {
                 joCoordinates = new JObject();
-            }
         }
 
         void coordinate_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
@@ -37,12 +35,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             switch (e.Status)
             {
                 case GeoPositionStatus.Disabled:
-                    if (coordinateWatcher.Permission == GeoPositionPermission.Denied)
-                    {
-                    }
-                    else
-                    {
-                    }
                     break;
 
                 case GeoPositionStatus.Initializing:
@@ -66,13 +58,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         private void AddJOValue(String key, double value)
         {
             if (joCoordinates[key] == null)
-            {
                 joCoordinates.Add(key, (float)value);
-            }
             else
-            {
                 joCoordinates[key].Replace((float)value);
-            }
         }
     }
 }

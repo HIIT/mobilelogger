@@ -51,7 +51,7 @@ namespace MobileLoggerApp
 
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
-            this.Loaded += new RoutedEventHandler(MainPage_Loaded);     
+            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
         // Load data for the ViewModel Items
@@ -86,7 +86,7 @@ namespace MobileLoggerApp
                 // TASK Not working without array index 0!
                 int offset = (int)JSON["queries"]["request"][0].Value<int>("startIndex");
 
-                foreach (JToken t in searchResults) 
+                foreach (JToken t in searchResults)
                 {
                     JObject obj = (JObject)t;
                     obj.Add("index", index + offset);
@@ -166,8 +166,8 @@ namespace MobileLoggerApp
                 if (!searchTerm.Equals(""))
                 {
                     GoogleSearch(1);
+                    //GetWeatherData();
                 }
-                //GetWeatherData();
             }
             SaveSensorLog();
         }
@@ -183,9 +183,9 @@ namespace MobileLoggerApp
             {
                 //nextPageButton.Visibility = Visibility.Collapsed;
             }
-            else 
+            else
             {
-                GoogleSearch(App.ViewModel.Items.Count+1);
+                GoogleSearch(App.ViewModel.Items.Count + 1);
             }
         }
 

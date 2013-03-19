@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -31,7 +32,6 @@ public class SessionLog implements Serializable{
     @NotNull
     protected String phoneId;
     
-    @NotNull (message="timestamp must represent valid unixtime in seconds")
     protected Long timestamp;
 
     public void setChecksum(String checksum) {
@@ -59,6 +59,17 @@ public class SessionLog implements Serializable{
     
     @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
     private List<Log> logs;
+    
+    @ManyToOne(targetEntity=Phone.class)
+    private Phone phone;
+
+    public void setPhone(Phone phone) {
+        this.phone = phone;
+    }
+
+    public Phone getPhone() {
+        return phone;
+    }
 
     public Long getSessionStart() {
         return sessionStart;

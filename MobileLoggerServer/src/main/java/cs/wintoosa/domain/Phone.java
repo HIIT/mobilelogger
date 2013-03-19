@@ -1,12 +1,16 @@
 package cs.wintoosa.domain;
 
 import java.io.Serializable;
+import java.nio.channels.SeekableByteChannel;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Generated;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -17,35 +21,42 @@ import javax.validation.constraints.NotNull;
  * @author jonimake
  */
 @Entity
-@Deprecated
 public class Phone implements Serializable{
     
-    private static final long serialVersionUID = 999l;
-    
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
-    private Long imei;
+    private Long id;
     
-
-    //@OneToMany
-    //private List<Log> logs = new LinkedList();
+    @NotNull
+    private String phoneId;
     
-    public Long getImei() {
-        return imei;
+    @OneToMany(targetEntity=SessionLog.class, mappedBy="phone")
+    private List<SessionLog> sessions;
+    
+    private static final long serialVersionUID = 9654699l;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setImei(Long id) {
-        this.imei = id;
-    }
-/*
-    public List<Log> getLogs() {
-        return logs;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setLogs(List<Log> logs) {
-        this.logs = logs;
+    public String getPhoneId() {
+        return phoneId;
     }
 
-    public void addLog(Log log) {
-        this.logs.add(log);
-    }*/
+    public void setPhoneId(String phoneId) {
+        this.phoneId = phoneId;
+    }
+
+    public List<SessionLog> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(List<SessionLog> sessions) {
+        this.sessions = sessions;
+    }
+    
 }

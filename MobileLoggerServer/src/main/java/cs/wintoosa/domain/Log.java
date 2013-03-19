@@ -33,7 +33,7 @@ public abstract class Log implements Serializable{
     @ManyToOne(targetEntity=SessionLog.class)
     protected SessionLog sessionLog;
     
-    @NotNull
+    @NotNull(message="PhoneId can't be null")
     protected String phoneId;
     
     @NotNull (message="timestamp must represent valid unixtime in seconds")

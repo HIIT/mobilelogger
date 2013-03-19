@@ -23,6 +23,9 @@ public class LogService implements ILogService {
     @Autowired
     private ISessionRepository sessionRepositoryImpl;
     
+    @Autowired
+    private IPhoneRepository phoneRepositoryImpl;
+    
     @PersistenceContext
     EntityManager em;
 
@@ -31,6 +34,12 @@ public class LogService implements ILogService {
     public boolean saveLog(Log log) {
         if (log == null || log.getPhoneId() == null) {
             return false;
+        }
+        Phone phone = phoneRepositoryImpl.findByPhoneId(log.getPhoneId());
+        if(phone == null) {
+            phone = new Phone();
+            phone.setPhoneId(log.getPhoneId());
+            phone = phoneRepositoryImpl.saveAndFlush(phone);
         }
         log = logRepositoryImpl.save(log);
         return true;
@@ -89,17 +98,43 @@ public class LogService implements ILogService {
         return sessions;
     }
     
+    /**
+     * Saves the given session log into db
+     * @param sessionLog
+     * @return the saved SessionLog or null if save failed
+     */
     @Override
     @Transactional
     public SessionLog saveLog(SessionLog sessionLog){
-        return sessionRepositoryImpl.saveAndFlush(sessionLog);
+        
+        String phoneId = sessionLog.getPhoneId();
+        
+        if(phoneId== null)
+            return null;
+        
+        //first try to find the phone with the ID in the sessionLog
+        Phone phone = phoneRepositoryImpl.findByPhoneId(phoneId);
+        if(phone == null){ //if it doesn't exist in the DB, create one
+            phone = new Phone();
+            phone.setPhoneId(phoneId);
+            phone = phoneRepositoryImpl.save(phone);
+        }
+        //set the phone into sessionlog
+        sessionLog.setPhone(phone);
+        sessionLog = sessionRepositoryImpl.save(sessionLog); 
+        
+        //now add the saved sessionlog into phone session list
+        phone.getSessions().add(sessionLog);
+        phoneRepositoryImpl.save(phone);
+        
+        return sessionLog;
     }
 
     @Override
     @Transactional(readOnly= true)
     public List<String> getAllPhoneIds() {
         
-        List<String> phoneIds = em.createNativeQuery("SELECT DISTINCT PHONEID FROM SESSIONLOG").getResultList();
+        List<String> phoneIds = em.createQuery("SELECT DISTINCT PHONEID FROM SESSIONLOG").getResultList();
         return phoneIds;
     }
 

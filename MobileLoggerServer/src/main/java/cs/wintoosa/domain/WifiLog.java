@@ -10,7 +10,7 @@ import javax.persistence.Entity;
  *
  * @author vkukkola
  */
-@Entity
+//@Entity
 public class WifiLog extends Log{
 
     

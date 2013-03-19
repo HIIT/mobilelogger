@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import org.hibernate.mapping.ForeignKey;
-import org.jboss.logging.FormatWith;
 
 /**
  *
@@ -25,11 +23,15 @@ import org.jboss.logging.FormatWith;
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public abstract class Log implements Serializable{
-    protected static final long serialVersionUID = 1234l;
+    
+    private static final long serialVersionUID = 1234l;
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     protected Long id;
+    
+    @ManyToOne(targetEntity=SessionLog.class)
+    protected SessionLog sessionLog;
     
     @NotNull
     protected String phoneId;
@@ -44,8 +46,9 @@ public abstract class Log implements Serializable{
      * This is used for storing user search terms
      */
     protected String text;
-    
-    public Log() {}
+
+    public Log() {
+    }
     
     public Log(String phoneId) {
         this.phoneId = phoneId;
@@ -89,6 +92,14 @@ public abstract class Log implements Serializable{
 
     public void setChecksum(String checksum) {
         this.checksum = checksum;
+    }
+
+    public SessionLog getSessionLog() {
+        return sessionLog;
+    }
+
+    public void setSessionLog(SessionLog sessionLog) {
+        this.sessionLog = sessionLog;
     }
 
 }

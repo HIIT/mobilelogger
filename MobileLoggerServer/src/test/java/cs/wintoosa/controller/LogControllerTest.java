@@ -7,7 +7,7 @@ import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.persistence.config.ResultType;
+//import org.eclipse.persistence.config.ResultType;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;

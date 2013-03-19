@@ -13,15 +13,15 @@
     <class>cs.wintoosa.domain.ProximityLog</class>
     <class>cs.wintoosa.domain.SoundLog</class>
     <class>cs.wintoosa.domain.TextLog</class>
-    <class>cs.wintoosa.domain.WifiLog</class>
     <class>cs.wintoosa.domain.SessionLog</class>
+    <class>cs.wintoosa.domain.WifiLog</class>
     <properties>
       <property name="showSql" value="true"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
       <property name="eclipselink.weaving" value="false"/>
       <property name="eclipselink.logging.level" value="FINEST"/>
       <property name="" value="admin"/>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>

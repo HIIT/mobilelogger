@@ -57,8 +57,7 @@ public class SessionLog implements Serializable{
         this.phoneId = phoneId;
     }
     
-    
-    @OneToMany
+    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
     private List<Log> logs;
 
     public Long getSessionStart() {

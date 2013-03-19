@@ -7,11 +7,12 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class GpsHandler : AbstractLogHandler
     {
         GeoCoordinateWatcher coordinateWatcher;
-        public static JObject joCoordinates;
+        JObject joCoordinates;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joCoordinates, "/log/gps");
+            if (coordinateWatcher.Status == GeoPositionStatus.Ready)
+                SaveLogToDB(joCoordinates, "/log/gps");
         }
 
         public void StartCoordinateWatcher()
@@ -30,11 +31,14 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 joCoordinates = new JObject();
         }
 
-        void coordinate_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
+        private void coordinate_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
         {
             switch (e.Status)
             {
                 case GeoPositionStatus.Disabled:
+                    if (coordinateWatcher.Permission == GeoPositionPermission.Denied)
+                    {
+                    }
                     break;
 
                 case GeoPositionStatus.Initializing:
@@ -48,11 +52,14 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
         }
 
-        void coordinate_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        private void coordinate_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            AddJOValue("lat", e.Position.Location.Latitude);
-            AddJOValue("lon", e.Position.Location.Longitude);
-            AddJOValue("alt", e.Position.Location.Altitude);
+            if (!e.Position.Location.IsUnknown)
+            {
+                AddJOValue("lat", e.Position.Location.Latitude);
+                AddJOValue("lon", e.Position.Location.Longitude);
+                AddJOValue("alt", e.Position.Location.Altitude);
+            }
         }
 
         private void AddJOValue(String key, double value)

@@ -167,7 +167,7 @@ namespace MobileLoggerApp
                 {
                     GoogleSearch(1);
                 }
-                GetWeatherData();
+                //GetWeatherData();
             }
             SaveSensorLog();
         }

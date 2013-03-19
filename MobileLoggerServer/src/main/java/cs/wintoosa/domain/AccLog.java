@@ -12,7 +12,7 @@ import javax.persistence.Entity;
  */
 @Entity
 public class AccLog extends Log{
-
+    
     private Float accX;
     
     private Float accY;

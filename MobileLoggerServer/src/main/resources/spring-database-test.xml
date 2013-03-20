@@ -22,19 +22,22 @@
 
     <!-- Sovelluksen repository-luokat (DAO-luokat) sijaitsevat pakkauksen wad alla -->
     <jpa:repositories base-package="cs.wintoosa.repository" />
-    
-    <!-- MySQL -->
+    <!--
+    <context:property-placeholder location="WEB-INF/db.properties"/>
+    -->
+    <!-- Postgre -->
     <!--
      <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/awesome"/>
-        <property name="username" value="root"/>
-        <property name="password" value=""/>
-    </bean> -->
-    
+        <property name="driverClassName" value="${driverClassName}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+    </bean> 
+    -->
     
     <!-- Käytetään muistiin ladattavaa tietokantaa -->
     <jdbc:embedded-database id="dataSource" type="HSQL"/>
+    
     
     <!-- Käytetään EclipseLinkkiä JPA-toteutuksena, määritellään myös persistence.xml-tiedoston sijainti -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

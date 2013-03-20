@@ -18,23 +18,21 @@
         http://www.springframework.org/schema/jdbc 
            http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
         http://www.springframework.org/schema/data/jpa
-           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd" xmlns:jee="http://www.springframework.org/schema/jee">
 
     <!-- Sovelluksen repository-luokat (DAO-luokat) sijaitsevat pakkauksen wad alla -->
     <jpa:repositories base-package="cs.wintoosa.repository" />
     
     <context:property-placeholder location="WEB-INF/db.properties"/>
     
-    <jdbc:embedded-database id="dataSource" type="HSQL"/>
     <!-- Postgre -->
-    <!--
      <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${driverClassName}"/>
         <property name="url" value="${url}"/>
         <property name="username" value="${username}"/>
         <property name="password" value="${password}"/>
     </bean> 
-    -->
     
     <!-- BoneCP configuration 
     <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">

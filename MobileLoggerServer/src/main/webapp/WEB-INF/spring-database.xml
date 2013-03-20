@@ -24,17 +24,18 @@
     <jpa:repositories base-package="cs.wintoosa.repository" />
     
     <context:property-placeholder location="WEB-INF/db.properties"/>
-    
-    <jdbc:embedded-database id="dataSource" type="HSQL"/>
-    <!-- Postgre -->
     <!--
+    <jdbc:embedded-database id="dataSource" type="HSQL"/>
+    -->
+    <!-- Postgre -->
+    
      <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${driverClassName}"/>
         <property name="url" value="${url}"/>
         <property name="username" value="${username}"/>
         <property name="password" value="${password}"/>
     </bean> 
-    -->
+   
     
     <!-- BoneCP configuration 
     <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">

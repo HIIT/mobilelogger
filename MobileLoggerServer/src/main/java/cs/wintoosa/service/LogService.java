@@ -102,35 +102,23 @@ public class LogService implements ILogService {
     public SessionLog saveSessionLog(SessionLog sessionLog){
         
         String phoneId = sessionLog.getPhoneId();
-        
-        if(phoneId== null)
-            return null;
-        
-        //first try to find the phone with the ID in the sessionLog
-        Phone phone = phoneRepositoryImpl.findByPhoneId(phoneId);
-        if(phone == null){ //if it doesn't exist in the DB, create one
+        Phone phone = phoneRepositoryImpl.findOne(phoneId);
+        if(phone == null) {
             phone = new Phone();
-            phone.setPhoneId(phoneId);
-            phone = phoneRepositoryImpl.save(phone);
+            phone.setId(phoneId);
         }
-        //set the phone into sessionlog
-        sessionLog.setPhone(phone);
         
-        //now we need to set all logs that don't have parent 
-        //session into this session
-        //object and save it
-        sessionLog.getLogs().addAll(logRepositoryImpl
-                .findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(
-                    phoneId, 
-                    sessionLog.getSessionStart(), 
-                    sessionLog.getSessionEnd()));
-        sessionLog = sessionRepositoryImpl.save(sessionLog); 
+        sessionLog.getLogs().addAll(
+                logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull
+                (phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd()));
         
         
-        
-        //now add the saved sessionlog into phone session list
         phone.getSessions().add(sessionLog);
-        phoneRepositoryImpl.save(phone);
+        phone = phoneRepositoryImpl.save(phone);
+        sessionLog.setPhone(phone);
+        sessionLog = sessionRepositoryImpl.save(sessionLog);
+        
+        
         
         return sessionLog;
     }

@@ -84,7 +84,7 @@ public class LogServiceTest extends AbstractTest{
         assertTrue("log should be saved to db and returned",saveLog != null);
         assertTrue("phone should be in the log now", saveLog.getPhone() != null);
         assertTrue("phone list of sessions shouldn't be null or empty", saveLog.getPhone().getSessions() != null);
-        Phone phone = phoneRepository.findByPhoneId(123456789012345l+"");
+        Phone phone = phoneRepository.findOne(123456789012345l+"");
         assertEquals("phone's list of sessions was incorrect", 1, phone.getSessions().size());
     }
 }

@@ -17,33 +17,13 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Phone implements Serializable{
     
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
-    private Long id;
-    
-    @NotNull
-    private String phoneId;
+    private String id;
     
     @OneToMany(targetEntity=SessionLog.class, mappedBy="phone")
     private List<SessionLog> sessions = new ArrayList<SessionLog>();
     
     private static final long serialVersionUID = 9654699l;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPhoneId() {
-        return phoneId;
-    }
-
-    public void setPhoneId(String phoneId) {
-        this.phoneId = phoneId;
-    }
 
     public List<SessionLog> getSessions() {
         return sessions;
@@ -51,6 +31,14 @@ public class Phone implements Serializable{
 
     public void setSessions(List<SessionLog> sessions) {
         this.sessions = sessions;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
     
 }

@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author jonimake
  */
-public interface IPhoneRepository extends JpaRepository<Phone, Long>{
-    public Phone findByPhoneId(String phoneId);
+public interface IPhoneRepository extends JpaRepository<Phone, String>{
 }

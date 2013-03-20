@@ -23,7 +23,7 @@
         <ol>
             <c:forEach var="phone" items="${phones}">
                 <li>
-                    <a href="<c:url value="/log/phone/${phone.phoneId}"/>">${phone.phoneId}</a>
+                    <a href="<c:url value="/log/phone/${phone.id}"/>">${phone.id}</a>
                 </li>
             </c:forEach>
                 

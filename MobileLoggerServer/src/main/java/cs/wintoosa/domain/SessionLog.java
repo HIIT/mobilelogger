@@ -58,10 +58,10 @@ public class SessionLog implements Serializable{
         this.phoneId = phoneId;
     }
     
-    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog", cascade= CascadeType.ALL)
+    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog", cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Log> logs = new ArrayList<Log>();
     
-    @ManyToOne(targetEntity=Phone.class, cascade= CascadeType.ALL)
+    @ManyToOne(targetEntity=Phone.class, cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Phone phone;
 
     public void setPhone(Phone phone) {

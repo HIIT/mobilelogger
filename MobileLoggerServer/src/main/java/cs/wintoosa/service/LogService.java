@@ -118,7 +118,9 @@ public class LogService implements ILogService {
         phone.getSessions().add(sessionLog);
         sessionLog.setPhone(phone);
         
-        phone = phoneRepositoryImpl.save(phone);
+        //this saves the phone into DB also because of 
+        //the cascade type declared in SessionLog for phone
+        sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
         
         return sessionLog;
     }

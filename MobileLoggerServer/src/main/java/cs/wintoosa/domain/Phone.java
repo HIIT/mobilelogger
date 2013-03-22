@@ -18,7 +18,7 @@ public class Phone implements Serializable{
     @Id
     private String id;
     
-    @OneToMany(targetEntity=SessionLog.class, mappedBy="phone", cascade= CascadeType.ALL)
+    @OneToMany(targetEntity=SessionLog.class, mappedBy="phone")
     private List<SessionLog> sessions = new ArrayList<SessionLog>();
     
     private static final long serialVersionUID = 9654699l;

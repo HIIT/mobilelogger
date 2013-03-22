@@ -5,11 +5,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     class KeyboardHandler : AbstractLogHandler
     {
-        JObject joKeyboard;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joKeyboard, "/log/keyboard");
+            SaveLogToDB(this.data, "/log/keyboard");
         }
 
         public void StartKeyBoardWatcher()
@@ -17,32 +16,22 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             MobileLoggerApp.MainPage.keyboardGotFocus += new MobileLoggerApp.MainPage.KeyboardFocus(KeyboardGotFocus);
             MobileLoggerApp.MainPage.keyboardLostFocus += new MobileLoggerApp.MainPage.KeyboardFocus(KeyboardLostFocus);
 
-            if (joKeyboard == null)
+            if (this.data == null)
             {
-                joKeyboard = new JObject();
+                this.data = new JObject();
             }
         }
 
         void KeyboardGotFocus()
         {
             AddJOValue("keyboardFocus", "gotFocus");
+            AddJOValue("timestamp", DeviceTools.GetUnixTime());
         }
 
         void KeyboardLostFocus()
         {
             AddJOValue("keyboardFocus", "lostFocus");
-        }
-
-        private void AddJOValue(String key, String value)
-        {
-            if (joKeyboard[key] == null)
-            {
-                joKeyboard.Add(key, value);
-            }
-            else
-            {
-                joKeyboard[key].Replace(value);
-            }
+            AddJOValue("timestamp", DeviceTools.GetUnixTime());
         }
     }
 }

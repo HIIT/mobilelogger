@@ -7,11 +7,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class CompassHandler : AbstractLogHandler
     {
         Compass compassWatcher;
-        JObject joCompass;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joCompass, "/log/compass");
+            SaveLogToDB(this.data, "/log/compass");
         }
         public void StartCompassWatcher()
         {
@@ -29,9 +28,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 }
                 compassWatcher.Start();
             }
-            if (joCompass == null)
+            if (this.data == null)
             {
-                joCompass = new JObject();
+                this.data = new JObject();
             }
         }
 
@@ -43,18 +42,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             AddJOValue("rawMagneticReadingX", e.SensorReading.MagnetometerReading.X);
             AddJOValue("rawMagneticReadingY", e.SensorReading.MagnetometerReading.Y);
             AddJOValue("rawMagneticReadingZ", e.SensorReading.MagnetometerReading.Z);
-        }
-
-        private void AddJOValue(String key, double value)
-        {
-            if (joCompass[key] == null)
-            {
-                joCompass.Add(key, (float)value);
-            }
-            else
-            {
-                joCompass[key].Replace((float)value);
-            }
+            AddJOValue("timestamp", DeviceTools.GetUnixTime());
         }
     }
 }

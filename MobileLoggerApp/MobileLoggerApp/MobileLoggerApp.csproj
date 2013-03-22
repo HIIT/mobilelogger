@@ -25,11 +25,14 @@
     <SilverlightAppEntry>MobileLoggerApp.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>Bin\Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
     <NoStdLib>true</NoStdLib>
@@ -50,7 +53,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWithDebugPrint|AnyCPU'">
     <OutputPath>bin\ReleaseWithDebugPrint\</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
     <Optimize>true</Optimize>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
@@ -67,6 +70,7 @@
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />
@@ -97,6 +101,7 @@
     <Compile Include="src\mobilelogger\Handlers\CompassHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\GpsHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\SessionHandler.cs" />
+    <Compile Include="src\mobilelogger\LogEventSaver.cs" />
     <Compile Include="src\PageLocations.cs" />
     <Compile Include="pages\ViewModels\ItemViewModel.cs" />
     <Compile Include="pages\ViewModels\MainViewModel.cs" />
@@ -154,4 +159,5 @@
   </Target>
   -->
   <ProjectExtensions />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

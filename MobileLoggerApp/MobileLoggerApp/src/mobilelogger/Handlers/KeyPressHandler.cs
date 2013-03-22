@@ -6,11 +6,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class KeyPressHandler : AbstractLogHandler
     {
-        JObject joKeyPress;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joKeyPress, "/log/keyPress");
+            SaveLogToDB(this.data, "/log/keyPress");
         }
 
         public void StartKeyPressWatcher()
@@ -18,9 +17,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             MobileLoggerApp.MainPage.keyDown += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyDown);
             MobileLoggerApp.MainPage.keyUp += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyUp);
 
-            if (joKeyPress == null)
+            if (this.data == null)
             {
-                joKeyPress = new JObject();
+                this.data = new JObject();
             }
         }
 
@@ -31,18 +30,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             AddJOValue("keyPressed", e.PlatformKeyCode);
-        }
-
-        private void AddJOValue(String key, int value)
-        {
-            if (joKeyPress[key] == null)
-            {
-                joKeyPress.Add(key, value);
-            }
-            else
-            {
-                joKeyPress[key].Replace(value);
-            }
         }
     }
 }

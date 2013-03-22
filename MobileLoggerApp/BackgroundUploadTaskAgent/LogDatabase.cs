@@ -165,5 +165,7 @@ namespace MobileLoggerScheduledAgent
         }
 
         public LogEvent entity { get; set; }
+
+
     }
 }

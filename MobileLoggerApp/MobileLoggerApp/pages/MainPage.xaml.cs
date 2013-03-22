@@ -97,6 +97,7 @@ namespace MobileLoggerApp
                 }
                 //nextPageButton.Visibility = Visibility.Visible;
             }
+            LogEventSaver.Instance.SaveAll();
         }
 
         /// <summary>
@@ -107,12 +108,15 @@ namespace MobileLoggerApp
         /// <returns>false if database does not exist</returns>
         private Boolean SaveLogToDB(JObject logEvent, string url)
         {
+            LogEventSaver.Instance.addEvent(logEvent, url);
+            /*
             using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
             {
                 if (!logDBContext.DatabaseExists()) return false;
 
                 logDBContext.addEvent(logEvent.ToString(), url);
             }
+             */ 
             return true;
         }
 
@@ -123,6 +127,7 @@ namespace MobileLoggerApp
         /// <param name="e">Event arguments of the tap event</param>
         private void itemTappedEvent(object sender, RoutedEventArgs e)
         {
+
             StackPanel stackPanel = (StackPanel)sender;
             ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
 
@@ -130,6 +135,7 @@ namespace MobileLoggerApp
             WebBrowserTask browser = new WebBrowserTask();
             JObject link = JObject.Parse(item.LineThree);
             SaveLogToDB(link, "/log/clicked");
+            LogEventSaver.Instance.SaveAll();
             browser.Uri = new Uri((string)link["link"]);
             browser.Show();
         }

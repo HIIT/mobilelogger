@@ -7,11 +7,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class GyroHandler : AbstractLogHandler
     {
         Gyroscope gyroWatcher;
-        JObject joGyro;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joGyro, "/log/gyro");
+            SaveLogToDB(this.data, "/log/gyro");
         }
 
         public void StartGyroWatcher()
@@ -29,9 +28,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 }
                 gyroWatcher.Start();
             }
-            if (joGyro == null)
+            if (this.data == null)
             {
-                joGyro = new JObject();
+                this.data = new JObject();
             }
         }
 
@@ -44,18 +43,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             AddJOValue("currentRotationRateX", e.SensorReading.RotationRate.X);
             AddJOValue("currentRotationRateY", e.SensorReading.RotationRate.Y);
             AddJOValue("currentRotationRateZ", e.SensorReading.RotationRate.Z);
-        }
-
-        private void AddJOValue(String key, double value)
-        {
-            if (joGyro[key] == null)
-            {
-                joGyro.Add(key, (float)value);
-            }
-            else
-            {
-                joGyro[key].Replace((float)value);
-            }
+            AddJOValue("timestamp", DeviceTools.GetUnixTime());
         }
     }
 }

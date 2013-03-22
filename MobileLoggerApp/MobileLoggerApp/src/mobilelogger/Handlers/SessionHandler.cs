@@ -42,6 +42,7 @@ namespace MobileLoggerApp.src.mobilelogger
             {
                 SaveLogToDB(obj, "/log/session");
                 hasStarted = hasEnded = false;
+                LogEventSaver.Instance.SaveAll();
             }
         }
     }

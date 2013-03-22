@@ -7,11 +7,11 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     public class AccelHandler : AbstractLogHandler
     {
         Accelerometer accelerometerWatcher;
-        JObject joAccel;
+        //JObject joAccel;
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joAccel, "/log/accel");
+            SaveLogToDB(this.data, "/log/accel");
         }
 
         public void StartAccelWatcher()
@@ -25,9 +25,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             }
             accelerometerWatcher.Start();
 
-            if (joAccel == null)
+            if (this.data == null)
             {
-                joAccel = new JObject();
+                this.data = new JObject();
             }
         }
 
@@ -36,18 +36,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             AddJOValue("accX", e.SensorReading.Acceleration.X);
             AddJOValue("accY", e.SensorReading.Acceleration.Y);
             AddJOValue("accZ", e.SensorReading.Acceleration.Z);
-        }
-
-        private void AddJOValue(String key, double value)
-        {
-            if (joAccel[key] == null)
-            {
-                joAccel.Add(key, (float)value);
-            }
-            else
-            {
-                joAccel[key].Replace((float)value);
-            }
+            AddJOValue("timestamp", DeviceTools.GetUnixTime());
         }
     }
 }

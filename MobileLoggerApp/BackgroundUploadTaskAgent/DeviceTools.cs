@@ -27,6 +27,14 @@ namespace MobileLoggerApp.src
             return (long) Math.Floor(diff.TotalMilliseconds);
         }
 
+        public static long GetUnixTime()
+        {
+            DateTime time = DateTime.UtcNow;
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeSpan diff = time - origin;
+            return (long)Math.Floor(diff.TotalMilliseconds);
+        }
+
         /// <summary>
         /// Turns a unix timestamp into a .NET DateTime for use at phoneside
         /// </summary>

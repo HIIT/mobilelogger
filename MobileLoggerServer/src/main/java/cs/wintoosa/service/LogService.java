@@ -114,11 +114,10 @@ public class LogService implements ILogService {
                 logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull
                 (phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd()));
         
-        
         phone.getSessions().add(sessionLog);
+        phone = phoneRepositoryImpl.save(phone);
+       
         sessionLog.setPhone(phone);
-        
-        //this saves the phone into DB also because of the cascade type declared in SessionLog for phone
         sessionLog = sessionRepositoryImpl.save(sessionLog);
         
         return sessionLog;

@@ -1,7 +1,9 @@
 package cs.wintoosa.service;
 
+import cs.wintoosa.repository.phone.IPhoneRepository;
+import cs.wintoosa.repository.log.ILogRepository;
+import cs.wintoosa.repository.session.ISessionRepository;
 import cs.wintoosa.domain.*;
-import cs.wintoosa.repository.*;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

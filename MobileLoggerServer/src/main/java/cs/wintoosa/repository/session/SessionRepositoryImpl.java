@@ -1,4 +1,4 @@
-package cs.wintoosa.repository;
+package cs.wintoosa.repository.session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

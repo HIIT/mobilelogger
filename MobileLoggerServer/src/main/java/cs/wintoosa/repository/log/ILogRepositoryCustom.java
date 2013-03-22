@@ -1,4 +1,4 @@
-package cs.wintoosa.repository;
+package cs.wintoosa.repository.log;
 
 import cs.wintoosa.domain.Log;
 import java.util.List;

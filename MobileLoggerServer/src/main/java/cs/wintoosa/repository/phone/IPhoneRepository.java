@@ -1,4 +1,4 @@
-package cs.wintoosa.repository;
+package cs.wintoosa.repository.phone;
 
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;

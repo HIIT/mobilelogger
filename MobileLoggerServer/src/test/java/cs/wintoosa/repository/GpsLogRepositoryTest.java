@@ -1,5 +1,6 @@
 package cs.wintoosa.repository;
 
+import cs.wintoosa.repository.log.ILogRepository;
 import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;

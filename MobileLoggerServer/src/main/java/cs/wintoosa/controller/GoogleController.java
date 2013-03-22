@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GoogleController {
     @Autowired
     ILogService logService;
-    
+    /*
     @RequestMapping(method=RequestMethod.PUT)
     @ResponseBody
     public boolean putLog(@RequestBody String data) {
@@ -30,7 +30,7 @@ public class GoogleController {
         
         return true;
     }
-    
+    */
     
 
     public void setLogService(ILogService logService) {

@@ -4,8 +4,6 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.AccLog;
-import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;

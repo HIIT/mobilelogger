@@ -3,7 +3,6 @@ package cs.wintoosa.repository.session;
 import cs.wintoosa.domain.SessionLog;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 /**
  *

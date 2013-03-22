@@ -1,8 +1,6 @@
 package cs.wintoosa.service;
 
 import cs.wintoosa.domain.*;
-import java.awt.print.Pageable;
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**

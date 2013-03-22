@@ -3,11 +3,11 @@ package cs.wintoosa.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -58,10 +58,10 @@ public class SessionLog implements Serializable{
         this.phoneId = phoneId;
     }
     
-    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
+    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog", cascade= CascadeType.ALL)
     private List<Log> logs = new ArrayList<Log>();
     
-    @ManyToOne(targetEntity=Phone.class)
+    @ManyToOne(targetEntity=Phone.class, cascade= CascadeType.ALL)
     private Phone phone;
 
     public void setPhone(Phone phone) {

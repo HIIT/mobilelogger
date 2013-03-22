@@ -1,15 +1,10 @@
 package cs.wintoosa.repository;
 
-import cs.wintoosa.repository.log.ILogRepository;
 import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.GpsLog;
-import cs.wintoosa.domain.Log;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import cs.wintoosa.repository.log.ILogRepository;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

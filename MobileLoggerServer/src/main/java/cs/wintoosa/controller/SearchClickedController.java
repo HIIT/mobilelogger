@@ -4,14 +4,12 @@
  */
 package cs.wintoosa.controller;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.TextLog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

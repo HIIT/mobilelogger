@@ -1,6 +1,5 @@
 package cs.wintoosa.domain;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 

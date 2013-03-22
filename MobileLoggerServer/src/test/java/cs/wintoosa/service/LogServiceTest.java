@@ -10,13 +10,9 @@ import cs.wintoosa.domain.Phone;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.repository.log.ILogRepository;
 import cs.wintoosa.repository.phone.IPhoneRepository;
-import cs.wintoosa.repository.session.ISessionRepository;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.*;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

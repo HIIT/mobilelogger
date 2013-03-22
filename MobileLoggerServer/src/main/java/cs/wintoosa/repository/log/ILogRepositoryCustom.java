@@ -1,9 +1,5 @@
 package cs.wintoosa.repository.log;
 
-import cs.wintoosa.domain.Log;
-import java.util.List;
-import org.springframework.data.jpa.repository.Query;
-
 /**
  * Add custom methods here
  * @author jonimake

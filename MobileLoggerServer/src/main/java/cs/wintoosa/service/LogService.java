@@ -1,9 +1,9 @@
 package cs.wintoosa.service;
 
-import cs.wintoosa.repository.phone.IPhoneRepository;
-import cs.wintoosa.repository.log.ILogRepository;
-import cs.wintoosa.repository.session.ISessionRepository;
 import cs.wintoosa.domain.*;
+import cs.wintoosa.repository.log.ILogRepository;
+import cs.wintoosa.repository.phone.IPhoneRepository;
+import cs.wintoosa.repository.session.ISessionRepository;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -116,11 +116,9 @@ public class LogService implements ILogService {
         
         
         phone.getSessions().add(sessionLog);
-        phone = phoneRepositoryImpl.save(phone);
         sessionLog.setPhone(phone);
-        sessionLog = sessionRepositoryImpl.save(sessionLog);
         
-        
+        phone = phoneRepositoryImpl.save(phone);
         
         return sessionLog;
     }

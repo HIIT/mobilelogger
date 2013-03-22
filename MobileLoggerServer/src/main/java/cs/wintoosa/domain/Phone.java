@@ -3,12 +3,10 @@ package cs.wintoosa.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -20,7 +18,7 @@ public class Phone implements Serializable{
     @Id
     private String id;
     
-    @OneToMany(targetEntity=SessionLog.class, mappedBy="phone")
+    @OneToMany(targetEntity=SessionLog.class, mappedBy="phone", cascade= CascadeType.ALL)
     private List<SessionLog> sessions = new ArrayList<SessionLog>();
     
     private static final long serialVersionUID = 9654699l;

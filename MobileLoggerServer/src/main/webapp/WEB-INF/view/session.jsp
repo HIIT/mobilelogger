@@ -14,7 +14,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Logged sessions</h1>
         <ol>
             <c:forEach var="session" items="${sessions}">
                 <li>

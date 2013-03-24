@@ -81,7 +81,9 @@ public class LogService implements ILogService {
     @Transactional(readOnly = true)
     public SessionLog getSessionById(long sessionId) {
         SessionLog session = sessionRepositoryImpl.findSessionById(sessionId);
-        session.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(session.getPhoneId(), session.getSessionStart(), session.getSessionEnd()));
+        if(session != null) {
+            session.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(session.getPhoneId(), session.getSessionStart(), session.getSessionEnd()));
+        }
         return session;
     }
     

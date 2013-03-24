@@ -54,12 +54,26 @@ public class GPSController {
     
     @RequestMapping(value="/put", method=RequestMethod.GET)
     public String putDummyLog(){
+        GpsLog log2 = new GpsLog();
+        log2.setAlt(1f);
+        log2.setLat(2f);
+        log2.setLon(2f);
+        log2.setPhoneId("foo");
+        log2.setTimestamp(new Long(10));
+        logService.saveLog(log2);
+        GpsLog log1 = new GpsLog();
+        log1.setAlt(11f);
+        log1.setLat(21f);
+        log1.setLon(21f);
+        log1.setPhoneId("foo");
+        log1.setTimestamp(new Long(20));
+        logService.saveLog(log1);
         GpsLog log = new GpsLog();
-        log.setAlt(1f);
-        log.setLat(2f);
-        log.setLon(2f);
-        log.setPhoneId("13245687890");
-        log.setTimestamp(System.currentTimeMillis());
+        log.setAlt(111f);
+        log.setLat(211f);
+        log.setLon(211f);
+        log.setPhoneId("foo");
+        log.setTimestamp(new Long(30));
         logService.saveLog(log);
         System.out.println("Added dumy log");
         return "redirect:/";

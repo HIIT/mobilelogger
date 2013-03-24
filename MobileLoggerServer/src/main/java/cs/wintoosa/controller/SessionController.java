@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,10 +48,21 @@ public class SessionController {
         return logService.getAllSessions();
     }
     
-    @RequestMapping(value = "{sessionId}", method = RequestMethod.GET)
-    @ResponseBody
-    public SessionLog getLogsBySession(@PathVariable("sessionId") long sessionId) {
-        return logService.getSessionById(sessionId);
+    @RequestMapping(value = "/{sessionId}", method = RequestMethod.GET)
+    public String getLogsBySession(@PathVariable long sessionId, Model model) {
+        System.out.println("getting logs in session");
+        model.addAttribute("session", logService.getSessionById(sessionId));
+        return "matrix";
+    }
+    
+    @RequestMapping(value ="/add", method=RequestMethod.GET)
+    public String seedLogs(){
+        SessionLog log = new SessionLog();
+        log.setSessionStart(new Long(0));
+        log.setSessionEnd(new Long(100));
+        log.setPhoneId("foo");
+        logService.saveSessionLog(log);
+        return "redirect:/log/gps/put";
     }
     
 }

@@ -35,7 +35,7 @@
             </li>
 
             <li>
-               <a href=" <c:url value="/log/gps"/>" >Gps</a>
+                <a href=" <c:url value="/log/gps"/>" >Gps</a>
             </li>
 
             <li>
@@ -79,6 +79,6 @@
             </li>
 
         </ul>
-
+        <a href="<c:url value="/log/session/add"/>" >seed db</a>
     </body>
 </html>

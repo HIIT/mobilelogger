@@ -56,7 +56,6 @@ public abstract class Log implements Serializable{
     public void setPhoneId(String id) {
         this.phoneId = id;
     }
-
     public Long getId() {
         return id;
     }

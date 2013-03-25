@@ -34,15 +34,12 @@ public class SearchClickedController {
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
     public List<Log> getLogs() {
-        System.out.println("printing logs");
         return logService.getAll(TextLog.class); //Currently returns all logs, not only gps logs
-        //return "Under Contsrtuction!";
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putTextLog(@RequestBody String log, BindingResult result) {
-        System.out.println("put text log");
         if(result.hasErrors()) {
             System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())

@@ -107,13 +107,5 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 AddJOValue("InterfaceType", null);
             }
         }
-
-        private void AddJOValue(String key, String value)
-        {
-            if (joNetwork[key] == null)
-                joNetwork.Add(key, value);
-            else
-                joNetwork[key].Replace(value);
-        }
     }
 }

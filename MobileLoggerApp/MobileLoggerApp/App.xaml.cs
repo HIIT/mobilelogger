@@ -141,8 +141,8 @@ namespace MobileLoggerApp
             if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
-                sessionHandler.Start();
             }
+            sessionHandler.Start();
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -150,6 +150,7 @@ namespace MobileLoggerApp
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             sessionHandler.End();
+            LogEventSaver.Instance.SaveAll();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -157,6 +158,7 @@ namespace MobileLoggerApp
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
             sessionHandler.End();
+            LogEventSaver.Instance.SaveAll();
         }
 
         // Code to execute if a navigation fails

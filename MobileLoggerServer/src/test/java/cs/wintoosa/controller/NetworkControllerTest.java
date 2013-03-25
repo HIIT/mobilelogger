@@ -38,7 +38,7 @@ public class NetworkControllerTest extends AbstractTest{
         
         String jsondata = "{\"operator\":\"test\",\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"foo\"}";
 
-        this.mockMvc.perform(put("/log/operator").contentType(MediaType.APPLICATION_JSON).content(jsondata))
+        this.mockMvc.perform(put("/log/network").contentType(MediaType.APPLICATION_JSON).content(jsondata))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"))
                 .andReturn();

@@ -17,6 +17,9 @@ namespace MobileLoggerApp.src.mobilelogger
 
         protected Boolean SaveLogToDB(JObject logEvent, string url)
         {
+            if (logEvent == null)
+                return false;
+
             if (logEvent["phoneId"] == null)
                 logEvent.Add("phoneId", DeviceTools.GetDeviceId());
             

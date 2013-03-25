@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.TextLog;
 import cs.wintoosa.service.ILogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GoogleController {
     @Autowired
     ILogService logService;
-    /*
+    
     @RequestMapping(method=RequestMethod.PUT)
     @ResponseBody
-    public boolean putLog(@RequestBody String data) {
-        System.out.println(data);
-        
+    public boolean putLog(@RequestBody TextLog data) {
         
         return true;
     }
-    */
+    
     
 
     public void setLogService(ILogService logService) {

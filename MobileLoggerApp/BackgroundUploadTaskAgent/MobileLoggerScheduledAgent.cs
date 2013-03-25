@@ -33,7 +33,7 @@ namespace MobileLoggerScheduledAgent
         /// Code to execute on Unhandled Exceptions
         private void ScheduledAgent_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Unhandled exception"); 
+            System.Diagnostics.Debug.WriteLine(this.GetType().Name + " Unhandled exception"); 
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
@@ -52,8 +52,8 @@ namespace MobileLoggerScheduledAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-            
-            System.Diagnostics.Debug.WriteLine("OnInvoke");
+
+            System.Diagnostics.Debug.WriteLine(this.GetType().Name + ".OnInvoke");
             //TODO: Add code to perform your task in background
             SendMessages();
             
@@ -62,7 +62,7 @@ namespace MobileLoggerScheduledAgent
 
         private void SendMessages()
         {
-            System.Diagnostics.Debug.WriteLine("SendMessages");
+            System.Diagnostics.Debug.WriteLine(this.GetType().Name +  ".SendMessages");
 
             using (LogEventDataContext logDb = new LogEventDataContext(LogEventDataContext.ConnectionString))
             {
@@ -88,10 +88,6 @@ namespace MobileLoggerScheduledAgent
 
         private void SendMessage(LogEvent logevent)
         {
-            System.Diagnostics.Debug.WriteLine(logevent.relativeUrl);
-            System.Diagnostics.Debug.WriteLine(logevent.sensorEvent);
-            System.Diagnostics.Debug.WriteLine(logevent.Time);
-
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serverRoot + logevent.relativeUrl);
             request.Method = "PUT";
             request.ContentType = "application/json";
@@ -142,8 +138,15 @@ namespace MobileLoggerScheduledAgent
                 StreamReader streamRead = new StreamReader(streamResponse);
                 string responseString = streamRead.ReadToEnd();
                 //if (responseString.Equals("true"))
-                deleteFromDB(logevent);
-                System.Diagnostics.Debug.WriteLine("response " + responseString);
+
+
+                if (responseString.Equals("true"))
+                    deleteFromDB(logevent);
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + "response: " + responseString);
+                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + "logevent: " + logevent.ToString());
+                }
                 // Close the stream object
                
                 streamRead.Close();
@@ -154,7 +157,10 @@ namespace MobileLoggerScheduledAgent
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " relativeUrl " + logevent.relativeUrl);
+                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " logevent ToString " + logevent.ToString());
+                System.Diagnostics.Debug.WriteLine(e.GetBaseException());
+                System.Diagnostics.Debug.WriteLine(e.StackTrace);
             }
         }
 

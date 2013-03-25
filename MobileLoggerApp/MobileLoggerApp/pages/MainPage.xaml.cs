@@ -100,7 +100,7 @@ namespace MobileLoggerApp
                 }
                 //nextPageButton.Visibility = Visibility.Visible;
             }
-            LogEventSaver.Instance.SaveAll();
+            //LogEventSaver.Instance.SaveAll();
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace MobileLoggerApp
             WebBrowserTask browser = new WebBrowserTask();
             JObject link = JObject.Parse(item.LineThree);
             SaveLogToDB(link, "/log/clicked");
-            LogEventSaver.Instance.SaveAll();
+           // LogEventSaver.Instance.SaveAll();
             browser.Uri = new Uri((string)link["link"]);
             browser.Show();
         }

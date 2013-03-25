@@ -21,6 +21,9 @@ namespace MobileLoggerApp
         public static event KeyPressEventHandler keyDown;
         public static event KeyPressEventHandler keyUp;
 
+        public delegate void CustomPressedEventHandler(object sender, EventArgs e);
+        public static event KeyEventHandler keyPressed;
+
         public static event KeyboardFocus keyboardGotFocus;
         public static event KeyboardFocus keyboardLostFocus;
 
@@ -162,12 +165,15 @@ namespace MobileLoggerApp
         /// <param name="e">Arguments for the key event that initiated this event</param>
         private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
+            
             keyUp(sender, e);
+            
 
             if (e.Key.Equals(Key.Enter))
             {
                 this.Focus();
                 searchTerm = SearchTextBox.Text;
+                
 
                 if (!searchTerm.Equals(""))
                 {
@@ -312,11 +318,6 @@ namespace MobileLoggerApp
         {
             System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();
-        }
-
-        private void nextPageButton_Click_1(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

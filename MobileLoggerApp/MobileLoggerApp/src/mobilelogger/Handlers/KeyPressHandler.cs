@@ -29,7 +29,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            AddJOValue("keyPressed", e.PlatformKeyCode);
+            AddJOValue("keyPressed", e.Key.ToString());
         }
     }
 }

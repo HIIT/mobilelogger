@@ -77,6 +77,14 @@
             <li>
                 <a href="<c:url value="/log/bluetooth"/>" >Bluetooth</a>
             </li>
+            
+            <li>
+                <a href="<c:url value="/log/keyboard"/>" >Keyboard</a>
+            </li>
+            
+            <li>
+                <a href="<c:url value="/log/keyPress"/>" >Keypress</a>
+            </li>
 
         </ul>
 

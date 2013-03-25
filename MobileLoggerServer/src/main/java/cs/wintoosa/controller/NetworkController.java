@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.NetLog;
+import cs.wintoosa.domain.Network;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import javax.validation.Valid;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author vkukkola
  */
 @Controller
-@RequestMapping(value = "/log/operator")
+@RequestMapping(value = "/log/network")
 public class NetworkController {
     @Autowired
     ILogService logService;
@@ -32,13 +32,12 @@ public class NetworkController {
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
     public List<Log> getLogs() {
-        return logService.getAll(NetLog.class);
+        return logService.getAll(Network.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putOperatorLog(@Valid @RequestBody NetLog log, BindingResult result) {
-        System.out.println("put plain log");
+    public boolean putNetworkLog(@Valid @RequestBody Network log, BindingResult result) {
         if(result.hasErrors()) {
             System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())

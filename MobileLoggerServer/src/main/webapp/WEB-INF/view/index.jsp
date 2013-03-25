@@ -20,6 +20,8 @@
         <h1>Mobile Logger Index</h1>
         <h2>${ContextPath}</h2>
 
+        <h3>Done</h3>
+
         <ul>
 
             <li>
@@ -35,7 +37,7 @@
             </li>
 
             <li>
-               <a href=" <c:url value="/log/gps"/>" >Gps</a>
+                <a href=" <c:url value="/log/gps"/>" >Gps</a>
             </li>
 
             <li>
@@ -51,9 +53,30 @@
             </li>
 
             <li>
-                <a href="<c:url value="/log/clicked"/>" >Clicked</a>
+                <a href="<c:url value="/log/network"/>" >Network</a>
             </li>
 
+            <li>
+                <a href="<c:url value="/log/keyboard"/>" >Keyboard</a>
+            </li>
+
+            <li>
+                <a href="<c:url value="/log/keyPress"/>" >Keypress</a>
+            </li>
+
+        </ul>
+
+        <h3>Todo</h3>
+        <ul>
+            <li>
+                <a href="<c:url value="/log/clicked"/>" >Clicked</a>
+            </li>
+            <li>
+                <a href="<c:url value="/log/bluetooth"/>" >Bluetooth</a>
+            </li>
+            <li>
+                <a href="<c:url value="/log/proximity"/>" >Proximity</a>
+            </li>
             <li>
                 <a href="<c:url value="/log/micro"/>" >Sounds</a>
             </li>
@@ -61,28 +84,8 @@
             <li>
                 <a href="<c:url value="/log/light"/>" >Light</a>
             </li>
-
-            <li>
-                <a href="<c:url value="/log/network"/>" >Network</a>
-            </li>
-
-            <li>
-                <a href="<c:url value="/log/proximity"/>" >Proximity</a>
-            </li>
-
-            <li>
-                <a href="<c:url value="/log/bluetooth"/>" >Bluetooth</a>
-            </li>
-            
-            <li>
-                <a href="<c:url value="/log/keyboard"/>" >Keyboard</a>
-            </li>
-            
-            <li>
-                <a href="<c:url value="/log/keyPress"/>" >Keypress</a>
-            </li>
-
         </ul>
+
 
     </body>
 </html>

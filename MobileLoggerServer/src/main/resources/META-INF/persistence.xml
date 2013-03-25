@@ -16,6 +16,7 @@
     <class>cs.wintoosa.domain.SessionLog</class>
     <class>cs.wintoosa.domain.KeyPress</class>
     <class>cs.wintoosa.domain.Keyboard</class>
+    <class>cs.wintoosa.domain.Network</class>
     <properties>
       <property name="showSql" value="true"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>

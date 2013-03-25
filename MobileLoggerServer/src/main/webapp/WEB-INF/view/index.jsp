@@ -39,10 +39,6 @@
             </li>
 
             <li>
-                <a href="<c:url value="/log/operator"/>" >Operator</a>
-            </li>
-
-            <li>
                 <a href="<c:url value="/log/compass"/>" >Compass</a>
             </li>
 
@@ -67,7 +63,7 @@
             </li>
 
             <li>
-                <a href="<c:url value="/log/wifi"/>" >Wifi</a>
+                <a href="<c:url value="/log/network"/>" >Network</a>
             </li>
 
             <li>

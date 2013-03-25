@@ -92,12 +92,23 @@ namespace MobileLoggerApp
                     obj.Add("index", index + offset);
                     index++;
                     obj.Add("time", DeviceTools.GetUnixTime(timestamp));
+                    if (obj.ToString().Length > 4000)
+                    {
+                        obj.Remove("htmlFormattedUrl");
+                        obj.Remove("htmlSnippet");
+                        obj.Remove("htmlTitle");
+                        if (obj.ToString().Length > 4000) 
+                        {
+                            obj.Remove("pagemap");
+                        }
+                    }
                     SaveLogToDB(obj, "/log/google");
                     App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = t.ToString() });
                 }
                 //nextPageButton.Visibility = Visibility.Visible;
             }
             LogEventSaver.Instance.SaveAll();
+            progressBar.IsIndeterminate = false;
         }
 
         /// <summary>
@@ -166,6 +177,7 @@ namespace MobileLoggerApp
 
             if (e.Key.Equals(Key.Enter))
             {
+                progressBar.IsIndeterminate = true;
                 this.Focus();
                 searchTerm = SearchTextBox.Text;
 

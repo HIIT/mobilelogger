@@ -70,7 +70,7 @@ namespace MobileLoggerApp.src
                 var stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
-                //Console.WriteLine(data);
+                System.Diagnostics.Debug.WriteLine("Google search result is {0} characters long.", data.Length);
                 JObject JSON = JObject.Parse(data);
 
                 Deployment.Current.Dispatcher.BeginInvoke(() =>

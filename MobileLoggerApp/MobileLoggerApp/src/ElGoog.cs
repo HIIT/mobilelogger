@@ -79,7 +79,7 @@ namespace MobileLoggerApp.src
                     {
                         context.Update(JSON, true);
                     }
-                    else 
+                    else
                     {
                         context.Update(JSON, false);
                     }

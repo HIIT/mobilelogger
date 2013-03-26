@@ -1,8 +1,8 @@
 ﻿using MobileLoggerApp.src.mobilelogger.Handlers;
 using Newtonsoft.Json.Linq;
 using System;
-using System.IO;
 using System.Device.Location;
+using System.IO;
 using System.Net;
 
 namespace MobileLoggerApp.src
@@ -18,15 +18,21 @@ namespace MobileLoggerApp.src
         /// </summary> 
         public void GetForecast()
         {
-            //String latitude = GpsHandler.joCoordinates.GetValue("lat").ToString();
-            //String longitude = GpsHandler.joCoordinates.GetValue("lon").ToString();
-            //String apiKey = "b531d9d0b8112733132602";
+            if (GpsHandler.coordinateWatcher.Permission != GeoPositionPermission.Denied)
+            {
+                if (GpsHandler.coordinateWatcher.Status == GeoPositionStatus.Ready)
+                {
+                    string latitude = GpsHandler.latitude;
+                    string longitude = GpsHandler.longitude;
+                    string apiKey = "b531d9d0b8112733132602";
 
-            //string uri = String.Format("http://free.worldweatheronline.com/feed/weather.ashx?q=" + latitude + "," + longitude + "&format=json&num_of_days=2&key=" + apiKey);
+                    string uri = String.Format("http://free.worldweatheronline.com/feed/weather.ashx?q=" + latitude + "," + longitude + "&format=json&num_of_days=2&key=" + apiKey);
 
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            //request.Method = "GET";
-            //request.BeginGetResponse(GetResponseCallback, request);
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+                    request.Method = "GET";
+                    request.BeginGetResponse(GetResponseCallback, request);
+                }
+            }
         }
 
         /// <summary>

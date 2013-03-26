@@ -1,13 +1,10 @@
 ﻿using Microsoft.Devices.Sensors;
-using Newtonsoft.Json.Linq;
 using System;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class GyroHandler : AbstractLogHandler
     {
-        Gyroscope gyroWatcher;
-
         public override void SaveSensorLog()
         {
             SaveLogToDB(this.data, "/log/gyro");
@@ -17,13 +14,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
-                if (gyroWatcher == null)
-                {
-                    gyroWatcher = new Gyroscope();
-                    gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                    gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
-                }
-                gyroWatcher.Start();
+                Gyroscope gyroWatcher = new Gyroscope();
+                gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
             }
         }
 

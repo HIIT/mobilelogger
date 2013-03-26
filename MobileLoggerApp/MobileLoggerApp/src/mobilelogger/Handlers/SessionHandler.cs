@@ -5,8 +5,7 @@ namespace MobileLoggerApp.src.mobilelogger
 {
     public class SessionHandler : AbstractLogHandler
     {
-        private DateTime start;
-        private DateTime end;
+        private DateTime start, end;
 
         private static bool hasEnded = false;
         private static bool hasStarted = false;

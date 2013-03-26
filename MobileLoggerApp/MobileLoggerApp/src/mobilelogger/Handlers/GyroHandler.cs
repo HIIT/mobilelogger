@@ -19,10 +19,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 if (gyroWatcher == null)
                 {
-                    // Instantiate the Gyroscope.
                     gyroWatcher = new Gyroscope();
-                    // Specify the desired time between updates. The sensor accepts
-                    // intervals in multiples of 20 ms.
                     gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                     gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
                 }

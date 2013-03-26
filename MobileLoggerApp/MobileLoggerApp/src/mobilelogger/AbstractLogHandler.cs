@@ -1,10 +1,9 @@
-﻿using MobileLoggerScheduledAgent;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 
 namespace MobileLoggerApp.src.mobilelogger
 {
-    public abstract class AbstractLogHandler 
+    public abstract class AbstractLogHandler
     {
         private LogEventSaver saver = LogEventSaver.Instance;
 
@@ -22,21 +21,13 @@ namespace MobileLoggerApp.src.mobilelogger
 
             if (logEvent["phoneId"] == null)
                 logEvent.Add("phoneId", DeviceTools.GetDeviceId());
-            
+
             if (logEvent["checksum"] != null)
                 logEvent.Remove("checksum");
             logEvent.Add("checksum", DeviceTools.CalculateSHA1(logEvent.ToString()));
 
             saver.addEvent(new JObject(logEvent), url);
 
-            /*
-            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
-            {
-                if (!logDBContext.DatabaseExists()) return false;
-
-                logDBContext.addEvent(logEvent.ToString(), url);
-            }
-            */ 
             return true;
         }
 
@@ -47,6 +38,5 @@ namespace MobileLoggerApp.src.mobilelogger
             else
                 this.data[key].Replace(value);
         }
-
     }
 }

@@ -7,13 +7,13 @@ using System.Text;
 
 namespace MobileLoggerApp.src.mobilelogger
 {
-    public class LogEventSaver 
+    public class LogEventSaver
     {
-         private Queue<LogEvent> saveQueue = new Queue<LogEvent>();
+        private Queue<LogEvent> saveQueue = new Queue<LogEvent>();
 
         private static LogEventSaver instance;
 
-        private LogEventSaver() {}
+        private LogEventSaver() { }
 
         public static LogEventSaver Instance
         {
@@ -29,18 +29,17 @@ namespace MobileLoggerApp.src.mobilelogger
 
         public void SaveAll()
         {
-            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString)) 
+            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
             {
                 while (saveQueue.Any()) //while !isEmpty
                 {
                     LogEvent e = saveQueue.Dequeue();
                     logDBContext.addEvent(e.data.ToString(), e.url);
                 }
-               
             }
         }
 
-        public void addEvent(JObject data, string url) 
+        public void addEvent(JObject data, string url)
         {
             saveQueue.Enqueue(new LogEvent(data, url));
         }
@@ -56,7 +55,4 @@ namespace MobileLoggerApp.src.mobilelogger
             public String url { get; set; }
         }
     }
-
-    
-    
 }

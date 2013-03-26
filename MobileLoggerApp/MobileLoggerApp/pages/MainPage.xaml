@@ -48,6 +48,11 @@
         </Style>
     </phone:PhoneApplicationPage.Resources>
 
+    
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsVisible="False" IsIndeterminate="True"/>
+    </shell:SystemTray.ProgressIndicator>
+    
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
@@ -58,8 +63,9 @@
             <controls:PivotItem Header="Search" Margin="12,0">
                 <!--Double line list with text wrapping-->
                 <Grid>
+                    
                     <StackPanel Margin="0,0,0,557">
-                        <ProgressBar Name="progressBar" IsIndeterminate="False" Height="10"></ProgressBar>
+                        
                         <TextBox x:Name="SearchTextBox" Text="" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" KeyUp="SearchTextBox_KeyUp"></TextBox>
                     </StackPanel>
                     <ListBox x:Name="FirstListBox" ItemsSource="{Binding Items}" Margin="0,78,0,0" Style="{StaticResource ListBoxStyle1}">

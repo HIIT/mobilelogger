@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
+using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using MobileLoggerApp.pages;
 using MobileLoggerApp.src;
@@ -7,6 +8,7 @@ using MobileLoggerApp.src.mobilelogger;
 using MobileLoggerScheduledAgent;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -37,6 +39,7 @@ namespace MobileLoggerApp
         // Constructor
         public MainPage()
         {
+            
             InitializeComponent();
             //start background agent
             StartAgent();
@@ -100,27 +103,32 @@ namespace MobileLoggerApp
                 int offset = (int)JSON["queries"]["request"][0].Value<int>("startIndex");
 
                 foreach (JToken t in searchResults)
-                {
-                    JObject obj = (JObject)t;
-                    obj.Add("index", index + offset);
-                    index++;
-                    obj.Add("time", DeviceTools.GetUnixTime(timestamp));
-                    if (obj.ToString().Length > 4000)
-                    {
-                        obj.Remove("htmlFormattedUrl");
-                        obj.Remove("htmlSnippet");
-                        obj.Remove("htmlTitle");
-                        if (obj.ToString().Length > 4000) 
-                        {
-                            obj.Remove("pagemap");
-                        }
-                    }
-                    SaveLogToDB(obj, "/log/google");
-                    App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = t.ToString() });
-                }
+                    index = ProcessSearchResult(index, offset, t);
                 //nextPageButton.Visibility = Visibility.Visible;
             }
-            progressBar.IsIndeterminate = false;
+            SystemTray.ProgressIndicator.IsVisible = false;
+        }
+
+        private int ProcessSearchResult( int index, int offset, JToken t)
+        {
+            DateTime timestamp = DateTime.UtcNow;
+            JObject obj = (JObject)t;
+            obj.Add("index", index + offset);
+            index++;
+            obj.Add("time", DeviceTools.GetUnixTime(timestamp));
+            if (obj.ToString().Length > 4000)
+            {
+                obj.Remove("htmlFormattedUrl");
+                obj.Remove("htmlSnippet");
+                obj.Remove("htmlTitle");
+                if (obj.ToString().Length > 4000)
+                {
+                    obj.Remove("pagemap");
+                }
+            }
+            SaveLogToDB(obj, "/log/google");
+            App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = t.ToString() });
+            return index;
         }
 
         /// <summary>
@@ -183,7 +191,7 @@ namespace MobileLoggerApp
 
             if (e.Key.Equals(Key.Enter))
             {
-                progressBar.IsIndeterminate = true;
+                SystemTray.ProgressIndicator.IsVisible = true;
                 this.Focus();
                 searchTerm = SearchTextBox.Text;
                 

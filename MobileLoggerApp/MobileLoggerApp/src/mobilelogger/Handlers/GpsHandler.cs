@@ -6,7 +6,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class GpsHandler : AbstractLogHandler
     {
-        GeoCoordinateWatcher coordinateWatcher;
+        //used in WeatherInformation
+        public static GeoCoordinateWatcher coordinateWatcher;
+        public static string latitude, longitude;
 
         public override void SaveSensorLog()
         {
@@ -52,8 +54,11 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         {
             if (!e.Position.Location.IsUnknown)
             {
-                AddJOValue("lat", e.Position.Location.Latitude);
-                AddJOValue("lon", e.Position.Location.Longitude);
+                latitude = e.Position.Location.Latitude.ToString();
+                longitude = e.Position.Location.Longitude.ToString();
+
+                AddJOValue("lat", latitude);
+                AddJOValue("lon", longitude);
                 AddJOValue("alt", e.Position.Location.Altitude);
                 AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }

@@ -8,11 +8,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     class NetworkHandler : AbstractLogHandler
     {
-        JObject joNetwork;
-
         public override void SaveSensorLog()
         {
-            SaveLogToDB(joNetwork, "/log/network");
+            SaveLogToDB(this.data, "/log/network");
         }
 
         public void StartNetwork()

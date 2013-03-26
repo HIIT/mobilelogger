@@ -21,7 +21,6 @@ namespace MobileLoggerApp
         public delegate void KeyboardFocus();
         public delegate void TouchEventHandler(MainPage mainPage, TouchFrameEventArgs e);
 
-        public static event KeyPressEventHandler keyDown;
         public static event KeyPressEventHandler keyUp;
 
         public delegate void CustomPressedEventHandler(object sender, EventArgs e);
@@ -168,11 +167,6 @@ namespace MobileLoggerApp
             keyboardLostFocus();
         }
 
-        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            keyDown(sender, e);
-        }
-
         /// <summary>
         /// Event handler for search box, sends the search query to be queried from Google Custom Search
         /// </summary>
@@ -191,7 +185,7 @@ namespace MobileLoggerApp
                 if (!searchTerm.Equals(""))
                 {
                     GoogleSearch(1);
-                    //GetWeatherData();
+                    GetWeatherData();
                 }
             }
             SaveSensorLog();
@@ -219,11 +213,8 @@ namespace MobileLoggerApp
         /// </summary>
         private void GoogleSearch(int page)
         {
-            if (searchTerm != "")
-            {
-                ElGoog search = new ElGoog(this);
-                search.Search(searchTerm, page);
-            }
+            ElGoog search = new ElGoog(this);
+            search.Search(searchTerm, page);
         }
 
         private void GetWeatherData()

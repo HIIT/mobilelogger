@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
@@ -13,9 +12,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         public void StartScreenTouchWatcher()
         {
             MobileLoggerApp.MainPage.screenTouch += new MobileLoggerApp.MainPage.TouchEventHandler(Touch_FrameReported);
-
-            if (this.data == null)
-                this.data = new JObject();
         }
 
         void Touch_FrameReported(MainPage mainPage, TouchFrameEventArgs e)

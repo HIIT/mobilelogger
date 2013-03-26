@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace MobileLoggerApp.src.mobilelogger.Handlers
+﻿namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     class KeyboardHandler : AbstractLogHandler
     {
-
         public override void SaveSensorLog()
         {
             SaveLogToDB(this.data, "/log/keyboard");

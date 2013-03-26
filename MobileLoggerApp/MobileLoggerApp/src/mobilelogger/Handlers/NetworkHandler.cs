@@ -19,9 +19,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged += new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
 
-            if (joNetwork == null)
-                joNetwork = new JObject();
-
             UpdateNetworkValues();
         }
 
@@ -57,9 +54,15 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             if (DeviceNetworkInformation.IsCellularDataEnabled)
             {
                 if (DeviceNetworkInformation.CellularMobileOperator != null)
+                {
                     AddJOValue("operator", DeviceNetworkInformation.CellularMobileOperator.ToString());
+                    AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                }
                 else
+                {
                     AddJOValue("operator", null);
+                    AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                }
             }
         }
 
@@ -95,6 +98,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 AddJOValue("InterfaceState", netInterfaceInfo.InterfaceState.ToString());
                 AddJOValue("InterfaceSubtype", netInterfaceInfo.InterfaceSubtype.ToString());
                 AddJOValue("InterfaceType", netInterfaceInfo.InterfaceType.ToString());
+                AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
             else
             {
@@ -105,15 +109,8 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 AddJOValue("InterfaceState", null);
                 AddJOValue("InterfaceSubtype", null);
                 AddJOValue("InterfaceType", null);
+                AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
-        }
-
-        private void AddJOValue(String key, String value)
-        {
-            if (joNetwork[key] == null)
-                joNetwork.Add(key, value);
-            else
-                joNetwork[key].Replace(value);
         }
     }
 }

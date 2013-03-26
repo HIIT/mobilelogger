@@ -9,17 +9,17 @@
 
         public void StartKeyBoardWatcher()
         {
-            MobileLoggerApp.MainPage.keyboardGotFocus += new MobileLoggerApp.MainPage.KeyboardFocus(KeyboardGotFocus);
-            MobileLoggerApp.MainPage.keyboardLostFocus += new MobileLoggerApp.MainPage.KeyboardFocus(KeyboardLostFocus);
+            MobileLoggerApp.MainPage.keyboardGotFocus += new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardGotFocus);
+            MobileLoggerApp.MainPage.keyboardLostFocus += new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardLostFocus);
         }
 
-        void KeyboardGotFocus()
+        private void KeyboardGotFocus()
         {
             AddJOValue("keyboardFocus", "gotFocus");
             AddJOValue("timestamp", DeviceTools.GetUnixTime());
         }
 
-        void KeyboardLostFocus()
+        private void KeyboardLostFocus()
         {
             AddJOValue("keyboardFocus", "lostFocus");
             AddJOValue("timestamp", DeviceTools.GetUnixTime());

@@ -12,6 +12,9 @@ namespace MobileLoggerApp.src
         private string searchQuery;
         private int page;
 
+        public delegate void SearchDataHandler(JObject searchData);
+        public static event SearchDataHandler searchDataEvent;
+
         /// <summary>
         /// Constructor for the Google Search handles a Google search asynchronously
         /// </summary>
@@ -70,20 +73,15 @@ namespace MobileLoggerApp.src
                 var stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
-                System.Diagnostics.Debug.WriteLine("Google search result is {0} characters long.", data.Length);
-                JObject JSON = JObject.Parse(data);
+                JObject searchData = JObject.Parse(data);
+                JArray searchResults = (JArray)searchData["items"];
 
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    if (page == 1)
-                    {
-                        context.Update(JSON, true);
-                    }
-                    else
-                    {
-                        context.Update(JSON, false);
-                    }
+                    context.UpdateSearchResults(searchResults, page == 1);
                 });
+
+                searchDataEvent(searchData);
             }
             catch (Exception exception)
             {

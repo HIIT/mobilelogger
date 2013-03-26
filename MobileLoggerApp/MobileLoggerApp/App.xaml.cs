@@ -119,6 +119,11 @@ namespace MobileLoggerApp
             Application.Current.Resources.Add("touchHandler", screenTouch);
             screenTouch.StartScreenTouchWatcher();
             logHandlers.Add(screenTouch);
+
+            SearchDataHandler searchData = new SearchDataHandler();
+            Application.Current.Resources.Add("searchDataHandler", searchData);
+            searchData.StartSearchDataHandler();
+            logHandlers.Add(searchData);
         }
 
         // Code to execute when the application is launching (eg, from Start)

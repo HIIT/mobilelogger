@@ -8,7 +8,6 @@ using MobileLoggerApp.src.mobilelogger;
 using MobileLoggerScheduledAgent;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,15 +17,15 @@ namespace MobileLoggerApp
     public partial class MainPage : PhoneApplicationPage
     {
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
-        public delegate void KeyboardFocus();
+        public delegate void KeyboardFocusHandler();
         public delegate void TouchEventHandler(MainPage mainPage, TouchFrameEventArgs e);
 
         public static event KeyPressEventHandler keyUp;
 
         public delegate void CustomPressedEventHandler(object sender, EventArgs e);
 
-        public static event KeyboardFocus keyboardGotFocus;
-        public static event KeyboardFocus keyboardLostFocus;
+        public static event KeyboardFocusHandler keyboardGotFocus;
+        public static event KeyboardFocusHandler keyboardLostFocus;
 
         public static event TouchEventHandler screenTouch;
 
@@ -36,7 +35,6 @@ namespace MobileLoggerApp
         // Constructor
         public MainPage()
         {
-            
             InitializeComponent();
             //start background agent
             StartAgent();
@@ -76,56 +74,17 @@ namespace MobileLoggerApp
             screenTouch(this, e);
         }
 
-        /// <summary>
-        /// Updates search results to screen and adds the result json to DB, result items are saved as separate entries because of the 4000 char limit of the db
-        /// a "time" field is added to all parts that contains the UTC time when this method was started as a unix-timestamp
-        /// </summary>
-        /// <param name="JSON">JSON data in JObject form, must be in format from Google Custom Search</param>
-        public void Update(JObject JSON, Boolean reset)
+        public void UpdateSearchResults(JArray searchResults, Boolean reset)
         {
-            DateTime timestamp = DateTime.UtcNow;
-            JArray searchResults = (JArray)JSON["items"];
-            JSON.Remove("items");
-            JSON.Add("time", DeviceTools.GetUnixTime(timestamp));
-            JSON.Add("index", 0);
-            SaveLogToDB(JSON, "/log/google");
             if (reset)
             {
                 App.ViewModel.Items.Clear();
             }
-            if (searchResults != null)
+            foreach (JToken result in searchResults)
             {
-                int index = 0;
-                // TASK Not working without array index 0!
-                int offset = (int)JSON["queries"]["request"][0].Value<int>("startIndex");
-
-                foreach (JToken t in searchResults)
-                    index = ProcessSearchResult(index, offset, t);
-                //nextPageButton.Visibility = Visibility.Visible;
+                App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)result["title"], LineTwo = (string)result["snippet"], LineThree = result.ToString() });
             }
             SystemTray.ProgressIndicator.IsVisible = false;
-        }
-
-        private int ProcessSearchResult( int index, int offset, JToken t)
-        {
-            DateTime timestamp = DateTime.UtcNow;
-            JObject obj = (JObject)t;
-            obj.Add("index", index + offset);
-            index++;
-            obj.Add("time", DeviceTools.GetUnixTime(timestamp));
-            if (obj.ToString().Length > 4000)
-            {
-                obj.Remove("htmlFormattedUrl");
-                obj.Remove("htmlSnippet");
-                obj.Remove("htmlTitle");
-                if (obj.ToString().Length > 4000)
-                {
-                    obj.Remove("pagemap");
-                }
-            }
-            SaveLogToDB(obj, "/log/google");
-            App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)t["title"], LineTwo = (string)t["snippet"], LineThree = t.ToString() });
-            return index;
         }
 
         /// <summary>
@@ -173,14 +132,14 @@ namespace MobileLoggerApp
         /// <param name="sender">The object that initiated this event</param>
         /// <param name="e">Arguments for the key event that initiated this event</param>
         private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
-        {            
+        {
             keyUp(sender, e);
 
             if (e.Key.Equals(Key.Enter))
             {
                 SystemTray.ProgressIndicator.IsVisible = true;
                 this.Focus();
-                searchTerm = SearchTextBox.Text;                
+                searchTerm = SearchTextBox.Text;
 
                 if (!searchTerm.Equals(""))
                 {

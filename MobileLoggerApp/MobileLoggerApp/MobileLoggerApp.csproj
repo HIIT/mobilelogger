@@ -100,6 +100,7 @@
     <Compile Include="src\mobilelogger\Handlers\GyroHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\CompassHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\GpsHandler.cs" />
+    <Compile Include="src\mobilelogger\Handlers\SearchDataHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\SessionHandler.cs" />
     <Compile Include="src\mobilelogger\Handlers\ScreenTouchHandler.cs" />
     <Compile Include="src\mobilelogger\LogEventSaver.cs" />

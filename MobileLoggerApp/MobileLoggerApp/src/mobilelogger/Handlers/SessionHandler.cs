@@ -19,14 +19,12 @@ namespace MobileLoggerApp.src.mobilelogger
 
         public void Start()
         {
-            System.Diagnostics.Debug.WriteLine("session start");
             this.start = DateTime.UtcNow;
             hasStarted = true;
         }
 
         public void End()
         {
-            System.Diagnostics.Debug.WriteLine("session end");
             this.end = DateTime.UtcNow;
             hasEnded = true;
 

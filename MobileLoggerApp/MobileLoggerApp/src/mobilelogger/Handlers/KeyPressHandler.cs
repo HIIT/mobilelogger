@@ -14,7 +14,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             MobileLoggerApp.MainPage.keyUp += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyUp);
         }
 
-        void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
+        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             AddJOValue("keyPressed", e.Key.ToString());
             AddJOValue("timestamp", DeviceTools.GetUnixTime());

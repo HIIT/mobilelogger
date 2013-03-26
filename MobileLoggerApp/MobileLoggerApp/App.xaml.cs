@@ -15,14 +15,6 @@ namespace MobileLoggerApp
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
 
-        AccelHandler accelerometer;
-        CompassHandler compass;
-        GpsHandler gps;
-        GyroHandler gyroscope;
-        KeyboardHandler keyboard;
-        KeyPressHandler keyPress;
-        NetworkHandler network;
-
         private static pages.MainViewModel viewModel = null;
 
         /// <summary>
@@ -88,40 +80,45 @@ namespace MobileLoggerApp
             //always create new to ensure no duplicates
             logHandlers = new List<AbstractLogHandler>();
 
-            accelerometer = new AccelHandler();
+            AccelHandler accelerometer = new AccelHandler();
             Application.Current.Resources.Add("accelHandler", accelerometer);
             accelerometer.StartAccelWatcher();
             logHandlers.Add(accelerometer);
 
-            compass = new CompassHandler();
+            CompassHandler compass = new CompassHandler();
             Application.Current.Resources.Add("compassHandler", compass);
             compass.StartCompassWatcher();
             logHandlers.Add(compass);
 
-            gps = new GpsHandler();
+            GpsHandler gps = new GpsHandler();
             Application.Current.Resources.Add("gpsHandler", gps);
             gps.StartCoordinateWatcher();
             logHandlers.Add(gps);
 
-            gyroscope = new GyroHandler();
+            GyroHandler gyroscope = new GyroHandler();
             Application.Current.Resources.Add("gyroHandler", gyroscope);
             gyroscope.StartGyroWatcher();
             logHandlers.Add(gyroscope);
 
-            keyboard = new KeyboardHandler();
+            KeyboardHandler keyboard = new KeyboardHandler();
             Application.Current.Resources.Add("keyboardHandler", keyboard);
             keyboard.StartKeyBoardWatcher();
             logHandlers.Add(keyboard);
 
-            keyPress = new KeyPressHandler();
+            KeyPressHandler keyPress = new KeyPressHandler();
             Application.Current.Resources.Add("keyPressHandler", keyPress);
             keyPress.StartKeyPressWatcher();
             logHandlers.Add(keyPress);
 
-            network = new NetworkHandler();
+            NetworkHandler network = new NetworkHandler();
             Application.Current.Resources.Add("networkHandler", network);
             network.StartNetwork();
             logHandlers.Add(network);
+
+            ScreenTouchHandler screenTouch = new ScreenTouchHandler();
+            Application.Current.Resources.Add("touchHandler", screenTouch);
+            screenTouch.StartScreenTouchWatcher();
+            logHandlers.Add(screenTouch);
         }
 
         // Code to execute when the application is launching (eg, from Start)

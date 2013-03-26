@@ -23,7 +23,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
                 coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
                 coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);
-    
             }
             coordinateWatcher.Start();
 

@@ -20,11 +20,9 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
             {
                 if (compassWatcher == null)
                 {
-                    // Instantiate the Compass.
                     compassWatcher = new Compass();
                     compassWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                     compassWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
-                    //compass.Calibrate += new EventHandler<CalibrationEventArgs>(compass_Calibrate);
                 }
                 compassWatcher.Start();
             }

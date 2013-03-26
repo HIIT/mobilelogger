@@ -10,6 +10,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace MobileLoggerApp
 {
@@ -17,12 +18,15 @@ namespace MobileLoggerApp
     {
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocus();
+        public delegate void TouchEventHandler(MainPage mainPage, TouchFrameEventArgs e);
 
         public static event KeyPressEventHandler keyDown;
         public static event KeyPressEventHandler keyUp;
 
         public static event KeyboardFocus keyboardGotFocus;
         public static event KeyboardFocus keyboardLostFocus;
+
+        public static event TouchEventHandler screenTouch;
 
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
@@ -61,6 +65,12 @@ namespace MobileLoggerApp
             {
                 App.ViewModel.LoadData();
             }
+            Touch.FrameReported += Touch_FrameReported;
+        }
+
+        void Touch_FrameReported(object sender, TouchFrameEventArgs e)
+        {
+            screenTouch(this, e);
         }
 
         /// <summary>
@@ -109,14 +119,6 @@ namespace MobileLoggerApp
         private Boolean SaveLogToDB(JObject logEvent, string url)
         {
             LogEventSaver.Instance.addEvent(logEvent, url);
-            /*
-            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
-            {
-                if (!logDBContext.DatabaseExists()) return false;
-
-                logDBContext.addEvent(logEvent.ToString(), url);
-            }
-             */ 
             return true;
         }
 
@@ -312,11 +314,6 @@ namespace MobileLoggerApp
         {
             System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();
-        }
-
-        private void nextPageButton_Click_1(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -12,7 +12,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace MobileLoggerApp
 {
@@ -26,7 +25,6 @@ namespace MobileLoggerApp
         public static event KeyPressEventHandler keyUp;
 
         public delegate void CustomPressedEventHandler(object sender, EventArgs e);
-        public static event KeyEventHandler keyPressed;
 
         public static event KeyboardFocus keyboardGotFocus;
         public static event KeyboardFocus keyboardLostFocus;
@@ -150,15 +148,12 @@ namespace MobileLoggerApp
         /// <param name="e">Event arguments of the tap event</param>
         private void itemTappedEvent(object sender, RoutedEventArgs e)
         {
-
             StackPanel stackPanel = (StackPanel)sender;
             ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
 
-            //System.Diagnostics.Debug.WriteLine(item.LineThree);
             WebBrowserTask browser = new WebBrowserTask();
             JObject link = JObject.Parse(item.LineThree);
             SaveLogToDB(link, "/log/clicked");
-           // LogEventSaver.Instance.SaveAll();
             browser.Uri = new Uri((string)link["link"]);
             browser.Show();
         }
@@ -184,17 +179,14 @@ namespace MobileLoggerApp
         /// <param name="sender">The object that initiated this event</param>
         /// <param name="e">Arguments for the key event that initiated this event</param>
         private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            
+        {            
             keyUp(sender, e);
-            
 
             if (e.Key.Equals(Key.Enter))
             {
                 SystemTray.ProgressIndicator.IsVisible = true;
                 this.Focus();
-                searchTerm = SearchTextBox.Text;
-                
+                searchTerm = SearchTextBox.Text;                
 
                 if (!searchTerm.Equals(""))
                 {

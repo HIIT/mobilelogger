@@ -15,11 +15,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         {
             MobileLoggerApp.MainPage.keyDown += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyDown);
             MobileLoggerApp.MainPage.keyUp += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyUp);
-
-            if (this.data == null)
-            {
-                this.data = new JObject();
-            }
         }
 
         void SearchTextBox_KeyDown(object sender, KeyEventArgs e)

@@ -147,7 +147,6 @@ namespace MobileLoggerApp
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             sessionHandler.End();
-            LogEventSaver.Instance.SaveAll();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -155,7 +154,6 @@ namespace MobileLoggerApp
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
             sessionHandler.End();
-            LogEventSaver.Instance.SaveAll();
         }
 
         // Code to execute if a navigation fails

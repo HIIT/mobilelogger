@@ -23,7 +23,7 @@
     <!-- Sovelluksen repository-luokat (DAO-luokat) sijaitsevat pakkauksen wad alla -->
     <jpa:repositories base-package="cs.wintoosa.repository" />
     
-    <!-- <context:property-placeholder location="WEB-INF/db.properties"/> -->
+    <context:property-placeholder location="WEB-INF/db.properties"/> 
     <!--
      <jdbc:embedded-database id="dataSource" type="HSQL"/>
     -->

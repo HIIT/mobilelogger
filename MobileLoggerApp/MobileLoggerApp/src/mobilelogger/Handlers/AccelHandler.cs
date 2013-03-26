@@ -22,11 +22,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 accelerometerWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
             }
             accelerometerWatcher.Start();
-
-            if (this.data == null)
-            {
-                this.data = new JObject();
-            }
         }
 
         void accelerometer_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)

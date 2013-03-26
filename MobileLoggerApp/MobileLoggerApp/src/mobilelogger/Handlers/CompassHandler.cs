@@ -26,10 +26,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 }
                 compassWatcher.Start();
             }
-            if (this.data == null)
-            {
-                this.data = new JObject();
-            }
         }
 
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)

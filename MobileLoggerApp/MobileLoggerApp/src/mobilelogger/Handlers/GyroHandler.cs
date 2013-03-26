@@ -25,10 +25,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 }
                 gyroWatcher.Start();
             }
-            if (this.data == null)
-            {
-                this.data = new JObject();
-            }
         }
 
         /// <summary>

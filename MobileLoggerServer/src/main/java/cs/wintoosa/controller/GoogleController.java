@@ -26,8 +26,7 @@ public class GoogleController {
     @RequestMapping(method=RequestMethod.PUT)
     @ResponseBody
     public boolean putLog(@RequestBody TextLog data) {
-        
-        return true;
+        return logService.saveLog(data);
     }
     
     

@@ -38,9 +38,7 @@ public class BluetoothController {
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putPlainLog(@Valid @RequestBody BTLog log, BindingResult result) {
-        System.out.println("put plain log");
         if(result.hasErrors()) {
-            System.out.println("result had errors");
             for(ObjectError error : result.getAllErrors())
                 System.out.println(error.toString());
             return false;

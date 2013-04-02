@@ -1,12 +1,15 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     public class KeyPressHandler : AbstractLogHandler
     {
+        private static string URL = "/log/keyPress";
+
         public override void SaveSensorLog()
         {
-            SaveLogToDB(this.data, "/log/keyPress");
+            SaveLogToDB(this.data, URL);
         }
 
         public void StartKeyPressWatcher()

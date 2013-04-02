@@ -2,9 +2,11 @@
 {
     class KeyboardHandler : AbstractLogHandler
     {
+        private static string URL = "/log/keyboard";
+        
+        //do nothing since this handler handles saving by itself
         public override void SaveSensorLog()
         {
-            SaveLogToDB(this.data, "/log/keyboard");
         }
 
         public void StartKeyBoardWatcher()
@@ -15,14 +17,18 @@
 
         private void KeyboardGotFocus()
         {
+            this.data = new Newtonsoft.Json.Linq.JObject();
             AddJOValue("keyboardFocus", "gotFocus");
             AddJOValue("timestamp", DeviceTools.GetUnixTime());
+            SaveLogToDB(this.data, URL);
         }
 
         private void KeyboardLostFocus()
         {
+            this.data = new Newtonsoft.Json.Linq.JObject();
             AddJOValue("keyboardFocus", "lostFocus");
             AddJOValue("timestamp", DeviceTools.GetUnixTime());
+            SaveLogToDB(this.data, URL);
         }
     }
 }

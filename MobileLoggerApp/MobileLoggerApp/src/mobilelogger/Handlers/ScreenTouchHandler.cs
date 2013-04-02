@@ -6,7 +6,8 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     {
         public override void SaveSensorLog()
         {
-            SaveLogToDB(this.data, "/log/touch");
+            //handle saving in the event handler method below
+            ///SaveLogToDB(this.data, "/log/touch");
         }
 
         public void StartScreenTouchWatcher()
@@ -18,23 +19,22 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
         {
             foreach (TouchPoint touchPoint in e.GetTouchPoints(mainPage))
             {
-                if (touchPoint.Action == TouchAction.Down)
-                {
-                    AddJOValue("touchPointDownX", touchPoint.Position.X);
-                    AddJOValue("touchPointDownY", touchPoint.Position.Y);
-                    AddJOValue("timestamp", DeviceTools.GetUnixTime());
-                }
-                else if (touchPoint.Action == TouchAction.Move && e.GetPrimaryTouchPoint(mainPage) != null)
+               
+                if (touchPoint.Action == TouchAction.Move && e.GetPrimaryTouchPoint(mainPage) != null)
                 {
                     if (touchPoint.TouchDevice.Id == e.GetPrimaryTouchPoint(mainPage).TouchDevice.Id)
                     {
+                       
                     }
                 }
-                else if (touchPoint.Action == TouchAction.Up)
+                else 
                 {
-                    AddJOValue("touchPointUpX", touchPoint.Position.X);
-                    AddJOValue("touchPointUpY", touchPoint.Position.Y);
+                    this.data = new Newtonsoft.Json.Linq.JObject();
+                    AddJOValue("X", touchPoint.Position.X);
+                    AddJOValue("Y", touchPoint.Position.Y);
+                    AddJOValue("Action", touchPoint.Action.ToString());
                     AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                    SaveLogToDB(this.data, "/log/touch");
                 }
             }
         }

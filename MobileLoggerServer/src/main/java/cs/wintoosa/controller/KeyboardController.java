@@ -30,11 +30,13 @@ public class KeyboardController {
     ILogService logService;
     
     @RequestMapping(value= "/keyboard", method= RequestMethod.PUT,  consumes=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public boolean put(@Valid @RequestBody Keyboard keyboard) {
         return logService.saveLog(keyboard);
     }
     
     @RequestMapping(value= "/keyPress", method= RequestMethod.PUT,  consumes=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public boolean putPress(@Valid @RequestBody KeyPress keypress) {
         return logService.saveLog(keypress);
     }

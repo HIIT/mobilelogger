@@ -5,6 +5,8 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 {
     class SearchDataHandler : AbstractLogHandler
     {
+        string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
+        int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
         DateTime timestamp;
 
         public override void SaveSensorLog()
@@ -13,13 +15,12 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         public void StartSearchDataHandler()
         {
-            ElGoog.searchDataEvent += new ElGoog.SearchDataHandler(SearchData);
+            GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
         }
 
         private void SearchData(JObject searchData)
         {
             this.timestamp = DateTime.UtcNow;
-
             JArray searchResults = (JArray)searchData["items"];
 
             ProcessSearchData(searchData);
@@ -54,18 +55,25 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 index++;
                 resultObj.Add("time", DeviceTools.GetUnixTime(this.timestamp));
 
-                if (resultObj.ToString().Length > 4000)
-                {
-                    resultObj.Remove("htmlFormattedUrl");
-                    resultObj.Remove("htmlSnippet");
-                    resultObj.Remove("htmlTitle");
-
-                    if (resultObj.ToString().Length > 4000)
-                    {
-                        resultObj.Remove("pagemap");
-                    }
-                }
+                ParseSearchResult(resultObj);
                 SaveLogToDB(resultObj, "/log/google");
+            }
+        }
+
+        /// <summary>
+        /// This method parses the search result because device's local DB can only handle strings shorter than 4000 characters.
+        /// </summary>
+        private void ParseSearchResult(JObject resultObj)
+        {
+            int removableItemIndex = 0;
+
+            while (resultObj.ToString().Length > localDBStringMaxLength)
+            {
+                resultObj.Remove(searchResultRemovableItems[removableItemIndex]);
+                if (removableItemIndex < searchResultRemovableItems.Length)
+                    removableItemIndex++;
+                else
+                    break;
             }
         }
     }

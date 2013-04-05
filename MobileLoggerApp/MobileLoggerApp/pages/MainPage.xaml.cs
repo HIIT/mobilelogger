@@ -172,7 +172,7 @@ namespace MobileLoggerApp
         /// </summary>
         private void GoogleSearch(int page)
         {
-            ElGoog search = new ElGoog(this);
+            GoogleCustomSearch search = new GoogleCustomSearch(this);
             search.Search(searchTerm, page);
         }
 

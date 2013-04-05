@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace MobileLoggerApp.src
 {
-    class ElGoog
+    class GoogleCustomSearch
     {
         private MainPage context;
         private string searchQuery;
@@ -19,7 +19,7 @@ namespace MobileLoggerApp.src
         /// Constructor for the Google Search handles a Google search asynchronously
         /// </summary>
         /// <param name="source">The MainPage that called this constructor, is required for response logic later on</param>
-        public ElGoog(MainPage source)
+        public GoogleCustomSearch(MainPage source)
         {
             context = source;
         }

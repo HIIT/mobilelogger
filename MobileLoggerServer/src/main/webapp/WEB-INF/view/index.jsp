@@ -63,6 +63,10 @@
             <li>
                 <a href="<c:url value="/log/keyPress"/>" >Keypress</a>
             </li>
+            
+            <li>
+                <a href="<c:url value="/log/touch"/>" >Touch</a>
+            </li>
 
         </ul>
 

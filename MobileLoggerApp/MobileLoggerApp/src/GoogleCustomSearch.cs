@@ -32,15 +32,12 @@ namespace MobileLoggerApp.src
         {
             this.page = page;
             searchQuery = query;
-            //System.Diagnostics.Debug.WriteLine("Search query is: " + query + " at ElGoog.Search");
             //string that contains required api key and information for google api
             string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, page);
             //alternatiivinen hakukone ja api-key, käytetty testaukseen
-            //string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyCurZXbVyfaksuWlOaQVys5YwbewaBrtCs&cx=014771188109725738891:bcuskpsruhe&q={0}", query);
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = "GET";
-            //request.ContentType = "application/json; charset=utf-8";
             request.BeginGetResponse(GetResponseCallback, request);
         }
 
@@ -51,11 +48,6 @@ namespace MobileLoggerApp.src
         private void GetRequestStreamCallback(IAsyncResult asynchronousResult)
         {
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-            /*using (var outStream = request.EndGetRequestStream(asynchronousResult))
-            {
-                StreamWriter writer = new StreamWriter(outStream);
-                writer.Write(Text);
-            }*/
             request.BeginGetResponse(GetResponseCallback, request);
         }
 

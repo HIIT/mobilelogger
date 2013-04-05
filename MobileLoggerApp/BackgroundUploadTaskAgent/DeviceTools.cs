@@ -80,5 +80,14 @@ namespace MobileLoggerApp.src
                 return hash;
             }
         }
+
+        /// <summary>
+        /// Gets the local DB string maximum length of the phone
+        /// </summary>
+        /// <returns>length</returns>
+        public static int GetDeviceLocalDBStringMaxLength()
+        {
+            return 4000;
+        }
     }
 }

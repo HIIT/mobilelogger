@@ -5,7 +5,9 @@ namespace MobileLoggerScheduledAgent.Devicetools
 {
     public class DeviceTools
     {
-        public static readonly String apiKey = "AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c";
+        public static readonly String googleApiKey = "AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c";
+        public static readonly String worldWeatherOnlineApiKey = "3fe65adx4nrftj3tmarr5xuh";
+
         /// <summary>
         /// Gets the Device Unique ID of the phone
         /// </summary>

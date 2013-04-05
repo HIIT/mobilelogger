@@ -1,4 +1,5 @@
 ﻿using MobileLoggerApp.Handlers;
+using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Device.Location;
@@ -9,6 +10,9 @@ namespace MobileLoggerApp
 {
     class WeatherInformation
     {
+        public delegate void WeatherDataHandler(JObject weatherData);
+        public static event WeatherDataHandler weatherDataEvent;
+
         public WeatherInformation()
         {
         }
@@ -24,9 +28,7 @@ namespace MobileLoggerApp
                 {
                     string latitude = GpsHandler.latitude;
                     string longitude = GpsHandler.longitude;
-                    string apiKey = "b531d9d0b8112733132602";
-
-                    string uri = String.Format("http://free.worldweatheronline.com/feed/weather.ashx?q=" + latitude + "," + longitude + "&format=json&num_of_days=2&key=" + apiKey);
+                    string uri = String.Format("http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + latitude + "," + longitude + "&format=json&num_of_days=1&key=" + DeviceTools.worldWeatherOnlineApiKey);
 
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
                     request.Method = "GET";
@@ -57,8 +59,8 @@ namespace MobileLoggerApp
                 var stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
-                System.Diagnostics.Debug.WriteLine(data.Length);
-                JObject JSON = JObject.Parse(data);
+                JObject weatherData = JObject.Parse(data);
+                weatherDataEvent(weatherData);
             }
             catch (Exception exception)
             {

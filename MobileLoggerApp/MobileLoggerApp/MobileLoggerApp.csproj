@@ -102,6 +102,8 @@
     <Compile Include="src\Handlers\SearchDataHandler.cs" />
     <Compile Include="src\Handlers\SessionHandler.cs" />
     <Compile Include="src\Handlers\ScreenTouchHandler.cs" />
+    <Compile Include="src\Handlers\WeatherDataHandler.cs" />
+    <Compile Include="src\HttpRequest.cs" />
     <Compile Include="src\LogEventSaver.cs" />
     <Compile Include="src\PageLocations.cs" />
     <Compile Include="pages\ViewModels\ItemViewModel.cs" />

@@ -1,4 +1,4 @@
-﻿namespace MobileLoggerApp.src
+﻿namespace MobileLoggerApp
 {
     /// <summary>
     /// Location strings of important locations
@@ -9,8 +9,4 @@
         public static readonly string responsePageUri = "/pages/ResponsePage.xaml";
     }
 
-    class ServerLocations
-    {
-        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
-    }
 }

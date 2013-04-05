@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Windows;
 
-namespace MobileLoggerApp.src
+namespace MobileLoggerApp
 {
     class GoogleCustomSearch
     {

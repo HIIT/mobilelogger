@@ -1,11 +1,11 @@
-﻿using MobileLoggerApp.src;
+﻿using MobileLoggerScheduledAgent.Devicetools;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Linq;
 
-namespace MobileLoggerScheduledAgent
+namespace MobileLoggerScheduledAgent.Database
 {
     [Table(Name = "LogEvents")]
     public class LogEvent
@@ -159,7 +159,9 @@ namespace MobileLoggerScheduledAgent
                 {
                     logEventList = query.ToList();
                 }
-                catch (Exception e) { }
+                catch (Exception e) {
+                    System.Diagnostics.Debug.WriteLine("At LogDatabase: "+e.Message);
+                }
             }
             return logEventList;
         }

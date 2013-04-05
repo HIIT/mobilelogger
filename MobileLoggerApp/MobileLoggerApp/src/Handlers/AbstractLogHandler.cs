@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MobileLoggerScheduledAgent.Devicetools;
+using Newtonsoft.Json.Linq;
 using System;
 
-namespace MobileLoggerApp.src.mobilelogger
+namespace MobileLoggerApp.Handlers
 {
     public abstract class AbstractLogHandler
     {

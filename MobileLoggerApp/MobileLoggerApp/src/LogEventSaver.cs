@@ -1,10 +1,10 @@
-﻿using MobileLoggerScheduledAgent;
+﻿using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MobileLoggerApp.src.mobilelogger
+namespace MobileLoggerApp
 {
     public class LogEventSaver
     {

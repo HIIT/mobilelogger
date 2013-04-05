@@ -1,10 +1,10 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
-using Newtonsoft.Json.Linq;
+using MobileLoggerScheduledAgent.Devicetools;
 using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace MobileLoggerApp.src.mobilelogger.Handlers
+namespace MobileLoggerApp.Handlers
 {
     class NetworkHandler : AbstractLogHandler
     {

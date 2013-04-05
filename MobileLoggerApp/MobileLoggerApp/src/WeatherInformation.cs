@@ -1,11 +1,11 @@
-﻿using MobileLoggerApp.src.mobilelogger.Handlers;
+﻿using MobileLoggerApp.Handlers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Device.Location;
 using System.IO;
 using System.Net;
 
-namespace MobileLoggerApp.src
+namespace MobileLoggerApp
 {
     class WeatherInformation
     {

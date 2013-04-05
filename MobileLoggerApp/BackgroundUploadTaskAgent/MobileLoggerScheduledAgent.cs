@@ -1,12 +1,13 @@
-﻿using System.Windows;
-using Microsoft.Phone.Scheduler;
+﻿using Microsoft.Phone.Scheduler;
+using MobileLoggerScheduledAgent.Database;
+using Newtonsoft.Json.Linq;
 using System;
+using System.IO;
 using System.Net;
 using System.Text;
-using System.IO;
-using Newtonsoft.Json.Linq;
+using System.Windows;
 
-namespace MobileLoggerScheduledAgent
+namespace MobileLoggerScheduledAgent.BackgroundAgent
 {
     public class ScheduledAgent : ScheduledTaskAgent
     {

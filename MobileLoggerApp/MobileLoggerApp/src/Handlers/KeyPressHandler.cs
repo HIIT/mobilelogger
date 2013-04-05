@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MobileLoggerScheduledAgent.Devicetools;
 using System.Windows.Input;
 
-namespace MobileLoggerApp.src.mobilelogger.Handlers
+namespace MobileLoggerApp.Handlers
 {
     public class KeyPressHandler : AbstractLogHandler
     {

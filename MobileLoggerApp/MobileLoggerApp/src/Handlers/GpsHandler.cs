@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MobileLoggerScheduledAgent.Devicetools;
 using System;
 using System.Device.Location;
 
-namespace MobileLoggerApp.src.mobilelogger.Handlers
+namespace MobileLoggerApp.Handlers
 {
     public class GpsHandler : AbstractLogHandler
     {

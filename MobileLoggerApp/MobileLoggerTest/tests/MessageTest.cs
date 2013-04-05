@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MobileLoggerApp.src;
-using MobileLoggerApp;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MobileLoggerTest.tests
 {

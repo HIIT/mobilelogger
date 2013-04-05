@@ -1,4 +1,7 @@
-﻿namespace MobileLoggerApp.src.mobilelogger.Handlers
+﻿
+using MobileLoggerScheduledAgent.Devicetools;
+
+namespace MobileLoggerApp.Handlers
 {
     class KeyboardHandler : AbstractLogHandler
     {

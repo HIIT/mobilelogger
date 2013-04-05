@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{78231F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileLoggerScheduledAgent", "BackgroundUploadTaskAgent\MobileLoggerScheduledAgent.csproj", "{A52C8566-D8D1-4755-907B-7BA12A9E70DA}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "MobileLoggerArchitecture", "MobileLoggerArchitecture\MobileLoggerArchitecture.modelproj", "{F5899BE3-68FA-45A4-BEC2-B9F234076561}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,21 @@ Global
 		{A52C8566-D8D1-4755-907B-7BA12A9E70DA}.ReleaseWithDebugPrint|ARM.ActiveCfg = ReleaseWithDebugPrint|Any CPU
 		{A52C8566-D8D1-4755-907B-7BA12A9E70DA}.ReleaseWithDebugPrint|x64.ActiveCfg = ReleaseWithDebugPrint|Any CPU
 		{A52C8566-D8D1-4755-907B-7BA12A9E70DA}.ReleaseWithDebugPrint|x86.ActiveCfg = ReleaseWithDebugPrint|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.ReleaseWithDebugPrint|Any CPU.ActiveCfg = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.ReleaseWithDebugPrint|Any CPU.Build.0 = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.ReleaseWithDebugPrint|ARM.ActiveCfg = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.ReleaseWithDebugPrint|x64.ActiveCfg = Release|Any CPU
+		{F5899BE3-68FA-45A4-BEC2-B9F234076561}.ReleaseWithDebugPrint|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

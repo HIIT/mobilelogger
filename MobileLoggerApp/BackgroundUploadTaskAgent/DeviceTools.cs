@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace MobileLoggerApp.src
+namespace MobileLoggerScheduledAgent.Devicetools
 {
     public class DeviceTools
     {
@@ -49,6 +49,7 @@ namespace MobileLoggerApp.src
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine("DeviceTools.GetDateTime: " + e.Message);
                 return origin.AddMilliseconds(unixTimeStamp);
             }
         }

@@ -2,10 +2,9 @@
 using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using MobileLoggerApp.Handlers;
 using MobileLoggerApp.pages;
-using MobileLoggerApp.src;
-using MobileLoggerApp.src.mobilelogger;
-using MobileLoggerScheduledAgent;
+using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Windows;

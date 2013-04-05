@@ -1,8 +1,8 @@
 ﻿using Microsoft.Devices.Sensors;
-using Newtonsoft.Json.Linq;
+using MobileLoggerScheduledAgent.Devicetools;
 using System;
 
-namespace MobileLoggerApp.src.mobilelogger.Handlers
+namespace MobileLoggerApp.Handlers
 {
     public class CompassHandler : AbstractLogHandler
     {

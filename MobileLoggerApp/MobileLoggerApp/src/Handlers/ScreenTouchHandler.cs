@@ -1,6 +1,7 @@
-﻿using System.Windows.Input;
+﻿using MobileLoggerScheduledAgent.Devicetools;
+using System.Windows.Input;
 
-namespace MobileLoggerApp.src.mobilelogger.Handlers
+namespace MobileLoggerApp.Handlers
 {
     class ScreenTouchHandler : AbstractLogHandler
     {

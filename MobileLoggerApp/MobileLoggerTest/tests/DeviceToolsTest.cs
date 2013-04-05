@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MobileLoggerApp.src;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MobileLoggerScheduledAgent.Devicetools;
+using System;
 
 namespace MobileLoggerTest.tests
 {

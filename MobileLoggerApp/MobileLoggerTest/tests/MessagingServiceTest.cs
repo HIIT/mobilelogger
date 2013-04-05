@@ -1,11 +1,4 @@
-﻿using System;
-using MobileLoggerApp.src;
-using System.Threading;
-using System.Windows;
-using System.Timers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.Resources;
-using System.Threading.Tasks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MobileLoggerTest.tests
 {

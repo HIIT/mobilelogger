@@ -1,5 +1,6 @@
-﻿using MobileLoggerApp.src;
-using MobileLoggerScheduledAgent;
+﻿
+using MobileLoggerScheduledAgent.Database;
+using MobileLoggerScheduledAgent.Devicetools;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

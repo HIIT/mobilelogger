@@ -1,7 +1,8 @@
 ﻿using Microsoft.Devices.Sensors;
+using MobileLoggerScheduledAgent.Devicetools;
 using System;
 
-namespace MobileLoggerApp.src.mobilelogger.Handlers
+namespace MobileLoggerApp.Handlers
 {
     public class GyroHandler : AbstractLogHandler
     {

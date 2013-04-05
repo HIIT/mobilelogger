@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1)" Category="File" FilePath="C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\MobileLoggerModelingProject\LayerDiagram1.layerdiagram" Label="LayerDiagram1.layerdiagram" />
+    <Node Id="a6c15f37-edba-4a3e-9f16-592c6d3834a1" Category="Dsl.LayerModel" Dsl.DiagramPath="C:\Users\jonimake\Visual Studio 2012\Projects\MobileLogger\MobileLoggerApp\MobileLoggerModelingProject\LayerDiagram1.layerdiagram" Dsl.QualifiedName="" Label="LayerDiagram1" />
+    <Node Id="3153ebc5-5be3-494e-a614-efab3285d6f0" Category="Dsl.Layer" Dsl.ForbiddenNamespaceDependencies="" Dsl.ForbiddenNamespace="" Dsl.RequiredNamespace="" Dsl.QualifiedName="MobileLoggerApp" Label="MobileLoggerApp" />
+    <Node Id="63cf2b5c-3c34-47b0-8de9-72ed6c4eb77c" Category="Dsl.Layer" Dsl.ForbiddenNamespaceDependencies="" Dsl.ForbiddenNamespace="" Dsl.RequiredNamespace="" Dsl.QualifiedName="MobileLoggerScheduledAgent" Label="MobileLoggerScheduledAgent" />
+    <Node Id="de45a487-526b-45a3-bc9b-3a647a6d769d" Category="Dsl.Reference" Dsl.SupportsValidation="True" Dsl.QualifiedName="MobileLoggerApp.MobileLoggerApp" Label="MobileLoggerApp" />
+    <Node Id="(@2)" />
+    <Node Id="a1d25474-3732-4bc0-8718-ec3069b369ba" Category="Dsl.Reference" Dsl.SupportsValidation="True" Dsl.QualifiedName="MobileLoggerScheduledAgent.MobileLoggerScheduledAgent" Label="MobileLoggerScheduledAgent" />
+    <Node Id="(@3)" />
+  </Nodes>
+  <Links>
+    <Link Source="de45a487-526b-45a3-bc9b-3a647a6d769d" Target="(@2)" Category="Produces">
+      <Category Ref="Represents" />
+    </Link>
+    <Link Source="a1d25474-3732-4bc0-8718-ec3069b369ba" Target="(@3)" Category="Produces">
+      <Category Ref="Represents" />
+    </Link>
+    <Link Source="a6c15f37-edba-4a3e-9f16-592c6d3834a1" Target="3153ebc5-5be3-494e-a614-efab3285d6f0" Category="Dsl.LayerModelHasLayers" />
+    <Link Source="a6c15f37-edba-4a3e-9f16-592c6d3834a1" Target="63cf2b5c-3c34-47b0-8de9-72ed6c4eb77c" Category="Dsl.LayerModelHasLayers" />
+    <Link Source="3153ebc5-5be3-494e-a614-efab3285d6f0" Target="de45a487-526b-45a3-bc9b-3a647a6d769d" Category="Dsl.LayerHasReferences" />
+    <Link Source="63cf2b5c-3c34-47b0-8de9-72ed6c4eb77c" Target="a1d25474-3732-4bc0-8718-ec3069b369ba" Category="Dsl.LayerHasReferences" />
+    <Link Source="3153ebc5-5be3-494e-a614-efab3285d6f0" Target="63cf2b5c-3c34-47b0-8de9-72ed6c4eb77c" Category="Dsl.DependencyFromLayerToLayer" Dsl.Direction="Forward" />
+  </Links>
+  <Categories>
+    <Category Id="Dsl.DependencyFromLayerToLayer" Label="Dependency From Layer To Layer" CanLinkedNodesBeDataDriven="True" CanBeDataDriven="True" IncomingActionLabel="Dependency from Layers" OutgoingActionLabel="Dependency to Layers" />
+    <Category Id="Dsl.Layer" Label="Layer" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Layer" />
+    <Category Id="Dsl.LayerHasReferences" Label="Layer Has References" IsContainment="True" CanLinkedNodesBeDataDriven="True" CanBeDataDriven="True" IncomingActionLabel="Layer" OutgoingActionLabel="References" />
+    <Category Id="Dsl.LayerModel" Label="Layer Model" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Layer Model" />
+    <Category Id="Dsl.LayerModelHasLayers" Label="Layer Model Has Layers" IsContainment="True" CanLinkedNodesBeDataDriven="True" CanBeDataDriven="True" IncomingActionLabel="Layer Model" OutgoingActionLabel="Layers" />
+    <Category Id="Dsl.Reference" Label="Reference" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Reference" />
+    <Category Id="File" Label="File" CanBeDataDriven="True" NavigationActionLabel="Files" DefaultAction="Microsoft.Contains" />
+    <Category Id="Produces" Label="Produces" OutgoingActionLabel="Produces" IncomingActionLabel="Produced By" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" />
+    <Category Id="Represents" Label="Represents" OutgoingActionLabel="Represents" IncomingActionLabel="Represented By" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IsContainment="True" />
+  </Categories>
+  <Properties>
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Dsl.DiagramPath" DataType="System.String" />
+    <Property Id="Dsl.QualifiedName" DataType="System.String" />
+    <Property Id="Dsl.ForbiddenNamespaceDependencies" DataType="System.String" />
+    <Property Id="Dsl.ForbiddenNamespace" DataType="System.String" />
+    <Property Id="Dsl.RequiredNamespace" DataType="System.String" />
+    <Property Id="Dsl.SupportsValidation" DataType="System.Boolean" />
+    <Property Id="Dsl.Direction" DataType="System.String" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=file:///C:/Users/jonimake/Visual Studio 2012/Projects/MobileLogger/MobileLoggerApp/MobileLoggerModelingProject/LayerDiagram1.layerdiagram" />
+    <Alias n="2" Uri="Assembly=MobileLoggerApp" />
+    <Alias n="3" Uri="Assembly=MobileLoggerScheduledAgent" />
+  </IdentifierAliases>
+</DirectedGraph>

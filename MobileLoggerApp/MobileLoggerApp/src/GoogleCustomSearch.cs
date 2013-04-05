@@ -33,7 +33,8 @@ namespace MobileLoggerApp
             this.page = page;
             searchQuery = query;
             //string that contains required api key and information for google api
-            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, page);
+            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key={2}&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, page, DeviceTools.apiKey);
+            
             //Alternative search engine and an api-key, used for testing purposes.
             //string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyCurZXbVyfaksuWlOaQVys5YwbewaBrtCs&cx=014771188109725738891:bcuskpsruhe&q={0}", query);
 

@@ -12,7 +12,7 @@ namespace MobileLoggerApp.Handlers
 
         public void StartWeatherDataHandler()
         {
-            WeatherInformation.weatherDataEvent += new WeatherInformation.WeatherDataHandler(WeatherData);
+            WeatherInformationSearch.weatherDataEvent += new WeatherInformationSearch.WeatherDataHandler(WeatherData);
         }
 
         private void WeatherData(JObject weatherData)

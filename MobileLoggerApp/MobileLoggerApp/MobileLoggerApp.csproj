@@ -104,11 +104,12 @@
     <Compile Include="src\Handlers\ScreenTouchHandler.cs" />
     <Compile Include="src\Handlers\WeatherDataHandler.cs" />
     <Compile Include="src\HttpRequest.cs" />
+    <Compile Include="src\HttpRequestable.cs" />
     <Compile Include="src\LogEventSaver.cs" />
     <Compile Include="src\PageLocations.cs" />
     <Compile Include="pages\ViewModels\ItemViewModel.cs" />
     <Compile Include="pages\ViewModels\MainViewModel.cs" />
-    <Compile Include="src\WeatherInformation.cs" />
+    <Compile Include="src\WeatherInformationSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

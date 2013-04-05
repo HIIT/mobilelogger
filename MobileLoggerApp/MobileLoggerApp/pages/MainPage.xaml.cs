@@ -177,7 +177,7 @@ namespace MobileLoggerApp
 
         private void GetWeatherData()
         {
-            WeatherInformation weatherInfo = new WeatherInformation();
+            WeatherInformationSearch weatherInfo = new WeatherInformationSearch();
             weatherInfo.GetForecast();
         }
 

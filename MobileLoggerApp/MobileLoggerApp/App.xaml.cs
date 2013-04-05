@@ -80,49 +80,44 @@ namespace MobileLoggerApp
             logHandlers = new List<AbstractLogHandler>();
 
             AccelHandler accelerometer = new AccelHandler();
-            //Application.Current.Resources.Add("accelHandler", accelerometer);
             accelerometer.StartAccelWatcher();
             logHandlers.Add(accelerometer);
 
             CompassHandler compass = new CompassHandler();
-            //Application.Current.Resources.Add("compassHandler", compass);
             compass.StartCompassWatcher();
             logHandlers.Add(compass);
 
             GpsHandler gps = new GpsHandler();
-            //Application.Current.Resources.Add("gpsHandler", gps);
             gps.StartCoordinateWatcher();
             logHandlers.Add(gps);
 
             GyroHandler gyroscope = new GyroHandler();
-            //Application.Current.Resources.Add("gyroHandler", gyroscope);
             gyroscope.StartGyroWatcher();
             logHandlers.Add(gyroscope);
 
             KeyboardHandler keyboard = new KeyboardHandler();
-            //Application.Current.Resources.Add("keyboardHandler", keyboard);
             keyboard.StartKeyBoardWatcher();
             logHandlers.Add(keyboard);
 
             KeyPressHandler keyPress = new KeyPressHandler();
-            //Application.Current.Resources.Add("keyPressHandler", keyPress);
             keyPress.StartKeyPressWatcher();
             logHandlers.Add(keyPress);
 
             NetworkHandler network = new NetworkHandler();
-           // Application.Current.Resources.Add("networkHandler", network);
             network.StartNetwork();
             logHandlers.Add(network);
 
             ScreenTouchHandler screenTouch = new ScreenTouchHandler();
-            Application.Current.Resources.Add("touchHandler", screenTouch);
             screenTouch.StartScreenTouchWatcher();
             logHandlers.Add(screenTouch);
 
             SearchDataHandler searchData = new SearchDataHandler();
-            //Application.Current.Resources.Add("searchDataHandler", searchData);
             searchData.StartSearchDataHandler();
             logHandlers.Add(searchData);
+
+            WeatherDataHandler weatherData = new WeatherDataHandler();
+            weatherData.StartWeatherDataHandler();
+            logHandlers.Add(weatherData);
         }
 
         // Code to execute when the application is launching (eg, from Start)

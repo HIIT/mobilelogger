@@ -7,7 +7,6 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
     {
         string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
         int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
-        DateTime timestamp;
 
         public override void SaveSensorLog()
         {
@@ -20,10 +19,10 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
         private void SearchData(JObject searchData)
         {
-            this.timestamp = DateTime.UtcNow;
+            DateTime timestamp = DateTime.UtcNow;
             JArray searchResults = (JArray)searchData["items"];
 
-            ProcessSearchData(searchData);
+            ProcessSearchData(searchData, timestamp);
 
             if (searchResults != null)
             {
@@ -31,19 +30,19 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
                 JToken request = queries.Value<JToken>("request")[0];
                 int offset = request.Value<int>("startIndex");
 
-                ProcessSearchResults(searchResults, offset);
+                ProcessSearchResults(searchResults, offset, timestamp);
             }
         }
 
-        private void ProcessSearchData(JObject searchData)
+        private void ProcessSearchData(JObject searchData, DateTime timestamp)
         {
             searchData.Remove("items");
-            searchData.Add("time", DeviceTools.GetUnixTime(this.timestamp));
+            searchData.Add("time", DeviceTools.GetUnixTime(timestamp));
             searchData.Add("index", 0);
             SaveLogToDB(searchData, "/log/google");
         }
 
-        private void ProcessSearchResults(JArray searchResults, int offset)
+        private void ProcessSearchResults(JArray searchResults, int offset, DateTime timestamp)
         {
             int index = 0;
 
@@ -53,7 +52,7 @@ namespace MobileLoggerApp.src.mobilelogger.Handlers
 
                 resultObj.Add("index", index + offset);
                 index++;
-                resultObj.Add("time", DeviceTools.GetUnixTime(this.timestamp));
+                resultObj.Add("time", DeviceTools.GetUnixTime(timestamp));
 
                 ParseSearchResult(resultObj);
                 SaveLogToDB(resultObj, "/log/google");

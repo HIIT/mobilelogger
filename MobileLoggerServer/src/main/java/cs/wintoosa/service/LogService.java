@@ -47,20 +47,11 @@ public class LogService implements ILogService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Log> getAll(Class cls) {
-        try {
-            List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
-            System.out.println("resultList.size() = " + resultList.size());
-            return resultList;
-        } catch (QueryException e) {
-            System.out.println("Failed query!");
-            System.out.println(e.getQuery().getSQLString());
-            System.out.println(e.getMessage());
-        }
-        catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return null;
+    public List<Log> getAll(Class cls) throws IllegalArgumentException {
+        if(cls == null)
+            return null;
+        List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
+        return resultList;
     }
 
     @Override
@@ -80,7 +71,7 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public SessionLog getSessionById(long sessionId) {
-        SessionLog session = sessionRepositoryImpl.findSessionById(sessionId);
+        SessionLog session = sessionRepositoryImpl.findOne(sessionId);
         if(session != null) {
             session.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(session.getPhoneId(), session.getSessionStart(), session.getSessionEnd()));
         }
@@ -90,9 +81,7 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public List<SessionLog> getSessionByPhoneId(String phoneId){
-        System.out.println("getSessionByPhoneId");
         List<SessionLog> sessions = sessionRepositoryImpl.findSessionByPhoneId(phoneId);
-        System.out.println("sessions.size() = " + sessions.size());
         return sessions;
     }
     
@@ -117,11 +106,10 @@ public class LogService implements ILogService {
                 (phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd()));
         
         phone.getSessions().add(sessionLog);
-        phone = phoneRepositoryImpl.save(phone);
+        phone = phoneRepositoryImpl.saveAndFlush(phone);
        
         sessionLog.setPhone(phone);
-        sessionLog = sessionRepositoryImpl.save(sessionLog);
-        
+        sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
         return sessionLog;
     }
 

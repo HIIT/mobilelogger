@@ -25,7 +25,8 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         
         boolean isOk = super.preHandle(request, response, handler);
-        
+        if(request == null)
+            return false;
         if(!request.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
         
@@ -40,25 +41,14 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
     
-    @Override 
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-         
-        logger.info("header queryString = " + request.getHeader("queryString"));
-        super.postHandle(request, response, handler, modelAndView);
-    }
-    
-    private JsonObject convertToJsonObject(HttpServletRequest request) {
+    private JsonObject convertToJsonObject(HttpServletRequest request) throws IOException {
         if(request.getContentLength() == -1) {
             logger.info("content length is -1, returning null");
             return null;
         }
         
         byte[] buffer = new byte[request.getContentLength()];
-        try{
-            request.getInputStream().read(buffer, 0, request.getContentLength());
-        } catch (IOException e) {
-            System.out.println(e.toString());
-        }
+        request.getInputStream().read(buffer, 0, request.getContentLength());
         
         String data = new String(buffer);
         logger.info("data = ".concat(data));

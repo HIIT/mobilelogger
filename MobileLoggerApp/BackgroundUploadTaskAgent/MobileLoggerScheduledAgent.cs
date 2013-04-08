@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Windows;
 
-namespace MobileLoggerScheduledAgent.BackgroundAgent
+namespace MobileLoggerScheduledAgent
 {
     public class ScheduledAgent : ScheduledTaskAgent
     {
@@ -57,6 +57,7 @@ namespace MobileLoggerScheduledAgent.BackgroundAgent
             System.Diagnostics.Debug.WriteLine(this.GetType().Name + ".OnInvoke");
             //TODO: Add code to perform your task in background
             SendMessages();
+            NotifyComplete();
             
         }
 

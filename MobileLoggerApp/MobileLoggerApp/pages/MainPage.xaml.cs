@@ -248,7 +248,7 @@ namespace MobileLoggerApp
             }
 
 #if DEBUG
-            // System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
+            System.Diagnostics.Debug.WriteLine("DEBUG START AGENT");
             // If we're debugging, attempt to start the task immediately 
             try
             {

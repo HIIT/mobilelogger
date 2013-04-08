@@ -70,7 +70,6 @@
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />

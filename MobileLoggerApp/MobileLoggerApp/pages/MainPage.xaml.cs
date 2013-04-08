@@ -7,6 +7,7 @@ using MobileLoggerApp.pages;
 using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -183,10 +184,8 @@ namespace MobileLoggerApp
 
         private void SaveSensorLog()
         {
-            foreach (AbstractLogHandler logHandler in App.logHandlers)
-            {
-                logHandler.SaveSensorLog();
-            }
+            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in App.logHandlers)
+                logHandler.Value.SaveSensorLog();
         }
 
         /// <summary>

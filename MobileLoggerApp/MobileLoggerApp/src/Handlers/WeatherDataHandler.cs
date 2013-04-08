@@ -6,13 +6,23 @@ namespace MobileLoggerApp.Handlers
 {
     class WeatherDataHandler : AbstractLogHandler
     {
+        public WeatherDataHandler()
+        {
+            this.IsEnabled = true;            
+        }
+
         public override void SaveSensorLog()
         {
         }
 
-        public void StartWeatherDataHandler()
+        public void StartWeatherDataWatcher()
         {
             WeatherInformationSearch.weatherDataEvent += new WeatherInformationSearch.WeatherDataHandler(WeatherData);
+        }
+
+        public void StopWeatherDataWatcher()
+        {
+            WeatherInformationSearch.weatherDataEvent -= WeatherData;
         }
 
         private void WeatherData(JObject weatherData)

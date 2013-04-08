@@ -5,6 +5,11 @@ namespace MobileLoggerApp.Handlers
 {
     class ScreenTouchHandler : AbstractLogHandler
     {
+        public ScreenTouchHandler()
+        {
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
             //handle saving in the event handler method below
@@ -13,6 +18,11 @@ namespace MobileLoggerApp.Handlers
         public void StartScreenTouchWatcher()
         {
             MobileLoggerApp.MainPage.screenTouch += new MobileLoggerApp.MainPage.TouchEventHandler(Touch_FrameReported);
+        }
+
+        public void StopScreenTouchWatcher()
+        {
+            MobileLoggerApp.MainPage.screenTouch -= Touch_FrameReported;
         }
 
         void Touch_FrameReported(MainPage mainPage, TouchFrameEventArgs e)

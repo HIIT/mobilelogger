@@ -9,6 +9,7 @@ namespace MobileLoggerApp.Handlers
         private LogEventSaver saver = LogEventSaver.Instance;
 
         protected JObject data = new JObject();
+        public bool IsEnabled{get; set;}
 
         /// <summary>
         /// This method needs to save the timestamp of current time also
@@ -17,6 +18,9 @@ namespace MobileLoggerApp.Handlers
 
         protected Boolean SaveLogToDB(JObject logEvent, string url)
         {
+            if (!IsEnabled)
+                return true;
+
             if (logEvent == null)
                 return false;
 

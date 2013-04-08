@@ -10,6 +10,12 @@ namespace MobileLoggerApp.Handlers
         public static GeoCoordinateWatcher coordinateWatcher;
         public static string latitude, longitude;
 
+        public GpsHandler()
+        {
+            coordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default); //using high might slow down the app
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
             if (coordinateWatcher.Status == GeoPositionStatus.Ready)
@@ -18,15 +24,16 @@ namespace MobileLoggerApp.Handlers
 
         public void StartCoordinateWatcher()
         {
-            if (coordinateWatcher == null)
-            {
-                coordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default); //using high might slow down the app
-                coordinateWatcher.MovementThreshold = 20;
+            coordinateWatcher.MovementThreshold = 20;
 
-                coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
-                coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);
-            }
+            coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
+            coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);
             coordinateWatcher.Start();
+        }
+
+        public void StopCoordinateWatcher()
+        {
+            coordinateWatcher.Stop();
         }
 
         private void coordinate_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)

@@ -9,7 +9,7 @@ namespace MobileLoggerApp
 {
     public partial class App : Application
     {
-        public static List<AbstractLogHandler> logHandlers;
+        public static Dictionary<string, AbstractLogHandler> logHandlers;
 
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
@@ -77,47 +77,47 @@ namespace MobileLoggerApp
         private void InitHandlers()
         {           
             //always create new to ensure no duplicates
-            logHandlers = new List<AbstractLogHandler>();
+            logHandlers = new Dictionary<string, AbstractLogHandler>();
 
             AccelHandler accelerometer = new AccelHandler();
             accelerometer.StartAccelWatcher();
-            logHandlers.Add(accelerometer);
+            logHandlers.Add("Accelerometer", accelerometer);
 
             CompassHandler compass = new CompassHandler();
             compass.StartCompassWatcher();
-            logHandlers.Add(compass);
+            logHandlers.Add("Compass", compass);
 
             GpsHandler gps = new GpsHandler();
             gps.StartCoordinateWatcher();
-            logHandlers.Add(gps);
+            logHandlers.Add("GPS", gps);
 
             GyroHandler gyroscope = new GyroHandler();
             gyroscope.StartGyroWatcher();
-            logHandlers.Add(gyroscope);
+            logHandlers.Add("Gyroscope", gyroscope);
 
             KeyboardHandler keyboard = new KeyboardHandler();
-            keyboard.StartKeyBoardWatcher();
-            logHandlers.Add(keyboard);
+            keyboard.StartKeyboardWatcher();
+            logHandlers.Add("Keyboard", keyboard);
 
             KeyPressHandler keyPress = new KeyPressHandler();
             keyPress.StartKeyPressWatcher();
-            logHandlers.Add(keyPress);
+            logHandlers.Add("Key Press", keyPress);
 
             NetworkHandler network = new NetworkHandler();
-            network.StartNetwork();
-            logHandlers.Add(network);
+            network.StartNetworkWatcher();
+            logHandlers.Add("Network", network);
 
             ScreenTouchHandler screenTouch = new ScreenTouchHandler();
             screenTouch.StartScreenTouchWatcher();
-            logHandlers.Add(screenTouch);
+            logHandlers.Add("Screen Touch", screenTouch);
 
             SearchDataHandler searchData = new SearchDataHandler();
-            searchData.StartSearchDataHandler();
-            logHandlers.Add(searchData);
+            searchData.StartSearchDataWatcher();
+            logHandlers.Add("Search Data", searchData);
 
             WeatherDataHandler weatherData = new WeatherDataHandler();
-            weatherData.StartWeatherDataHandler();
-            logHandlers.Add(weatherData);
+            weatherData.StartWeatherDataWatcher();
+            logHandlers.Add("Weather", weatherData);
         }
 
         // Code to execute when the application is launching (eg, from Start)

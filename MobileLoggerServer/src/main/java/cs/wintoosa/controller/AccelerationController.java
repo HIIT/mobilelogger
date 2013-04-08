@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.controller.interceptor.ValidationInterceptor;
 import cs.wintoosa.domain.AccLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.service.ILogService;
@@ -38,6 +39,7 @@ public class AccelerationController {
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putAccelerationLog(@Valid @RequestBody AccLog log, BindingResult result) {
+        System.out.println("put accel");
         if(result.hasErrors()) {
             for(ObjectError error : result.getAllErrors())
                 System.out.println(error.toString());

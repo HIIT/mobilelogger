@@ -6,6 +6,7 @@ package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.service.ILogService;
+import cs.wintoosa.service.ISessionService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class SessionController {
     @Autowired
     ILogService logService;
     
+    @Autowired
+    ISessionService sessionService;
+    
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public SessionLog putSessionLog(@Valid @RequestBody SessionLog log, BindingResult result) {
@@ -51,7 +55,7 @@ public class SessionController {
     @RequestMapping(value = "/{sessionId}", method = RequestMethod.GET)
     public String getLogsBySession(@PathVariable long sessionId, Model model) {
         System.out.println("getting logs in session");
-        model.addAttribute("session", logService.getSessionById(sessionId));
+        model.addAttribute("session", sessionService.formatForJsp(logService.getSessionById(sessionId)));
         return "matrix";
     }
     

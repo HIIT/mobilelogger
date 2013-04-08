@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ILogRepository extends JpaRepository<Log, Long>{
     public List<Log> findByPhoneIdAndTimestampBetween(String phoneId, Long sessionStart, Long sessionEnd);
+    
+    
 
     public Collection<? extends Log> findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(String phoneId, Long sessionStart, Long sessionEnd);
 }

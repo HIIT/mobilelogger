@@ -13,15 +13,25 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Logs in session </h1>
+        <h1>Logs in session ${session.sessionId} of phone ${session.phone}</h1>
         <table border ="1">
             <tr>
                 <th>Data Attribute</th>
-                <c:forEach var="log" items="${session.logs}">
-                    <th>${log.timestamp}</th>
+                <c:forEach var="timestamp" items="${session.logData.foo}">
+                    <th>${timestamp.key}</th>
                 </c:forEach>
             </tr>
-            
+
+            <c:forEach var="log" items="${session.logData}">
+                <tr>
+                    <td>${log.key}</td>
+                    <c:forEach var="entry" items="${log.value}">
+                        <td>${entry.value}</td>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
+
+
         </table>
     </body>
 </html>

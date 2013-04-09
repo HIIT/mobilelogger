@@ -17,8 +17,8 @@
         <table border ="1">
             <tr>
                 <th>Data Attribute</th>
-                <c:forEach var="timestamp" items="${session.logData.foo}">
-                    <th>${timestamp.key}</th>
+                <c:forEach var="timestamp" items="${session.timestamps}">
+                    <th>${timestamp}</th>
                 </c:forEach>
             </tr>
 
@@ -26,7 +26,7 @@
                 <tr>
                     <td>${log.key}</td>
                     <c:forEach var="entry" items="${log.value}">
-                        <td>${entry.value}</td>
+                        <td>${entry}</td>
                     </c:forEach>
                 </tr>
             </c:forEach>

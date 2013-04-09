@@ -27,7 +27,7 @@ public abstract class Log implements Serializable{
     
     @ManyToOne(targetEntity=SessionLog.class)
     protected SessionLog sessionLog;
-    
+        
     @NotNull(message="PhoneId can't be null")
     protected String phoneId;
     

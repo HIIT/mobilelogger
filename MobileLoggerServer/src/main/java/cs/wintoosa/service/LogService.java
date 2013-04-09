@@ -60,11 +60,11 @@ public class LogService implements ILogService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Log> getAllBySessionId(Class cls) {
+    public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session) {
         if (cls == null) {
             return null;
         }
-        List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c, WHERE ", cls).getResultList();
+        List<T> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c WHERE c.sessionLog.id = "+session.getId()+" order by c.timestamp asc", cls).getResultList();
         return resultList;
     }
 

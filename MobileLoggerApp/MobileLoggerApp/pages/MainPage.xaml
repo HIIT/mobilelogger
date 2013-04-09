@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="True">
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="ListBoxStyle1" TargetType="ListBox" x:Name="listStyle">
-            
+
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -25,14 +25,14 @@
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Template" x:Name="setter">
                 <Setter.Value>
-                    
+
                     <ControlTemplate TargetType="ListBox">
-                        
+
                         <ScrollViewer x:Name="ScrollViewer" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" Padding="{TemplateBinding Padding}">
-                            
+
                             <StackPanel x:Name="stackPanel">
                                 <ItemsPresenter/>
-                                
+
                                 <Button Visibility="Visible"
                                 x:Name="nextPageButton"
                                 Click="LoadNextPage"
@@ -48,22 +48,22 @@
         </Style>
     </phone:PhoneApplicationPage.Resources>
 
-    
+
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator IsVisible="False" IsIndeterminate="True"/>
     </shell:SystemTray.ProgressIndicator>
-    
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        
+
         <controls:Pivot Title="MobileLogger" SelectionChanged="currentPivotItem">
-            
+
             <!--Pivot item one-->
             <controls:PivotItem Header="Search" Margin="12,0">
                 <!--Double line list with text wrapping-->
                 <Grid>
-                    
+
                     <StackPanel Margin="0,0,0,557">
                         <TextBox x:Name="SearchTextBox" Text="" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyUp="SearchTextBox_KeyUp"></TextBox>
                     </StackPanel>
@@ -77,14 +77,14 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                        
+
                 </Grid>
             </controls:PivotItem>
 
             <!--Pivot item two-->
-            <controls:PivotItem Header="Settings">
+            <controls:PivotItem Header="Data">
                 <!--Triple line list no text wrapping-->
-                <ListBox x:Name="SecondListBox" Margin="0,0,-12,0" ItemsSource="{Binding Settings}">
+                <ListBox x:Name="SecondListBox" Margin="0,0,-12,0" ItemsSource="{Binding LogData}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
@@ -104,6 +104,20 @@
                         Click="debugButton_Click" >
                     Send data
                 </Button>
+            </controls:PivotItem>
+
+            <!--Pivot item four. Settings tab-->
+            <controls:PivotItem Header="Settings">
+                <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding Settings}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="HandlerCheckBox" Content="{Binding LineOne}" IsChecked="{Binding IsChecked}"
+                                          Checked="HandlerCheckBox_Checked" Unchecked="HandlerCheckBox_Unchecked" HorizontalAlignment="Right" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PivotItem>
         </controls:Pivot>
 

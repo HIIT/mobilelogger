@@ -33,17 +33,15 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         JsonObject json = convertToJsonObject(request);
        
         if(!isValid(json)) {
-            logger.info("Invalid json");
-            response.sendError(BAD_REQUEST, "json validation failed");
+            logger.log(Level.WARNING,"Invalid json");
+            response.getWriter().write("json checksum failed");
             return false;
         }
-        logger.info("valid");
         return true;
     }
     
     private JsonObject convertToJsonObject(HttpServletRequest request) throws IOException {
         if(request.getContentLength() == -1) {
-            logger.info("content length is -1, returning null");
             return null;
         }
         

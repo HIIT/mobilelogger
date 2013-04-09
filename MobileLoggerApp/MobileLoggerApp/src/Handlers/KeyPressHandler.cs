@@ -7,14 +7,24 @@ namespace MobileLoggerApp.Handlers
     {
         private static string URL = "/log/keyPress";
 
+        public KeyPressHandler()
+        {
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
             SaveLogToDB(this.data, URL);
         }
 
-        public void StartKeyPressWatcher()
+        public override void StartWatcher()
         {
             MobileLoggerApp.MainPage.keyUp += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyUp);
+        }
+
+        public override void StopWatcher()
+        {
+            MobileLoggerApp.MainPage.keyUp -= SearchTextBox_KeyUp;
         }
 
         private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)

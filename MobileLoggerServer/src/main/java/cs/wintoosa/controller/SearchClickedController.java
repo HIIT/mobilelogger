@@ -40,12 +40,6 @@ public class SearchClickedController {
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putTextLog(@RequestBody String log, BindingResult result) {
-        if(result.hasErrors()) {
-            System.out.println("result had errors");
-            for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
-            return false;
-        }
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(log).getAsJsonObject();
         TextLog tLog = new TextLog();

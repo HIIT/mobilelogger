@@ -1,4 +1,5 @@
 ﻿using MobileLoggerScheduledAgent.Devicetools;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
@@ -60,9 +61,9 @@ namespace MobileLoggerScheduledAgent.Database
             }
             set
             {
-                if (value.ToString() != json)
+                if (value != json)
                 {
-                    json = value.ToString();
+                    json = value;
                 }
             }
         }
@@ -125,13 +126,13 @@ namespace MobileLoggerScheduledAgent.Database
         	}
     	}
 
-        public void addEvent(String sensorEvent, String url)
+        public void addEvent(JObject sensorEvent, String url)
         {
             using (LogEventDataContext context = new LogEventDataContext(ConnectionString))
             {
                 // create a new LogEvent instance
                 LogEvent le = new LogEvent();
-                le.sensorEvent = sensorEvent;
+                le.sensorEvent = sensorEvent.ToString();
                 le.Time = DeviceTools.GetUnixTime(DateTime.Now);
                 le.relativeUrl = url;
 

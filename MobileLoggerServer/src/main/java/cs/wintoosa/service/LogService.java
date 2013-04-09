@@ -4,6 +4,7 @@ import cs.wintoosa.domain.*;
 import cs.wintoosa.repository.log.ILogRepository;
 import cs.wintoosa.repository.phone.IPhoneRepository;
 import cs.wintoosa.repository.session.ISessionRepository;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -57,7 +58,7 @@ public class LogService implements ILogService {
         List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
         return resultList;
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session) {

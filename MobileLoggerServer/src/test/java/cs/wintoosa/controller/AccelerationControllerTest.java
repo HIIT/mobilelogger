@@ -22,20 +22,18 @@ import org.springframework.web.context.WebApplicationContext;
  * @author vkukkola
  */
 @WebAppConfiguration
-public class AccControllerTest extends AbstractTest{
+public class AccelerationControllerTest extends AbstractTest{
     @Autowired
     private WebApplicationContext wac;
     private MockMvc mockMvc;
-
+    
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        
     }
     
     @Test
     public void testPutAccelerationLog() throws Exception {
-        
         String jsondata = "{\"accX\":1.0,\"accY\":2.0,\"accZ\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"2413a9ab3dc40a4a0de28316422f321c4bcd179a\"}";
 
         this.mockMvc.perform(put("/log/accel").contentType(MediaType.APPLICATION_JSON).content(jsondata))

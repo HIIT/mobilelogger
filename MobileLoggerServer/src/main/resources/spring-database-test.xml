@@ -20,20 +20,7 @@
         http://www.springframework.org/schema/data/jpa
            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <!-- Sovelluksen repository-luokat (DAO-luokat) sijaitsevat pakkauksen wad alla -->
     <jpa:repositories base-package="cs.wintoosa.repository" />
-    <!--
-    <context:property-placeholder location="WEB-INF/db.properties"/>
-    -->
-    <!-- Postgre -->
-    <!--
-     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${driverClassName}"/>
-        <property name="url" value="${url}"/>
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
-    </bean> 
-    -->
     
     <!-- Käytetään muistiin ladattavaa tietokantaa -->
     <jdbc:embedded-database id="dataSource" type="HSQL"/>

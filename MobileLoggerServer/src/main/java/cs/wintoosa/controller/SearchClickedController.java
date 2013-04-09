@@ -39,10 +39,10 @@ public class SearchClickedController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putTextLog(@RequestBody JsonObject json, BindingResult result) {
-        
+    public boolean putTextLog(@RequestBody String log, BindingResult result) {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(log).getAsJsonObject();
         TextLog tLog = new TextLog();
-        
         tLog.setPhoneId(json.get("phoneId").getAsString());
         json.remove("phoneId");
         tLog.setTimestamp(json.get("timestamp").getAsLong());

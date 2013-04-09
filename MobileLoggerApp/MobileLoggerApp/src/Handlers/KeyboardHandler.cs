@@ -17,13 +17,13 @@ namespace MobileLoggerApp.Handlers
         {
         }
 
-        public void StartKeyboardWatcher()
+        public override void StartWatcher()
         {
             MobileLoggerApp.MainPage.keyboardGotFocus += new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardGotFocus);
             MobileLoggerApp.MainPage.keyboardLostFocus += new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardLostFocus);
         }
 
-        public void StopKeyboardWatcher()
+        public override void StopWatcher()
         {
             MobileLoggerApp.MainPage.keyboardGotFocus -= KeyboardGotFocus;
             MobileLoggerApp.MainPage.keyboardLostFocus -= KeyboardLostFocus;

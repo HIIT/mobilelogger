@@ -17,12 +17,12 @@ namespace MobileLoggerApp.Handlers
             SaveLogToDB(this.data, URL);
         }
 
-        public void StartKeyPressWatcher()
+        public override void StartWatcher()
         {
             MobileLoggerApp.MainPage.keyUp += new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyUp);
         }
 
-        public void StopKeyPressWatcher()
+        public override void StopWatcher()
         {
             MobileLoggerApp.MainPage.keyUp -= SearchTextBox_KeyUp;
         }

@@ -19,7 +19,7 @@ namespace MobileLoggerApp.Handlers
             SaveLogToDB(this.data, "/log/compass");
         }
 
-        public void StartCompassWatcher()
+        public override void StartWatcher()
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
@@ -29,7 +29,7 @@ namespace MobileLoggerApp.Handlers
             }
         }
 
-        public void StopCompassWatcher()
+        public override void StopWatcher()
         {
             this.compassWatcher.Stop();
         }

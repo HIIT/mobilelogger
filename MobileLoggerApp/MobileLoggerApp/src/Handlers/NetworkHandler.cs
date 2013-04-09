@@ -18,14 +18,13 @@ namespace MobileLoggerApp.Handlers
             SaveLogToDB(this.data, "/log/network");
         }
 
-        public void StartNetworkWatcher()
+        public override void StartWatcher()
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged += new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
-
             UpdateNetworkValues();
         }
 
-        public void StopNetWorkWatcher()
+        public override void StopWatcher()
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged -= NetWorkAvailibilityChanged;
         }

@@ -15,12 +15,12 @@ namespace MobileLoggerApp.Handlers
         {
         }
 
-        public void StartWeatherDataWatcher()
+        public override void StartWatcher()
         {
             WeatherInformationSearch.weatherDataEvent += new WeatherInformationSearch.WeatherDataHandler(WeatherData);
         }
 
-        public void StopWeatherDataWatcher()
+        public override void StopWatcher()
         {
             WeatherInformationSearch.weatherDataEvent -= WeatherData;
         }

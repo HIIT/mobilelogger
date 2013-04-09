@@ -93,6 +93,7 @@
     <Compile Include="src\GoogleCustomSearch.cs" />
     <Compile Include="src\Handlers\AbstractLogHandler.cs" />
     <Compile Include="src\Handlers\AccelHandler.cs" />
+    <Compile Include="src\Handlers\HandlersManager.cs" />
     <Compile Include="src\Handlers\KeyboardHandler.cs" />
     <Compile Include="src\Handlers\KeyPressHandler.cs" />
     <Compile Include="src\Handlers\NetworkHandler.cs" />

@@ -22,7 +22,7 @@ namespace MobileLoggerApp.Handlers
                 SaveLogToDB(this.data, "/log/gps");
         }
 
-        public void StartCoordinateWatcher()
+        public override void StartWatcher()
         {
             coordinateWatcher.MovementThreshold = 20;
 
@@ -31,7 +31,7 @@ namespace MobileLoggerApp.Handlers
             coordinateWatcher.Start();
         }
 
-        public void StopCoordinateWatcher()
+        public override void StopWatcher()
         {
             coordinateWatcher.Stop();
         }

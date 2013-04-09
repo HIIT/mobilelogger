@@ -15,12 +15,12 @@ namespace MobileLoggerApp.Handlers
             //handle saving in the event handler method below
         }
 
-        public void StartScreenTouchWatcher()
+        public override void StartWatcher()
         {
             MobileLoggerApp.MainPage.screenTouch += new MobileLoggerApp.MainPage.TouchEventHandler(Touch_FrameReported);
         }
 
-        public void StopScreenTouchWatcher()
+        public override void StopWatcher()
         {
             MobileLoggerApp.MainPage.screenTouch -= Touch_FrameReported;
         }

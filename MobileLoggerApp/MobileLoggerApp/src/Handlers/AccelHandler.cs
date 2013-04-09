@@ -19,14 +19,14 @@ namespace MobileLoggerApp.Handlers
             SaveLogToDB(this.data, "/log/accel");
         }
 
-        public void StartAccelWatcher()
+        public override void StartWatcher()
         {
             this.accelerometerWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
             this.accelerometerWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
             this.accelerometerWatcher.Start();
         }
 
-        public void StopAccelWatcher()
+        public override void StopWatcher()
         {
             this.accelerometerWatcher.Stop();
         }

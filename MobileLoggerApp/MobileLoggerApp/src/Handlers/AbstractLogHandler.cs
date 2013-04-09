@@ -15,6 +15,8 @@ namespace MobileLoggerApp.Handlers
         /// This method needs to save the timestamp of current time also
         /// </summary>
         public abstract void SaveSensorLog();
+        public abstract void StartWatcher();
+        public abstract void StopWatcher();
 
         protected Boolean SaveLogToDB(JObject logEvent, string url)
         {

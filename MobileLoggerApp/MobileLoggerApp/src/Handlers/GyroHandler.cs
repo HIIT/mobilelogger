@@ -19,7 +19,7 @@ namespace MobileLoggerApp.Handlers
             SaveLogToDB(this.data, "/log/gyro");
         }
 
-        public void StartGyroWatcher()
+        public override void StartWatcher()
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
@@ -29,7 +29,7 @@ namespace MobileLoggerApp.Handlers
             }
         }
 
-        public void StopGyroWatcher()
+        public override void StopWatcher()
         {
             this.gyroWatcher.Stop();
         }

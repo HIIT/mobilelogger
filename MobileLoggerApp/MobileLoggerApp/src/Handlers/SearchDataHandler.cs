@@ -18,12 +18,12 @@ namespace MobileLoggerApp.Handlers
         {
         }
 
-        public void StartSearchDataWatcher()
+        public override void StartWatcher()
         {
             GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
         }
 
-        public void StopSearchDataWatcher()
+        public override void StopWatcher()
         {
             GoogleCustomSearch.searchDataEvent -= SearchData;
         }

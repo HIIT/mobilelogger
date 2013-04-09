@@ -14,7 +14,7 @@ namespace MobileLoggerScheduledAgent
     {
         private static volatile bool _classInitialized;
         public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
-
+        private static readonly int TIMEOUT_MS = 10000;
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
         /// </remarks>
@@ -58,7 +58,7 @@ namespace MobileLoggerScheduledAgent
             System.Diagnostics.Debug.WriteLine(this.GetType().Name + ".OnInvoke");
             //TODO: Add code to perform your task in background
             SendMessages();
-            NotifyComplete();
+           // NotifyComplete();
             
         }
 
@@ -106,20 +106,23 @@ namespace MobileLoggerScheduledAgent
             
             //Console.WriteLine("Please enter the input data to be posted:");
             string putData = logevent.sensorEvent.ToString();
+            System.Diagnostics.Debug.WriteLine("URL = " + logevent.relativeUrl);
             System.Diagnostics.Debug.WriteLine("sending data = " + putData);
             // Convert the string into a byte array. 
             byte[] byteArray = Encoding.UTF8.GetBytes(putData);
-
+            //putStream.WriteTimeout = TIMEOUT_MS;
             // Write to the request stream.
             putStream.Write(byteArray, 0, putData.Length);
+            
             putStream.Close();
-
+            System.Diagnostics.Debug.WriteLine("Sent");
             // Start the asynchronous operation to get the response
             request.BeginGetResponse(responseAsynchronousResult =>
             {
                 GetResponse(responseAsynchronousResult, logevent);
 
             }, request);
+            
         }
 
         private void GetResponse(IAsyncResult asynchronousResult, LogEvent logevent)

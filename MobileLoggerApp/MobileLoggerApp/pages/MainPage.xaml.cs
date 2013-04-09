@@ -146,7 +146,7 @@ namespace MobileLoggerApp
                     GetWeatherData();
                 }
             }
-            SaveSensorLog();
+            HandlersManager.SaveSensorLog();
         }
 
         /// <summary>
@@ -181,14 +181,6 @@ namespace MobileLoggerApp
             weatherInfo.GetForecast();
         }
 
-        private void SaveSensorLog()
-        {
-            foreach (AbstractLogHandler logHandler in App.logHandlers)
-            {
-                logHandler.SaveSensorLog();
-            }
-        }
-
         /// <summary>
         /// Opens web browser with bing search for the textbox contents as the search term, used as a backup when the Google search fails
         /// </summary>
@@ -202,7 +194,7 @@ namespace MobileLoggerApp
 
         private void currentPivotItem(object sender, SelectionChangedEventArgs e)
         {
-            Pivot pivot = (Pivot)sender;
+            Pivot pivot = sender as Pivot;
 
             // Settings PivotItem
             if (pivot.SelectedIndex == 1)
@@ -215,15 +207,10 @@ namespace MobileLoggerApp
         {
             try
             {
-                //System.Diagnostics.Debug.WriteLine("Start agent");
                 StopAgentIfStarted();
 
                 PeriodicTask task = new PeriodicTask(TASK_NAME);
-                //                PeriodicTask task = new PeriodicTask(TASK_NAME);
                 task.ExpirationTime = DateTime.Now.AddDays(14);
-                // System.Diagnostics.Debug.WriteLine(task.LastScheduledTime);
-                //task.ExpirationTime = new DateTime(0,0,7);
-                //System.Diagnostics.Debug.WriteLine("new task " + TASK_NAME);
                 task.Description = "This is the background upload agent for MobileLoggerApp";
                 // Place the call to Add in a try block in case the user has disabled agents.
 
@@ -235,7 +222,6 @@ namespace MobileLoggerApp
                 if (exception.Message.Contains("BNS Error: The action is disabled"))
                 {
                     MessageBox.Show("Background agents for this application have been disabled by the user.");
-                    //agentsAreEnabled = false;
                 }
                 if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
                 {
@@ -280,6 +266,32 @@ namespace MobileLoggerApp
         {
             System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();
+        }
+
+        private void HandlerCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            ListBoxItem checkedHandlerItem = this.SettingsListBox.ItemContainerGenerator.ContainerFromItem((sender as CheckBox).DataContext) as ListBoxItem;
+
+            if (checkedHandlerItem != null)
+            {
+                HandlersManager.EnableHandler(GetHandlerName(checkedHandlerItem));
+            }
+        }
+
+        private void HandlerCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ListBoxItem checkedHandlerItem = this.SettingsListBox.ItemContainerGenerator.ContainerFromItem((sender as CheckBox).DataContext) as ListBoxItem;
+
+            if (checkedHandlerItem != null)
+            {
+                HandlersManager.DisableHandler(GetHandlerName(checkedHandlerItem));
+            }
+        }
+
+        private string GetHandlerName(ListBoxItem checkedHandlerItem)
+        {
+            ItemViewModel handlerItem = checkedHandlerItem.DataContext as ItemViewModel;
+            return handlerItem.LineOne.ToString();
         }
     }
 }

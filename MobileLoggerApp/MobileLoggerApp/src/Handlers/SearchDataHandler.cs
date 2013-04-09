@@ -9,13 +9,23 @@ namespace MobileLoggerApp.Handlers
         string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
         int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
 
+        public SearchDataHandler()
+        {
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
         }
 
-        public void StartSearchDataHandler()
+        public override void StartWatcher()
         {
             GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
+        }
+
+        public override void StopWatcher()
+        {
+            GoogleCustomSearch.searchDataEvent -= SearchData;
         }
 
         private void SearchData(JObject searchData)

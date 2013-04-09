@@ -21,13 +21,10 @@ public class LogService implements ILogService {
 
     @Autowired
     private ILogRepository logRepositoryImpl;
-    
     @Autowired
     private ISessionRepository sessionRepositoryImpl;
-    
     @Autowired
     private IPhoneRepository phoneRepositoryImpl;
-    
     @PersistenceContext
     EntityManager em;
 
@@ -37,20 +34,37 @@ public class LogService implements ILogService {
         if (log == null || log.getPhoneId() == null) {
             return false;
         }
+        List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(log.getPhoneId(), log.getTimestamp(), log.getTimestamp());
+        for (SessionLog session : sessions) {
+            log.setSessionLog(session);
+        }
         log = logRepositoryImpl.save(log);
         return true;
     }
+
     /**
      * Todo: Put this in a repository class
+     *
      * @param cls the class of the log entry
-     * @return 
+     * @return
      */
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) throws IllegalArgumentException {
-        if(cls == null)
+        if (cls == null) {
             return null;
+        }
         List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
+        return resultList;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Log> getAllBySessionId(Class cls) {
+        if (cls == null) {
+            return null;
+        }
+        List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c, WHERE ", cls).getResultList();
         return resultList;
     }
 
@@ -60,65 +74,64 @@ public class LogService implements ILogService {
         List<Log> logs = logRepositoryImpl.findAll();
         return logs;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<SessionLog> getAllSessions() {
         List<SessionLog> sessionLogs = sessionRepositoryImpl.findAll();
         return sessionLogs;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public SessionLog getSessionById(long sessionId) {
         SessionLog session = sessionRepositoryImpl.findOne(sessionId);
-        if(session != null) {
-            session.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(session.getPhoneId(), session.getSessionStart(), session.getSessionEnd()));
-        }
         return session;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
-    public List<SessionLog> getSessionByPhoneId(String phoneId){
-        List<SessionLog> sessions = sessionRepositoryImpl.findSessionByPhoneId(phoneId);
+    public List<SessionLog> getSessionByPhoneId(String phoneId) {
+        List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneId(phoneId);
         return sessions;
     }
-    
+
     /**
      * Saves the given session log into db
+     *
      * @param sessionLog
      * @return the saved SessionLog or null if save failed
      */
     @Override
     @Transactional
-    public SessionLog saveSessionLog(SessionLog sessionLog){
-        
+    public SessionLog saveSessionLog(SessionLog sessionLog) {
+
         String phoneId = sessionLog.getPhoneId();
         Phone phone = phoneRepositoryImpl.findOne(phoneId);
-        if(phone == null) {
+        if (phone == null) {
             phone = new Phone();
             phone.setId(phoneId);
+            phone = phoneRepositoryImpl.saveAndFlush(phone);
         }
-        
-        sessionLog.getLogs().addAll(
-                logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull
-                (phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd()));
+        List<Log> logs = logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd());
+
+        /*sessionLog.setPhone(phone);*/
+        sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
         
         phone.getSessions().add(sessionLog);
         phone = phoneRepositoryImpl.saveAndFlush(phone);
-       
-        sessionLog.setPhone(phone);
-        sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
+        
+        for (Log log : logs) {
+            log.setSessionLog(sessionLog);
+        }
+        logRepositoryImpl.save(logs);
         return sessionLog;
     }
 
     @Override
-    @Transactional(readOnly= true)
+    @Transactional(readOnly = true)
     public List<Phone> getAllPhones() {
-        
+
         return phoneRepositoryImpl.findAll();
     }
-
-    
 }

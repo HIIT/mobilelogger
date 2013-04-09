@@ -20,6 +20,7 @@ public interface ILogService {
     public List<Log> getAll();
     
     public List<Log> getAll(Class cls);
+    public List<Log> getAllBySessionId(Class cls);
 
     public SessionLog getSessionById(long sessionId);
 

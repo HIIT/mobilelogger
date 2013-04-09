@@ -57,12 +57,8 @@ public class SessionLog implements Serializable{
     public void setPhoneId(String phoneId) {
         this.phoneId = phoneId;
     }
-    
-    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
-    private List<Log> logs = new ArrayList<Log>();
-    
-    @ManyToOne(targetEntity=Phone.class)
-    private Phone phone;
+        
+    /*private Phone phone;
 
     public void setPhone(Phone phone) {
         this.phone = phone;
@@ -71,7 +67,7 @@ public class SessionLog implements Serializable{
     public Phone getPhone() {
         return phone;
     }
-
+*/
     public Long getSessionStart() {
         return sessionStart;
     }
@@ -86,14 +82,6 @@ public class SessionLog implements Serializable{
 
     public void setSessionEnd(Long sessionEnd) {
         this.sessionEnd = sessionEnd;
-    }
-
-    public List<Log> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<Log> logs) {
-        this.logs = logs;
     }
 
     public Long getId() {

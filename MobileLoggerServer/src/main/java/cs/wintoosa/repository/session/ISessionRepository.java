@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ISessionRepository extends JpaRepository<SessionLog, Long>, ISessionRepositoryCustom {
     
-    public List<SessionLog> findSessionByPhoneId(String phoneId);
+    public List<SessionLog> findByPhoneId(String phoneId);
+    public List<SessionLog> findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(String phoneId, Long timestamp, Long timestamp2);
+    
 }

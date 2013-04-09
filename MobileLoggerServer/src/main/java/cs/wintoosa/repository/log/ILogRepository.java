@@ -14,5 +14,5 @@ public interface ILogRepository extends JpaRepository<Log, Long>{
     
     
 
-    public Collection<? extends Log> findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(String phoneId, Long sessionStart, Long sessionEnd);
+    public List<Log> findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(String phoneId, Long sessionStart, Long sessionEnd);
 }

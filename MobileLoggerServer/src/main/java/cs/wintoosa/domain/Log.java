@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -15,8 +16,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author jonimake
  */
-@Entity
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
+//@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public abstract class Log implements Serializable{
 
     private static final long serialVersionUID = 1234l;
@@ -37,11 +38,6 @@ public abstract class Log implements Serializable{
     @Transient
     private String checksum;
        
-    /**
-     * This is used for storing user search terms
-     */
-    protected String text;
-
     public Log() {
     }
     
@@ -62,14 +58,6 @@ public abstract class Log implements Serializable{
 
     public void setId(Long logId) {
         this.id = logId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public Long getTimestamp() {

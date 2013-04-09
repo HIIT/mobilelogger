@@ -52,9 +52,7 @@ namespace MobileLoggerScheduledAgent.Devicetools
             }
             catch (ArgumentOutOfRangeException e)
             {
-                System.Diagnostics.Debug.WriteLine("DeviceTools.GetDateTime: " + e.Message);
-                System.Diagnostics.Debug.WriteLine("DeviceTools.GetDateTime unixtimestamp is: " + unixTimeStamp);
-                return origin.AddMilliseconds(unixTimeStamp);
+                 return origin.AddMilliseconds(unixTimeStamp);
             }
         }
 

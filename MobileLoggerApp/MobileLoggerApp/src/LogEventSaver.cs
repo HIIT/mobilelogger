@@ -33,7 +33,7 @@ namespace MobileLoggerApp
                 while (saveQueue.Any()) //while !isEmpty
                 {
                     LogEvent e = saveQueue.Dequeue();
-                    logDBContext.addEvent(e.data.ToString(), e.url);
+                    logDBContext.addEvent(e.data, e.url);
                 }
             }
         }

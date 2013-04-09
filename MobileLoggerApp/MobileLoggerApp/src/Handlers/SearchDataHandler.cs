@@ -38,7 +38,7 @@ namespace MobileLoggerApp.Handlers
         private void ProcessSearchData(JObject searchData, DateTime timestamp)
         {
             searchData.Remove("items");
-            searchData.Add("time", DeviceTools.GetUnixTime(timestamp));
+            searchData.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
             searchData.Add("index", 0);
             SaveLogToDB(searchData, "/log/google");
         }
@@ -53,7 +53,7 @@ namespace MobileLoggerApp.Handlers
 
                 resultObj.Add("index", index + offset);
                 index++;
-                resultObj.Add("time", DeviceTools.GetUnixTime(timestamp));
+                resultObj.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
 
                 ParseSearchResult(resultObj);
                 SaveLogToDB(resultObj, "/log/google");

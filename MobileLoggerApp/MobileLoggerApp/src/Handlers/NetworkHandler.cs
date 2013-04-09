@@ -8,16 +8,25 @@ namespace MobileLoggerApp.Handlers
 {
     class NetworkHandler : AbstractLogHandler
     {
+        public NetworkHandler()
+        {
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
             SaveLogToDB(this.data, "/log/network");
         }
 
-        public void StartNetwork()
+        public override void StartWatcher()
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged += new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
-
             UpdateNetworkValues();
+        }
+
+        public override void StopWatcher()
+        {
+            DeviceNetworkInformation.NetworkAvailabilityChanged -= NetWorkAvailibilityChanged;
         }
 
         private void NetWorkAvailibilityChanged(object sender, NetworkNotificationEventArgs e)

@@ -18,6 +18,14 @@ namespace MobileLoggerApp.Handlers
         {
         }
 
+        public override void StartWatcher()
+        {
+        }
+
+        public override void StopWatcher()
+        {
+        }
+
         public void Start()
         {
             this.start = DateTime.UtcNow;

@@ -1,4 +1,4 @@
-﻿
+﻿using MobileLoggerApp.Handlers;
 using MobileLoggerScheduledAgent.Database;
 using MobileLoggerScheduledAgent.Devicetools;
 using System;
@@ -13,6 +13,7 @@ namespace MobileLoggerApp.pages
         public MainViewModel()
         {
             this.Items = new ObservableCollection<ItemViewModel>();
+            this.LogData = new ObservableCollection<ItemViewModel>();
             this.Settings = new ObservableCollection<ItemViewModel>();
         }
 
@@ -20,6 +21,7 @@ namespace MobileLoggerApp.pages
         /// A collection for ItemViewModel objects.
         /// </summary>
         public ObservableCollection<ItemViewModel> Items { get; private set; }
+        public ObservableCollection<ItemViewModel> LogData { get; private set; }
         public ObservableCollection<ItemViewModel> Settings { get; private set; }
 
         private string _sampleProperty = "Sample Runtime Property Value";
@@ -51,10 +53,6 @@ namespace MobileLoggerApp.pages
 
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
-        /// 
-        /// @author     Jukka-Pekka Salo
-        /// @date       2013-03-18
-        /// @version    1.1 Iterate list in reverse order.
         /// </summary>
         public void LoadData()
         {
@@ -74,22 +72,38 @@ namespace MobileLoggerApp.pages
                         System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..." + ioe);
                     }
                 }
+                LoadLogEvents(logDBContext);
+                LoadSettings();
+            }
+        }
 
-                List<LogEvent> list = logDBContext.GetLogEvents();
+        private void LoadLogEvents(LogEventDataContext logDBContext)
+        {
+            List<LogEvent> list = logDBContext.GetLogEvents();
 
-                if (list != null)
+            if (list != null)
+            {
+                App.ViewModel.LogData.Clear();
+
+                int listCount = list.Count;
+
+                for (int i = listCount - 1; i >= 0; i--)
                 {
-                    App.ViewModel.Settings.Clear();
-
-                    int listCount = list.Count;
-
-                    for (int i = listCount - 1; i >= 0; i--)
-                    {
-                        LogEvent e = list[i];
-                        App.ViewModel.Settings.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
-                    }
-                    this.IsDataLoaded = true;
+                    LogEvent e = list[i];
+                    App.ViewModel.LogData.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
                 }
+                this.IsDataLoaded = true;
+            }
+        }
+
+        private static void LoadSettings()
+        {
+            Dictionary<string, AbstractLogHandler> logHandlers = HandlersManager.logHandlers;
+
+            if (logHandlers != null)
+            {
+                foreach (KeyValuePair<string, AbstractLogHandler> logHandler in logHandlers)
+                    App.ViewModel.Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
             }
         }
 

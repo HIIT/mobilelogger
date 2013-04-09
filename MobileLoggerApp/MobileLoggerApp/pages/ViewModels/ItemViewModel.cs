@@ -69,6 +69,12 @@ namespace MobileLoggerApp.pages
             }
         }
 
+        public bool IsChecked
+        {
+            get;
+            set;
+        }
+
         public override string ToString()
         {
             return "Line one: " + _lineOne + "\r\nLine two: " + _lineTwo + "\r\nLine Three: " + _lineThree;

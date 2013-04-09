@@ -9,13 +9,23 @@ namespace MobileLoggerApp.Handlers
         string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
         int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
 
+        public SearchDataHandler()
+        {
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
         }
 
-        public void StartSearchDataHandler()
+        public override void StartWatcher()
         {
             GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
+        }
+
+        public override void StopWatcher()
+        {
+            GoogleCustomSearch.searchDataEvent -= SearchData;
         }
 
         private void SearchData(JObject searchData)
@@ -37,9 +47,10 @@ namespace MobileLoggerApp.Handlers
 
         private void ProcessSearchData(JObject searchData, DateTime timestamp)
         {
-            searchData.Remove("items");
-            searchData.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
-            searchData.Add("index", 0);
+            this.data = searchData;
+            this.data.Remove("items");
+            AddJOValue("timestamp", DeviceTools.GetUnixTime(timestamp));
+            AddJOValue("index", 0);
             SaveLogToDB(searchData, "/log/google");
         }
 

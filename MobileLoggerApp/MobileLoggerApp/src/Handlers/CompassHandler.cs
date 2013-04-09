@@ -6,19 +6,32 @@ namespace MobileLoggerApp.Handlers
 {
     public class CompassHandler : AbstractLogHandler
     {
+        Compass compassWatcher;
+
+        public CompassHandler()
+        {
+            this.compassWatcher = new Compass();
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
             SaveLogToDB(this.data, "/log/compass");
         }
-        public void StartCompassWatcher()
+
+        public override void StartWatcher()
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
-                Compass compassWatcher = new Compass();
-                compassWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                compassWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
-                compassWatcher.Start();
+                this.compassWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                this.compassWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
+                this.compassWatcher.Start();
             }
+        }
+
+        public override void StopWatcher()
+        {
+            this.compassWatcher.Stop();
         }
 
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)

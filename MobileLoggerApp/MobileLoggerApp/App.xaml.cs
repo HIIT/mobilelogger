@@ -9,8 +9,6 @@ namespace MobileLoggerApp
 {
     public partial class App : Application
     {
-        public static List<AbstractLogHandler> logHandlers;
-
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
 
@@ -74,59 +72,16 @@ namespace MobileLoggerApp
             }
         }
 
-        private void InitHandlers()
-        {           
-            //always create new to ensure no duplicates
-            logHandlers = new List<AbstractLogHandler>();
-
-            AccelHandler accelerometer = new AccelHandler();
-            accelerometer.StartAccelWatcher();
-            logHandlers.Add(accelerometer);
-
-            CompassHandler compass = new CompassHandler();
-            compass.StartCompassWatcher();
-            logHandlers.Add(compass);
-
-            GpsHandler gps = new GpsHandler();
-            gps.StartCoordinateWatcher();
-            logHandlers.Add(gps);
-
-            GyroHandler gyroscope = new GyroHandler();
-            gyroscope.StartGyroWatcher();
-            logHandlers.Add(gyroscope);
-
-            KeyboardHandler keyboard = new KeyboardHandler();
-            keyboard.StartKeyBoardWatcher();
-            logHandlers.Add(keyboard);
-
-            KeyPressHandler keyPress = new KeyPressHandler();
-            keyPress.StartKeyPressWatcher();
-            logHandlers.Add(keyPress);
-
-            NetworkHandler network = new NetworkHandler();
-            network.StartNetwork();
-            logHandlers.Add(network);
-
-            ScreenTouchHandler screenTouch = new ScreenTouchHandler();
-            screenTouch.StartScreenTouchWatcher();
-            logHandlers.Add(screenTouch);
-
-            SearchDataHandler searchData = new SearchDataHandler();
-            searchData.StartSearchDataHandler();
-            logHandlers.Add(searchData);
-
-            WeatherDataHandler weatherData = new WeatherDataHandler();
-            weatherData.StartWeatherDataHandler();
-            logHandlers.Add(weatherData);
-        }
-
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             sessionHandler = new SessionHandler();
             sessionHandler.Start();
-            InitHandlers();
+
+            HandlersManager handlers = new HandlersManager();
+            handlers.InitHandlers();
+            handlers.StartEnabledHandlers();
         }
 
         // Code to execute when the application is activated (brought to foreground)

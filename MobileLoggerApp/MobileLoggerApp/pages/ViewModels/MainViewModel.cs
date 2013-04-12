@@ -74,7 +74,7 @@ namespace MobileLoggerApp.pages
                 for (int i = listCount - 1; i >= 0; i--)
                 {
                     LogEvent e = list[i];
-                    LogData.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
+                    LogData.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineTwo = e.sensorEvent.ToString() });
                 }
                 this.IsLogDataLoaded = true;
             }
@@ -88,16 +88,13 @@ namespace MobileLoggerApp.pages
             this.IsSettingsLoaded = true;
         }
 
-        public void UpdateSearchResults(JArray searchResults, Boolean reset)
+        public void LoadSearchResults(JArray searchResults, Boolean reset)
         {
             if (reset)
-            {
                 Items.Clear();
-            }
+
             foreach (JToken result in searchResults)
-            {
-                Items.Add(new ItemViewModel() { LineOne = (string)result["title"], LineTwo = (string)result["snippet"], LineThree = result.ToString() });
-            }
+                Items.Add(new ItemViewModel() { LineOne = result.SelectToken("title").ToString(), LineTwo = result.SelectToken("snippet").ToString(), LineThree = result.SelectToken("link").ToString() });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

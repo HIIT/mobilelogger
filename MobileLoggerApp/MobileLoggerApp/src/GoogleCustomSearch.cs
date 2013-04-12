@@ -46,7 +46,7 @@ namespace MobileLoggerApp
             JObject searchData = JObject.Parse(data);
             JArray searchResults = (JArray)searchData["items"];
 
-            App.ViewModel.UpdateSearchResults(searchResults, searchPageNumber == 1);
+            App.ViewModel.LoadSearchResults(searchResults, searchPageNumber == 1);
             searchDataEvent(searchData);
             SystemTray.ProgressIndicator.IsVisible = false;
         }

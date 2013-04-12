@@ -16,6 +16,7 @@ namespace MobileLoggerApp.Handlers
         /// </summary>
         public override void SaveSensorLog()
         {
+            //handle saving in the event handler method below
         }
 
         public override void StartWatcher()

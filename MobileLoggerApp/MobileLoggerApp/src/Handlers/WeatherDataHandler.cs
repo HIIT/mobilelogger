@@ -13,6 +13,7 @@ namespace MobileLoggerApp.Handlers
 
         public override void SaveSensorLog()
         {
+            //handle saving in the event handler method below
         }
 
         public override void StartWatcher()
@@ -29,7 +30,7 @@ namespace MobileLoggerApp.Handlers
         {
             this.data = weatherData;
             AddJOValue("timestamp", DeviceTools.GetUnixTime());
-            SaveLogToDB(weatherData, "/log/weather");
+            SaveLogToDB(this.data, "/log/weather");
         }
     }
 }

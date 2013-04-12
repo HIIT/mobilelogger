@@ -6,6 +6,7 @@ namespace MobileLoggerApp.Handlers
 {
     class SearchDataHandler : AbstractLogHandler
     {
+        private static string URL = "/log/google";
         string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
         int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
 
@@ -16,6 +17,7 @@ namespace MobileLoggerApp.Handlers
 
         public override void SaveSensorLog()
         {
+            //handle saving in the event handler method below
         }
 
         public override void StartWatcher()
@@ -51,7 +53,7 @@ namespace MobileLoggerApp.Handlers
             this.data.Remove("items");
             AddJOValue("timestamp", DeviceTools.GetUnixTime(timestamp));
             AddJOValue("index", 0);
-            SaveLogToDB(searchData, "/log/google");
+            SaveLogToDB(this.data, URL);
         }
 
         private void ProcessSearchResults(JArray searchResults, int offset, DateTime timestamp)
@@ -67,7 +69,7 @@ namespace MobileLoggerApp.Handlers
                 resultObj.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
 
                 ParseSearchResult(resultObj);
-                SaveLogToDB(resultObj, "/log/google");
+                SaveLogToDB(resultObj, URL);
             }
         }
 

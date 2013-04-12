@@ -25,13 +25,12 @@ public class ChecksumChecker {
                 
             }
             catch(UnsupportedEncodingException e){
-                System.out.println("asdfsaatana");
+                System.out.println(e);
             }
         }
         catch(NoSuchAlgorithmException e){
-            System.out.println("You've done goofed.");
+            System.out.println(e);
         }
-        
         return checksum;
     }
 }

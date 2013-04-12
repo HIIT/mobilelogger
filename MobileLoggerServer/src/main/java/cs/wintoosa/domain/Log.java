@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -26,7 +27,8 @@ public abstract class Log implements Serializable{
     @GeneratedValue(strategy= GenerationType.AUTO)
     protected Long id;
     
-    @ManyToOne(targetEntity=SessionLog.class)
+    @ManyToOne
+    @JsonIgnore
     protected SessionLog sessionLog;
         
     @NotNull(message="PhoneId can't be null")
@@ -76,10 +78,12 @@ public abstract class Log implements Serializable{
         this.checksum = checksum;
     }
 
+    @JsonIgnore
     public SessionLog getSessionLog() {
         return sessionLog;
     }
 
+    @JsonIgnore
     public void setSessionLog(SessionLog sessionLog) {
         this.sessionLog = sessionLog;
     }

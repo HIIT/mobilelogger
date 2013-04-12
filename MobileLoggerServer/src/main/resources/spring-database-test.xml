@@ -29,7 +29,7 @@
     <!-- Käytetään EclipseLinkkiä JPA-toteutuksena, määritellään myös persistence.xml-tiedoston sijainti -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="packagesToScan" value="cs.wintoosa.domain"/>
-        <property name="persistenceUnitName" value="persistenceUnit" /> 
+        <property name="persistenceUnitName" value="persistenceUnit-Test" /> 
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter" />

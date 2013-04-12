@@ -41,14 +41,8 @@ public class GPSController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putGPSLog(@Valid @RequestBody GpsLog log, BindingResult result) {
+    public boolean putGPSLog(@RequestBody GpsLog log) {
         logger.info("put plain log");
-        if(result.hasErrors()) {
-            logger.info("result had errors");
-            for(ObjectError error : result.getAllErrors())
-                logger.info(error.toString());
-            return false;
-        }
         return logService.saveLog(log);
     }
     
@@ -77,13 +71,5 @@ public class GPSController {
         logService.saveLog(log);
         System.out.println("Added dumy log");
         return "redirect:/";
-    }
-    
-    public void setLogService(ILogService logService) {
-        this.logService = logService;
-    }
-
-    public ILogService getLogService() {
-        return logService;
     }
 }

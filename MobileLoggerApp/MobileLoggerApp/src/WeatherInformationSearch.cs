@@ -24,11 +24,10 @@ namespace MobileLoggerApp
             {
                 if (GpsHandler.coordinateWatcher.Status == GeoPositionStatus.Ready)
                 {
-                    string latitude = GpsHandler.latitude;
-                    string longitude = GpsHandler.longitude;
+                    string latitude = GpsHandler.latitude.Replace(",", ".");
+                    string longitude = GpsHandler.longitude.Replace(",", ".");
                     int days = 1;
                     string uri = String.Format("http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + latitude + "," + longitude + "&format=json&num_of_days=" + days + "&key=" + DeviceTools.worldWeatherOnlineApiKey);
-
                     HttpRequest request = new HttpRequest(uri, this);
                 }
             }

@@ -3,6 +3,10 @@ package cs.wintoosa;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Just an abstract class that holds the context configurations
@@ -15,6 +19,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
     "classpath:spring-context-test.xml",
     "classpath:spring-database-test.xml"
 })
-public abstract class AbstractTest {
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
+public abstract class AbstractTest extends AbstractTransactionalJUnit4SpringContextTests {
     
 }

@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author jonimake
  */
-public class PhoneRepositoryImpl implements IPhoneRepositoryCustom{
+public class PhoneRepositoryImpl implements PhoneRepositoryCustom{
     @PersistenceContext
     EntityManager em;
 }

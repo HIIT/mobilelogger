@@ -1,6 +1,5 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
-using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using MobileLoggerApp.Handlers;
 using MobileLoggerApp.pages;
@@ -53,154 +52,9 @@ namespace MobileLoggerApp
                 }
             }
 
-            // Set the data context of the listbox control to the sample data
+            // Set the data context of the listbox control to the data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
-        }
-
-        // Load data for the ViewModel Items
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
-            Touch.FrameReported += Touch_FrameReported;
-        }
-
-        void Touch_FrameReported(object sender, TouchFrameEventArgs e)
-        {
-            screenTouch(this, e);
-        }
-
-        public void UpdateSearchResults(JArray searchResults, Boolean reset)
-        {
-            if (reset)
-            {
-                App.ViewModel.Items.Clear();
-            }
-            foreach (JToken result in searchResults)
-            {
-                App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)result["title"], LineTwo = (string)result["snippet"], LineThree = result.ToString() });
-            }
-            SystemTray.ProgressIndicator.IsVisible = false;
-        }
-
-        /// <summary>
-        /// Saves an event to the local database
-        /// </summary>
-        /// <param name="logEvent">JSON representation of the event</param>
-        /// <param name="url">relative url on the server where the event is sent to</param>
-        /// <returns>false if database does not exist</returns>
-        private Boolean SaveLogToDB(JObject logEvent, string url)
-        {
-            LogEventSaver.Instance.addEvent(logEvent, url);
-            return true;
-        }
-
-        /// <summary>
-        /// An event handler for tapping a result, opens the result in Internet Explorer
-        /// </summary>
-        /// <param name="sender">The StackPanel object that was tapped</param>
-        /// <param name="e">Event arguments of the tap event</param>
-        private void itemTappedEvent(object sender, RoutedEventArgs e)
-        {
-            StackPanel stackPanel = (StackPanel)sender;
-            ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
-
-            WebBrowserTask browser = new WebBrowserTask();
-            JObject link = JObject.Parse(item.LineThree);
-            SaveLogToDB(link, "/log/clicked");
-            browser.Uri = new Uri((string)link["link"]);
-            browser.Show();
-        }
-
-        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            keyboardGotFocus();
-        }
-
-        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            keyboardLostFocus();
-        }
-
-        /// <summary>
-        /// Event handler for search box, sends the search query to be queried from Google Custom Search
-        /// </summary>
-        /// <param name="sender">The object that initiated this event</param>
-        /// <param name="e">Arguments for the key event that initiated this event</param>
-        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            keyUp(sender, e);
-
-            if (e.Key.Equals(Key.Enter))
-            {
-                SystemTray.ProgressIndicator.IsVisible = true;
-                this.Focus();
-                searchTerm = SearchTextBox.Text;
-
-                if (!searchTerm.Equals(""))
-                {
-                    GoogleSearch(1);
-                    GetWeatherData();
-                }
-            }
-            HandlersManager.SaveSensorLog();
-        }
-
-        /// <summary>
-        /// Loads the next page of Google search results, up to 10 pages can be viewed
-        /// </summary>
-        /// <param name="sender">The button that initiated this event</param>
-        /// <param name="e">Event arguments of the tap event</param>
-        private void LoadNextPage(object sender, RoutedEventArgs e)
-        {
-            if (App.ViewModel.Items.Count >= 100 || App.ViewModel.Items.Count <= 0)
-            {
-                //nextPageButton.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                GoogleSearch(App.ViewModel.Items.Count + 1);
-            }
-        }
-
-        /// <summary>
-        /// Creates a Google Custom API search with the textbox contents as the search term
-        /// </summary>
-        private void GoogleSearch(int page)
-        {
-            GoogleCustomSearch search = new GoogleCustomSearch(this);
-            search.Search(searchTerm, page);
-        }
-
-        private void GetWeatherData()
-        {
-            WeatherInformationSearch weatherInfo = new WeatherInformationSearch();
-            weatherInfo.GetForecast();
-        }
-
-        /// <summary>
-        /// Opens web browser with bing search for the textbox contents as the search term, used as a backup when the Google search fails
-        /// </summary>
-        /// <param name="searchQuery">the search terms in the textbox</param>
-        internal void OpenBrowser(string searchQuery)
-        {
-            WebBrowserTask browser = new WebBrowserTask();
-            browser.Uri = new Uri(String.Format("http://www.bing.com/search?q={0}", searchQuery));
-            browser.Show();
-        }
-
-        private void currentPivotItem(object sender, SelectionChangedEventArgs e)
-        {
-            Pivot pivot = sender as Pivot;
-
-            // Settings PivotItem
-            if (pivot.SelectedIndex == 1)
-            {
-                App.ViewModel.LoadData();
-            }
         }
 
         private void StartAgent()
@@ -262,10 +116,116 @@ namespace MobileLoggerApp
             }
         }
 
-        private void debugButton_Click(object sender, RoutedEventArgs e)
+        // Load data for the ViewModel Items
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Debug send data");
-            StartAgent();
+#if DEBUG
+            if (!App.ViewModel.IsLogDataLoaded)
+                App.ViewModel.LoadLogData();
+#endif
+
+            if (!App.ViewModel.IsSettingsLoaded)
+                App.ViewModel.LoadSettings();
+
+            Touch.FrameReported += Touch_FrameReported;
+        }
+
+        void Touch_FrameReported(object sender, TouchFrameEventArgs e)
+        {
+            screenTouch(this, e);
+        }
+
+        /// <summary>
+        /// An event handler for tapping a result, opens the result in Internet Explorer
+        /// </summary>
+        /// <param name="sender">The StackPanel object that was tapped</param>
+        /// <param name="e">Event arguments of the tap event</param>
+        private void searchResultItemTappedEvent(object sender, RoutedEventArgs e)
+        {
+            StackPanel stackPanel = (StackPanel)sender;
+            ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
+
+            JObject link = JObject.Parse(item.LineThree);
+            SaveLogToDB(link, "/log/clicked");
+
+            GoogleCustomSearch.OpenBrowser(link.GetValue("link").ToString());
+        }
+
+        /// <summary>
+        /// Saves an event to the local database
+        /// </summary>
+        /// <param name="logEvent">JSON representation of the event</param>
+        /// <param name="url">relative url on the server where the event is sent to</param>
+        /// <returns>false if database does not exist</returns>
+        private Boolean SaveLogToDB(JObject logEvent, string url)
+        {
+            LogEventSaver.Instance.addEvent(logEvent, url);
+            return true;
+        }
+
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            keyboardGotFocus();
+        }
+
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            keyboardLostFocus();
+        }
+
+        /// <summary>
+        /// Event handler for search box, sends the search query to be queried from Google Custom Search
+        /// </summary>
+        /// <param name="sender">The object that initiated this event</param>
+        /// <param name="e">Arguments for the key event that initiated this event</param>
+        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            keyUp(sender, e);
+
+            if (e.Key.Equals(Key.Enter))
+            {
+                this.Focus();
+                searchTerm = SearchTextBox.Text;
+
+                if (!searchTerm.Equals(""))
+                {
+                    GoogleSearch(1);
+                    GetWeatherData();
+                }
+            }
+            HandlersManager.SaveSensorLog();
+        }
+
+        /// <summary>
+        /// Loads the next page of Google search results, up to 10 pages can be viewed
+        /// </summary>
+        /// <param name="sender">The button that initiated this event</param>
+        /// <param name="e">Event arguments of the tap event</param>
+        private void LoadNextPage(object sender, RoutedEventArgs e)
+        {
+            if (App.ViewModel.Items.Count >= 100 || App.ViewModel.Items.Count <= 0)
+            {
+                //nextPageButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                GoogleSearch(App.ViewModel.Items.Count + 1);
+            }
+        }
+
+        /// <summary>
+        /// Creates a Google Custom API search with the textbox contents as the search term
+        /// </summary>
+        private void GoogleSearch(int searchPageNumber)
+        {
+            GoogleCustomSearch search = new GoogleCustomSearch();
+            search.Search(searchTerm, searchPageNumber);
+        }
+
+        private void GetWeatherData()
+        {
+            WeatherInformationSearch weatherInfo = new WeatherInformationSearch();
+            weatherInfo.GetForecast();
         }
 
         private void HandlerCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -292,6 +252,25 @@ namespace MobileLoggerApp
         {
             ItemViewModel handlerItem = checkedHandlerItem.DataContext as ItemViewModel;
             return handlerItem.LineOne.ToString();
+        }
+
+        private void debugButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Debug send data");
+            StartAgent();
+        }
+
+        private void currentPivotItem(object sender, SelectionChangedEventArgs e)
+        {
+#if DEBUG
+            Pivot pivot = sender as Pivot;
+
+            // Data PivotItem
+            if (pivot.SelectedIndex == 1)
+            {
+                App.ViewModel.LoadLogData();
+            }
+#endif
         }
     }
 }

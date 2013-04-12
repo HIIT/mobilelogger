@@ -12,9 +12,9 @@ namespace MobileLoggerApp.Handlers
             this.IsEnabled = true;
         }
         
-        //do nothing since this handler handles saving by itself
         public override void SaveSensorLog()
         {
+            //handle saving in the event handler method below
         }
 
         public override void StartWatcher()

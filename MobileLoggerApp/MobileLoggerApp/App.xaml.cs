@@ -88,11 +88,6 @@ namespace MobileLoggerApp
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
             sessionHandler.Start();
         }
 

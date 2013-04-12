@@ -1,72 +1,32 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 
 namespace MobileLoggerApp.pages
 {
     public class ItemViewModel : INotifyPropertyChanged
     {
-        private string _lineOne;
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
-        /// </summary>
-        /// <returns></returns>
         public string LineOne
         {
-            get
-            {
-                return _lineOne;
-            }
-            set
-            {
-                if (value != _lineOne)
-                {
-                    _lineOne = value;
-                    NotifyPropertyChanged("LineOne");
-                }
-            }
+            get;
+            set;
         }
 
-        private string _lineTwo;
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
-        /// </summary>
-        /// <returns></returns>
         public string LineTwo
         {
-            get
-            {
-                return _lineTwo;
-            }
-            set
-            {
-                if (value != _lineTwo)
-                {
-                    _lineTwo = value;
-                    NotifyPropertyChanged("LineTwo");
-                }
-            }
+            get;
+            set;
         }
 
-        private string _lineThree;
-
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
-        /// </summary>
-        /// <returns></returns>
         public string LineThree
         {
-            get
-            {
-                return _lineThree;
-            }
-            set
-            {
-                if (value != _lineThree)
-                {
-                    _lineThree = value;
-                    NotifyPropertyChanged("LineThree");
-                }
-            }
+            get;
+            set;
+        }
+
+        public JObject SearchResult
+        {
+            get;
+            set;
         }
 
         public bool IsChecked
@@ -75,19 +35,6 @@ namespace MobileLoggerApp.pages
             set;
         }
 
-        public override string ToString()
-        {
-            return "Line one: " + _lineOne + "\r\nLine two: " + _lineTwo + "\r\nLine Three: " + _lineThree;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }

@@ -74,7 +74,11 @@ namespace MobileLoggerApp.pages
                 for (int i = listCount - 1; i >= 0; i--)
                 {
                     LogEvent e = list[i];
-                    LogData.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
+                    LogData.Add(new ItemViewModel()
+                    {
+                        LineOne = DeviceTools.GetDateTime(e.Time).ToString(),
+                        LineTwo = e.sensorEvent.ToString()
+                    });
                 }
                 this.IsLogDataLoaded = true;
             }
@@ -88,27 +92,30 @@ namespace MobileLoggerApp.pages
             this.IsSettingsLoaded = true;
         }
 
-        public void UpdateSearchResults(JArray searchResults, Boolean reset)
+        public void LoadSearchResults(JArray searchResults, Boolean newSearch)
         {
-            if (reset)
-            {
+            if (newSearch)
                 Items.Clear();
-            }
-            foreach (JToken result in searchResults)
-            {
-                Items.Add(new ItemViewModel() { LineOne = (string)result["title"], LineTwo = (string)result["snippet"], LineThree = result.ToString() });
-            }
+
+            foreach (JToken searchResult in searchResults)
+                if (SearchResultHasLink(searchResult))
+                    Items.Add(new ItemViewModel()
+                    {
+                        LineOne = searchResult.SelectToken("title").ToString(),
+                        LineTwo = searchResult.SelectToken("snippet").ToString(),
+                        LineThree = searchResult.SelectToken("link").ToString(),
+                        SearchResult = searchResult as JObject
+                    });
+        }
+
+        private bool SearchResultHasLink(JToken searchResult)
+        {
+            bool hasLink = true;
+            searchResult.SelectToken("link", hasLink);
+
+            return hasLink;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
-using Microsoft.Phone.Tasks;
 using MobileLoggerApp.Handlers;
 using MobileLoggerApp.pages;
 using MobileLoggerScheduledAgent.Database;

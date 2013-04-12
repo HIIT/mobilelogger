@@ -1,7 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MobileLoggerApp.Handlers;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Navigation;
 

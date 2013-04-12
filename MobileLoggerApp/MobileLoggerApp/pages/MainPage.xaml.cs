@@ -16,19 +16,23 @@ namespace MobileLoggerApp
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
         public delegate void TouchEventHandler(MainPage mainPage, TouchFrameEventArgs e);
+        public delegate void SearchResultTapped();
+        public delegate void CustomPressedEventHandler(object sender, EventArgs e);
 
         public static event KeyPressEventHandler keyUp;
-
-        public delegate void CustomPressedEventHandler(object sender, EventArgs e);
 
         public static event KeyboardFocusHandler keyboardGotFocus;
         public static event KeyboardFocusHandler keyboardLostFocus;
 
         public static event TouchEventHandler screenTouch;
 
+        public static event SearchResultTapped searchResultTap;
+
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
         private string searchTerm;
+        GoogleCustomSearch search;
+
         // Constructor
         public MainPage()
         {
@@ -127,39 +131,12 @@ namespace MobileLoggerApp
                 App.ViewModel.LoadSettings();
 
             Touch.FrameReported += Touch_FrameReported;
+            this.search = new GoogleCustomSearch();
         }
 
         void Touch_FrameReported(object sender, TouchFrameEventArgs e)
         {
             screenTouch(this, e);
-        }
-
-        /// <summary>
-        /// An event handler for tapping a result, opens the result in Internet Explorer
-        /// </summary>
-        /// <param name="sender">The StackPanel object that was tapped</param>
-        /// <param name="e">Event arguments of the tap event</param>
-        private void searchResultItemTappedEvent(object sender, RoutedEventArgs e)
-        {
-            StackPanel stackPanel = (StackPanel)sender;
-            ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
-
-            JObject link = JObject.Parse(item.LineThree);
-            SaveLogToDB(link, "/log/clicked");
-
-            GoogleCustomSearch.OpenBrowser(link.GetValue("link").ToString());
-        }
-
-        /// <summary>
-        /// Saves an event to the local database
-        /// </summary>
-        /// <param name="logEvent">JSON representation of the event</param>
-        /// <param name="url">relative url on the server where the event is sent to</param>
-        /// <returns>false if database does not exist</returns>
-        private Boolean SaveLogToDB(JObject logEvent, string url)
-        {
-            LogEventSaver.Instance.addEvent(logEvent, url);
-            return true;
         }
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -188,11 +165,25 @@ namespace MobileLoggerApp
 
                 if (!searchTerm.Equals(""))
                 {
-                    GoogleSearch(1);
+                    search.Search(searchTerm, true);
                     GetWeatherData();
                 }
             }
             HandlersManager.SaveSensorLog();
+        }
+
+        /// <summary>
+        /// An event handler for tapping a result, opens the result in Internet Explorer
+        /// </summary>
+        /// <param name="sender">The StackPanel object that was tapped</param>
+        /// <param name="e">Event arguments of the tap event</param>
+        private void searchResultItemTappedEvent(object sender, RoutedEventArgs e)
+        {
+            StackPanel stackPanel = (StackPanel)sender;
+            ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
+
+            search.OpenBrowser(item.LineThree.ToString());
+            searchResultTap();
         }
 
         /// <summary>
@@ -202,23 +193,7 @@ namespace MobileLoggerApp
         /// <param name="e">Event arguments of the tap event</param>
         private void LoadNextPage(object sender, RoutedEventArgs e)
         {
-            if (App.ViewModel.Items.Count >= 100 || App.ViewModel.Items.Count <= 0)
-            {
-                //nextPageButton.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                GoogleSearch(App.ViewModel.Items.Count + 1);
-            }
-        }
-
-        /// <summary>
-        /// Creates a Google Custom API search with the textbox contents as the search term
-        /// </summary>
-        private void GoogleSearch(int searchPageNumber)
-        {
-            GoogleCustomSearch search = new GoogleCustomSearch();
-            search.Search(searchTerm, searchPageNumber);
+            search.Search(searchTerm);
         }
 
         private void GetWeatherData()

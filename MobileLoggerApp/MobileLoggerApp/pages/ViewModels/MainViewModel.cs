@@ -88,13 +88,20 @@ namespace MobileLoggerApp.pages
             this.IsSettingsLoaded = true;
         }
 
-        public void LoadSearchResults(JArray searchResults, Boolean reset)
+        public void LoadSearchResults(JArray searchResults, Boolean newSearch)
         {
-            if (reset)
+            if (newSearch)
                 Items.Clear();
 
+            bool hasLink = true;
+
             foreach (JToken result in searchResults)
-                Items.Add(new ItemViewModel() { LineOne = result.SelectToken("title").ToString(), LineTwo = result.SelectToken("snippet").ToString(), LineThree = result.SelectToken("link").ToString() });
+            {
+                JToken link = result.SelectToken("link", hasLink);
+
+                if (hasLink)
+                    Items.Add(new ItemViewModel() { LineOne = result.SelectToken("title").ToString(), LineTwo = result.SelectToken("snippet").ToString(), LineThree = link.ToString() });
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

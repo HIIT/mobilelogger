@@ -61,29 +61,18 @@ namespace MobileLoggerApp
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
+            if (!App.ViewModel.IsLogDataLoaded)
+                App.ViewModel.LoadLogData();
+
+            if (!App.ViewModel.IsSettingsLoaded)
+                App.ViewModel.LoadSettings();
+
             Touch.FrameReported += Touch_FrameReported;
         }
 
         void Touch_FrameReported(object sender, TouchFrameEventArgs e)
         {
             screenTouch(this, e);
-        }
-
-        public void UpdateSearchResults(JArray searchResults, Boolean reset)
-        {
-            if (reset)
-            {
-                App.ViewModel.Items.Clear();
-            }
-            foreach (JToken result in searchResults)
-            {
-                App.ViewModel.Items.Add(new ItemViewModel() { LineOne = (string)result["title"], LineTwo = (string)result["snippet"], LineThree = result.ToString() });
-            }
-            SystemTray.ProgressIndicator.IsVisible = false;
         }
 
         /// <summary>
@@ -196,10 +185,10 @@ namespace MobileLoggerApp
         {
             Pivot pivot = sender as Pivot;
 
-            // Settings PivotItem
+            // Data PivotItem
             if (pivot.SelectedIndex == 1)
             {
-                App.ViewModel.LoadData();
+                App.ViewModel.LoadLogData();
             }
         }
 

@@ -89,10 +89,9 @@ namespace MobileLoggerApp
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
+            if (!App.ViewModel.IsLogDataLoaded)
+                App.ViewModel.LoadLogData();
+
             sessionHandler.Start();
         }
 

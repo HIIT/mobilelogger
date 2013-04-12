@@ -1,6 +1,8 @@
-﻿using MobileLoggerApp.Handlers;
+﻿using Microsoft.Phone.Shell;
+using MobileLoggerApp.Handlers;
 using MobileLoggerScheduledAgent.Database;
 using MobileLoggerScheduledAgent.Devicetools;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,28 +26,13 @@ namespace MobileLoggerApp.pages
         public ObservableCollection<ItemViewModel> LogData { get; private set; }
         public ObservableCollection<ItemViewModel> Settings { get; private set; }
 
-        private string _sampleProperty = "Sample Runtime Property Value";
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding
-        /// </summary>
-        /// <returns></returns>
-        public string SampleProperty
+        public bool IsLogDataLoaded
         {
-            get
-            {
-                return _sampleProperty;
-            }
-            set
-            {
-                if (value != _sampleProperty)
-                {
-                    _sampleProperty = value;
-                    NotifyPropertyChanged("SampleProperty");
-                }
-            }
+            get;
+            private set;
         }
 
-        public bool IsDataLoaded
+        public bool IsSettingsLoaded
         {
             get;
             private set;
@@ -54,7 +41,7 @@ namespace MobileLoggerApp.pages
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
-        public void LoadData()
+        public void LoadLogData()
         {
             const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
 
@@ -73,7 +60,6 @@ namespace MobileLoggerApp.pages
                     }
                 }
                 LoadLogEvents(logDBContext);
-                LoadSettings();
             }
         }
 
@@ -83,28 +69,38 @@ namespace MobileLoggerApp.pages
 
             if (list != null)
             {
-                App.ViewModel.LogData.Clear();
+                LogData.Clear();
 
                 int listCount = list.Count;
 
                 for (int i = listCount - 1; i >= 0; i--)
                 {
                     LogEvent e = list[i];
-                    App.ViewModel.LogData.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
+                    LogData.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineThree = e.sensorEvent.ToString() });
                 }
-                this.IsDataLoaded = true;
+                this.IsLogDataLoaded = true;
             }
         }
 
-        private static void LoadSettings()
+        public void LoadSettings()
         {
-            Dictionary<string, AbstractLogHandler> logHandlers = HandlersManager.logHandlers;
+            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.logHandlers)
+                Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
 
-            if (logHandlers != null)
+            this.IsSettingsLoaded = true;
+        }
+
+        public void UpdateSearchResults(JArray searchResults, Boolean reset)
+        {
+            if (reset)
             {
-                foreach (KeyValuePair<string, AbstractLogHandler> logHandler in logHandlers)
-                    App.ViewModel.Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
+                Items.Clear();
             }
+            foreach (JToken result in searchResults)
+            {
+                Items.Add(new ItemViewModel() { LineOne = (string)result["title"], LineTwo = (string)result["snippet"], LineThree = result.ToString() });
+            }
+            SystemTray.ProgressIndicator.IsVisible = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

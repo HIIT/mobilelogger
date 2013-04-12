@@ -59,7 +59,7 @@
 
         <controls:Pivot Title="MobileLogger" SelectionChanged="currentPivotItem">
 
-            <!--Pivot item one-->
+            <!--Search Pivot item-->
             <controls:PivotItem Header="Search" Margin="12,0">
                 <!--Double line list with text wrapping-->
                 <Grid>
@@ -81,8 +81,8 @@
                 </Grid>
             </controls:PivotItem>
 
-            <!--Pivot item two-->
-            <controls:PivotItem Header="Data">
+            <!--Log Data Pivot item-->
+            <controls:PivotItem Header="Data" >
                 <!--Triple line list no text wrapping-->
                 <ListBox x:Name="SecondListBox" Margin="0,0,-12,0" ItemsSource="{Binding LogData}">
                     <ListBox.ItemTemplate>
@@ -96,7 +96,7 @@
                 </ListBox>
             </controls:PivotItem>
 
-            <!--Pivot item three debug send data-->
+            <!--Debug send data Pivot item-->
             <controls:PivotItem Header="Debug Menu">
                 <Button Name="debugButton" 
                         Width="256" Height="128" 
@@ -106,7 +106,7 @@
                 </Button>
             </controls:PivotItem>
 
-            <!--Pivot item four. Settings tab-->
+            <!--Settings Pivot item-->
             <controls:PivotItem Header="Settings">
                 <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding Settings}">
                     <ListBox.ItemTemplate>

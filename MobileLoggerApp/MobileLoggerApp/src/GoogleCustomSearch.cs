@@ -45,10 +45,7 @@ namespace MobileLoggerApp
             JObject searchData = JObject.Parse(data);
             JArray searchResults = (JArray)searchData["items"];
 
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                context.UpdateSearchResults(searchResults, page == 1);
-            });
+            App.ViewModel.UpdateSearchResults(searchResults, page == 1);
             searchDataEvent(searchData);
         }
 

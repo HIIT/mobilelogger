@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author jonimake
  */
-public interface ISessionRepository extends JpaRepository<SessionLog, Long>, ISessionRepositoryCustom {
+public interface SessionRepository extends JpaRepository<SessionLog, Long>, SessionRepositoryCustom {
     
     public List<SessionLog> findByPhoneId(String phoneId);
     public List<SessionLog> findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(String phoneId, Long timestamp, Long timestamp2);

@@ -38,13 +38,8 @@ public class AccelerationController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putAccelerationLog(@Valid @RequestBody AccLog log, BindingResult result) {
+    public boolean putAccelerationLog( @RequestBody AccLog log, BindingResult result) {
         System.out.println("put accel");
-        if(result.hasErrors()) {
-            for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
-            return false;
-        }
         return logService.saveLog(log);
     }
 }

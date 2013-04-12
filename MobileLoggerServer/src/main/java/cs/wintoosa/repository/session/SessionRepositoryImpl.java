@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * @author jonimake
  */
 @Repository
-public class SessionRepositoryImpl implements ISessionRepositoryCustom{
+public class SessionRepositoryImpl implements SessionRepositoryCustom{
     @PersistenceContext
     EntityManager em;
 }

@@ -44,5 +44,14 @@ public class SearchClickedControllerTest extends AbstractTest{
                 .andReturn();
     }
     
+    @Test
+    public void testGet() throws Exception {
+        
+
+        this.mockMvc.perform(get("/log/clicked"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+    
     
 }

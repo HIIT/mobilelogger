@@ -35,13 +35,20 @@ namespace MobileLoggerApp
         private void GetResponseCallback(IAsyncResult ar)
         {
             HttpWebRequest request = (HttpWebRequest)ar.AsyncState;
-            string data;
+            String data;
             try
             {
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(ar);
                 var stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 data = reader.ReadToEnd();
+                System.Diagnostics.Debug.WriteLine("\nhererererer\n");
+
+                System.Diagnostics.Debug.WriteLine(data.Length);
+
+                System.Diagnostics.Debug.WriteLine("\nhererererer\n");
+
+               
 
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {

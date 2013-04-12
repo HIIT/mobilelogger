@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author jonimake
  */
-public interface IPhoneRepository extends JpaRepository<Phone, String>{
+public interface PhoneRepository extends JpaRepository<Phone, String>, PhoneRepositoryCustom{
 }

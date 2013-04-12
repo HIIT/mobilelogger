@@ -16,7 +16,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
-    private final Logger logger = Logger.getLogger(this.getClass().getName()); 
+    private static final Logger logger = Logger.getLogger(ValidationInterceptor.class .getName()); 
     private final int BAD_REQUEST = 400;
     
     public ValidationInterceptor() {

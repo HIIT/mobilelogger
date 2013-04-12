@@ -36,10 +36,6 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         JsonObject json = convertToJsonObject(request);
        
         if(!isValid(json)) {
-            
-            logger.log(Level.SEVERE,"Invalid json: \n"
-                    + json.toString());
-            
             response.getWriter().write("json validation failed");
             return false;
         }

@@ -70,7 +70,6 @@ namespace MobileLoggerApp.pages
             if (list != null)
             {
                 LogData.Clear();
-
                 int listCount = list.Count;
 
                 for (int i = listCount - 1; i >= 0; i--)

@@ -125,7 +125,6 @@ namespace MobileLoggerApp
 
             if (e.Key.Equals(Key.Enter))
             {
-                SystemTray.ProgressIndicator.IsVisible = true;
                 this.Focus();
                 searchTerm = SearchTextBox.Text;
 

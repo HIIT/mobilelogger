@@ -100,7 +100,6 @@ namespace MobileLoggerApp.pages
             {
                 Items.Add(new ItemViewModel() { LineOne = (string)result["title"], LineTwo = (string)result["snippet"], LineThree = result.ToString() });
             }
-            SystemTray.ProgressIndicator.IsVisible = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

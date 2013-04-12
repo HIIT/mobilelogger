@@ -1,4 +1,5 @@
-﻿using MobileLoggerScheduledAgent.Devicetools;
+﻿using Microsoft.Phone.Shell;
+using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Windows;
@@ -29,6 +30,7 @@ namespace MobileLoggerApp
         /// <param name="query">The search string that is queryed from Google</param>
         public void Search(string query, int page)
         {
+            SystemTray.ProgressIndicator.IsVisible = true;
             this.page = page;
             searchQuery = query;
             //string that contains required api key and information for google api
@@ -47,6 +49,7 @@ namespace MobileLoggerApp
 
             App.ViewModel.UpdateSearchResults(searchResults, page == 1);
             searchDataEvent(searchData);
+            SystemTray.ProgressIndicator.IsVisible = false;
         }
 
         public void HandleRequestError(Exception exception)
@@ -59,6 +62,7 @@ namespace MobileLoggerApp
                     context.OpenBrowser(searchQuery);
                 }
             });
+            SystemTray.ProgressIndicator.IsVisible = false;
         }
     }
 }

@@ -23,11 +23,13 @@ namespace MobileLoggerApp.Handlers
         public override void StartWatcher()
         {
             GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
+            MainPage.searchResultTap += new MainPage.SearchResultTapped(SearchResultTapped);
         }
 
         public override void StopWatcher()
         {
-            GoogleCustomSearch.searchDataEvent -= SearchData;
+            GoogleCustomSearch.searchDataEvent -= this.SearchData;
+            MainPage.searchResultTap -= this.SearchResultTapped;
         }
 
         private void SearchData(JObject searchData)
@@ -88,6 +90,11 @@ namespace MobileLoggerApp.Handlers
                 else
                     break;
             }
+        }
+
+        private void SearchResultTapped(JObject searchResult)
+        {
+            SaveLogToDB(searchResult, "/log/clicked");
         }
     }
 }

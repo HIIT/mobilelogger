@@ -41,14 +41,7 @@ namespace MobileLoggerApp
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(ar);
                 var stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
-                data = reader.ReadToEnd();
-                System.Diagnostics.Debug.WriteLine("\nhererererer\n");
-
-                System.Diagnostics.Debug.WriteLine(data.Length);
-
-                System.Diagnostics.Debug.WriteLine("\nhererererer\n");
-
-               
+                data = reader.ReadToEnd();               
 
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {

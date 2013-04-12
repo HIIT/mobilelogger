@@ -16,22 +16,21 @@ namespace MobileLoggerApp
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
         public delegate void TouchEventHandler(MainPage mainPage, TouchFrameEventArgs e);
-        public delegate void SearchResultTapped();
+        public delegate void SearchResultTapped(JObject searchResult);
         public delegate void CustomPressedEventHandler(object sender, EventArgs e);
 
         public static event KeyPressEventHandler keyUp;
-
         public static event KeyboardFocusHandler keyboardGotFocus;
         public static event KeyboardFocusHandler keyboardLostFocus;
-
         public static event TouchEventHandler screenTouch;
-
         public static event SearchResultTapped searchResultTap;
 
         public const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
         private const string TASK_NAME = "MobileLoggerScheduledAgent";
         private string searchTerm;
+
         GoogleCustomSearch search;
+        WeatherInformationSearch weatherInfo;
 
         // Constructor
         public MainPage()
@@ -132,6 +131,7 @@ namespace MobileLoggerApp
 
             Touch.FrameReported += Touch_FrameReported;
             this.search = new GoogleCustomSearch();
+            this.weatherInfo = new WeatherInformationSearch();
         }
 
         void Touch_FrameReported(object sender, TouchFrameEventArgs e)
@@ -166,7 +166,7 @@ namespace MobileLoggerApp
                 if (!searchTerm.Equals(""))
                 {
                     search.Search(searchTerm, true);
-                    GetWeatherData();
+                    weatherInfo.GetForecast();
                 }
             }
             HandlersManager.SaveSensorLog();
@@ -182,8 +182,8 @@ namespace MobileLoggerApp
             StackPanel stackPanel = (StackPanel)sender;
             ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
 
+            searchResultTap(item.SearchResult);
             search.OpenBrowser(item.LineThree.ToString());
-            searchResultTap();
         }
 
         /// <summary>
@@ -194,12 +194,6 @@ namespace MobileLoggerApp
         private void LoadNextPage(object sender, RoutedEventArgs e)
         {
             search.Search(searchTerm);
-        }
-
-        private void GetWeatherData()
-        {
-            WeatherInformationSearch weatherInfo = new WeatherInformationSearch();
-            weatherInfo.GetForecast();
         }
 
         private void HandlerCheckBox_Checked(object sender, RoutedEventArgs e)

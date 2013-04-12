@@ -17,19 +17,17 @@ namespace MobileLoggerApp
         public static event SearchDataHandler searchDataEvent;
 
         /// <summary>
-        /// Constructor for the Google Search handles a Google search asynchronously
+        /// Constructor for the Google Search handles a Google search asynchronously.
         /// </summary>
-        /// <param name="source">The MainPage that called this constructor, is required for response logic later on</param>
         public GoogleCustomSearch()
         {
         }
 
         /// <summary>
-        /// Synchronous public method that initiates the Google Search
-        /// Creates a Google Custom API search with the textbox contents as the search term
-        /// 
+        /// Synchronous public method that initiates the Google Search. Creates a Google Custom API search with the textbox contents as the search term
         /// </summary>
         /// <param name="query">The search string that is queryed from Google</param>
+        /// <param name="newSearch">New search</param>
         public void Search(string query, bool newSearch = false)
         {
             SystemTray.ProgressIndicator.IsVisible = true;

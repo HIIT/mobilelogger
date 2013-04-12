@@ -74,7 +74,11 @@ namespace MobileLoggerApp.pages
                 for (int i = listCount - 1; i >= 0; i--)
                 {
                     LogEvent e = list[i];
-                    LogData.Add(new ItemViewModel() { LineOne = DeviceTools.GetDateTime(e.Time).ToString(), LineTwo = e.sensorEvent.ToString() });
+                    LogData.Add(new ItemViewModel()
+                    {
+                        LineOne = DeviceTools.GetDateTime(e.Time).ToString(),
+                        LineTwo = e.sensorEvent.ToString()
+                    });
                 }
                 this.IsLogDataLoaded = true;
             }
@@ -93,26 +97,25 @@ namespace MobileLoggerApp.pages
             if (newSearch)
                 Items.Clear();
 
+            foreach (JToken searchResult in searchResults)
+                if (SearchResultHasLink(searchResult))
+                    Items.Add(new ItemViewModel()
+                    {
+                        LineOne = searchResult.SelectToken("title").ToString(),
+                        LineTwo = searchResult.SelectToken("snippet").ToString(),
+                        LineThree = searchResult.SelectToken("link").ToString(),
+                        SearchResult = searchResult as JObject
+                    });
+        }
+
+        private bool SearchResultHasLink(JToken searchResult)
+        {
             bool hasLink = true;
+            searchResult.SelectToken("link", hasLink);
 
-            foreach (JToken result in searchResults)
-            {
-                JToken link = result.SelectToken("link", hasLink);
-
-                if (hasLink)
-                    Items.Add(new ItemViewModel() { LineOne = result.SelectToken("title").ToString(), LineTwo = result.SelectToken("snippet").ToString(), LineThree = link.ToString() });
-            }
+            return hasLink;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (null != handler)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }

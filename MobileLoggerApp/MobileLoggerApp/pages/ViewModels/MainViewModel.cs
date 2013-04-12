@@ -1,5 +1,4 @@
-﻿using Microsoft.Phone.Shell;
-using MobileLoggerApp.Handlers;
+﻿using MobileLoggerApp.Handlers;
 using MobileLoggerScheduledAgent.Database;
 using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.logging.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -17,9 +16,13 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
-    private final static Logger logger = Logger.getLogger(ValidationInterceptor.class.getName()); 
+    private final Logger logger = Logger.getLogger(this.getClass().getName()); 
     private final int BAD_REQUEST = 400;
     
+    public ValidationInterceptor() {
+        super();
+        
+    }
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -33,8 +36,11 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         JsonObject json = convertToJsonObject(request);
        
         if(!isValid(json)) {
-            logger.log(Level.WARNING,"Invalid json");
-            response.getWriter().write("json checksum failed");
+            
+            logger.log(Level.SEVERE,"Invalid json: \n"
+                    + json.toString());
+            
+            response.getWriter().write("json validation failed");
             return false;
         }
         return true;

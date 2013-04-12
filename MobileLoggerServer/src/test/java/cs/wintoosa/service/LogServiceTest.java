@@ -9,20 +9,25 @@ import cs.wintoosa.domain.GpsLog;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
 import cs.wintoosa.domain.SessionLog;
-import cs.wintoosa.repository.log.ILogRepository;
-import cs.wintoosa.repository.phone.IPhoneRepository;
+import cs.wintoosa.repository.log.LogRepository;
+import cs.wintoosa.repository.phone.PhoneRepository;
 import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author jonimake
  */
+
 public class LogServiceTest extends AbstractTest{
     /*
     @Mock private ILogRepository logRepository;
@@ -33,11 +38,9 @@ public class LogServiceTest extends AbstractTest{
     @Autowired
     private ILogService logService;
     
-    @Autowired
-    private ILogRepository logRepository;
     
-    @Autowired
-    private IPhoneRepository phoneRepository;
+   // @Autowired
+   // private IPhoneRepository phoneRepository;
     
     @Test
     public void testFailingSave() {
@@ -46,17 +49,24 @@ public class LogServiceTest extends AbstractTest{
         assertFalse("Supposed to fail when phoneId not set for log", saveLog );
     }
     
-    /*@Test
-    public void testSavePlainLog() {
-        //sanity checks for mocking
-        long logCount = logRepository.count();
-        Log log = new Log();
-        log.setPhoneId(123456789012345l+"");
+    @Test
+    public void testSaveLog() {
+        String phoneId = "1234567890123455";
+        
+        SessionLog sessionLog = new SessionLog();
+        sessionLog.setPhoneId(phoneId);
+        sessionLog.setSessionStart(0l);
+        sessionLog.setSessionEnd(2l);
+        sessionLog = logService.saveSessionLog(sessionLog);
+        
+        GpsLog log = new GpsLog();
+        log.setTimestamp(1l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneId);
         assertTrue(logService.saveLog(log));
-        
-        assertEquals(logCount, logRepository.count());
-        
-    }*/
+    }
     
     @Test
     public void testSaveGpsLog() {
@@ -75,6 +85,7 @@ public class LogServiceTest extends AbstractTest{
         List<Log> all = logService.getAll(null);
         assertEquals(null, all);
     }
+    
     @Test(expected=IllegalArgumentException.class)
     public void testFailGetAllString() {
         System.out.println("testFailGetAllString");
@@ -91,11 +102,15 @@ public class LogServiceTest extends AbstractTest{
         log.setPhoneId(123456789012345l+"");
         assertTrue(logService.saveLog(log));
         List<Log> all = logService.getAll();
+        assertEquals(1, all.size());
+        
         assertEquals(log.getPhoneId(), all.get(0).getPhoneId());
     }
     
     @Test
     public void testSaveSession(){
+        //Phone phone = phoneRepository.findOne(1234567890123455l+"");
+        //int sizeBefore = phone.getSessions().size();
         SessionLog sessionLog = new SessionLog();
         sessionLog.setPhoneId(1234567890123455l+"");
         sessionLog.setSessionStart(Long.MIN_VALUE);
@@ -107,8 +122,8 @@ public class LogServiceTest extends AbstractTest{
         assertTrue("phone list of sessions shouldn't be null or empty", logService.getSessionByPhoneId(sessionLog.getPhoneId()) != null);
         
         
-        Phone phone = phoneRepository.findOne(1234567890123455l+"");
-        assertEquals("phone's list of sessions was incorrect", 1, phone.getSessions().size());
+        //phone = phoneRepository.findOne(1234567890123455l+"");
+       // assertEquals("phone's list of sessions was incorrect", sizeBefore+1, phone.getSessions().size());
     }
     
     @Test
@@ -124,6 +139,89 @@ public class LogServiceTest extends AbstractTest{
         
         assertEquals(sessionLog.getPhoneId(), sessionById.getPhoneId());
         
+        
+    }
+    
+    @Test
+    public void testSaveLogsAndSessions() {
+        
+        String phoneId = "1234567890123455";
+        
+        SessionLog sessionLog = new SessionLog();
+        sessionLog.setPhoneId(phoneId);
+        sessionLog.setSessionStart(0l);
+        sessionLog.setSessionEnd(2l);
+        
+        GpsLog log = new GpsLog();
+        log.setTimestamp(1l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneId);
+        log.setSessionLog(null);
+        
+        logService.saveLog(log);
+        assertEquals("log didn't save when it should've", 1, logService.getAll().size());
+        
+        
+        sessionLog = logService.saveSessionLog(sessionLog);
+        assertEquals("session didn't save", 1, logService.getSessionByPhoneId(phoneId).size());
+        
+        
+        assertEquals("session didn't contain logs when it should have", 1, sessionLog.getLogs().size());
+    }
+    
+    @Test
+    public void testGetAllPhones() {
+        String phoneId = "1234567890123455";
+        
+        SessionLog sessionLog = new SessionLog();
+        sessionLog.setPhoneId(phoneId);
+        sessionLog.setSessionStart(0l);
+        sessionLog.setSessionEnd(2l);
+        sessionLog = logService.saveSessionLog(sessionLog);
+        
+       assertEquals(phoneId,logService.getAllPhones().get(0).getId());
+    }
+    
+    @Test
+    public void testGetAllSessions() {
+        String phoneId = "1234567890123455";
+        
+        SessionLog sessionLog = new SessionLog();
+        sessionLog.setPhoneId(phoneId);
+        sessionLog.setSessionStart(0l);
+        sessionLog.setSessionEnd(2l);
+        sessionLog = logService.saveSessionLog(sessionLog);
+        
+        assertEquals(1, logService.getAllSessions().size());
+    }
+    
+    @Test
+    public void testGetAllBySessionId() {
+        
+        String phoneId = "1234567890123455";
+        
+        SessionLog sessionLog = new SessionLog();
+        sessionLog.setPhoneId(phoneId);
+        sessionLog.setSessionStart(0l);
+        sessionLog.setSessionEnd(2l);
+        
+        GpsLog log = new GpsLog();
+        log.setTimestamp(1l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneId);
+        log.setSessionLog(null);
+        
+        logService.saveLog(log);
+        
+        
+        sessionLog = logService.saveSessionLog(sessionLog);
+        List<GpsLog> list = logService.getAllBySessionId(GpsLog.class, sessionLog);
+        assertEquals(1, list.size());
+        assertEquals(50.0f,(float)list.get(0).getLon(), 0f);
         
     }
 }

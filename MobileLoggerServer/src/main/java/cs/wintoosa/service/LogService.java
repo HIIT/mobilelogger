@@ -1,9 +1,9 @@
 package cs.wintoosa.service;
 
 import cs.wintoosa.domain.*;
-import cs.wintoosa.repository.log.ILogRepository;
-import cs.wintoosa.repository.phone.IPhoneRepository;
-import cs.wintoosa.repository.session.ISessionRepository;
+import cs.wintoosa.repository.log.LogRepository;
+import cs.wintoosa.repository.phone.PhoneRepository;
+import cs.wintoosa.repository.session.SessionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,11 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class LogService implements ILogService {
 
     @Autowired
-    private ILogRepository logRepositoryImpl;
+    private LogRepository logRepositoryImpl;
     @Autowired
-    private ISessionRepository sessionRepositoryImpl;
+    private SessionRepository sessionRepositoryImpl;
     @Autowired
-    private IPhoneRepository phoneRepositoryImpl;
+    private PhoneRepository phoneRepositoryImpl;
     @PersistenceContext
     EntityManager em;
 
@@ -35,7 +35,9 @@ public class LogService implements ILogService {
         if (log == null || log.getPhoneId() == null) {
             return false;
         }
+        
         List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(log.getPhoneId(), log.getTimestamp(), log.getTimestamp());
+        assert(sessions.size() <= 1);
         for (SessionLog session : sessions) {
             log.setSessionLog(session);
         }
@@ -52,23 +54,14 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) throws IllegalArgumentException {
-        if (cls == null) {
-            return null;
-        }
-        List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
-        return resultList;
+        return logRepositoryImpl.findAll(cls);
     }
     
     @Override
     @Transactional(readOnly = true)
     public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session) {
-        if (cls == null) {
-            return null;
-        }
-        List<T> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c WHERE c.sessionLog.id = "+session.getId()+" order by c.timestamp asc", cls).getResultList();
-        return resultList;
+        return logRepositoryImpl.findBySessionLog(cls, session);
     }
-
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll() {
@@ -114,18 +107,19 @@ public class LogService implements ILogService {
             phone.setId(phoneId);
             phone = phoneRepositoryImpl.saveAndFlush(phone);
         }
-        List<Log> logs = logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd());
-
-        /*sessionLog.setPhone(phone);*/
         sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
-        
         phone.getSessions().add(sessionLog);
-        phone = phoneRepositoryImpl.saveAndFlush(phone);
+        phoneRepositoryImpl.saveAndFlush(phone);
         
+        List<Log> logs = logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd());
         for (Log log : logs) {
             log.setSessionLog(sessionLog);
         }
+        sessionLog.getLogs().addAll(logs);
+        
         logRepositoryImpl.save(logs);
+        sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
+        
         return sessionLog;
     }
 

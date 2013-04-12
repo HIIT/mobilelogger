@@ -1,6 +1,5 @@
 ﻿using Microsoft.Phone.Scheduler;
 using MobileLoggerScheduledAgent.Database;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;

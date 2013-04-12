@@ -1,6 +1,5 @@
 ﻿using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace MobileLoggerApp.Handlers
 {

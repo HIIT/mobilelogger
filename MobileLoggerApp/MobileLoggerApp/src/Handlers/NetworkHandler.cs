@@ -60,11 +60,6 @@ namespace MobileLoggerApp.Handlers
                 NetworkNotAvailableMessageBox();
         }
 
-        private void NetworkNotAvailableMessageBox()
-        {
-            MessageBox.Show("Network is not available.");
-        }
-
         private void UpdateCellularMobileOperator()
         {
             if (DeviceNetworkInformation.IsCellularDataEnabled)
@@ -127,6 +122,11 @@ namespace MobileLoggerApp.Handlers
                 AddJOValue("InterfaceType", null);
                 AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
+        }
+
+        public static void NetworkNotAvailableMessageBox()
+        {
+            MessageBox.Show("Network is not available.");
         }
     }
 }

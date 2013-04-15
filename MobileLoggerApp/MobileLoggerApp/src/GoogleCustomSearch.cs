@@ -1,9 +1,9 @@
-﻿using Microsoft.Phone.Shell;
+﻿using Microsoft.Phone.Net.NetworkInformation;
+using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Windows;
 
 namespace MobileLoggerApp
 {
@@ -32,11 +32,7 @@ namespace MobileLoggerApp
         {
             SystemTray.ProgressIndicator.IsVisible = true;
 
-            if (App.ViewModel.Items.Count >= 100 || App.ViewModel.Items.Count < 0)
-                return;
-            else
-                this.searchPageNumber = App.ViewModel.Items.Count + 1;
-
+            this.searchPageNumber = App.ViewModel.Items.Count + 1;
             this.newSearch = newSearch;
             this.searchQuery = query;
             //string that contains required api key and information for google api
@@ -60,17 +56,15 @@ namespace MobileLoggerApp
 
         public void HandleRequestError(Exception exception)
         {
-            System.Diagnostics.Debug.WriteLine("{0}, {1} exception at GoogleCustomSearch.GetResponseCallback", exception.Message, exception.StackTrace);
             SystemTray.ProgressIndicator.IsVisible = false;
-            if (this.searchPageNumber > 1)
-            {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    //Opens web browser with bing search for the textbox contents as the search term, used as a backup when the Google search fails.
-                    OpenBrowser(String.Format("http://www.bing.com/search?q={0}", searchQuery));
-                });
-            }
-            
+            System.Diagnostics.Debug.WriteLine("{0}, {1} exception at GoogleCustomSearch.GetResponseCallback", exception.Message, exception.StackTrace);
+
+            // Google throws Not Found error so we must manually check network availibility
+            if (!DeviceNetworkInformation.IsNetworkAvailable)
+                MobileLoggerApp.Handlers.NetworkHandler.NetworkNotAvailableMessageBox();
+            else
+                // Opens web browser with bing search for the textbox contents as the search term, used as a backup when the Google search fails.
+                OpenBrowser(String.Format("http://www.bing.com/search?q={0}", searchQuery));
         }
 
         /// <summary>

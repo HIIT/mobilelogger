@@ -94,6 +94,7 @@ namespace MobileLoggerApp.Handlers
 
         private void SearchResultTapped(JObject searchResult)
         {
+            ParseSearchResult(searchResult);
             SaveLogToDB(searchResult, "/log/clicked");
         }
     }

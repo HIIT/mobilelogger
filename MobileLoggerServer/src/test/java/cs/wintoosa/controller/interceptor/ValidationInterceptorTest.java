@@ -40,6 +40,24 @@ public class ValidationInterceptorTest extends AbstractTest {
     }
     
     @Test
+    public void testPreHandleWithNullRequest() throws Exception {
+        System.out.println("testPreHandleWithNullRequest");
+        
+        String jsondata = "{\"lat\":1.0,\"lon\":2.0,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"2413a9ab3dc40a4a0de28316422f321c4bcd179a\"}";
+        
+        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
+        request.setContent(jsondata.getBytes());
+        request.setQueryString(jsondata);
+        HttpServletResponse response = new MockHttpServletResponse();
+        Object handler = null;
+        ValidationInterceptor instance = new ValidationInterceptor();
+        
+        boolean expResult = false;
+        boolean result = instance.preHandle(null, response, handler);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
     public void testPreHandleWithInvalidJson() throws Exception {
         System.out.println("testPreHandleWithInvalidJson");
         
@@ -113,22 +131,5 @@ public class ValidationInterceptorTest extends AbstractTest {
         boolean expResult = false;
         boolean result = instance.preHandle(request, response, handler);
         assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testPostHandleWithValidJsonPut() throws Exception {
-        System.out.println("testPostHandleWithValidJsonPut");
-        
-        String jsondata = "{\"lat\":1.0,\"lon\":2.0,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"2413a9ab3dc40a4a0de28316422f321c4bcd179a\"}";
-        
-        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/log/gps");
-        request.setContent(jsondata.getBytes());
-        request.setQueryString(jsondata);
-        HttpServletResponse response = new MockHttpServletResponse();
-        Object handler = null;
-        ValidationInterceptor instance = new ValidationInterceptor();
-        
-        boolean expResult = true;
-        instance.postHandle(request, response, handler, null);
     }
 }

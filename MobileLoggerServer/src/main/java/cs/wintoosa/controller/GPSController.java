@@ -41,14 +41,8 @@ public class GPSController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putGPSLog(@Valid @RequestBody GpsLog log, BindingResult result) {
+    public boolean putGPSLog(@RequestBody GpsLog log) {
         logger.info("put plain log");
-        if(result.hasErrors()) {
-            logger.info("result had errors");
-            for(ObjectError error : result.getAllErrors())
-                logger.info(error.toString());
-            return false;
-        }
         return logService.saveLog(log);
     }
     
@@ -59,31 +53,23 @@ public class GPSController {
         log2.setLat(2f);
         log2.setLon(2f);
         log2.setPhoneId("foo");
-        log2.setTimestamp(new Long(10));
+        log2.setTimestamp(new Long(18));
         logService.saveLog(log2);
         GpsLog log1 = new GpsLog();
         log1.setAlt(11f);
         log1.setLat(21f);
         log1.setLon(21f);
         log1.setPhoneId("foo");
-        log1.setTimestamp(new Long(20));
+        log1.setTimestamp(new Long(55));
         logService.saveLog(log1);
         GpsLog log = new GpsLog();
         log.setAlt(111f);
         log.setLat(211f);
         log.setLon(211f);
         log.setPhoneId("foo");
-        log.setTimestamp(new Long(30));
+        log.setTimestamp(new Long(32));
         logService.saveLog(log);
         System.out.println("Added dumy log");
         return "redirect:/";
-    }
-    
-    public void setLogService(ILogService logService) {
-        this.logService = logService;
-    }
-
-    public ILogService getLogService() {
-        return logService;
     }
 }

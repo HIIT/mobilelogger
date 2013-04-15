@@ -6,16 +6,30 @@ namespace MobileLoggerApp.Handlers
 {
     class SearchDataHandler : AbstractLogHandler
     {
+        private static string URL = "/log/google";
         string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
         int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
 
-        public override void SaveSensorLog()
+        public SearchDataHandler()
         {
+            this.IsEnabled = true;
         }
 
-        public void StartSearchDataHandler()
+        public override void SaveSensorLog()
+        {
+            //handle saving in the event handler method below
+        }
+
+        public override void StartWatcher()
         {
             GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
+            MainPage.searchResultTap += new MainPage.SearchResultTapped(SearchResultTapped);
+        }
+
+        public override void StopWatcher()
+        {
+            GoogleCustomSearch.searchDataEvent -= this.SearchData;
+            MainPage.searchResultTap -= this.SearchResultTapped;
         }
 
         private void SearchData(JObject searchData)
@@ -37,10 +51,11 @@ namespace MobileLoggerApp.Handlers
 
         private void ProcessSearchData(JObject searchData, DateTime timestamp)
         {
-            searchData.Remove("items");
-            searchData.Add("time", DeviceTools.GetUnixTime(timestamp));
-            searchData.Add("index", 0);
-            SaveLogToDB(searchData, "/log/google");
+            this.data = searchData;
+            this.data.Remove("items");
+            AddJOValue("timestamp", DeviceTools.GetUnixTime(timestamp));
+            AddJOValue("index", 0);
+            SaveLogToDB(this.data, URL);
         }
 
         private void ProcessSearchResults(JArray searchResults, int offset, DateTime timestamp)
@@ -53,10 +68,10 @@ namespace MobileLoggerApp.Handlers
 
                 resultObj.Add("index", index + offset);
                 index++;
-                resultObj.Add("time", DeviceTools.GetUnixTime(timestamp));
+                resultObj.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
 
                 ParseSearchResult(resultObj);
-                SaveLogToDB(resultObj, "/log/google");
+                SaveLogToDB(resultObj, URL);
             }
         }
 
@@ -75,6 +90,12 @@ namespace MobileLoggerApp.Handlers
                 else
                     break;
             }
+        }
+
+        private void SearchResultTapped(JObject searchResult)
+        {
+            ParseSearchResult(searchResult);
+            SaveLogToDB(searchResult, "/log/clicked");
         }
     }
 }

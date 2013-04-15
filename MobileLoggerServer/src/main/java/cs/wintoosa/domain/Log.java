@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -18,16 +20,17 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public abstract class Log implements Serializable{
-    
+
     private static final long serialVersionUID = 1234l;
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     protected Long id;
     
-    @ManyToOne(targetEntity=SessionLog.class)
+    @ManyToOne
+    @JsonIgnore
     protected SessionLog sessionLog;
-    
+        
     @NotNull(message="PhoneId can't be null")
     protected String phoneId;
     
@@ -37,11 +40,6 @@ public abstract class Log implements Serializable{
     @Transient
     private String checksum;
        
-    /**
-     * This is used for storing user search terms
-     */
-    protected String text;
-
     public Log() {
     }
     
@@ -64,14 +62,6 @@ public abstract class Log implements Serializable{
         this.id = logId;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public Long getTimestamp() {
         return timestamp;
     }
@@ -88,10 +78,12 @@ public abstract class Log implements Serializable{
         this.checksum = checksum;
     }
 
+    @JsonIgnore
     public SessionLog getSessionLog() {
         return sessionLog;
     }
 
+    @JsonIgnore
     public void setSessionLog(SessionLog sessionLog) {
         this.sessionLog = sessionLog;
     }

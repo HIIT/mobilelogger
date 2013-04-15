@@ -1,9 +1,10 @@
 package cs.wintoosa.service;
 
 import cs.wintoosa.domain.*;
-import cs.wintoosa.repository.log.ILogRepository;
-import cs.wintoosa.repository.phone.IPhoneRepository;
-import cs.wintoosa.repository.session.ISessionRepository;
+import cs.wintoosa.repository.log.LogRepository;
+import cs.wintoosa.repository.phone.PhoneRepository;
+import cs.wintoosa.repository.session.SessionRepository;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,14 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class LogService implements ILogService {
 
     @Autowired
-    private ILogRepository logRepositoryImpl;
-    
+    private LogRepository logRepositoryImpl;
     @Autowired
-    private ISessionRepository sessionRepositoryImpl;
-    
+    private SessionRepository sessionRepositoryImpl;
     @Autowired
-    private IPhoneRepository phoneRepositoryImpl;
-    
+    private PhoneRepository phoneRepositoryImpl;
     @PersistenceContext
     EntityManager em;
 
@@ -37,100 +35,98 @@ public class LogService implements ILogService {
         if (log == null || log.getPhoneId() == null) {
             return false;
         }
+        
+        List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(log.getPhoneId(), log.getTimestamp(), log.getTimestamp());
+        assert(sessions.size() <= 1);
+        for (SessionLog session : sessions) {
+            log.setSessionLog(session);
+        }
         log = logRepositoryImpl.save(log);
         return true;
     }
+
     /**
      * Todo: Put this in a repository class
+     *
      * @param cls the class of the log entry
-     * @return 
+     * @return
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Log> getAll(Class cls) {
-        try {
-            List<Log> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
-            System.out.println("resultList.size() = " + resultList.size());
-            return resultList;
-        } catch (QueryException e) {
-            System.out.println("Failed query!");
-            System.out.println(e.getQuery().getSQLString());
-            System.out.println(e.getMessage());
-        }
-        catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return null;
+    public List<Log> getAll(Class cls) throws IllegalArgumentException {
+        return logRepositoryImpl.findAll(cls);
     }
-
+    
+    @Override
+    @Transactional(readOnly = true)
+    public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session) {
+        return logRepositoryImpl.findBySessionLog(cls, session);
+    }
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll() {
         List<Log> logs = logRepositoryImpl.findAll();
         return logs;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<SessionLog> getAllSessions() {
         List<SessionLog> sessionLogs = sessionRepositoryImpl.findAll();
         return sessionLogs;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public SessionLog getSessionById(long sessionId) {
-        SessionLog session = sessionRepositoryImpl.findSessionById(sessionId);
-        if(session != null) {
-            session.setLogs(logRepositoryImpl.findByPhoneIdAndTimestampBetween(session.getPhoneId(), session.getSessionStart(), session.getSessionEnd()));
-        }
+        SessionLog session = sessionRepositoryImpl.findOne(sessionId);
         return session;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
-    public List<SessionLog> getSessionByPhoneId(String phoneId){
-        System.out.println("getSessionByPhoneId");
-        List<SessionLog> sessions = sessionRepositoryImpl.findSessionByPhoneId(phoneId);
-        System.out.println("sessions.size() = " + sessions.size());
+    public List<SessionLog> getSessionByPhoneId(String phoneId) {
+        List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneId(phoneId);
         return sessions;
     }
-    
+
     /**
      * Saves the given session log into db
+     *
      * @param sessionLog
      * @return the saved SessionLog or null if save failed
      */
     @Override
     @Transactional
-    public SessionLog saveSessionLog(SessionLog sessionLog){
-        
+    public SessionLog saveSessionLog(SessionLog sessionLog) {
+
         String phoneId = sessionLog.getPhoneId();
         Phone phone = phoneRepositoryImpl.findOne(phoneId);
-        if(phone == null) {
+        if (phone == null) {
             phone = new Phone();
             phone.setId(phoneId);
+            phone = phoneRepositoryImpl.saveAndFlush(phone);
         }
-        
-        sessionLog.getLogs().addAll(
-                logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull
-                (phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd()));
-        
+        sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
         phone.getSessions().add(sessionLog);
-        phone = phoneRepositoryImpl.save(phone);
-       
-        sessionLog.setPhone(phone);
-        sessionLog = sessionRepositoryImpl.save(sessionLog);
+        phoneRepositoryImpl.saveAndFlush(phone);
+        
+        List<Log> logs = logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd());
+        for (Log log : logs) {
+            log.setSessionLog(sessionLog);
+        }
+        sessionLog.getLogs().addAll(logs);
+        
+        logRepositoryImpl.save(logs);
+        sessionLog = sessionRepositoryImpl.saveAndFlush(sessionLog);
         
         return sessionLog;
     }
 
     @Override
-    @Transactional(readOnly= true)
+    @Transactional(readOnly = true)
     public List<Phone> getAllPhones() {
-        
+
         return phoneRepositoryImpl.findAll();
     }
-
-    
 }

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -34,6 +35,18 @@ public class SessionLog implements Serializable{
     protected String phoneId;
     
     protected Long timestamp;
+    
+    @OneToMany
+    @OrderBy("timestamp")        
+    List<Log> logs;
+
+    public void setLogs(List<Log> logs) {
+        this.logs = logs;
+    }
+
+    public List<Log> getLogs() {
+        return logs;
+    }
 
     public void setChecksum(String checksum) {
         this.checksum = checksum;
@@ -57,12 +70,8 @@ public class SessionLog implements Serializable{
     public void setPhoneId(String phoneId) {
         this.phoneId = phoneId;
     }
-    
-    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
-    private List<Log> logs = new ArrayList<Log>();
-    
-    @ManyToOne(targetEntity=Phone.class)
-    private Phone phone;
+        
+    /*private Phone phone;
 
     public void setPhone(Phone phone) {
         this.phone = phone;
@@ -71,7 +80,7 @@ public class SessionLog implements Serializable{
     public Phone getPhone() {
         return phone;
     }
-
+*/
     public Long getSessionStart() {
         return sessionStart;
     }
@@ -86,14 +95,6 @@ public class SessionLog implements Serializable{
 
     public void setSessionEnd(Long sessionEnd) {
         this.sessionEnd = sessionEnd;
-    }
-
-    public List<Log> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<Log> logs) {
-        this.logs = logs;
     }
 
     public Long getId() {

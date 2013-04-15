@@ -13,4 +13,14 @@ import javax.persistence.Entity;
 @Entity
 public class TextLog extends Log{
     
+    private String text;
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
+    
 }

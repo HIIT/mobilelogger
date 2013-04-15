@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.logging.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -17,76 +16,68 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
-    private final static Logger logger = Logger.getLogger(ValidationInterceptor.class.getName()); 
-
+    private static final Logger logger = Logger.getLogger(ValidationInterceptor.class .getName()); 
+    private final int BAD_REQUEST = 400;
+    
+    public ValidationInterceptor() {
+        super();
+        
+    }
+    
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         
         boolean isOk = super.preHandle(request, response, handler);
-        
-        logger.info("header queryString = " + request.getHeader("queryString"));
-        
-        
+        if(request == null)
+            return false;
         if(!request.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
         
         JsonObject json = convertToJsonObject(request);
        
-        isOk = isValid(json);
-        return isOk;
-    }
-    
-    @Override 
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-         
-        logger.info("header queryString = " + request.getHeader("queryString"));
-        JsonObject json = convertToJsonObject(request);
-       
-    }
-    
-    private JsonObject convertToJsonObject(HttpServletRequest request) {
-        logger.info("method = " + request.getMethod() + "\n" +
-                    "requestUri = " + request.getRequestURI() + "\n" +
-                    "queryString = " + request.getQueryString());
-        if(request.getContentLength() == -1)
-            return null;
-        byte[] buffer = new byte[request.getContentLength()];
-        try{
-            request.getInputStream().readLine(buffer, 0, request.getContentLength());
-        } catch (IOException e) {
-            System.out.println(e.toString());
+        if(!isValid(json)) {
+            response.getWriter().write("json validation failed");
+            return false;
         }
+        return true;
+    }
+    
+    private JsonObject convertToJsonObject(HttpServletRequest request) throws IOException {
+        if(request.getContentLength() == -1) {
+            return null;
+        }
+        
+        byte[] buffer = new byte[request.getContentLength()];
+        request.getInputStream().read(buffer, 0, request.getContentLength());
         
         String data = new String(buffer);
-        logger.info("data = " + data);
+        logger.info("data = ".concat(data));
         
-        JsonObject json = null;
         JsonParser parser = new JsonParser();
-        if(request.getQueryString() != null) {
-            logger.info("queryString = " + request.getQueryString());
-            JsonElement parse = parser.parse(request.getQueryString());
-            json = parse.getAsJsonObject();
-            logger.info("json: " + json.toString());
-        }
+        JsonObject json = parser.parse(data).getAsJsonObject();
+        logger.info("json = ".concat(json.toString()));
         return json;
     }
     
     private boolean isValid(JsonObject json) {
-        
-        if(json == null)
+        if(json == null) {
+            logger.info("json is null");
             return false;
+        }
         
         JsonElement checksumJson = json.get("checksum");
         
-        if(checksumJson == null)
+        if(checksumJson == null) {
+            logger.info("checksum json is null");
             return false;
+        }
         
         String checksum = checksumJson.getAsString();
         json.remove("checksum");
         String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
         
-        logger.info(checksum + " equals " + calculatedChecksum + ": " + checksum.equals(calculatedChecksum));
+        logger.info(checksum + " equals " + calculatedChecksum + ": " + checksum.equalsIgnoreCase(calculatedChecksum));
         
-        return calculatedChecksum.equals(checksum);
+        return calculatedChecksum.equalsIgnoreCase(checksum);
     }
 }

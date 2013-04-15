@@ -1,25 +1,35 @@
 ﻿using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace MobileLoggerApp.Handlers
 {
     class WeatherDataHandler : AbstractLogHandler
     {
-        public override void SaveSensorLog()
+        public WeatherDataHandler()
         {
+            this.IsEnabled = true;            
         }
 
-        public void StartWeatherDataHandler()
+        public override void SaveSensorLog()
+        {
+            //handle saving in the event handler method below
+        }
+
+        public override void StartWatcher()
         {
             WeatherInformationSearch.weatherDataEvent += new WeatherInformationSearch.WeatherDataHandler(WeatherData);
         }
 
+        public override void StopWatcher()
+        {
+            WeatherInformationSearch.weatherDataEvent -= WeatherData;
+        }
+
         private void WeatherData(JObject weatherData)
         {
-            DateTime timestamp = DateTime.UtcNow;
-            weatherData.Add("time", DeviceTools.GetUnixTime(timestamp));
-            SaveLogToDB(weatherData, "/log/weather");
+            this.data = weatherData;
+            AddJOValue("timestamp", DeviceTools.GetUnixTime());
+            SaveLogToDB(this.data, "/log/weather");
         }
     }
 }

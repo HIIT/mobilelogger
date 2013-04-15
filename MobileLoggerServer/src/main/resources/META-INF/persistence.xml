@@ -5,27 +5,56 @@
     <class>cs.wintoosa.domain.BTLog</class>
     <class>cs.wintoosa.domain.CompLog</class>
     <class>cs.wintoosa.domain.GpsLog</class>
+    <class>cs.wintoosa.domain.KeyPress</class>
+    <class>cs.wintoosa.domain.Keyboard</class>
     <class>cs.wintoosa.domain.LightLog</class>
-    <class>cs.wintoosa.domain.Log</class>
-    <class>cs.wintoosa.domain.NetLog</class>
+    <class>cs.wintoosa.domain.Network</class>
     <class>cs.wintoosa.domain.OrientationLog</class>
     <class>cs.wintoosa.domain.Phone</class>
     <class>cs.wintoosa.domain.ProximityLog</class>
+    <class>cs.wintoosa.domain.SessionLog</class>
     <class>cs.wintoosa.domain.SoundLog</class>
     <class>cs.wintoosa.domain.TextLog</class>
-    <class>cs.wintoosa.domain.SessionLog</class>
-    <class>cs.wintoosa.domain.KeyPress</class>
-    <class>cs.wintoosa.domain.Keyboard</class>
-    <class>cs.wintoosa.domain.Network</class>
     <class>cs.wintoosa.domain.TouchLog</class>
+    <class>cs.wintoosa.domain.Log</class>
     <properties>
       <property name="showSql" value="true"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
       <property name="eclipselink.weaving" value="false"/>
-      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.logging.level" value="warning"/>
       <property name="" value="admin"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
       <!--<property name="eclipselink.ddl-generation" value="create-tables"/>-->
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+  
+  <!--  this is used for spring-database-test context,
+        only different thing is the logging level -->
+  <persistence-unit name="persistenceUnit-Test" transaction-type="RESOURCE_LOCAL">
+    <class>cs.wintoosa.domain.AccLog</class>
+    <class>cs.wintoosa.domain.BTLog</class>
+    <class>cs.wintoosa.domain.CompLog</class>
+    <class>cs.wintoosa.domain.GpsLog</class>
+    <class>cs.wintoosa.domain.KeyPress</class>
+    <class>cs.wintoosa.domain.Keyboard</class>
+    <class>cs.wintoosa.domain.LightLog</class>
+    <class>cs.wintoosa.domain.Network</class>
+    <class>cs.wintoosa.domain.OrientationLog</class>
+    <class>cs.wintoosa.domain.Phone</class>
+    <class>cs.wintoosa.domain.ProximityLog</class>
+    <class>cs.wintoosa.domain.SessionLog</class>
+    <class>cs.wintoosa.domain.SoundLog</class>
+    <class>cs.wintoosa.domain.TextLog</class>
+    <class>cs.wintoosa.domain.TouchLog</class>
+    <class>cs.wintoosa.domain.Log</class>
+    <properties>
+      <property name="showSql" value="true"/>
+      <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+      <property name="eclipselink.weaving" value="false"/>
+      <property name="eclipselink.logging.level" value="all"/>
+      <property name="" value="admin"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <!--<property name="eclipselink.ddl-generation" value="create-tables"/>-->
     </properties>
   </persistence-unit>
 </persistence>

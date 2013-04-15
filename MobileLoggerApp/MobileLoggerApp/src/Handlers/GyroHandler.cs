@@ -6,19 +6,32 @@ namespace MobileLoggerApp.Handlers
 {
     public class GyroHandler : AbstractLogHandler
     {
+        Gyroscope gyroWatcher;
+
+        public GyroHandler()
+        {
+            this.gyroWatcher = new Gyroscope();
+            this.IsEnabled = true;
+        }
+
         public override void SaveSensorLog()
         {
             SaveLogToDB(this.data, "/log/gyro");
         }
 
-        public void StartGyroWatcher()
+        public override void StartWatcher()
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
-                Gyroscope gyroWatcher = new Gyroscope();
-                gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
+                this.gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                this.gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
+                this.gyroWatcher.Start();
             }
+        }
+
+        public override void StopWatcher()
+        {
+            this.gyroWatcher.Stop();
         }
 
         /// <summary>

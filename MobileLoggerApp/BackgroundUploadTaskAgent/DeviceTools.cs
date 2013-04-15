@@ -22,7 +22,7 @@ namespace MobileLoggerScheduledAgent.Devicetools
         /// Turns a .NET DateTime timestamp into a unix timestamp for use at serverside
         /// </summary>
         /// <param name="time">The timestamp to be translated</param>
-        /// <returns>unix timestamp</returns>
+        /// <returns>unix timestamp in milliseconds</returns>
         public static long GetUnixTime(DateTime time)
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -50,10 +50,9 @@ namespace MobileLoggerScheduledAgent.Devicetools
             {
                 return origin.AddSeconds(unixTimeStamp);
             }
-            catch (Exception e)
+            catch (ArgumentOutOfRangeException e)
             {
-                System.Diagnostics.Debug.WriteLine("DeviceTools.GetDateTime: " + e.Message);
-                return origin.AddMilliseconds(unixTimeStamp);
+                 return origin.AddMilliseconds(unixTimeStamp);
             }
         }
 

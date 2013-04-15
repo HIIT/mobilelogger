@@ -1,7 +1,7 @@
 ﻿using Microsoft.Phone.Scheduler;
 using MobileLoggerScheduledAgent.Database;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -13,7 +13,7 @@ namespace MobileLoggerScheduledAgent
     {
         private static volatile bool _classInitialized;
         public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
-
+        private static readonly int TIMEOUT_MS = 10000;
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
         /// </remarks>
@@ -57,7 +57,7 @@ namespace MobileLoggerScheduledAgent
             System.Diagnostics.Debug.WriteLine(this.GetType().Name + ".OnInvoke");
             //TODO: Add code to perform your task in background
             SendMessages();
-            NotifyComplete();
+           // NotifyComplete();
             
         }
 
@@ -73,14 +73,9 @@ namespace MobileLoggerScheduledAgent
                     System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": DB does not exist");
                     return;
                 }
-
-                //logDb.addEvent("{\"phoneId\":string,\"text\":string,\"timestamp\":" + DeviceTools.GetUnixTime(DateTime.UtcNow) + ",\"lat\":12.3,\"lon\":12.3,\"alt\":12.3}", "/log/gps");
-                //System.Diagnostics.Debug.WriteLine(this.GetType().Name + ": GetLogEvents().size() " + logDb.GetLogEvents().Count);
-               // LogEvent e = new LogEvent();
-                //e.sensorEvent = "{\"lat\":1.0,\"lon\":2.0,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365}";
-                //System.Diagnostics.Debug.WriteLine(e.sensorEvent);
-                //e.relativeUrl = "/log/gps";
-                foreach (LogEvent e in logDb.GetLogEvents())
+                List<LogEvent> events = logDb.GetLogEvents();
+                System.Diagnostics.Debug.WriteLine("Sending " + events.Count + " events");
+                foreach (LogEvent e in events)
                 {
                     SendMessage(e);
                 }
@@ -103,8 +98,6 @@ namespace MobileLoggerScheduledAgent
         private void SendData(LogEvent logevent, IAsyncResult asynchronousResult)
         {
 
-            JObject JSON = JObject.Parse(logevent.sensorEvent);
-
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
 
             // End the operation
@@ -112,24 +105,28 @@ namespace MobileLoggerScheduledAgent
             
             //Console.WriteLine("Please enter the input data to be posted:");
             string putData = logevent.sensorEvent.ToString();
-
+            System.Diagnostics.Debug.WriteLine("URL = " + logevent.relativeUrl);
+            System.Diagnostics.Debug.WriteLine("sending data = " + putData);
             // Convert the string into a byte array. 
             byte[] byteArray = Encoding.UTF8.GetBytes(putData);
-
+            //putStream.WriteTimeout = TIMEOUT_MS;
             // Write to the request stream.
             putStream.Write(byteArray, 0, putData.Length);
+            
             putStream.Close();
-
+            System.Diagnostics.Debug.WriteLine("Sent");
             // Start the asynchronous operation to get the response
             request.BeginGetResponse(responseAsynchronousResult =>
             {
                 GetResponse(responseAsynchronousResult, logevent);
 
             }, request);
+            
         }
 
         private void GetResponse(IAsyncResult asynchronousResult, LogEvent logevent)
         {
+            System.Diagnostics.Debug.WriteLine("before trygetresponse");
             try
             {
                 HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
@@ -139,6 +136,10 @@ namespace MobileLoggerScheduledAgent
                 Stream streamResponse = finalresponse.GetResponseStream();
                 StreamReader streamRead = new StreamReader(streamResponse);
                 string responseString = streamRead.ReadToEnd();
+
+                System.Diagnostics.Debug.WriteLine(responseString);
+
+
                 //if (responseString.Equals("true"))
 
 

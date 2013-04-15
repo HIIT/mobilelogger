@@ -20,10 +20,10 @@
         http://www.springframework.org/schema/data/jpa
            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <!-- Sovelluksen repository-luokat (DAO-luokat) sijaitsevat pakkauksen wad alla -->
     <jpa:repositories base-package="cs.wintoosa.repository" />
     
-    <context:property-placeholder location="WEB-INF/db.properties"/> 
+    <context:property-placeholder location="WEB-INF/db.properties" ignore-resource-not-found="true"/> 
+    <!-- in memory database-->
     <!--
      <jdbc:embedded-database id="dataSource" type="HSQL"/>
     -->
@@ -35,7 +35,7 @@
         <property name="password" value="${password}"/>
     </bean> 
     
-    <!-- Käytetään EclipseLinkkiä JPA-toteutuksena, määritellään myös persistence.xml-tiedoston sijainti -->
+    <!-- Use Eclipselink as JPA implementation-->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="packagesToScan" value="cs.wintoosa.domain"/>
         <property name="persistenceUnitName" value="persistenceUnit" /> 
@@ -45,14 +45,14 @@
         </property>
     </bean>
 
-    <!-- Hallinnoidaan transaktioita automaattisesti -->
+    <!-- Automatic transactions -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <!-- Käytetään geneerisiä poikkeuksia -->
+    <!-- Generic exceptions -->
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 </beans>

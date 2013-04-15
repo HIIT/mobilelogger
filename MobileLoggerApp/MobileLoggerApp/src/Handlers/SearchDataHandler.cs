@@ -29,8 +29,8 @@ namespace MobileLoggerApp.Handlers
         public override void StopWatcher()
         {
             GoogleCustomSearch.searchDataEvent -= new GoogleCustomSearch.SearchDataHandler(SearchData);
-            MainPage.searchResultTap -= new MainPage.SearchResultTapped(SearchResultTapped);
             GoogleCustomSearch.searchDataEvent -= this.SearchData;
+            MainPage.searchResultTap -= new MainPage.SearchResultTapped(SearchResultTapped);
             MainPage.searchResultTap -= this.SearchResultTapped;
         }
 

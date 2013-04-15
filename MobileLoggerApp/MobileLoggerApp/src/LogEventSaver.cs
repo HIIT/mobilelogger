@@ -43,8 +43,6 @@ namespace MobileLoggerApp
 
         public void addEvent(string data, string url)
         {
-            System.Diagnostics.Debug.WriteLine(data);
-            System.Diagnostics.Debug.WriteLine(url);
             LogEvent e = new LogEvent();
             e.relativeUrl = url;
             e.sensorEvent = data;

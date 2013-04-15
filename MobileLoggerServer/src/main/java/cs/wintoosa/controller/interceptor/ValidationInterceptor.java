@@ -37,7 +37,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
             response.getWriter().write("json validation failed");
             return false;
         }
-        return isOk;
+        return true;
     }
     
     private JsonObject convertToJsonObject(HttpServletRequest request) throws IOException {
@@ -70,8 +70,8 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
         if(!checksum.equalsIgnoreCase(calculatedChecksum)) {
             logger.info("Checksum validation failed\n"
-                    + "\texpected: " + checksum
-                    + "\n\tcalculated: " + calculatedChecksum);
+                    + "\texpected:\t " + checksum
+                    + "\n\tcalculated:\t " + calculatedChecksum);
             return false;
         }
         return true;

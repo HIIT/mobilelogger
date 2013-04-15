@@ -136,17 +136,20 @@ namespace MobileLoggerApp
 
         void Touch_FrameReported(object sender, TouchFrameEventArgs e)
         {
-            screenTouch(this, e);
+            if (screenTouch != null)
+                screenTouch(this, e);
         }
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            keyboardGotFocus();
+            if (keyboardGotFocus != null)
+                keyboardGotFocus();
         }
 
         private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            keyboardLostFocus();
+            if (keyboardLostFocus != null)
+                keyboardLostFocus();
         }
 
         /// <summary>
@@ -156,7 +159,8 @@ namespace MobileLoggerApp
         /// <param name="e">Arguments for the key event that initiated this event</param>
         private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            keyUp(sender, e);
+            if (keyUp != null)
+                keyUp(sender, e);
 
             if (e.Key.Equals(Key.Enter))
             {
@@ -182,7 +186,8 @@ namespace MobileLoggerApp
             StackPanel stackPanel = (StackPanel)sender;
             ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
 
-            searchResultTap(item.SearchResult);
+            if (searchResultTap != null)
+                searchResultTap(item.SearchResult);
             search.OpenBrowser(item.LineThree.ToString());
         }
 

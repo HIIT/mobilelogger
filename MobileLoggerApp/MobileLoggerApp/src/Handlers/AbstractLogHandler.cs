@@ -9,7 +9,7 @@ namespace MobileLoggerApp.Handlers
         //private LogEventSaver saver = LogEventSaver.Instance;
 
         protected JObject data = new JObject();
-        public bool IsEnabled{get; set;}
+        public bool IsEnabled { get; set; }
 
         /// <summary>
         /// This method needs to save the timestamp of current time also
@@ -32,8 +32,10 @@ namespace MobileLoggerApp.Handlers
             if (json["checksum"] != null)
                 json.Remove("checksum");
             json.Add("checksum", DeviceTools.CalculateSHA1(json.ToString(Newtonsoft.Json.Formatting.None)));
-            
-            LogEventSaver.Instance.addEvent(json.ToString(Newtonsoft.Json.Formatting.None), url);
+
+            if (json.ToString(Newtonsoft.Json.Formatting.None).Length <= 4000)
+                LogEventSaver.Instance.addEvent(json.ToString(Newtonsoft.Json.Formatting.None), url);
+
 
             return true;
         }

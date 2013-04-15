@@ -126,6 +126,24 @@ namespace MobileLoggerScheduledAgent.Database
         	}
     	}
 
+        public void addEvents(IList<LogEvent> events)
+        {
+            using (LogEventDataContext context = new LogEventDataContext(ConnectionString))
+            {
+                foreach (LogEvent e in events)
+                {
+                    LogEvent le = new LogEvent();
+                    e.Time = DeviceTools.GetUnixTime(DateTime.Now);
+
+                    // add the new logEvent to the context
+                    context.LogEvents.InsertOnSubmit(e);
+                }
+
+                context.SubmitChanges();
+            }
+        }
+
+        [Obsolete("This method is obsolete and causes bad performance, use addEvents instead")]
         public void addEvent(JObject sensorEvent, String url)
         {
             using (LogEventDataContext context = new LogEventDataContext(ConnectionString))

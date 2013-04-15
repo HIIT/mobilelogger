@@ -104,7 +104,7 @@ namespace MobileLoggerScheduledAgent
             Stream putStream = request.EndGetRequestStream(asynchronousResult);
             
             //Console.WriteLine("Please enter the input data to be posted:");
-            string putData = logevent.sensorEvent.ToString();
+            string putData = logevent.sensorEvent;
             System.Diagnostics.Debug.WriteLine("URL = " + logevent.relativeUrl);
             System.Diagnostics.Debug.WriteLine("sending data = " + putData);
             // Convert the string into a byte array. 

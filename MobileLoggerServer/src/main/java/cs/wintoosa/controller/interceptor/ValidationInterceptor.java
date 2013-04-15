@@ -17,11 +17,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
     private static final Logger logger = Logger.getLogger(ValidationInterceptor.class .getName()); 
-    private final int BAD_REQUEST = 400;
     
     public ValidationInterceptor() {
         super();
-        
     }
     
     @Override
@@ -39,23 +37,18 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
             response.getWriter().write("json validation failed");
             return false;
         }
-        return true;
+        return isOk;
     }
     
     private JsonObject convertToJsonObject(HttpServletRequest request) throws IOException {
         if(request.getContentLength() == -1) {
             return null;
         }
-        
         byte[] buffer = new byte[request.getContentLength()];
         request.getInputStream().read(buffer, 0, request.getContentLength());
-        
         String data = new String(buffer);
-        logger.info("data = ".concat(data));
-        
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(data).getAsJsonObject();
-        logger.info("json = ".concat(json.toString()));
         return json;
     }
     
@@ -68,16 +61,19 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         JsonElement checksumJson = json.get("checksum");
         
         if(checksumJson == null) {
-            logger.info("checksum json is null");
+            logger.info("json checksum is null");
             return false;
         }
         
         String checksum = checksumJson.getAsString();
         json.remove("checksum");
         String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
-        
-        logger.info(checksum + " equals " + calculatedChecksum + ": " + checksum.equalsIgnoreCase(calculatedChecksum));
-        
-        return calculatedChecksum.equalsIgnoreCase(checksum);
+        if(!checksum.equalsIgnoreCase(calculatedChecksum)) {
+            logger.info("Checksum validation failed\n"
+                    + "\texpected: " + checksum
+                    + "\n\tcalculated: " + calculatedChecksum);
+            return false;
+        }
+        return true;
     }
 }

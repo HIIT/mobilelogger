@@ -1,11 +1,13 @@
 package cs.wintoosa.service;
 
+import com.google.gson.Gson;
 import cs.wintoosa.domain.*;
 import cs.wintoosa.repository.log.LogRepository;
 import cs.wintoosa.repository.phone.PhoneRepository;
 import cs.wintoosa.repository.session.SessionRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.eclipse.persistence.exceptions.QueryException;
@@ -28,6 +30,8 @@ public class LogService implements ILogService {
     private PhoneRepository phoneRepositoryImpl;
     @PersistenceContext
     EntityManager em;
+    
+    private static final Logger logger = Logger.getLogger(LogService.class.getName());
 
     @Override
     @Transactional
@@ -42,6 +46,8 @@ public class LogService implements ILogService {
             log.setSessionLog(session);
         }
         log = logRepositoryImpl.save(log);
+        ;
+        logger.info("Saved log:\n\t " + new Gson().toJson(log));
         return true;
     }
 

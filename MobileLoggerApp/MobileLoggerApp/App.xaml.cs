@@ -81,15 +81,16 @@ namespace MobileLoggerApp
             HandlersManager handlers = new HandlersManager();
             handlers.InitHandlers();
             handlers.StartEnabledHandlers();
+            System.Diagnostics.Debug.WriteLine("Application_Launching");
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            if (sessionHandler == null)
-                sessionHandler = new SessionHandler();
+            sessionHandler = new SessionHandler();
             sessionHandler.Start();
+            System.Diagnostics.Debug.WriteLine("Application_Activated");
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -97,6 +98,8 @@ namespace MobileLoggerApp
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             sessionHandler.End();
+            LogEventSaver.Instance.SaveAll();
+            System.Diagnostics.Debug.WriteLine("Application_Deactivated");
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -104,11 +107,14 @@ namespace MobileLoggerApp
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
             sessionHandler.End();
+            LogEventSaver.Instance.SaveAll();
+            System.Diagnostics.Debug.WriteLine("Application_Closing");
         }
 
         // Code to execute if a navigation fails
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("RootFrame_NavigationFailed");
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // A navigation has failed; break into the debugger
@@ -120,6 +126,7 @@ namespace MobileLoggerApp
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Application_UnhandledException");
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger

@@ -6,7 +6,7 @@ namespace MobileLoggerApp.Handlers
 {
     public abstract class AbstractLogHandler
     {
-        private LogEventSaver saver = LogEventSaver.Instance;
+        //private LogEventSaver saver = LogEventSaver.Instance;
 
         protected JObject data = new JObject();
         public bool IsEnabled { get; set; }
@@ -18,23 +18,24 @@ namespace MobileLoggerApp.Handlers
         public abstract void StartWatcher();
         public abstract void StopWatcher();
 
-        protected Boolean SaveLogToDB(JObject logEvent, string url)
+        protected Boolean SaveLogToDB(JObject json, string url)
         {
             if (!IsEnabled)
                 return true;
 
-            if (logEvent == null)
+            if (json == null)
                 return false;
 
-            if (logEvent["phoneId"] == null)
-                logEvent.Add("phoneId", DeviceTools.GetDeviceId());
+            if (json["phoneId"] == null)
+                json.Add("phoneId", DeviceTools.GetDeviceId());
 
-            if (logEvent["checksum"] != null)
-                logEvent.Remove("checksum");
-            logEvent.Add("checksum", DeviceTools.CalculateSHA1(logEvent.ToString()));
+            if (json["checksum"] != null)
+                json.Remove("checksum");
+            json.Add("checksum", DeviceTools.CalculateSHA1(json.ToString(Newtonsoft.Json.Formatting.None)));
 
-            if (logEvent.ToString().Length <= 4000)
-                saver.addEvent(new JObject(logEvent), url);
+            if (json.ToString(Newtonsoft.Json.Formatting.None).Length <= 4000)
+                LogEventSaver.Instance.addEvent(json.ToString(Newtonsoft.Json.Formatting.None), url);
+
 
             return true;
         }

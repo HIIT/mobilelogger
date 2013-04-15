@@ -61,15 +61,16 @@ namespace MobileLoggerApp
         public void HandleRequestError(Exception exception)
         {
             System.Diagnostics.Debug.WriteLine("{0}, {1} exception at GoogleCustomSearch.GetResponseCallback", exception.Message, exception.StackTrace);
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            SystemTray.ProgressIndicator.IsVisible = false;
+            if (this.searchPageNumber > 1)
             {
-                if (this.searchPageNumber > 1)
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     //Opens web browser with bing search for the textbox contents as the search term, used as a backup when the Google search fails.
                     OpenBrowser(String.Format("http://www.bing.com/search?q={0}", searchQuery));
-                }
-            });
-            SystemTray.ProgressIndicator.IsVisible = false;
+                });
+            }
+            
         }
 
         /// <summary>

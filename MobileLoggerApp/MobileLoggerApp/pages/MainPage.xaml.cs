@@ -230,7 +230,6 @@ namespace MobileLoggerApp
 
         private void debugButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();
         }
 

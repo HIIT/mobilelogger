@@ -36,7 +36,6 @@ namespace MobileLoggerApp.Handlers
             if (json.ToString(Newtonsoft.Json.Formatting.None).Length <= 4000)
                 LogEventSaver.Instance.addEvent(json.ToString(Newtonsoft.Json.Formatting.None), url);
 
-
             return true;
         }
 

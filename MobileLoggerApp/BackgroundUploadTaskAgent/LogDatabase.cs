@@ -11,14 +11,14 @@ namespace MobileLoggerScheduledAgent.Database
     [Table(Name = "LogEvents")]
     public class LogEvent
     {
-        
+
 
         private int _eventId;
         private Double _time;
         private String _relativeUrl;
 
         private String json;
-        
+
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)] //, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
         public int EventId
@@ -51,7 +51,7 @@ namespace MobileLoggerScheduledAgent.Database
                 }
             }
         }
-        
+
         [Column]
         public String sensorEvent
         {
@@ -67,7 +67,7 @@ namespace MobileLoggerScheduledAgent.Database
                 }
             }
         }
-        [Column(CanBeNull=false)] 
+        [Column(CanBeNull = false)]
         public String relativeUrl
         {
             get
@@ -97,7 +97,7 @@ namespace MobileLoggerScheduledAgent.Database
         public LogEventDataContext(string connectionString)
             : base(connectionString)
         {
-            
+
         }
 
         public Table<LogEvent> LogEvents
@@ -109,22 +109,22 @@ namespace MobileLoggerScheduledAgent.Database
         }
 
         public void DeleteLogEvent(int id)
-    	{
+        {
             //LogEventDataContext context;
             using (LogEventDataContext context = new LogEventDataContext(ConnectionString))
-        	{
-            IQueryable<LogEvent> query =
-                        from le in context.LogEvents
-                        where le.EventId == id
-                        select le;
-             
+            {
+                IQueryable<LogEvent> query =
+                            from le in context.LogEvents
+                            where le.EventId == id
+                            select le;
+
                 LogEvent leToDelete = query.FirstOrDefault();
-               
+
                 //context.LogEvents.Attach(leToDelete);
                 context.LogEvents.DeleteOnSubmit(leToDelete);
                 context.SubmitChanges();
-        	}
-    	}
+            }
+        }
 
         public void addEvents(IList<LogEvent> events)
         {
@@ -160,8 +160,10 @@ namespace MobileLoggerScheduledAgent.Database
                 {
                     // save changes to the database
                     context.SubmitChanges();
-                } catch (System.SystemException e) {
-                    System.Diagnostics.Debug.WriteLine("SQLException"+e);
+                }
+                catch (System.SystemException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("SQLException" + e);
                 }
             }
         }
@@ -178,8 +180,9 @@ namespace MobileLoggerScheduledAgent.Database
                 {
                     logEventList = query.ToList();
                 }
-                catch (Exception e) {
-                    System.Diagnostics.Debug.WriteLine("At LogDatabase: "+e.Message);
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("At LogDatabase: " + e.Message);
                 }
             }
             return logEventList;

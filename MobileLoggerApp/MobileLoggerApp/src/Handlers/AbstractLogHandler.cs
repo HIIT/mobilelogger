@@ -1,6 +1,6 @@
 ﻿using MobileLoggerScheduledAgent.Devicetools;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 
 namespace MobileLoggerApp.Handlers

@@ -113,6 +113,8 @@ namespace MobileLoggerApp.Handlers
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine(e.SocketError.ToString(), "Error Getting Interface Information");
+
                 AddJOValue("InterfaceBandwidth", null);
                 AddJOValue("InterfaceCharacteristics", null);
                 AddJOValue("InterfaceDescription", null);
@@ -126,7 +128,10 @@ namespace MobileLoggerApp.Handlers
 
         public static void NetworkNotAvailableMessageBox()
         {
-            MessageBox.Show("Network is not available.");
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show("Network is not available.");
+            });
         }
     }
 }

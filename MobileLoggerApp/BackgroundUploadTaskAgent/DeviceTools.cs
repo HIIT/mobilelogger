@@ -7,6 +7,9 @@ namespace MobileLoggerScheduledAgent.Devicetools
     {
         public static readonly String googleApiKey = "AIzaSyDC_Y2CPa_zvLfgd09pLPoyd02hhvyaN8c";
         public static readonly String worldWeatherOnlineApiKey = "3fe65adx4nrftj3tmarr5xuh";
+        public static readonly int deviceLocalDBStringMaxLength = 4000;
+        public static readonly int SHA1Length = 40 + "\"checksum\": ".Length;
+        public static readonly int deviceIdLength = GetDeviceId().Length + "phoneId: ".Length;
 
         /// <summary>
         /// Gets the Device Unique ID of the phone
@@ -82,15 +85,6 @@ namespace MobileLoggerScheduledAgent.Devicetools
 
                 return hash;
             }
-        }
-
-        /// <summary>
-        /// Gets the local DB string maximum length of the phone
-        /// </summary>
-        /// <returns>length</returns>
-        public static int GetDeviceLocalDBStringMaxLength()
-        {
-            return 4000;
         }
     }
 }

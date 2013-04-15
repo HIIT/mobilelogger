@@ -8,7 +8,7 @@ namespace MobileLoggerApp.Handlers
     {
         private static string URL = "/log/google";
         string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
-        int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
+        int searchResultMaxLength = DeviceTools.deviceLocalDBStringMaxLength - DeviceTools.deviceIdLength - DeviceTools.SHA1Length;
 
         public SearchDataHandler()
         {
@@ -84,7 +84,7 @@ namespace MobileLoggerApp.Handlers
         {
             int removableItemIndex = 0;
 
-            while (resultObj.ToString().Length > localDBStringMaxLength)
+            while (resultObj.ToString().Length > searchResultMaxLength)
             {
                 resultObj.Remove(searchResultRemovableItems[removableItemIndex]);
                 if (removableItemIndex < searchResultRemovableItems.Length)

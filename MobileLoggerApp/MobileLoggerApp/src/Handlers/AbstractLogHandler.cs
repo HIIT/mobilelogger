@@ -9,7 +9,7 @@ namespace MobileLoggerApp.Handlers
         private LogEventSaver saver = LogEventSaver.Instance;
 
         protected JObject data = new JObject();
-        public bool IsEnabled{get; set;}
+        public bool IsEnabled { get; set; }
 
         /// <summary>
         /// This method needs to save the timestamp of current time also
@@ -33,7 +33,8 @@ namespace MobileLoggerApp.Handlers
                 logEvent.Remove("checksum");
             logEvent.Add("checksum", DeviceTools.CalculateSHA1(logEvent.ToString()));
 
-            saver.addEvent(new JObject(logEvent), url);
+            if (logEvent.ToString().Length <= 4000)
+                saver.addEvent(new JObject(logEvent), url);
 
             return true;
         }

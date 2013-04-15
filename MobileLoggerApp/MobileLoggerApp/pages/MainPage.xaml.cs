@@ -36,6 +36,7 @@ namespace MobileLoggerApp
         public MainPage()
         {
             InitializeComponent();
+
             //start background agent
             StartAgent();
             using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))

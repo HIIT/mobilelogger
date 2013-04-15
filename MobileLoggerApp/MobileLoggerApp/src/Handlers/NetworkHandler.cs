@@ -3,6 +3,7 @@ using MobileLoggerScheduledAgent.Devicetools;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Windows;
 
 namespace MobileLoggerApp.Handlers
 {
@@ -55,6 +56,13 @@ namespace MobileLoggerApp.Handlers
                 UpdateCellularMobileOperator();
                 NetworkInterfaceInformation();
             }
+            else
+                NetworkNotAvailableMessageBox();
+        }
+
+        private void NetworkNotAvailableMessageBox()
+        {
+            MessageBox.Show("Network is not available.");
         }
 
         private void UpdateCellularMobileOperator()

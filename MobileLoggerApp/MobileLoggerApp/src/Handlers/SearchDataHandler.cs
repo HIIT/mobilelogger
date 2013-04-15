@@ -84,7 +84,7 @@ namespace MobileLoggerApp.Handlers
         {
             int removableItemIndex = 0;
 
-            while (resultObj.ToString().Length > searchResultMaxLength)
+            while (resultObj.ToString(Newtonsoft.Json.Formatting.None).Length > searchResultMaxLength)
             {
                 resultObj.Remove(searchResultRemovableItems[removableItemIndex]);
                 if (removableItemIndex < searchResultRemovableItems.Length)

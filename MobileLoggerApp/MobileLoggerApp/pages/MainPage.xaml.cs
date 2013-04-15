@@ -36,6 +36,7 @@ namespace MobileLoggerApp
         public MainPage()
         {
             InitializeComponent();
+
             //start background agent
             StartAgent();
             using (LogEventDataContext logDBContext = new LogEventDataContext(ConnectionString))
@@ -229,7 +230,6 @@ namespace MobileLoggerApp
 
         private void debugButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Debug send data");
             StartAgent();
         }
 

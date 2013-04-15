@@ -3,10 +3,13 @@ package cs.wintoosa.controller.interceptor;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import cs.wintoosa.service.ChecksumChecker;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -17,7 +20,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
     private static final Logger logger = Logger.getLogger(ValidationInterceptor.class .getName()); 
-    
     public ValidationInterceptor() {
         super();
     }
@@ -25,15 +27,18 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         
+        //make a wrapper so we don't exhaust the inputstream before it reaches the controller
+        HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request); 
+        
         boolean isOk = super.preHandle(request, response, handler);
-        if(request == null)
+        if(requestWrapper == null)
             return false;
-        if(!request.getMethod().equalsIgnoreCase("PUT"))
+        if(!requestWrapper.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
         
-        JsonObject json = convertToJsonObject(request);
+        JsonObject json = convertToJsonObject(requestWrapper);
        
-        if(!isValid(convertToJsonObject(request))) {
+        if(!isValid(json)) {
             response.getWriter().write("json validation failed");
             if(json != null)
                 logger.info("JSON:\n" + json.toString());
@@ -48,7 +53,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         }
         byte[] buffer = new byte[request.getContentLength()];
         request.getInputStream().read(buffer, 0, request.getContentLength());
-        String data = new String(buffer);
+        String data = new String(buffer, "UTF-8");
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(data).getAsJsonObject();
         return json;

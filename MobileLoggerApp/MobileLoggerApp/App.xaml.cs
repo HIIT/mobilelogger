@@ -87,6 +87,8 @@ namespace MobileLoggerApp
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            if (sessionHandler == null)
+                sessionHandler = new SessionHandler();
             sessionHandler.Start();
         }
 

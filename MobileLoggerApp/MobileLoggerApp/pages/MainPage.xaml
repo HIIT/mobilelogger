@@ -63,7 +63,6 @@
             <controls:PivotItem Header="Search" Margin="12,0">
                 <!--Double line list with text wrapping-->
                 <Grid>
-
                     <StackPanel Margin="0,0,0,557">
                         <TextBox x:Name="SearchTextBox" Text="" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyUp="SearchTextBox_KeyUp"></TextBox>
                     </StackPanel>
@@ -78,7 +77,6 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-
                 </Grid>
             </controls:PivotItem>
 
@@ -112,7 +110,7 @@
                 <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding Settings}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel>
                                 <CheckBox x:Name="HandlerCheckBox" Content="{Binding LineOne}" IsChecked="{Binding IsChecked}"
                                           Checked="HandlerCheckBox_Checked" Unchecked="HandlerCheckBox_Unchecked" HorizontalAlignment="Right" />
                             </StackPanel>

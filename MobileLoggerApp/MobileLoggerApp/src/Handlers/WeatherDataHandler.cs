@@ -22,7 +22,6 @@ namespace MobileLoggerApp.Handlers
 
         public override void StopWatcher()
         {
-            WeatherInformationSearch.weatherDataEvent -= new WeatherInformationSearch.WeatherDataHandler(WeatherData);
             WeatherInformationSearch.weatherDataEvent -= WeatherData;
         }
 

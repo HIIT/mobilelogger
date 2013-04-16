@@ -27,7 +27,6 @@ namespace MobileLoggerApp.Handlers
 
         public override void StopWatcher()
         {
-            DeviceNetworkInformation.NetworkAvailabilityChanged -= new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
             DeviceNetworkInformation.NetworkAvailabilityChanged -= NetWorkAvailibilityChanged;
         }
 

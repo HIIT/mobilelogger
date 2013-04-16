@@ -24,7 +24,6 @@ namespace MobileLoggerApp.Handlers
 
         public override void StopWatcher()
         {
-            MobileLoggerApp.MainPage.keyUp -= new MobileLoggerApp.MainPage.KeyPressEventHandler(SearchTextBox_KeyUp);
             MobileLoggerApp.MainPage.keyUp -= SearchTextBox_KeyUp;
         }
 

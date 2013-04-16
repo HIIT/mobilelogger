@@ -25,9 +25,7 @@ namespace MobileLoggerApp.Handlers
 
         public override void StopWatcher()
         {
-            MobileLoggerApp.MainPage.keyboardGotFocus -= new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardGotFocus);
             MobileLoggerApp.MainPage.keyboardGotFocus -= KeyboardGotFocus;
-            MobileLoggerApp.MainPage.keyboardLostFocus -= new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardLostFocus);
             MobileLoggerApp.MainPage.keyboardLostFocus -= KeyboardLostFocus;
         }
 

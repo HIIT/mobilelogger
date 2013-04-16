@@ -22,7 +22,6 @@ namespace MobileLoggerApp.Handlers
 
         public override void StopWatcher()
         {
-            MobileLoggerApp.MainPage.screenTouch -= new MobileLoggerApp.MainPage.TouchEventHandler(Touch_FrameReported);
             MobileLoggerApp.MainPage.screenTouch -= Touch_FrameReported;
         }
 

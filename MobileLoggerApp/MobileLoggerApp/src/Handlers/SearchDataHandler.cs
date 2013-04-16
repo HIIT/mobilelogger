@@ -12,7 +12,6 @@ namespace MobileLoggerApp.Handlers
 
         public SearchDataHandler()
         {
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()

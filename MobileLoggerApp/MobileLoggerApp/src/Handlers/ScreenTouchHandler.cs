@@ -7,7 +7,6 @@ namespace MobileLoggerApp.Handlers
     {
         public ScreenTouchHandler()
         {
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()

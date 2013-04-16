@@ -15,7 +15,7 @@ namespace MobileLoggerApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+        public static IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
 
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
@@ -73,9 +73,11 @@ namespace MobileLoggerApp
             if (!appSettings.Contains("FirstRun"))
             {
                 appSettings.Add("FirstRun", (bool)true);
+
                 MessageBox.Show("This app will collect personal data, including location and other sensor data for research purposes. " +
                 "To use this application, you need to give permission to access and share your personal data. You can later decide, what kind of data this application is able to collect. " +
-                "Press OK to continue, press back to close.");
+                "Press OK to continue.",
+                "Personal data", MessageBoxButton.OK);
             }
             else
             {
@@ -267,9 +269,6 @@ namespace MobileLoggerApp
                 App.ViewModel.LoadLogData();
             }
 #endif
-        }
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
         }
     }
 }

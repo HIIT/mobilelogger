@@ -40,7 +40,7 @@ namespace MobileLoggerApp
         public MainPage()
         {
             InitializeComponent();
-            InitializeSettings();
+            InitializeAppSettings();
 
             //start background agent
             StartAgent();
@@ -64,18 +64,21 @@ namespace MobileLoggerApp
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
-            string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App") select manifest).SingleOrDefault().Attribute("Version").Value;
+            string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App")
+                                 select manifest).SingleOrDefault().Attribute("Version").Value;
+
             VersionInfo.Text = "Version: " + appVersion;
         }
 
-        private void InitializeSettings()
+        private void InitializeAppSettings()
         {
             if (!appSettings.Contains("FirstRun"))
             {
                 appSettings.Add("FirstRun", (bool)true);
 
                 MessageBox.Show("This app will collect personal data, including location and other sensor data for research purposes. " +
-                "To use this application, you need to give permission to access and share your personal data. You can later decide, what kind of data this application is able to collect. " +
+                "To use this application, you need to give permission to access and share your personal data. " +
+                "You can later decide, what kind of data this application is able to collect. " +
                 "Press OK to continue.",
                 "Personal data", MessageBoxButton.OK);
             }

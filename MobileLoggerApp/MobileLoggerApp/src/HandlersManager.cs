@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using MobileLoggerApp.Handlers;
+using System.Collections.Generic;
 
-namespace MobileLoggerApp.Handlers
+namespace MobileLoggerApp
 {
     class HandlersManager
     {

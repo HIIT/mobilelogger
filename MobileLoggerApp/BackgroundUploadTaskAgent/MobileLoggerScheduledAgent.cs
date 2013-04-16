@@ -19,7 +19,6 @@ namespace MobileLoggerScheduledAgent
         /// </remarks>
         public ScheduledAgent()
         {
-            System.Diagnostics.Debug.WriteLine("Initializing background task agent");
             if (!_classInitialized)
             {
                 _classInitialized = true;
@@ -69,7 +68,6 @@ namespace MobileLoggerScheduledAgent
                     return;
                 }
                 List<LogEvent> events = logDb.GetLogEvents();
-                System.Diagnostics.Debug.WriteLine("Sending " + events.Count + " events");
                 foreach (LogEvent e in events)
                 {
                     SendMessage(e);
@@ -98,7 +96,6 @@ namespace MobileLoggerScheduledAgent
             // End the operation
             Stream putStream = request.EndGetRequestStream(asynchronousResult);
             
-            //Console.WriteLine("Please enter the input data to be posted:");
             string putData = logevent.sensorEvent;
             // Convert the string into a byte array. 
             byte[] byteArray = Encoding.UTF8.GetBytes(putData);
@@ -127,8 +124,6 @@ namespace MobileLoggerScheduledAgent
                 Stream streamResponse = finalresponse.GetResponseStream();
                 StreamReader streamRead = new StreamReader(streamResponse);
                 string responseString = streamRead.ReadToEnd();
-
-                System.Diagnostics.Debug.WriteLine(responseString);
 
                 if (responseString.Equals("true"))
                     deleteFromDB(logevent);

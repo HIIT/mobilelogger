@@ -68,8 +68,11 @@ namespace MobileLoggerApp.Handlers
 
             if (logHandler != null)
             {
-                logHandler.IsEnabled = true;
-                logHandler.StartWatcher();
+                if (!logHandler.IsEnabled)
+                {
+                    logHandler.IsEnabled = true;
+                    logHandler.StartWatcher();
+                }
             }
         }
 
@@ -80,8 +83,11 @@ namespace MobileLoggerApp.Handlers
 
             if (logHandler != null)
             {
-                logHandler.IsEnabled = false;
-                logHandler.StopWatcher();
+                if (logHandler.IsEnabled)
+                {
+                    logHandler.IsEnabled = false;
+                    logHandler.StopWatcher();
+                }
             }
         }
     }

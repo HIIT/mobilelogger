@@ -1,4 +1,5 @@
 ﻿using MobileLoggerScheduledAgent.Devicetools;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -6,8 +7,6 @@ namespace MobileLoggerApp.Handlers
 {
     public abstract class AbstractLogHandler
     {
-        //private LogEventSaver saver = LogEventSaver.Instance;
-
         protected JObject data = new JObject();
         public bool IsEnabled { get; set; }
 
@@ -18,24 +17,23 @@ namespace MobileLoggerApp.Handlers
         public abstract void StartWatcher();
         public abstract void StopWatcher();
 
-        protected Boolean SaveLogToDB(JObject json, string url)
+        protected Boolean SaveLogToDB(JObject jsonLog, string url)
         {
             if (!IsEnabled)
                 return true;
 
-            if (json == null)
+            if (jsonLog == null)
                 return false;
 
-            if (json["phoneId"] == null)
-                json.Add("phoneId", DeviceTools.GetDeviceId());
+            if (jsonLog["phoneId"] == null)
+                jsonLog.Add("phoneId", DeviceTools.GetDeviceId());
 
-            if (json["checksum"] != null)
-                json.Remove("checksum");
-            json.Add("checksum", DeviceTools.CalculateSHA1(json.ToString(Newtonsoft.Json.Formatting.None)));
+            if (jsonLog["checksum"] != null)
+                jsonLog.Remove("checksum");
+            jsonLog.Add("checksum", DeviceTools.CalculateSHA1(jsonLog.ToString(Formatting.None)));
 
-            if (json.ToString(Newtonsoft.Json.Formatting.None).Length <= 4000)
-                LogEventSaver.Instance.addEvent(json.ToString(Newtonsoft.Json.Formatting.None), url);
-
+            if (jsonLog.ToString(Formatting.None).Length <= 4000)
+                LogEventSaver.Instance.addEvent(jsonLog.ToString(Formatting.None), url);
 
             return true;
         }

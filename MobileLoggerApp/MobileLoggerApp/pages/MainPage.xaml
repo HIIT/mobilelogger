@@ -57,10 +57,10 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
 
-        <controls:Pivot Title="MobileLogger" SelectionChanged="currentPivotItem">
+        <controls:Pivot Title="MobileLogger" SelectionChanged="currentPivotItem" >
 
             <!--Search Pivot item-->
-            <controls:PivotItem Header="Search" Margin="12,0">
+            <controls:PivotItem Header="Search" Margin="12,0" >
                 <!--Double line list with text wrapping-->
                 <Grid>
                     <StackPanel Margin="0,0,0,557">
@@ -106,7 +106,7 @@
             </controls:PivotItem>
 
             <!--Settings Pivot item-->
-            <controls:PivotItem Header="Settings">
+            <controls:PivotItem Header="Settings" >
                 <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding Settings}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -120,11 +120,12 @@
             </controls:PivotItem>
 
             <!--Info Pivot item-->
-            <controls:PivotItem Header="Info">
+            <controls:PivotItem Header="Info">                
                 <Grid>
                     <TextBlock x:Name="VersionInfo" Text="{Binding LineOne}" Margin="0,0,0,17"/>
                     <TextBlock x:Name="CustomerSupport" Text="{Binding LineOne}" Margin="0,0,0,17"/>
                     <TextBlock x:Name="PrivacyPolicy" Text="{Binding LineOne}" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="SupportedLanguages" Text="{Binding LineOne}" Margin="0,0,0,17"/>
                     <HyperlinkButton Content="Privacy Policy" NavigateUri="http://google.com" Margin="0,0,0,17" />
                 </Grid>
             </controls:PivotItem>

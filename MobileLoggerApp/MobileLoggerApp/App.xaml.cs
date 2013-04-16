@@ -54,7 +54,7 @@ namespace MobileLoggerApp
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // Display the current frame rate counters.
-                Application.Current.Host.Settings.EnableFrameRateCounter = true;
+                Application.Current.Host.Settings.EnableFrameRateCounter = false;
 
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
@@ -128,6 +128,7 @@ namespace MobileLoggerApp
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
+            MessageBox.Show("An unhandled exception has occurred. Message: " + e.ToString() + " Application will now close.");
         }
         #region Phone application initialization
 

@@ -268,5 +268,8 @@ namespace MobileLoggerApp
             }
 #endif
         }
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+        }
     }
 }

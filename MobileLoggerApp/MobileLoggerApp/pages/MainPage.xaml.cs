@@ -5,6 +5,8 @@ using MobileLoggerApp.pages;
 using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
 using System;
+using System.IO.IsolatedStorage;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +15,8 @@ namespace MobileLoggerApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
         public delegate void TouchEventHandler(MainPage mainPage, TouchFrameEventArgs e);
@@ -36,6 +40,7 @@ namespace MobileLoggerApp
         public MainPage()
         {
             InitializeComponent();
+            InitializeSettings();
 
             //start background agent
             StartAgent();
@@ -58,6 +63,24 @@ namespace MobileLoggerApp
             // Set the data context of the listbox control to the data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
+            string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App") select manifest).SingleOrDefault().Attribute("Version").Value;
+            VersionInfo.Text = "Version: " + appVersion;
+        }
+
+        private void InitializeSettings()
+        {
+            if (!appSettings.Contains("FirstRun"))
+            {
+                appSettings.Add("FirstRun", (bool)true);
+                MessageBox.Show("This app will collect personal data, including location and other sensor data for research purposes. " +
+                "To use this application, you need to give permission to access and share your personal data. You can later decide, what kind of data this application is able to collect. " +
+                "Press OK to continue, press back to close.");
+            }
+            else
+            {
+                appSettings["FirstRun"] = (bool)false;
+            }
         }
 
         private void StartAgent()
@@ -244,6 +267,9 @@ namespace MobileLoggerApp
                 App.ViewModel.LoadLogData();
             }
 #endif
+        }
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
         }
     }
 }

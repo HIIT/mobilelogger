@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MobileLoggerApp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MobileLogger")]
+[assembly: AssemblyDescription("This app was created to gather research data for HIIT institute.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MobileLoggerApp")]
+[assembly: AssemblyCompany("Helsinki Institute for Information Technology HIIT")]
+[assembly: AssemblyProduct("MobileLogger")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -11,7 +11,6 @@ namespace MobileLoggerApp.Handlers
         public CompassHandler()
         {
             this.compassWatcher = new Compass();
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()

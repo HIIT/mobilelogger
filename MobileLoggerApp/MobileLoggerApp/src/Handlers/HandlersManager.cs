@@ -47,18 +47,33 @@ namespace MobileLoggerApp.Handlers
         public void StartEnabledHandlers()
         {
             AbstractLogHandler logHandler;
+            string logHandlerName;
+
             foreach (KeyValuePair<string, AbstractLogHandler> lh in logHandlers)
             {
                 logHandler = lh.Value;
+                logHandlerName = lh.Key;
+
+                logHandler.IsEnabled = GetIsLogHandlerEnabled(logHandlerName);
+
                 if (logHandler.IsEnabled)
                     logHandler.StartWatcher();
             }
         }
 
-        public static void SaveSensorLog()
+        public bool GetIsLogHandlerEnabled(string logHandlerName)
         {
-            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in logHandlers)
-                logHandler.Value.SaveSensorLog();
+            bool isLogHandlerEnabled = true;
+
+            if (!MainPage.appSettings.Contains(logHandlerName))
+            {
+                MainPage.appSettings.Add(logHandlerName, isLogHandlerEnabled);
+            }
+            else
+            {
+                MainPage.appSettings.TryGetValue(logHandlerName, out isLogHandlerEnabled);
+            }
+            return isLogHandlerEnabled;
         }
 
         public static void EnableHandler(string handlerName)
@@ -71,6 +86,7 @@ namespace MobileLoggerApp.Handlers
                 if (!logHandler.IsEnabled)
                 {
                     logHandler.IsEnabled = true;
+                    MainPage.appSettings[handlerName] = logHandler.IsEnabled;
                     logHandler.StartWatcher();
                 }
             }
@@ -86,9 +102,16 @@ namespace MobileLoggerApp.Handlers
                 if (logHandler.IsEnabled)
                 {
                     logHandler.IsEnabled = false;
+                    MainPage.appSettings[handlerName] = logHandler.IsEnabled;
                     logHandler.StopWatcher();
                 }
             }
+        }
+
+        public static void SaveSensorLog()
+        {
+            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in logHandlers)
+                logHandler.Value.SaveSensorLog();
         }
     }
 }

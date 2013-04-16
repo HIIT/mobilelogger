@@ -9,7 +9,6 @@ namespace MobileLoggerApp.Handlers
 
         public KeyboardHandler()
         {
-            this.IsEnabled = true;
         }
         
         public override void SaveSensorLog()

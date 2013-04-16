@@ -11,7 +11,6 @@ namespace MobileLoggerApp.Handlers
         public GyroHandler()
         {
             this.gyroWatcher = new Gyroscope();
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()

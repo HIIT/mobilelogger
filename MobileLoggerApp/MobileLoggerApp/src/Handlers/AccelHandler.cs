@@ -11,7 +11,6 @@ namespace MobileLoggerApp.Handlers
         public AccelHandler()
         {
             this.accelerometerWatcher = new Accelerometer();
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()

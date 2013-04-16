@@ -11,7 +11,6 @@ namespace MobileLoggerApp.Handlers
     {
         public NetworkHandler()
         {
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()

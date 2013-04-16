@@ -25,14 +25,15 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     }
     
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        
+        boolean isOk = super.preHandle(request, response, handler);
+        if(request == null)
+            return false;
         
         //make a wrapper so we don't exhaust the inputstream before it reaches the controller
         HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request); 
         
-        boolean isOk = super.preHandle(request, response, handler);
-        if(requestWrapper == null)
-            return false;
         if(!requestWrapper.getMethod().equalsIgnoreCase("PUT"))
             return isOk; //only handle PUTs
         
@@ -51,11 +52,18 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         if(request.getContentLength() == -1) {
             return null;
         }
-        byte[] buffer = new byte[request.getContentLength()];
-        request.getInputStream().read(buffer, 0, request.getContentLength());
-        String data = new String(buffer, "UTF-8");
+        char[] buffer = new char[request.getContentLength()];
+        
+        InputStreamReader reader = new InputStreamReader(request.getInputStream(), "UTF-8");
+        reader.read(buffer);
+        //request.getInputStream().read(buffer, 0, request.getContentLength());
+        //String data = new String(buffer, "UTF-8");
+        String data = String.copyValueOf(buffer);
+        logger.info("str data " + data);
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(data).getAsJsonObject();
+        logger.info("json tostring " + json.toString());
+        reader.close();
         return json;
     }
     

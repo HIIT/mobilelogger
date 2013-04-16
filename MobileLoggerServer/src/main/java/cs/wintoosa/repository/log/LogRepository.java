@@ -22,4 +22,6 @@ public interface LogRepository extends JpaRepository<Log, Long>, LogRepositoryCu
             @Param("phoneId")String phoneId,
             @Param("sessionStart")Long sessionStart, 
             @Param("sessionEnd")Long sessionEnd);
+    
+    public List<Log> findBySessionLog(SessionLog session);
 }

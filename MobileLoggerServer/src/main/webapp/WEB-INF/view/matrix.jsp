@@ -14,6 +14,7 @@
     </head>
     <body>
         <h1>Logs in session ${session.sessionId} of phone ${session.phone}</h1>
+        <a href="<c:url value="/log/session/${session.sessionId}"/>">View Json</a>
         <table border ="1">
             <tr>
                 <th>Data Attribute</th>

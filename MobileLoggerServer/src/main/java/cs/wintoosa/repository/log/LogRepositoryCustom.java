@@ -14,4 +14,6 @@ public interface LogRepositoryCustom {
     public <T extends Log> List<T> findBySessionLog(Class<T> cls, SessionLog session) throws IllegalArgumentException;
     
     public <T extends Log> List<T> findAll(Class<T> cls) throws IllegalArgumentException;
+    
+
 }

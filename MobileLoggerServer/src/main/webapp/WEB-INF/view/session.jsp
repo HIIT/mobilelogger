@@ -18,7 +18,7 @@
         <ol>
             <c:forEach var="session" items="${sessions}">
                 <li>
-                    <a href="<c:url value="/log/session/${session.id}"/>">${session.id}</a>
+                    <a href="<c:url value="/log/session/${session.id}/matrix"/>">${session.id}</a>
                 </li>
             </c:forEach>
                 

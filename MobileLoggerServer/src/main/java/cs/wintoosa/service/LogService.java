@@ -68,6 +68,7 @@ public class LogService implements ILogService {
     public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session) {
         return logRepositoryImpl.findBySessionLog(cls, session);
     }
+    
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll() {
@@ -134,5 +135,11 @@ public class LogService implements ILogService {
     public List<Phone> getAllPhones() {
 
         return phoneRepositoryImpl.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Log> getAllBySessionId(SessionLog session) {
+        return logRepositoryImpl.findBySessionLog(session);
     }
 }

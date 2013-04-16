@@ -21,6 +21,8 @@ public interface ILogService {
     
     public List<Log> getAll(Class cls);
     public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session);
+    
+    public List<Log> getAllBySessionId(SessionLog session);
 
     public SessionLog getSessionById(long sessionId);
 

@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.service.ILogService;
 import cs.wintoosa.service.ISessionService;
@@ -53,7 +54,14 @@ public class SessionController {
     }
     
     @RequestMapping(value = "/{sessionId}", method = RequestMethod.GET)
-    public String getLogsBySession(@PathVariable long sessionId, Model model) {
+    @ResponseBody
+    public List<Log> getLogsBySession(@PathVariable long sessionId, Model model) {
+        System.out.println("getting logs in session");
+        return logService.getAllBySessionId(logService.getSessionById(sessionId));
+    }
+    
+    @RequestMapping(value = "/{sessionId}/matrix", method = RequestMethod.GET)
+    public String getLogsBySessionMatrix(@PathVariable long sessionId, Model model) {
         System.out.println("getting logs in session");
         model.addAttribute("session", sessionService.formatForJsp(logService.getSessionById(sessionId)));
         return "matrix";

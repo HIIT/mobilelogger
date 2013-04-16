@@ -16,6 +16,7 @@ namespace MobileLoggerApp.pages
             this.Items = new ObservableCollection<ItemViewModel>();
             this.LogData = new ObservableCollection<ItemViewModel>();
             this.Settings = new ObservableCollection<ItemViewModel>();
+            this.Info = new ObservableCollection<ItemViewModel>();
         }
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace MobileLoggerApp.pages
         public ObservableCollection<ItemViewModel> Items { get; private set; }
         public ObservableCollection<ItemViewModel> LogData { get; private set; }
         public ObservableCollection<ItemViewModel> Settings { get; private set; }
+        public ObservableCollection<ItemViewModel> Info { get; private set; }
 
         public bool IsLogDataLoaded
         {
@@ -90,6 +92,10 @@ namespace MobileLoggerApp.pages
                 Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
 
             this.IsSettingsLoaded = true;
+        }
+
+        public void LoadAppInfo()
+        {
         }
 
         public void LoadSearchResults(JArray searchResults, Boolean newSearch)

@@ -22,10 +22,10 @@ namespace MobileLoggerApp.pages
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<ItemViewModel> Items { get; private set; }
-        public ObservableCollection<ItemViewModel> LogData { get; private set; }
-        public ObservableCollection<ItemViewModel> Settings { get; private set; }
-        public ObservableCollection<ItemViewModel> Info { get; private set; }
+        public ObservableCollection<ItemViewModel> Items { get; set; }
+        public ObservableCollection<ItemViewModel> LogData { get; set; }
+        public ObservableCollection<ItemViewModel> Settings { get; set; }
+        public ObservableCollection<ItemViewModel> Info { get; set; }
 
         public bool IsLogDataLoaded
         {
@@ -88,10 +88,13 @@ namespace MobileLoggerApp.pages
 
         public void LoadSettings()
         {
-            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.logHandlers)
-                Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
+            if (HandlersManager.logHandlers != null)
+            {
+                foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.logHandlers)
+                    Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
 
-            this.IsSettingsLoaded = true;
+                this.IsSettingsLoaded = true;
+            }
         }
 
         public void LoadAppInfo()

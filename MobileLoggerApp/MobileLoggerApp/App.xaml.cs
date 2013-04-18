@@ -11,6 +11,7 @@ namespace MobileLoggerApp
     {
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
+        HandlersManager handlers;
 
         private static MainViewModel viewModel = null;
 
@@ -79,17 +80,22 @@ namespace MobileLoggerApp
             sessionHandler = new SessionHandler();
             sessionHandler.Start();
 
-            HandlersManager handlers = new HandlersManager();
+            handlers = new HandlersManager();
             handlers.InitHandlers();
             handlers.StartEnabledHandlers();
 
-            App.ViewModel.LoadAppInfo();
+            ViewModel.LoadAppInfo();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            if (e.IsApplicationInstancePreserved)
+            {
+                return;
+            }
+
             sessionHandler = new SessionHandler();
             sessionHandler.Start();
         }

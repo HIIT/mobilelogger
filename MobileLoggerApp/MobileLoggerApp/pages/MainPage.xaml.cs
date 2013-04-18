@@ -293,7 +293,7 @@ namespace MobileLoggerApp
                 {
                     if (State.Count > 0)
                     {
-                        _viewModel = (MainViewModel)State["ViewModel"];
+                        _viewModel = State["ViewModel"] as MainViewModel;
                     }
                     else
                     {

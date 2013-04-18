@@ -23,12 +23,15 @@ namespace MobileLoggerApp.Handlers
 
         public override void StartWatcher()
         {
-            coordinateWatcher.MovementThreshold = 20;
+            if (coordinateWatcher.Permission != GeoPositionPermission.Denied)
+            {
+                coordinateWatcher.MovementThreshold = 20;
 
-            coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
-            coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);
-            coordinateWatcher.Start();
-            this.IsEnabled = true;
+                coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
+                coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);
+                coordinateWatcher.Start();
+                this.IsEnabled = true;
+            }
         }
 
         public override void StopWatcher()

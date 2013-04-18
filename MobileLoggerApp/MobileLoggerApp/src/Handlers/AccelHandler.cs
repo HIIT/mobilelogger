@@ -20,10 +20,13 @@ namespace MobileLoggerApp.Handlers
 
         public override void StartWatcher()
         {
-            this.accelerometerWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-            this.accelerometerWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
-            this.accelerometerWatcher.Start();
-            this.IsEnabled = true;
+            if (Accelerometer.IsSupported)
+            {
+                this.accelerometerWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                this.accelerometerWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
+                this.accelerometerWatcher.Start();
+                this.IsEnabled = true;
+            }
         }
 
         public override void StopWatcher()

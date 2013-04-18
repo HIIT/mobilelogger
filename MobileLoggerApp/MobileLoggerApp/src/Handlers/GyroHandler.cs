@@ -22,10 +22,13 @@ namespace MobileLoggerApp.Handlers
         {
             if (Microsoft.Devices.Environment.DeviceType != Microsoft.Devices.DeviceType.Emulator)
             {
-                this.gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                this.gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
-                this.gyroWatcher.Start();
-                this.IsEnabled = true;
+                if (Gyroscope.IsSupported)
+                {
+                    this.gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                    this.gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
+                    this.gyroWatcher.Start();
+                    this.IsEnabled = true;
+                }
             }
         }
 

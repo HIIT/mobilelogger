@@ -86,11 +86,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\MainPage.xaml.cs">
+    <Compile Include="pages\View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\ViewModels\LogData.cs" />
-    <Compile Include="pages\ViewModels\Settings.cs" />
+    <Compile Include="pages\Model\LogData.cs" />
+    <Compile Include="pages\Model\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\GoogleCustomSearch.cs" />
     <Compile Include="src\Handlers\AbstractLogHandler.cs" />
@@ -110,8 +110,8 @@
     <Compile Include="src\HttpRequestable.cs" />
     <Compile Include="src\LogEventSaver.cs" />
     <Compile Include="src\PageLocations.cs" />
-    <Compile Include="pages\ViewModels\SearchResults.cs" />
-    <Compile Include="pages\ViewModels\MainViewModel.cs" />
+    <Compile Include="pages\Model\SearchResults.cs" />
+    <Compile Include="pages\ViewModel\MainViewModel.cs" />
     <Compile Include="src\WeatherInformationSearch.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -119,7 +119,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="pages\MainPage.xaml">
+    <Page Include="pages\View\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

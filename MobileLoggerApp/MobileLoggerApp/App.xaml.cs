@@ -1,6 +1,7 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MobileLoggerApp.Handlers;
+using MobileLoggerApp.pages;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -11,20 +12,20 @@ namespace MobileLoggerApp
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
 
-        private static pages.MainViewModel viewModel = null;
+        private static MainViewModel viewModel = null;
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.
         /// </summary>
         /// <returns>The MainViewModel object.</returns>
-        public static pages.MainViewModel ViewModel
+        public static MainViewModel ViewModel
         {
             get
             {
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
                 {
-                    viewModel = new pages.MainViewModel();
+                    viewModel = new MainViewModel();
                 }
                 return viewModel;
             }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
-using MobileLoggerApp.Handlers;
 using MobileLoggerApp.pages;
 using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
@@ -10,12 +9,16 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace MobileLoggerApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
         public static IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+
+        MainViewModel _viewModel;
+        bool _isNewPageInstance = false;
 
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
@@ -41,6 +44,8 @@ namespace MobileLoggerApp
         {
             InitializeComponent();
             InitializeAppSettings();
+
+            _isNewPageInstance = true;
 
             //start background agent
             StartAgent();
@@ -272,6 +277,32 @@ namespace MobileLoggerApp
                 App.ViewModel.LoadLogData();
             }
 #endif
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+                State["ViewModel"] = _viewModel;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (_isNewPageInstance)
+            {
+                if (_viewModel == null)
+                {
+                    if (State.Count > 0)
+                    {
+                        _viewModel = (MainViewModel)State["ViewModel"];
+                    }
+                    else
+                    {
+                        _viewModel = App.ViewModel;
+                    }
+                }
+                DataContext = _viewModel;
+            }
+            _isNewPageInstance = false;
         }
     }
 }

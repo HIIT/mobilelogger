@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.ComponentModel;
 
 namespace MobileLoggerApp.pages
 {

@@ -70,9 +70,9 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432" Height="auto" Tap="searchResultItemTappedEvent">
-                                    <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" />
-                                    <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                    <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12, 0, 12, 0" />
+                                    <TextBlock Text="{Binding LineOne, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" />
+                                    <TextBlock Text="{Binding LineTwo, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <TextBlock Text="{Binding LineThree, Mode=TwoWay}" TextWrapping="Wrap" Margin="12, 0, 12, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -87,8 +87,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
-                                <TextBlock Text="{Binding LineOne}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                <TextBlock Text="{Binding LineTwo}" TextWrapping="NoWrap" Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <TextBlock Text="{Binding LineOne, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                <TextBlock Text="{Binding LineTwo, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -111,7 +111,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <CheckBox x:Name="HandlerCheckBox" Content="{Binding LineOne}" IsChecked="{Binding IsChecked}"
+                                <CheckBox x:Name="HandlerCheckBox" Content="{Binding LineOne, Mode=TwoWay}" IsChecked="{Binding IsChecked}"
                                           Checked="HandlerCheckBox_Checked" Unchecked="HandlerCheckBox_Unchecked" HorizontalAlignment="Right" />
                             </StackPanel>
                         </DataTemplate>
@@ -122,10 +122,10 @@
             <!--Info Pivot item-->
             <controls:PivotItem Header="Info">                
                 <Grid>
-                    <TextBlock x:Name="VersionInfo" Text="{Binding LineOne}" Margin="0,0,0,17"/>
-                    <TextBlock x:Name="CustomerSupport" Text="{Binding LineOne}" Margin="0,0,0,17"/>
-                    <TextBlock x:Name="PrivacyPolicy" Text="{Binding LineOne}" Margin="0,0,0,17"/>
-                    <TextBlock x:Name="SupportedLanguages" Text="{Binding LineOne}" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="VersionInfo" Text="{Binding LineOne, Mode=TwoWay}" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="CustomerSupport" Text="{Binding LineOne, Mode=TwoWay}" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="PrivacyPolicy" Text="{Binding LineOne, Mode=TwoWay}" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="SupportedLanguages" Text="{Binding LineOne, Mode=TwoWay}" Margin="0,0,0,17"/>
                     <HyperlinkButton Content="Privacy Policy" NavigateUri="http://google.com" Margin="0,0,0,17" />
                 </Grid>
             </controls:PivotItem>

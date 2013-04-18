@@ -55,14 +55,12 @@ namespace MobileLoggerApp
                 logHandler = lh.Value;
                 logHandlerName = lh.Key;
 
-                logHandler.IsEnabled = GetIsLogHandlerEnabled(logHandlerName);
-
-                if (logHandler.IsEnabled)
+                if (GetIsLogHandlerEnabled(logHandlerName))
                     logHandler.StartWatcher();
             }
         }
 
-        public bool GetIsLogHandlerEnabled(string logHandlerName)
+        private bool GetIsLogHandlerEnabled(string logHandlerName)
         {
             bool isLogHandlerEnabled = true;
 
@@ -86,8 +84,7 @@ namespace MobileLoggerApp
             {
                 if (!logHandler.IsEnabled)
                 {
-                    logHandler.IsEnabled = true;
-                    MainPage.appSettings[handlerName] = logHandler.IsEnabled;
+                    MainPage.appSettings[handlerName] = true;
                     logHandler.StartWatcher();
                 }
             }
@@ -102,8 +99,7 @@ namespace MobileLoggerApp
             {
                 if (logHandler.IsEnabled)
                 {
-                    logHandler.IsEnabled = false;
-                    MainPage.appSettings[handlerName] = logHandler.IsEnabled;
+                    MainPage.appSettings[handlerName] = false;
                     logHandler.StopWatcher();
                 }
             }

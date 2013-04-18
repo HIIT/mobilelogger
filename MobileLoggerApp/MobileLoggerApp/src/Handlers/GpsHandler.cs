@@ -13,7 +13,6 @@ namespace MobileLoggerApp.Handlers
         public GpsHandler()
         {
             coordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default); //using high might slow down the app
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()
@@ -29,11 +28,13 @@ namespace MobileLoggerApp.Handlers
             coordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(coordinate_StatusChanged);
             coordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(coordinate_PositionChanged);
             coordinateWatcher.Start();
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             coordinateWatcher.Stop();
+            this.IsEnabled = false;
         }
 
         private void coordinate_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)

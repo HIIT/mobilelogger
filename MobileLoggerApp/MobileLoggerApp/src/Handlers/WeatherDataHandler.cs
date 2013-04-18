@@ -17,11 +17,13 @@ namespace MobileLoggerApp.Handlers
         public override void StartWatcher()
         {
             WeatherInformationSearch.weatherDataEvent += new WeatherInformationSearch.WeatherDataHandler(WeatherData);
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             WeatherInformationSearch.weatherDataEvent -= WeatherData;
+            this.IsEnabled = false;
         }
 
         private void WeatherData(JObject weatherData)

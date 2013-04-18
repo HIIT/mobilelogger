@@ -25,12 +25,14 @@ namespace MobileLoggerApp.Handlers
                 this.compassWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                 this.compassWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(compass_CurrentValueChanged);
                 this.compassWatcher.Start();
+                this.IsEnabled = true;
             }
         }
 
         public override void StopWatcher()
         {
             this.compassWatcher.Stop();
+            this.IsEnabled = false;
         }
 
         void compass_CurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)

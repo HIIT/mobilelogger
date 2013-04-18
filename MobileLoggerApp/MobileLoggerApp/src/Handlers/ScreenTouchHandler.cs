@@ -17,11 +17,13 @@ namespace MobileLoggerApp.Handlers
         public override void StartWatcher()
         {
             MobileLoggerApp.MainPage.screenTouch += new MobileLoggerApp.MainPage.TouchEventHandler(Touch_FrameReported);
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             MobileLoggerApp.MainPage.screenTouch -= Touch_FrameReported;
+            this.IsEnabled = false;
         }
 
         void Touch_FrameReported(MainPage mainPage, TouchFrameEventArgs e)

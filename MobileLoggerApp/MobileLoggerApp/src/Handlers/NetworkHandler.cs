@@ -22,11 +22,13 @@ namespace MobileLoggerApp.Handlers
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged += new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
             UpdateNetworkValues();
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged -= NetWorkAvailibilityChanged;
+            this.IsEnabled = false;
         }
 
         private void NetWorkAvailibilityChanged(object sender, NetworkNotificationEventArgs e)

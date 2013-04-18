@@ -23,12 +23,14 @@ namespace MobileLoggerApp.Handlers
         {
             GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
             MainPage.searchResultTap += new MainPage.SearchResultTapped(SearchResultTapped);
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             GoogleCustomSearch.searchDataEvent -= this.SearchData;
             MainPage.searchResultTap -= this.SearchResultTapped;
+            this.IsEnabled = false;
         }
 
         private void SearchData(JObject searchData)

@@ -25,12 +25,14 @@ namespace MobileLoggerApp.Handlers
                 this.gyroWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
                 this.gyroWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<GyroscopeReading>>(gyroscope_CurrentValueChanged);
                 this.gyroWatcher.Start();
+                this.IsEnabled = true;
             }
         }
 
         public override void StopWatcher()
         {
             this.gyroWatcher.Stop();
+            this.IsEnabled = false;
         }
 
         /// <summary>

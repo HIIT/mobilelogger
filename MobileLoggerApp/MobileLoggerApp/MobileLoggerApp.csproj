@@ -89,6 +89,8 @@
     <Compile Include="pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pages\ViewModels\LogDataViewModel.cs" />
+    <Compile Include="pages\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\GoogleCustomSearch.cs" />
     <Compile Include="src\Handlers\AbstractLogHandler.cs" />
@@ -108,7 +110,7 @@
     <Compile Include="src\HttpRequestable.cs" />
     <Compile Include="src\LogEventSaver.cs" />
     <Compile Include="src\PageLocations.cs" />
-    <Compile Include="pages\ViewModels\ItemViewModel.cs" />
+    <Compile Include="pages\ViewModels\SearchResultsViewModel.cs" />
     <Compile Include="pages\ViewModels\MainViewModel.cs" />
     <Compile Include="src\WeatherInformationSearch.cs" />
   </ItemGroup>

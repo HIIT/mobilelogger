@@ -13,19 +13,17 @@ namespace MobileLoggerApp.pages
     {
         public MainViewModel()
         {
-            this.SearchResults = new ObservableCollection<ItemViewModel>();
-            this.LogData = new ObservableCollection<ItemViewModel>();
-            this.Settings = new ObservableCollection<ItemViewModel>();
-            this.Info = new ObservableCollection<ItemViewModel>();
+            this.SearchResults = new ObservableCollection<SearchResultsViewModel>();
+            this.LogData = new ObservableCollection<LogDataViewModel>();
+            this.Settings = new ObservableCollection<SettingsViewModel>();
         }
 
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<ItemViewModel> SearchResults { get; set; }
-        public ObservableCollection<ItemViewModel> LogData { get; set; }
-        public ObservableCollection<ItemViewModel> Settings { get; set; }
-        public ObservableCollection<ItemViewModel> Info { get; set; }
+        public ObservableCollection<SearchResultsViewModel> SearchResults { get; set; }
+        public ObservableCollection<LogDataViewModel> LogData { get; set; }
+        public ObservableCollection<SettingsViewModel> Settings { get; set; }
 
         public bool IsLogDataLoaded
         {
@@ -76,10 +74,10 @@ namespace MobileLoggerApp.pages
                 for (int i = listCount - 1; i >= 0; i--)
                 {
                     LogEvent e = list[i];
-                    LogData.Add(new ItemViewModel()
+                    LogData.Add(new LogDataViewModel()
                     {
-                        LineOne = DeviceTools.GetDateTime(e.Time).ToString(),
-                        LineTwo = e.sensorEvent.ToString()
+                        DataLineOne = DeviceTools.GetDateTime(e.Time).ToString(),
+                        DataLineTwo = e.sensorEvent.ToString()
                     });
                 }
                 this.IsLogDataLoaded = true;
@@ -91,14 +89,10 @@ namespace MobileLoggerApp.pages
             if (HandlersManager.LogHandlers != null)
             {
                 foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
-                    Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
+                    Settings.Add(new SettingsViewModel() { SettingsLineOne = logHandler.Key, SettingsIsChecked = logHandler.Value.IsEnabled });
 
                 this.IsSettingsLoaded = true;
             }
-        }
-
-        public void LoadAppInfo()
-        {
         }
 
         public void LoadSearchResults(JArray searchResults, Boolean newSearch)
@@ -108,11 +102,11 @@ namespace MobileLoggerApp.pages
 
             foreach (JToken searchResult in searchResults)
                 if (SearchResultHasLink(searchResult))
-                    SearchResults.Add(new ItemViewModel()
+                    SearchResults.Add(new SearchResultsViewModel()
                     {
-                        LineOne = searchResult.SelectToken("title").ToString(),
-                        LineTwo = searchResult.SelectToken("snippet").ToString(),
-                        LineThree = searchResult.SelectToken("link").ToString(),
+                        SearchLineOne = searchResult.SelectToken("title").ToString(),
+                        SearchLineTwo = searchResult.SelectToken("snippet").ToString(),
+                        SearchLineThree = searchResult.SelectToken("link").ToString(),
                         SearchResult = searchResult as JObject
                     });
         }

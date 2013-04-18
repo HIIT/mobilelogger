@@ -5,41 +5,41 @@ using System.Runtime.Serialization;
 namespace MobileLoggerApp.pages
 {
     [DataContract]
-    public class ItemViewModel : INotifyPropertyChanged
+    public class SearchResultsViewModel : INotifyPropertyChanged
     {
-        private string _lineOne;
+        private string _searchLineOne;
         [DataMember]
-        public string LineOne
+        public string SearchLineOne
         {
-            get { return _lineOne; }
+            get { return _searchLineOne; }
             set
             {
-                _lineOne = value;
-                NotifyPropertyChanged("_lineOne");
+                _searchLineOne = value;
+                NotifyPropertyChanged("_searchLineOne");
             }
         }
 
-        private string _lineTwo;
+        private string _searchLineTwo;
         [DataMember]
-        public string LineTwo
+        public string SearchLineTwo
         {
-            get { return _lineTwo; }
+            get { return _searchLineTwo; }
             set
             {
-                _lineTwo = value;
-                NotifyPropertyChanged("_lineTwo");
+                _searchLineTwo = value;
+                NotifyPropertyChanged("_searchLineTwo");
             }
         }
 
-        private string _lineThree;
+        private string _searchLineThree;
         [DataMember]
-        public string LineThree
+        public string SearchLineThree
         {
-            get { return _lineThree; }
+            get { return _searchLineThree; }
             set
             {
-                _lineThree = value;
-                NotifyPropertyChanged("_lineThree");
+                _searchLineThree = value;
+                NotifyPropertyChanged("_searchLineThree");
             }
         }
 
@@ -52,18 +52,6 @@ namespace MobileLoggerApp.pages
             {
                 _searchResult = value;
                 NotifyPropertyChanged("_searchResult");
-            }
-        }
-
-        private bool _isChecked;
-        [DataMember]
-        public bool IsChecked
-        {
-            get { return _isChecked; }
-            set
-            {
-                _isChecked = value;
-                NotifyPropertyChanged("_isChecked");
             }
         }
 

@@ -218,11 +218,11 @@ namespace MobileLoggerApp
         private void searchResultItemTappedEvent(object sender, RoutedEventArgs e)
         {
             StackPanel stackPanel = (StackPanel)sender;
-            ItemViewModel item = (ItemViewModel)stackPanel.DataContext;
+            SearchResultsViewModel searchResult = (SearchResultsViewModel)stackPanel.DataContext;
 
             if (searchResultTap != null)
-                searchResultTap(item.SearchResult);
-            search.OpenBrowser(item.LineThree.ToString());
+                searchResultTap(searchResult.SearchResult);
+            search.OpenBrowser(searchResult.SearchLineThree.ToString());
         }
 
         /// <summary>
@@ -257,8 +257,8 @@ namespace MobileLoggerApp
 
         private string GetHandlerName(ListBoxItem checkedHandlerItem)
         {
-            ItemViewModel handlerItem = checkedHandlerItem.DataContext as ItemViewModel;
-            return handlerItem.LineOne.ToString();
+            SettingsViewModel handlerItem = checkedHandlerItem.DataContext as SettingsViewModel;
+            return handlerItem.SettingsLineOne.ToString();
         }
 
         private void debugButton_Click(object sender, RoutedEventArgs e)

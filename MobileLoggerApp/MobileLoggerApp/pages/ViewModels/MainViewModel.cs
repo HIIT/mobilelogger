@@ -13,7 +13,7 @@ namespace MobileLoggerApp.pages
     {
         public MainViewModel()
         {
-            this.Items = new ObservableCollection<ItemViewModel>();
+            this.SearchResults = new ObservableCollection<ItemViewModel>();
             this.LogData = new ObservableCollection<ItemViewModel>();
             this.Settings = new ObservableCollection<ItemViewModel>();
             this.Info = new ObservableCollection<ItemViewModel>();
@@ -22,7 +22,7 @@ namespace MobileLoggerApp.pages
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<ItemViewModel> Items { get; set; }
+        public ObservableCollection<ItemViewModel> SearchResults { get; set; }
         public ObservableCollection<ItemViewModel> LogData { get; set; }
         public ObservableCollection<ItemViewModel> Settings { get; set; }
         public ObservableCollection<ItemViewModel> Info { get; set; }
@@ -88,9 +88,9 @@ namespace MobileLoggerApp.pages
 
         public void LoadSettings()
         {
-            if (HandlersManager.logHandlers != null)
+            if (HandlersManager.LogHandlers != null)
             {
-                foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.logHandlers)
+                foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
                     Settings.Add(new ItemViewModel() { LineOne = logHandler.Key, IsChecked = logHandler.Value.IsEnabled });
 
                 this.IsSettingsLoaded = true;
@@ -104,11 +104,11 @@ namespace MobileLoggerApp.pages
         public void LoadSearchResults(JArray searchResults, Boolean newSearch)
         {
             if (newSearch)
-                Items.Clear();
+                SearchResults.Clear();
 
             foreach (JToken searchResult in searchResults)
                 if (SearchResultHasLink(searchResult))
-                    Items.Add(new ItemViewModel()
+                    SearchResults.Add(new ItemViewModel()
                     {
                         LineOne = searchResult.SelectToken("title").ToString(),
                         LineTwo = searchResult.SelectToken("snippet").ToString(),

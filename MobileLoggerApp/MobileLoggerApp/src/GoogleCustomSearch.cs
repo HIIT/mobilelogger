@@ -32,7 +32,7 @@ namespace MobileLoggerApp
         {
             SystemTray.ProgressIndicator.IsVisible = true;
 
-            this.searchPageNumber = App.ViewModel.Items.Count + 1;
+            this.searchPageNumber = App.ViewModel.SearchResults.Count + 1;
             this.newSearch = newSearch;
             this.searchQuery = query;
             //string that contains required api key and information for google api

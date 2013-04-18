@@ -5,44 +5,56 @@ namespace MobileLoggerApp
 {
     class HandlersManager
     {
-       public static Dictionary<string, AbstractLogHandler> logHandlers;
+        private static Dictionary<string, AbstractLogHandler> _logHandlers;
+
+        public static Dictionary<string, AbstractLogHandler> LogHandlers
+        {
+            get { return _logHandlers; }
+            set
+            {
+                if (value != _logHandlers)
+                {
+                    _logHandlers = value;
+                }
+            }
+        }
 
         public HandlersManager()
         {
-            logHandlers = new Dictionary<string, AbstractLogHandler>();
+            _logHandlers = new Dictionary<string, AbstractLogHandler>();
         }
 
         public void InitHandlers()
         {
             AccelHandler accelerometer = new AccelHandler();
-            logHandlers.Add("Accelerometer", accelerometer);
+            _logHandlers.Add("Accelerometer", accelerometer);
 
             CompassHandler compass = new CompassHandler();
-            logHandlers.Add("Compass", compass);
+            _logHandlers.Add("Compass", compass);
 
             GpsHandler gps = new GpsHandler();
-            logHandlers.Add("GPS", gps);
+            _logHandlers.Add("GPS", gps);
 
             GyroHandler gyroscope = new GyroHandler();
-            logHandlers.Add("Gyroscope", gyroscope);
+            _logHandlers.Add("Gyroscope", gyroscope);
 
             KeyboardHandler keyboard = new KeyboardHandler();
-            logHandlers.Add("Keyboard", keyboard);
+            _logHandlers.Add("Keyboard", keyboard);
 
             KeyPressHandler keyPress = new KeyPressHandler();
-            logHandlers.Add("Key Press", keyPress);
+            _logHandlers.Add("Key Press", keyPress);
 
             NetworkHandler network = new NetworkHandler();
-            logHandlers.Add("Network", network);
+            _logHandlers.Add("Network", network);
 
             ScreenTouchHandler screenTouch = new ScreenTouchHandler();
-            logHandlers.Add("Screen Touch", screenTouch);
+            _logHandlers.Add("Screen Touch", screenTouch);
 
             SearchDataHandler searchData = new SearchDataHandler();
-            logHandlers.Add("Search Data", searchData);
+            _logHandlers.Add("Search Data", searchData);
 
             WeatherDataHandler weatherData = new WeatherDataHandler();
-            logHandlers.Add("Weather", weatherData);
+            _logHandlers.Add("Weather", weatherData);
         }
 
         public void StartEnabledHandlers()
@@ -50,7 +62,7 @@ namespace MobileLoggerApp
             AbstractLogHandler logHandler;
             string logHandlerName;
 
-            foreach (KeyValuePair<string, AbstractLogHandler> lh in logHandlers)
+            foreach (KeyValuePair<string, AbstractLogHandler> lh in _logHandlers)
             {
                 logHandler = lh.Value;
                 logHandlerName = lh.Key;
@@ -78,7 +90,7 @@ namespace MobileLoggerApp
         public static void EnableHandler(string handlerName)
         {
             AbstractLogHandler logHandler;
-            logHandlers.TryGetValue(handlerName, out logHandler);
+            _logHandlers.TryGetValue(handlerName, out logHandler);
 
             if (logHandler != null)
             {
@@ -93,7 +105,7 @@ namespace MobileLoggerApp
         public static void DisableHandler(string handlerName)
         {
             AbstractLogHandler logHandler;
-            logHandlers.TryGetValue(handlerName, out logHandler);
+            _logHandlers.TryGetValue(handlerName, out logHandler);
 
             if (logHandler != null)
             {
@@ -107,7 +119,7 @@ namespace MobileLoggerApp
 
         public static void SaveSensorLog()
         {
-            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in logHandlers)
+            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in _logHandlers)
                 logHandler.Value.SaveSensorLog();
         }
     }

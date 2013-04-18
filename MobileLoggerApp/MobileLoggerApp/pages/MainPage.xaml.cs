@@ -218,11 +218,11 @@ namespace MobileLoggerApp
         private void searchResultItemTappedEvent(object sender, RoutedEventArgs e)
         {
             StackPanel stackPanel = (StackPanel)sender;
-            SearchResultsViewModel searchResult = (SearchResultsViewModel)stackPanel.DataContext;
+            SearchResults searchResult = (SearchResults)stackPanel.DataContext;
 
             if (searchResultTap != null)
                 searchResultTap(searchResult.SearchResult);
-            search.OpenBrowser(searchResult.SearchLineThree.ToString());
+            search.OpenBrowser(searchResult.SearchResultLink.ToString());
         }
 
         /// <summary>
@@ -257,8 +257,8 @@ namespace MobileLoggerApp
 
         private string GetHandlerName(ListBoxItem checkedHandlerItem)
         {
-            SettingsViewModel handlerItem = checkedHandlerItem.DataContext as SettingsViewModel;
-            return handlerItem.SettingsLineOne.ToString();
+            HandlerSettings handlerItem = checkedHandlerItem.DataContext as HandlerSettings;
+            return handlerItem.HandlerName.ToString();
         }
 
         private void debugButton_Click(object sender, RoutedEventArgs e)
@@ -281,28 +281,28 @@ namespace MobileLoggerApp
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (e.NavigationMode != NavigationMode.Back)
-                State["ViewModel"] = _viewModel;
+            //if (e.NavigationMode != NavigationMode.Back)
+            //    State["ViewModel"] = _viewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (_isNewPageInstance)
-            {
-                if (_viewModel == null)
-                {
-                    if (State.Count > 0)
-                    {
-                        _viewModel = State["ViewModel"] as MainViewModel;
-                    }
-                    else
-                    {
-                        _viewModel = App.ViewModel;
-                    }
-                }
-                DataContext = _viewModel;
-            }
-            _isNewPageInstance = false;
+            //if (_isNewPageInstance)
+            //{
+            //    if (_viewModel == null)
+            //    {
+            //        if (State.Count > 0)
+            //        {
+            //            _viewModel = State["ViewModel"] as MainViewModel;
+            //        }
+            //        else
+            //        {
+            //            _viewModel = App.ViewModel;
+            //        }
+            //    }
+            //    DataContext = _viewModel;
+            //}
+            //_isNewPageInstance = false;
         }
     }
 }

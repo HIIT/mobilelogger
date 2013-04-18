@@ -4,29 +4,29 @@ using System.Runtime.Serialization;
 namespace MobileLoggerApp.pages
 {
     [DataContract]
-    public class LogDataViewModel : INotifyPropertyChanged
+    public class HandlerSettings : INotifyPropertyChanged
     {
-        private string _dataLineOne;
+        private string _handlerName;
         [DataMember]
-        public string DataLineOne
+        public string HandlerName
         {
-            get { return _dataLineOne; }
+            get { return _handlerName; }
             set
             {
-                _dataLineOne = value;
-                NotifyPropertyChanged("_dataLineOne");
+                _handlerName = value;
+                NotifyPropertyChanged("_handlerName");
             }
         }
 
-        private string _dataLineTwo;
+        private bool _handlerIsChecked;
         [DataMember]
-        public string DataLineTwo
+        public bool HandlerIsChecked
         {
-            get { return _dataLineTwo; }
+            get { return _handlerIsChecked; }
             set
             {
-                _dataLineTwo = value;
-                NotifyPropertyChanged("_dataLineTwo");
+                _handlerIsChecked = value;
+                NotifyPropertyChanged("_handlerIsChecked");
             }
         }
 

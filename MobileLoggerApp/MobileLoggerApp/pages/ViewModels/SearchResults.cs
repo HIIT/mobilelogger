@@ -5,41 +5,41 @@ using System.Runtime.Serialization;
 namespace MobileLoggerApp.pages
 {
     [DataContract]
-    public class SearchResultsViewModel : INotifyPropertyChanged
+    public class SearchResults : INotifyPropertyChanged
     {
-        private string _searchLineOne;
+        private string _searchResultTitle;
         [DataMember]
-        public string SearchLineOne
+        public string SearchResultTitle
         {
-            get { return _searchLineOne; }
+            get { return _searchResultTitle; }
             set
             {
-                _searchLineOne = value;
-                NotifyPropertyChanged("_searchLineOne");
+                _searchResultTitle = value;
+                NotifyPropertyChanged("_searchResult");
             }
         }
 
-        private string _searchLineTwo;
+        private string _searchResultSnippet;
         [DataMember]
-        public string SearchLineTwo
+        public string SearchResultSnippet
         {
-            get { return _searchLineTwo; }
+            get { return _searchResultSnippet; }
             set
             {
-                _searchLineTwo = value;
-                NotifyPropertyChanged("_searchLineTwo");
+                _searchResultSnippet = value;
+                NotifyPropertyChanged("_searchResultSnippet");
             }
         }
 
-        private string _searchLineThree;
+        private string _searchResultLink;
         [DataMember]
-        public string SearchLineThree
+        public string SearchResultLink
         {
-            get { return _searchLineThree; }
+            get { return _searchResultLink; }
             set
             {
-                _searchLineThree = value;
-                NotifyPropertyChanged("_searchLineThree");
+                _searchResultLink = value;
+                NotifyPropertyChanged("_searchResultLink");
             }
         }
 

@@ -70,9 +70,9 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432" Height="auto" Tap="searchResultItemTappedEvent">
-                                    <TextBlock Text="{Binding SearchLineOne, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" />
-                                    <TextBlock Text="{Binding SearchLineTwo, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                    <TextBlock Text="{Binding SearchLineThree, Mode=TwoWay}" TextWrapping="Wrap" Margin="12, 0, 12, 0" />
+                                    <TextBlock Text="{Binding SearchResultTitle, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" />
+                                    <TextBlock Text="{Binding SearchResultSnippet, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <TextBlock Text="{Binding SearchResultLink, Mode=TwoWay}" TextWrapping="Wrap" Margin="12, 0, 12, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -87,8 +87,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
-                                <TextBlock Text="{Binding DataLineOne, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                <TextBlock Text="{Binding DataLineTwo, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <TextBlock Text="{Binding LogDataHeading, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                <TextBlock Text="{Binding LogDataContent, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -111,7 +111,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <CheckBox x:Name="HandlerCheckBox" Content="{Binding SettingsLineOne, Mode=TwoWay}" IsChecked="{Binding SettingsIsChecked}"
+                                <CheckBox x:Name="HandlerCheckBox" Content="{Binding HandlerName, Mode=TwoWay}" IsChecked="{Binding HandlerIsChecked}"
                                           Checked="HandlerCheckBox_Checked" Unchecked="HandlerCheckBox_Unchecked" HorizontalAlignment="Right" />
                             </StackPanel>
                         </DataTemplate>

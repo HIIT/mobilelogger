@@ -6,24 +6,25 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO.IsolatedStorage;
 
 namespace MobileLoggerApp.pages
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public MainViewModel()
-        {
-            this.SearchResults = new ObservableCollection<SearchResults>();
-            this.LogData = new ObservableCollection<LogData>();
-            this.Settings = new ObservableCollection<HandlerSettings>();
-        }
-
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
         public ObservableCollection<SearchResults> SearchResults { get; set; }
         public ObservableCollection<LogData> LogData { get; set; }
-        public ObservableCollection<HandlerSettings> Settings { get; set; }
+        public ObservableCollection<HandlerSettings> HandlerSettings { get; set; }
+
+        public MainViewModel()
+        {
+            this.SearchResults = new ObservableCollection<SearchResults>();
+            this.LogData = new ObservableCollection<LogData>();
+            //this.Settings = new ObservableCollection<HandlerSettings>();
+        }
 
         public bool IsLogDataLoaded
         {
@@ -40,7 +41,7 @@ namespace MobileLoggerApp.pages
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
-        public void LoadLogData()
+        public void GetLogData()
         {
             const string ConnectionString = @"Data Source = 'isostore:/LogEventDB.sdf';";
 
@@ -58,11 +59,11 @@ namespace MobileLoggerApp.pages
                         System.Diagnostics.Debug.WriteLine("InvalidOperationException while creating database..." + ioe);
                     }
                 }
-                LoadLogEvents(logDBContext);
+                GetLogEvents(logDBContext);
             }
         }
 
-        private void LoadLogEvents(LogEventDataContext logDBContext)
+        private void GetLogEvents(LogEventDataContext logDBContext)
         {
             List<LogEvent> list = logDBContext.GetLogEvents();
 
@@ -84,18 +85,47 @@ namespace MobileLoggerApp.pages
             }
         }
 
-        public void LoadSettings()
+        public void GetHandlerSettings()
         {
-            if (HandlersManager.LogHandlers != null)
-            {
-                foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
-                    Settings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = logHandler.Value.IsEnabled });
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("HandlerSettings"))
+                GetSavedHandlerSettings();
+            else
+                GetDefaultHandlerSettings();
+        }
 
-                this.IsSettingsLoaded = true;
+        private void GetSavedHandlerSettings()
+        {
+            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+            ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
+            Dictionary<string, bool> handlers;
+            appSettings.TryGetValue("HandlerSettings", out handlers);
+
+            if (handlers != null)
+            {
+                foreach (KeyValuePair<string, bool> handler in handlers)
+                {
+                    handlerSettings.Add(new HandlerSettings() { HandlerName = handler.Key, HandlerIsChecked = handler.Value });
+                }
+                HandlerSettings = handlerSettings;
             }
         }
 
-        public void LoadSearchResults(JArray searchResults, Boolean newSearch)
+        private void GetDefaultHandlerSettings()
+        {
+            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+            ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
+            Dictionary<String, bool> handlers = new Dictionary<string, bool>();
+
+            foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
+            {
+                handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = true });
+                handlers.Add(logHandler.Key, true);
+            }
+            appSettings.Add("HandlerSettings", handlers);
+            HandlerSettings = handlerSettings;
+        }
+
+        public void GetSearchResults(JArray searchResults, Boolean newSearch)
         {
             if (newSearch)
                 SearchResults.Clear();

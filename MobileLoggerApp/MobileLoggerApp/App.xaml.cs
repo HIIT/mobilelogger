@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MobileLogger;
 using MobileLoggerApp.Handlers;
 using MobileLoggerApp.pages;
 using System.Windows;
@@ -77,18 +78,22 @@ namespace MobileLoggerApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            StateUtilities.IsLaunching = true;
+
             sessionHandler = new SessionHandler();
             sessionHandler.Start();
 
             handlers = new HandlersManager();
             handlers.InitHandlers();
-            handlers.StartEnabledHandlers();
+            //handlers.StartEnabledHandlers();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            StateUtilities.IsLaunching = false;
+
             if (e.IsApplicationInstancePreserved)
             {
                 return;

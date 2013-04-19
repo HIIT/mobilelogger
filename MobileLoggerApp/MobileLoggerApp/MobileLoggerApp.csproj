@@ -90,7 +90,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="pages\Model\LogData.cs" />
-    <Compile Include="pages\Model\Settings.cs" />
+    <Compile Include="pages\Model\HandlerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\GoogleCustomSearch.cs" />
     <Compile Include="src\Handlers\AbstractLogHandler.cs" />
@@ -112,6 +112,7 @@
     <Compile Include="src\PageLocations.cs" />
     <Compile Include="pages\Model\SearchResults.cs" />
     <Compile Include="pages\ViewModel\MainViewModel.cs" />
+    <Compile Include="src\StateUtilities.cs" />
     <Compile Include="src\WeatherInformationSearch.cs" />
   </ItemGroup>
   <ItemGroup>

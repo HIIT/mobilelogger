@@ -107,7 +107,7 @@
 
             <!--Settings Pivot item-->
             <controls:PivotItem Header="Settings" >
-                <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding Settings}">
+                <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding HandlerSettings}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>

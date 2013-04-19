@@ -89,32 +89,32 @@ namespace MobileLoggerApp
 
         public static void EnableHandler(string handlerName)
         {
-            AbstractLogHandler logHandler;
-            _logHandlers.TryGetValue(handlerName, out logHandler);
+            //AbstractLogHandler logHandler;
+            //_logHandlers.TryGetValue(handlerName, out logHandler);
 
-            if (logHandler != null)
-            {
-                if (!logHandler.IsEnabled)
-                {
-                    MainPage.appSettings[handlerName] = true;
-                    logHandler.StartWatcher();
-                }
-            }
+            //if (logHandler != null)
+            //{
+            //    if (!logHandler.IsEnabled)
+            //    {
+            //        MainPage.appSettings[handlerName] = true;
+            //        logHandler.StartWatcher();
+            //    }
+            //}
         }
 
         public static void DisableHandler(string handlerName)
         {
-            AbstractLogHandler logHandler;
-            _logHandlers.TryGetValue(handlerName, out logHandler);
+            //AbstractLogHandler logHandler;
+            //_logHandlers.TryGetValue(handlerName, out logHandler);
 
-            if (logHandler != null)
-            {
-                if (logHandler.IsEnabled)
-                {
-                    MainPage.appSettings[handlerName] = false;
-                    logHandler.StopWatcher();
-                }
-            }
+            //if (logHandler != null)
+            //{
+            //    if (logHandler.IsEnabled)
+            //    {
+            //        MainPage.appSettings[handlerName] = false;
+            //        logHandler.StopWatcher();
+            //    }
+            //}
         }
 
         public static void SaveSensorLog()

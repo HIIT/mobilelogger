@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
+using MobileLogger;
 using MobileLoggerApp.pages;
 using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
@@ -157,11 +158,11 @@ namespace MobileLoggerApp
         {
 #if DEBUG
             if (!App.ViewModel.IsLogDataLoaded)
-                App.ViewModel.LoadLogData();
+                App.ViewModel.GetLogData();
 #endif
 
             if (!App.ViewModel.IsSettingsLoaded)
-                App.ViewModel.LoadSettings();
+                App.ViewModel.GetHandlerSettings();
 
             Touch.FrameReported += Touch_FrameReported;
             this.search = new GoogleCustomSearch();
@@ -274,35 +275,43 @@ namespace MobileLoggerApp
             // Data PivotItem
             if (pivot.SelectedIndex == 1)
             {
-                App.ViewModel.LoadLogData();
+                App.ViewModel.GetLogData();
             }
 #endif
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //if (e.NavigationMode != NavigationMode.Back)
-            //    State["ViewModel"] = _viewModel;
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                if (this.State.ContainsKey("ViewModel"))
+                    this.State["ViewModel"] = _viewModel;
+                else
+                    this.State.Add("ViewModel", _viewModel);
+            }
+
+            StateUtilities.IsLaunching = false;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //if (_isNewPageInstance)
-            //{
-            //    if (_viewModel == null)
-            //    {
-            //        if (State.Count > 0)
-            //        {
-            //            _viewModel = State["ViewModel"] as MainViewModel;
-            //        }
-            //        else
-            //        {
-            //            _viewModel = App.ViewModel;
-            //        }
-            //    }
-            //    DataContext = _viewModel;
-            //}
-            //_isNewPageInstance = false;
+            if (_isNewPageInstance)
+            {
+                if (_viewModel == null)
+                {
+                    if (State.ContainsKey("ViewModel"))
+                    {
+                        _viewModel = State["ViewModel"] as MainViewModel;
+                    }
+                    else
+                    {
+                        _viewModel = App.ViewModel;
+                    }
+                }
+                DataContext = _viewModel;
+            }
+            _viewModel.GetHandlerSettings();
+            _isNewPageInstance = false;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MobileLoggerApp.Handlers;
+﻿using Microsoft.Phone.Shell;
+using MobileLoggerApp.Handlers;
 using System.Collections.Generic;
 
 namespace MobileLoggerApp
@@ -6,6 +7,7 @@ namespace MobileLoggerApp
     class HandlersManager
     {
         private static Dictionary<string, AbstractLogHandler> _logHandlers;
+        private static Dictionary<string, bool> handlerState;
 
         public static Dictionary<string, AbstractLogHandler> LogHandlers
         {
@@ -22,6 +24,13 @@ namespace MobileLoggerApp
         public HandlersManager()
         {
             _logHandlers = new Dictionary<string, AbstractLogHandler>();
+
+            if (PhoneApplicationService.Current.State.ContainsKey("Handlers"))
+            {
+                handlerState = PhoneApplicationService.Current.State["Handlers"] as Dictionary<string, bool>;
+            }
+            else
+                handlerState = new Dictionary<string, bool>();
         }
 
         public void InitHandlers()
@@ -55,66 +64,83 @@ namespace MobileLoggerApp
 
             WeatherDataHandler weatherData = new WeatherDataHandler();
             _logHandlers.Add("Weather", weatherData);
+
+            StartEnabledHandlers();
         }
 
-        public void StartEnabledHandlers()
+        private void StartEnabledHandlers()
         {
-            AbstractLogHandler logHandler;
-            string logHandlerName;
-
-            foreach (KeyValuePair<string, AbstractLogHandler> lh in _logHandlers)
+            if (PhoneApplicationService.Current.State.ContainsKey("Handlers"))
             {
-                logHandler = lh.Value;
-                logHandlerName = lh.Key;
+                AbstractLogHandler logHandler;
+                string logHandlerName;
+                bool isThisEnabled;
+                handlerState = PhoneApplicationService.Current.State["Handlers"] as Dictionary<string, bool>;
 
-                if (GetIsLogHandlerEnabled(logHandlerName))
-                    logHandler.StartWatcher();
-            }
-        }
+                foreach (KeyValuePair<string, AbstractLogHandler> lh in _logHandlers)
+                {
+                    logHandler = lh.Value;
+                    logHandlerName = lh.Key;
 
-        private bool GetIsLogHandlerEnabled(string logHandlerName)
-        {
-            bool isLogHandlerEnabled = true;
+                    handlerState.TryGetValue(logHandlerName, out isThisEnabled);
 
-            if (!MainPage.appSettings.Contains(logHandlerName))
-            {
-                MainPage.appSettings.Add(logHandlerName, isLogHandlerEnabled);
+                    if (isThisEnabled)
+                        logHandler.StartWatcher();
+                }
             }
             else
             {
-                MainPage.appSettings.TryGetValue(logHandlerName, out isLogHandlerEnabled);
+                AbstractLogHandler logHandler;
+                string logHandlerName;
+
+                foreach (KeyValuePair<string, AbstractLogHandler> lh in _logHandlers)
+                {
+                    logHandler = lh.Value;
+                    logHandlerName = lh.Key;
+
+                    logHandler.StartWatcher();
+                    handlerState.Add(logHandlerName, true);
+                }
+                PhoneApplicationService.Current.State.Add("Handlers", handlerState);
             }
-            return isLogHandlerEnabled;
         }
 
         public static void EnableHandler(string handlerName)
         {
-            //AbstractLogHandler logHandler;
-            //_logHandlers.TryGetValue(handlerName, out logHandler);
+            AbstractLogHandler logHandler;
+            _logHandlers.TryGetValue(handlerName, out logHandler);
 
-            //if (logHandler != null)
-            //{
-            //    if (!logHandler.IsEnabled)
-            //    {
-            //        MainPage.appSettings[handlerName] = true;
-            //        logHandler.StartWatcher();
-            //    }
-            //}
+            if (logHandler != null)
+            {
+                if (!logHandler.IsEnabled)
+                {
+                    if (handlerState.ContainsKey(handlerName))
+                        handlerState[handlerName] = true;
+                    else
+                        handlerState.Add(handlerName, true);
+
+                    logHandler.StartWatcher();
+                }
+            }
         }
 
         public static void DisableHandler(string handlerName)
         {
-            //AbstractLogHandler logHandler;
-            //_logHandlers.TryGetValue(handlerName, out logHandler);
+            AbstractLogHandler logHandler;
+            _logHandlers.TryGetValue(handlerName, out logHandler);
 
-            //if (logHandler != null)
-            //{
-            //    if (logHandler.IsEnabled)
-            //    {
-            //        MainPage.appSettings[handlerName] = false;
-            //        logHandler.StopWatcher();
-            //    }
-            //}
+            if (logHandler != null)
+            {
+                if (logHandler.IsEnabled)
+                {
+                    if (handlerState.ContainsKey(handlerName))
+                        handlerState[handlerName] = false;
+                    else
+                        handlerState.Add(handlerName, false);
+
+                    logHandler.StopWatcher();
+                }
+            }
         }
 
         public static void SaveSensorLog()

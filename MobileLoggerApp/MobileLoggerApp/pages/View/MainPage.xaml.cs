@@ -284,6 +284,8 @@ namespace MobileLoggerApp
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
+                _viewModel.SaveHandlerSettings();
+
                 if (this.State.ContainsKey("ViewModel"))
                     this.State["ViewModel"] = _viewModel;
                 else

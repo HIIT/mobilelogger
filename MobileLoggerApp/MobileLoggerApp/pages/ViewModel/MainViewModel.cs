@@ -18,11 +18,13 @@ namespace MobileLoggerApp.pages
         public ObservableCollection<SearchResults> SearchResults { get; set; }
         public ObservableCollection<LogData> LogData { get; set; }
         public ObservableCollection<HandlerSettings> HandlerSettings { get; set; }
+        IsolatedStorageSettings appSettings;
 
         public MainViewModel()
         {
             this.SearchResults = new ObservableCollection<SearchResults>();
             this.LogData = new ObservableCollection<LogData>();
+            this.appSettings = IsolatedStorageSettings.ApplicationSettings;
         }
 
         public bool IsLogDataLoaded
@@ -94,7 +96,6 @@ namespace MobileLoggerApp.pages
 
         private void GetSavedHandlerSettings()
         {
-            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
             ObservableCollection<HandlerSettings> savedHandlers;
 
@@ -110,7 +111,6 @@ namespace MobileLoggerApp.pages
 
         private void GetDefaultHandlerSettings()
         {
-            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
 
             foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
@@ -123,8 +123,6 @@ namespace MobileLoggerApp.pages
 
         public void SaveHandlerSettings()
         {
-            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
-
             if (appSettings.Contains("HandlerSettings"))
                 appSettings["HandlerSettings"] = HandlerSettings;
             else
@@ -145,6 +143,18 @@ namespace MobileLoggerApp.pages
                         SearchResultLink = searchResult.SelectToken("link").ToString(),
                         SearchResult = searchResult as JObject
                     });
+        }
+
+        private void GetSavedSearchResults()
+        {
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("SearchResults"))
+                GetSavedHandlerSettings();
+            else
+                GetDefaultHandlerSettings();
+        }
+
+        private void GetDefaultSearchResults()
+        {
         }
 
         private bool SearchResultHasLink(JToken searchResult)

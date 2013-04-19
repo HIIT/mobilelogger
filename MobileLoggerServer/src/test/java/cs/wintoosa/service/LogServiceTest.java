@@ -224,4 +224,29 @@ public class LogServiceTest extends AbstractTest{
         assertEquals(50.0f,(float)list.get(0).getLon(), 0f);
         
     }
+    
+    @Test
+    public void getAllBySessionId(){
+        String phoneId = "1234567890123455";
+        
+        SessionLog sessionLog = new SessionLog();
+        sessionLog.setPhoneId(phoneId);
+        sessionLog.setSessionStart(0l);
+        sessionLog.setSessionEnd(2l);
+        
+        GpsLog log = new GpsLog();
+        log.setTimestamp(1l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneId);
+        log.setSessionLog(null);
+        
+        logService.saveLog(log);
+        sessionLog = logService.saveSessionLog(sessionLog);
+        
+        List<Log> logs = logService.getAllBySessionId(sessionLog);
+        
+        assertEquals(1, logs.size());
+    }
 }

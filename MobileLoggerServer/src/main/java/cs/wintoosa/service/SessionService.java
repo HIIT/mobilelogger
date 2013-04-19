@@ -50,7 +50,7 @@ public class SessionService implements ISessionService {
             int touchI = 0;
             
             for (Long time : data.getTimestamps()) {
-                if (accLogs.size() > accI && (accLogs.get(accI).getTimestamp() / 10) * 10 <= time) {
+                if (accLogs != null && accLogs.size() > accI && (accLogs.get(accI).getTimestamp() / 10) * 10 <= time) {
                     while ((accLogs.get(accI).getTimestamp() / 10) * 10 <= time) {
                         if ((accLogs.get(accI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("Acc X", accLogs.get(accI).getAccX().toString());
@@ -70,7 +70,7 @@ public class SessionService implements ISessionService {
                     data.addToColumn("Acc Y", "");
                     data.addToColumn("Acc Z", "");
                 }
-                if (comLogs.size() > comI && (comLogs.get(comI).getTimestamp() / 10) * 10 <= time) {
+                if (comLogs != null && comLogs.size() > comI && (comLogs.get(comI).getTimestamp() / 10) * 10 <= time) {
                     while ((comLogs.get(comI).getTimestamp() / 10) * 10 <= time) {
                         if ((comLogs.get(comI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("Heading, true", comLogs.get(comI).getTrueHeading().toString());
@@ -87,7 +87,7 @@ public class SessionService implements ISessionService {
                     data.addToColumn("Heading, true", "");
                     data.addToColumn("Heading, magnetic", "");
                 }
-                if (keyPresses.size() > pressI && (keyPresses.get(pressI).getTimestamp() / 10) * 10 <= time) {
+                if (keyPresses != null && keyPresses.size() > pressI && (keyPresses.get(pressI).getTimestamp() / 10) * 10 <= time) {
                     while ((keyPresses.get(pressI).getTimestamp() / 10) * 10 <= time) {
                         if ((keyPresses.get(pressI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("Key pressed", keyPresses.get(pressI).getKeyPressed());
@@ -101,7 +101,7 @@ public class SessionService implements ISessionService {
                 } else {
                     data.addToColumn("key pressed", "");
                 }
-                if (keyboards.size() > keybI) {
+                if (keyboards != null && keyboards.size() > keybI) {
                     while ((keyboards.get(keybI).getTimestamp() / 10) * 10 <= time) {
                         if ((keyboards.get(keybI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("Keyboard status", keyboards.get(keybI).getKeyboardFocus());
@@ -115,7 +115,7 @@ public class SessionService implements ISessionService {
                 } else {
                     data.addToColumn("Keyboard status", "");
                 }
-                if (gyroLogs.size() > gyroI && (gyroLogs.get(gyroI).getTimestamp() / 10) * 10 <= time) {
+                if (gyroLogs != null && gyroLogs.size() > gyroI && (gyroLogs.get(gyroI).getTimestamp() / 10) * 10 <= time) {
                     while ((gyroLogs.get(gyroI).getTimestamp() / 10) * 10 <= time) {
                         if ((gyroLogs.get(gyroI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("Gyro X", gyroLogs.get(gyroI).getCurrentRotationRateX().toString());
@@ -136,7 +136,7 @@ public class SessionService implements ISessionService {
                     data.addToColumn("Gyro Z", "");
                 }
                 
-                if (gpsLogs.size() > gpsI && (gpsLogs.get(gpsI).getTimestamp() / 10) * 10 <= time) {
+                if (gpsLogs != null && gpsLogs.size() > gpsI && (gpsLogs.get(gpsI).getTimestamp() / 10) * 10 <= time) {
                     while ((gpsLogs.get(gpsI).getTimestamp() / 10) * 10 <= time) {
                         if ((gpsLogs.get(gpsI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("gps Latitude", gpsLogs.get(gpsI).getLat().toString());
@@ -156,7 +156,7 @@ public class SessionService implements ISessionService {
                     data.addToColumn("gps Longitude", "");
                     data.addToColumn("gps Altitude", "");
                 }
-                if (touchLogs.size() > touchI && (touchLogs.get(touchI).getTimestamp() / 10) * 10 <= time) {
+                if (touchLogs != null && touchLogs.size() > touchI && (touchLogs.get(touchI).getTimestamp() / 10) * 10 <= time) {
                     while ((touchLogs.get(touchI).getTimestamp() / 10) * 10 <= time) {
                         if ((touchLogs.get(touchI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("touch x", ""+touchLogs.get(touchI).getXcoord());

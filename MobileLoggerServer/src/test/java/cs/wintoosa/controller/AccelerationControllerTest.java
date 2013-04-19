@@ -41,6 +41,11 @@ public class AccelerationControllerTest extends AbstractTest{
                 .andExpect(content().string("true"))
                 .andReturn();
     }
-    
+    @Test
+    public void testGetLogs() throws Exception{
+        this.mockMvc.perform(get("/log/accel"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
     
 }

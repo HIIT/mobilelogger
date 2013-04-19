@@ -2,6 +2,7 @@ package cs.wintoosa.repository.log;
 
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.TextLog;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,5 +16,5 @@ public interface LogRepositoryCustom {
     
     public <T extends Log> List<T> findAll(Class<T> cls) throws IllegalArgumentException;
     
-
+    public List<TextLog> findTextLogByType(String type);
 }

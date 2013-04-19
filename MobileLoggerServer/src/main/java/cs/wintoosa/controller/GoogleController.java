@@ -31,14 +31,14 @@ public class GoogleController {
     @RequestMapping(method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putLog(@Valid @RequestBody TextLog data, BindingResult result) {
-        System.out.println("at Google controller, log is: "+data);
+        //System.out.println("at Google controller, log is: "+data);
         data.setType("search");
         return logService.saveLog(data);
     }
     
     @RequestMapping(method=RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs(){
-        return logService.getAll(TextLog.class);
+    public List<TextLog> getLogs(){
+        return logService.getTextLogByType("search");
     }
 }

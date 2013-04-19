@@ -23,7 +23,7 @@
     <jpa:repositories base-package="cs.wintoosa.repository" />
     
     <context:property-placeholder location="WEB-INF/db.properties" ignore-resource-not-found="true"/> 
-    <!-- in memory database
+    <!-- in memory database 
      <jdbc:embedded-database id="dataSource" type="HSQL"/>
     -->
     <!-- Postgre -->

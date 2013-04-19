@@ -6,6 +6,7 @@ package cs.wintoosa.repository.log;
 
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.TextLog;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -54,5 +55,11 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
             return null;
         }
         return em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c", cls).getResultList();
+    }
+    
+    @Transactional(readOnly=true)
+    @Override
+    public List<TextLog> findTextLogByType(String type){
+        return em.createQuery("SELECT c FROM " + TextLog.class.getSimpleName() + " c WHERE c.type = '" + type+"'", TextLog.class).getResultList();
     }
 }

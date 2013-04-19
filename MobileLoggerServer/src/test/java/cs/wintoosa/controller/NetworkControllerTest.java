@@ -44,5 +44,10 @@ public class NetworkControllerTest extends AbstractTest{
                 .andReturn();
     }
     
-    
+    @Test
+    public void testGetLogs() throws Exception{
+        this.mockMvc.perform(get("/log/network"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 }

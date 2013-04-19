@@ -43,6 +43,11 @@ public class CompControllerTest extends AbstractTest{
                 .andExpect(content().string("true"))
                 .andReturn();
     }
-    
+    @Test
+    public void testGetLogs() throws Exception{
+        this.mockMvc.perform(get("/log/compass"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
     
 }

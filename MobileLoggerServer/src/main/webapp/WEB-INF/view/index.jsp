@@ -67,27 +67,21 @@
             <li>
                 <a href="<c:url value="/log/touch"/>" >Touch</a>
             </li>
+            
+            <li>
+                <a href="<c:url value="/log/google"/>" >Search results</a>
+            </li>
+            <li>
+                <a href="<c:url value="/log/clicked"/>" >Search result clicked</a>
+            </li>
+            <li>
+                <a href="<c:url value="/log/weather"/>" >Weather</a>
+            </li>
 
         </ul>
 
         <h3>Todo</h3>
         <ul>
-            <li>
-                <a href="<c:url value="/log/clicked"/>" >Clicked</a>
-            </li>
-            <li>
-                <a href="<c:url value="/log/bluetooth"/>" >Bluetooth</a>
-            </li>
-            <li>
-                <a href="<c:url value="/log/proximity"/>" >Proximity</a>
-            </li>
-            <li>
-                <a href="<c:url value="/log/micro"/>" >Sounds</a>
-            </li>
-
-            <li>
-                <a href="<c:url value="/log/light"/>" >Light</a>
-            </li>
         </ul>
 
         <a href="<c:url value="/log/session/add"/>" >seed db</a>

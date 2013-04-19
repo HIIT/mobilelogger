@@ -42,7 +42,6 @@ public class GPSController {
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean putGPSLog(@Valid @RequestBody GpsLog log) {
-        System.out.println("putGPSLog");
         return logService.saveLog(log);
     }
     

@@ -64,6 +64,7 @@ public class FilteredRequest extends HttpServletRequestWrapper {
     public ServletInputStream getInputStream() {
         final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(stream.getBytes());
         ServletInputStream inputStream = new ServletInputStream() {
+            @Override
             public int read() throws IOException {
                 return byteArrayInputStream.read();
             }

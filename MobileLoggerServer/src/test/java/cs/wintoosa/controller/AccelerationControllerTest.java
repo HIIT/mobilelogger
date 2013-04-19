@@ -33,6 +33,13 @@ public class AccelerationControllerTest extends AbstractTest{
     }
     
     @Test
+    public void testGetAccelerationLog() throws Exception {
+        this.mockMvc.perform(get("/log/accel"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+    
+    @Test
     public void testPutAccelerationLog() throws Exception {
         String jsondata = "{\"accX\":1.0,\"accY\":2.0,\"accZ\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"2413a9ab3dc40a4a0de28316422f321c4bcd179a\"}";
 

@@ -23,7 +23,6 @@ namespace MobileLoggerApp.pages
         {
             this.SearchResults = new ObservableCollection<SearchResults>();
             this.LogData = new ObservableCollection<LogData>();
-            //this.Settings = new ObservableCollection<HandlerSettings>();
         }
 
         public bool IsLogDataLoaded
@@ -97,32 +96,39 @@ namespace MobileLoggerApp.pages
         {
             IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
-            Dictionary<string, bool> handlers;
-            appSettings.TryGetValue("HandlerSettings", out handlers);
+            ObservableCollection<HandlerSettings> savedHandlers;
 
-            if (handlers != null)
+            appSettings.TryGetValue("HandlerSettings", out savedHandlers);
+
+            foreach (HandlerSettings handler in savedHandlers)
             {
-                foreach (KeyValuePair<string, bool> handler in handlers)
-                {
-                    handlerSettings.Add(new HandlerSettings() { HandlerName = handler.Key, HandlerIsChecked = handler.Value });
-                }
-                HandlerSettings = handlerSettings;
+                handlerSettings.Add(new HandlerSettings() { HandlerName = handler.HandlerName, HandlerIsChecked = handler.HandlerIsChecked });
             }
+            HandlerSettings = handlerSettings;
+            appSettings["HandlerSettings"] = HandlerSettings;
         }
 
         private void GetDefaultHandlerSettings()
         {
             IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
-            Dictionary<String, bool> handlers = new Dictionary<string, bool>();
 
             foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
             {
                 handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = true });
-                handlers.Add(logHandler.Key, true);
             }
-            appSettings.Add("HandlerSettings", handlers);
             HandlerSettings = handlerSettings;
+            appSettings.Add("HandlerSettings", HandlerSettings);
+        }
+
+        public void SaveHandlerSettings()
+        {
+            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+
+            if (appSettings.Contains("HandlerSettings"))
+                appSettings["HandlerSettings"] = HandlerSettings;
+            else
+                appSettings.Add("HandlerSettings", HandlerSettings);
         }
 
         public void GetSearchResults(JArray searchResults, Boolean newSearch)

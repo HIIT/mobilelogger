@@ -28,8 +28,6 @@ public class LogService implements ILogService {
     private SessionRepository sessionRepositoryImpl;
     @Autowired
     private PhoneRepository phoneRepositoryImpl;
-    @PersistenceContext
-    EntityManager em;
     
     private static final Logger logger = Logger.getLogger(LogService.class.getName());
 

@@ -129,12 +129,12 @@ namespace MobileLoggerApp.pages
                 appSettings.Add("HandlerSettings", HandlerSettings);
         }
 
-        public void GetSearchResults(JArray searchResults, Boolean newSearch)
+        public void LoadSearchResults(JArray searchResultsList, Boolean newSearch)
         {
             if (newSearch)
                 SearchResults.Clear();
 
-            foreach (JToken searchResult in searchResults)
+            foreach (JToken searchResult in searchResultsList)
                 if (SearchResultHasLink(searchResult))
                     SearchResults.Add(new SearchResults()
                     {
@@ -145,24 +145,52 @@ namespace MobileLoggerApp.pages
                     });
         }
 
-        private void GetSavedSearchResults()
-        {
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("SearchResults"))
-                GetSavedHandlerSettings();
-            else
-                GetDefaultHandlerSettings();
-        }
-
-        private void GetDefaultSearchResults()
-        {
-        }
-
         private bool SearchResultHasLink(JToken searchResult)
         {
             bool hasLink = true;
             searchResult.SelectToken("link", hasLink);
 
             return hasLink;
+        }
+
+        public void GetSearchResults()
+        {
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("SearchResults"))
+                GetSavedSearchResults();
+            else
+                GetDefaultHandlerSettings();
+        }
+
+        private void GetSavedSearchResults()
+        {
+            ObservableCollection<SearchResults> searchResults = new ObservableCollection<SearchResults>();
+            ObservableCollection<SearchResults> savedResults;
+
+            appSettings.TryGetValue("SearchResults", out savedResults);
+
+            foreach (SearchResults result in savedResults)
+            {
+                searchResults.Add(new SearchResults() {
+                    SearchResultTitle = result.SearchResultTitle,
+                    SearchResultSnippet = result.SearchResultSnippet, 
+                    SearchResultLink = result.SearchResultLink,
+                    SearchResult = result.SearchResult });
+            }
+            SearchResults = searchResults;
+            appSettings["SearchResults"] = SearchResults;
+        }
+
+        private void GetDefaultSearchResults()
+        {
+            ObservableCollection<SearchResults> searchResults = new ObservableCollection<SearchResults>();
+        }
+
+        public void SaveSearchResults()
+        {
+            if (appSettings.Contains("SearchResults"))
+                appSettings["SearchResults"] = SearchResults;
+            else
+                appSettings.Add("SearchResults", SearchResults);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
-using MobileLogger;
 using MobileLoggerApp.pages;
 using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
@@ -284,6 +283,7 @@ namespace MobileLoggerApp
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
+                _viewModel.SaveSearchResults();
                 _viewModel.SaveHandlerSettings();
 
                 if (this.State.ContainsKey("ViewModel"))
@@ -291,8 +291,6 @@ namespace MobileLoggerApp
                 else
                     this.State.Add("ViewModel", _viewModel);
             }
-
-            StateUtilities.IsLaunching = false;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -312,6 +310,7 @@ namespace MobileLoggerApp
                 }
                 DataContext = _viewModel;
             }
+            _viewModel.GetSearchResults();
             _viewModel.GetHandlerSettings();
             _isNewPageInstance = false;
         }

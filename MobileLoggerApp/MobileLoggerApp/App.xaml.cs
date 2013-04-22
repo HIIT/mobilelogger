@@ -31,6 +31,10 @@ namespace MobileLoggerApp
                 }
                 return viewModel;
             }
+            set
+            {
+                viewModel = value;
+            }
         }
 
         /// <summary>

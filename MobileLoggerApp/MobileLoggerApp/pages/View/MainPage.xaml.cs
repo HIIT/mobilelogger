@@ -17,7 +17,6 @@ namespace MobileLoggerApp
     {
         public static IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
 
-        MainViewModel _viewModel;
         bool _isNewPageInstance = false;
 
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
@@ -64,9 +63,6 @@ namespace MobileLoggerApp
                     }
                 }
             }
-
-            // Set the data context of the listbox control to the data
-            DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
             string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App")
@@ -155,14 +151,6 @@ namespace MobileLoggerApp
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-#if DEBUG
-            if (!App.ViewModel.IsLogDataLoaded)
-                App.ViewModel.GetLogData();
-#endif
-
-            if (!App.ViewModel.IsSettingsLoaded)
-                App.ViewModel.GetHandlerSettings();
-
             Touch.FrameReported += Touch_FrameReported;
             this.search = new GoogleCustomSearch();
             this.weatherInfo = new WeatherInformationSearch();
@@ -221,7 +209,14 @@ namespace MobileLoggerApp
             SearchResults searchResult = (SearchResults)stackPanel.DataContext;
 
             if (searchResultTap != null)
-                searchResultTap(searchResult.SearchResult);
+            {
+                string jo = searchResult.SearchResult;
+
+                JObject j = JObject.Parse(jo);
+
+                searchResultTap(j);
+            }
+
             search.OpenBrowser(searchResult.SearchResultLink.ToString());
         }
 
@@ -283,13 +278,20 @@ namespace MobileLoggerApp
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
-                _viewModel.SaveSearchResults();
-                _viewModel.SaveHandlerSettings();
+                App.ViewModel.SaveHandlerSettings();
 
                 if (this.State.ContainsKey("ViewModel"))
-                    this.State["ViewModel"] = _viewModel;
+                    this.State["ViewModel"] = App.ViewModel;
                 else
-                    this.State.Add("ViewModel", _viewModel);
+                    this.State.Add("ViewModel", App.ViewModel);
+
+                if (SearchTextBox.Text != null)
+                {
+                    if (this.State.ContainsKey("SearchTerm"))
+                        this.State["SearchTerm"] = SearchTextBox.Text;
+                    else
+                        this.State.Add("SearchTerm", SearchTextBox.Text);
+                }
             }
         }
 
@@ -297,21 +299,19 @@ namespace MobileLoggerApp
         {
             if (_isNewPageInstance)
             {
-                if (_viewModel == null)
+                if (State.ContainsKey("ViewModel"))
                 {
-                    if (State.ContainsKey("ViewModel"))
-                    {
-                        _viewModel = State["ViewModel"] as MainViewModel;
-                    }
-                    else
-                    {
-                        _viewModel = App.ViewModel;
-                    }
+                    App.ViewModel = State["ViewModel"] as MainViewModel;
                 }
-                DataContext = _viewModel;
+                DataContext = App.ViewModel;
             }
-            _viewModel.GetSearchResults();
-            _viewModel.GetHandlerSettings();
+            App.ViewModel.GetHandlerSettings();
+
+            if (State.ContainsKey("SearchTerm"))
+            {
+                this.searchTerm = State["SearchTerm"] as string;
+                SearchTextBox.Text = this.searchTerm;
+            }
             _isNewPageInstance = false;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using MobileLoggerApp.Handlers;
 using MobileLoggerScheduledAgent.Database;
 using MobileLoggerScheduledAgent.Devicetools;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,16 +16,17 @@ namespace MobileLoggerApp.pages
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<SearchResults> SearchResults { get; set; }
+        public ObservableCollection<SearchResults> Results { get; set; }
         public ObservableCollection<LogData> LogData { get; set; }
         public ObservableCollection<HandlerSettings> HandlerSettings { get; set; }
         IsolatedStorageSettings appSettings;
 
         public MainViewModel()
         {
-            this.SearchResults = new ObservableCollection<SearchResults>();
             this.LogData = new ObservableCollection<LogData>();
             this.appSettings = IsolatedStorageSettings.ApplicationSettings;
+            this.Results = new ObservableCollection<SearchResults>();
+            this.HandlerSettings = new ObservableCollection<HandlerSettings>();
         }
 
         public bool IsLogDataLoaded
@@ -132,16 +134,16 @@ namespace MobileLoggerApp.pages
         public void LoadSearchResults(JArray searchResultsList, Boolean newSearch)
         {
             if (newSearch)
-                SearchResults.Clear();
+                Results.Clear();
 
             foreach (JToken searchResult in searchResultsList)
                 if (SearchResultHasLink(searchResult))
-                    SearchResults.Add(new SearchResults()
+                    Results.Add(new SearchResults()
                     {
                         SearchResultTitle = searchResult.SelectToken("title").ToString(),
                         SearchResultSnippet = searchResult.SelectToken("snippet").ToString(),
                         SearchResultLink = searchResult.SelectToken("link").ToString(),
-                        SearchResult = searchResult as JObject
+                        SearchResult = searchResult.ToString(Formatting.None)
                     });
         }
 
@@ -151,46 +153,6 @@ namespace MobileLoggerApp.pages
             searchResult.SelectToken("link", hasLink);
 
             return hasLink;
-        }
-
-        public void GetSearchResults()
-        {
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("SearchResults"))
-                GetSavedSearchResults();
-            else
-                GetDefaultHandlerSettings();
-        }
-
-        private void GetSavedSearchResults()
-        {
-            ObservableCollection<SearchResults> searchResults = new ObservableCollection<SearchResults>();
-            ObservableCollection<SearchResults> savedResults;
-
-            appSettings.TryGetValue("SearchResults", out savedResults);
-
-            foreach (SearchResults result in savedResults)
-            {
-                searchResults.Add(new SearchResults() {
-                    SearchResultTitle = result.SearchResultTitle,
-                    SearchResultSnippet = result.SearchResultSnippet, 
-                    SearchResultLink = result.SearchResultLink,
-                    SearchResult = result.SearchResult });
-            }
-            SearchResults = searchResults;
-            appSettings["SearchResults"] = SearchResults;
-        }
-
-        private void GetDefaultSearchResults()
-        {
-            ObservableCollection<SearchResults> searchResults = new ObservableCollection<SearchResults>();
-        }
-
-        public void SaveSearchResults()
-        {
-            if (appSettings.Contains("SearchResults"))
-                appSettings["SearchResults"] = SearchResults;
-            else
-                appSettings.Add("SearchResults", SearchResults);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

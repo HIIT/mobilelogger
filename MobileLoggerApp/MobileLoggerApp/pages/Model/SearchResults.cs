@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace MobileLoggerApp.pages
@@ -15,7 +14,7 @@ namespace MobileLoggerApp.pages
             set
             {
                 _searchResultTitle = value;
-                NotifyPropertyChanged("_searchResult");
+                NotifyPropertyChanged("_searchResultTitle");
             }
         }
 
@@ -43,9 +42,9 @@ namespace MobileLoggerApp.pages
             }
         }
 
-        private JObject _searchResult;
+        private string _searchResult;
         [DataMember]
-        public JObject SearchResult
+        public string SearchResult
         {
             get { return _searchResult; }
             set

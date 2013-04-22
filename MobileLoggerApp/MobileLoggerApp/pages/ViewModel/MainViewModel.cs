@@ -1,6 +1,7 @@
 ﻿using MobileLoggerApp.Handlers;
 using MobileLoggerScheduledAgent.Database;
 using MobileLoggerScheduledAgent.Devicetools;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,17 @@ namespace MobileLoggerApp.pages
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<SearchResults> SearchResults { get; set; }
+        public ObservableCollection<SearchResults> Results { get; set; }
         public ObservableCollection<LogData> LogData { get; set; }
         public ObservableCollection<HandlerSettings> HandlerSettings { get; set; }
+        IsolatedStorageSettings appSettings;
 
         public MainViewModel()
         {
-            this.SearchResults = new ObservableCollection<SearchResults>();
             this.LogData = new ObservableCollection<LogData>();
+            this.appSettings = IsolatedStorageSettings.ApplicationSettings;
+            this.Results = new ObservableCollection<SearchResults>();
+            this.HandlerSettings = new ObservableCollection<HandlerSettings>();
         }
 
         public bool IsLogDataLoaded
@@ -94,7 +98,6 @@ namespace MobileLoggerApp.pages
 
         private void GetSavedHandlerSettings()
         {
-            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
             ObservableCollection<HandlerSettings> savedHandlers;
 
@@ -110,7 +113,6 @@ namespace MobileLoggerApp.pages
 
         private void GetDefaultHandlerSettings()
         {
-            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
 
             foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
@@ -123,27 +125,25 @@ namespace MobileLoggerApp.pages
 
         public void SaveHandlerSettings()
         {
-            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
-
             if (appSettings.Contains("HandlerSettings"))
                 appSettings["HandlerSettings"] = HandlerSettings;
             else
                 appSettings.Add("HandlerSettings", HandlerSettings);
         }
 
-        public void GetSearchResults(JArray searchResults, Boolean newSearch)
+        public void GetSearchResults(JArray searchResultsList, Boolean newSearch)
         {
             if (newSearch)
-                SearchResults.Clear();
+                Results.Clear();
 
-            foreach (JToken searchResult in searchResults)
+            foreach (JToken searchResult in searchResultsList)
                 if (SearchResultHasLink(searchResult))
-                    SearchResults.Add(new SearchResults()
+                    Results.Add(new SearchResults()
                     {
                         SearchResultTitle = searchResult.SelectToken("title").ToString(),
                         SearchResultSnippet = searchResult.SelectToken("snippet").ToString(),
                         SearchResultLink = searchResult.SelectToken("link").ToString(),
-                        SearchResult = searchResult as JObject
+                        SearchResult = searchResult.ToString(Formatting.None)
                     });
         }
 

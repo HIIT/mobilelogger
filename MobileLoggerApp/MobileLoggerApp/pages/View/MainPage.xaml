@@ -66,7 +66,7 @@
                     <StackPanel Margin="0,0,0,557">
                         <TextBox x:Name="SearchTextBox" Text="" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyUp="SearchTextBox_KeyUp"></TextBox>
                     </StackPanel>
-                    <ListBox x:Name="SearchListBox" ItemsSource="{Binding SearchResults}" Margin="0,78,0,0" Style="{StaticResource ListBoxStyle1}">
+                    <ListBox x:Name="SearchListBox" ItemsSource="{Binding Results}" Margin="0,78,0,0" Style="{StaticResource ListBoxStyle1}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432" Height="auto" Tap="searchResultItemTappedEvent">
@@ -126,7 +126,7 @@
                     <TextBlock x:Name="CustomerSupport" Margin="0,0,0,17"/>
                     <TextBlock x:Name="PrivacyPolicy" Margin="0,0,0,17"/>
                     <TextBlock x:Name="SupportedLanguages" Margin="0,0,0,17"/>
-                    <HyperlinkButton Content="Privacy Policy" NavigateUri="http://google.com" Margin="0,0,0,17" />
+                    <!--<HyperlinkButton Content="Privacy Policy" NavigateUri="http://google.com" Margin="0,0,0,17" />-->
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>

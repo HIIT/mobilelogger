@@ -70,11 +70,12 @@ namespace MobileLoggerApp
 
         private void StartEnabledHandlers()
         {
+            AbstractLogHandler logHandler;
+            string logHandlerName;
+
             if (PhoneApplicationService.Current.State.ContainsKey("Handlers"))
             {
-                AbstractLogHandler logHandler;
-                string logHandlerName;
-                bool isThisEnabled;
+                bool isHandlerEnabled;
                 handlerState = PhoneApplicationService.Current.State["Handlers"] as Dictionary<string, bool>;
 
                 foreach (KeyValuePair<string, AbstractLogHandler> lh in _logHandlers)
@@ -82,17 +83,14 @@ namespace MobileLoggerApp
                     logHandler = lh.Value;
                     logHandlerName = lh.Key;
 
-                    handlerState.TryGetValue(logHandlerName, out isThisEnabled);
+                    handlerState.TryGetValue(logHandlerName, out isHandlerEnabled);
 
-                    if (isThisEnabled)
+                    if (isHandlerEnabled)
                         logHandler.StartWatcher();
                 }
             }
             else
             {
-                AbstractLogHandler logHandler;
-                string logHandlerName;
-
                 foreach (KeyValuePair<string, AbstractLogHandler> lh in _logHandlers)
                 {
                     logHandler = lh.Value;

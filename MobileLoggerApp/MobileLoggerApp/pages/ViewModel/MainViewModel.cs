@@ -131,7 +131,7 @@ namespace MobileLoggerApp.pages
                 appSettings.Add("HandlerSettings", HandlerSettings);
         }
 
-        public void LoadSearchResults(JArray searchResultsList, Boolean newSearch)
+        public void GetSearchResults(JArray searchResultsList, Boolean newSearch)
         {
             if (newSearch)
                 Results.Clear();

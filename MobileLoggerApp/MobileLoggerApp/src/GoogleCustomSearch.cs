@@ -53,7 +53,7 @@ namespace MobileLoggerApp
             JObject searchData = JObject.Parse(data);
             JArray searchResults = (JArray)searchData["items"];
 
-            App.ViewModel.LoadSearchResults(searchResults, newSearch);
+            App.ViewModel.GetSearchResults(searchResults, newSearch);
 
             if (searchDataEvent != null)
                 searchDataEvent(searchData);

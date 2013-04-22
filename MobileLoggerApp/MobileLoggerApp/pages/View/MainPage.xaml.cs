@@ -304,8 +304,8 @@ namespace MobileLoggerApp
                     App.ViewModel = State["ViewModel"] as MainViewModel;
                 }
                 DataContext = App.ViewModel;
+                App.ViewModel.GetHandlerSettings();
             }
-            App.ViewModel.GetHandlerSettings();
 
             if (State.ContainsKey("SearchTerm"))
             {

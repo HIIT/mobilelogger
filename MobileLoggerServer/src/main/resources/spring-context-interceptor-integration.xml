@@ -28,7 +28,15 @@
     <mvc:view-controller path="/" view-name="home"/>
     
     <mvc:interceptors>
-        <bean class="cs.wintoosa.controller.interceptor.ValidationInterceptor" />
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/> 
+        </mvc:interceptor>
+        
+        <mvc:interceptor>
+            <mvc:mapping path="/log/**"/>
+            <bean class="cs.wintoosa.controller.interceptor.ValidationInterceptor" />
+        </mvc:interceptor>
     </mvc:interceptors>
         
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->

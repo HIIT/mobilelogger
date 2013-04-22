@@ -23,14 +23,6 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
     @PersistenceContext
     EntityManager em;
 
-    /**
-     * Returns all entries for session from table T
-     * @param <T> the type of the class
-     * @param cls the class, has to be subclass of Log.class
-     * @param session the session of which logs to retrieve
-     * @return the logs of type T of session
-     * @throws IllegalArgumentException if the class<T> table doesn't exist in DB
-     */
     @Transactional(readOnly=true)
     @Override
     public <T extends Log> List<T> findBySessionLog(Class<T> cls, SessionLog session) throws IllegalArgumentException{
@@ -41,13 +33,6 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
         return resultList;
     }
     
-    /**
-     * Returns all logs of type T
-     * @param <T> the type of the class
-     * @param cls the class, has to be subclass of Log.class
-     * @return the logs of type T
-     * @throws IllegalArgumentException 
-     */
     @Transactional(readOnly=true)
     @Override
     public <T extends Log> List<T> findAll(Class<T> cls) throws IllegalArgumentException {

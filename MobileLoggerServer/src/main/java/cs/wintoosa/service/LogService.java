@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * 
  * @author jonimake
  */
 @Service
@@ -37,7 +37,6 @@ public class LogService implements ILogService {
         if (log == null || log.getPhoneId() == null) {
             return false;
         }
-        
         List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(log.getPhoneId(), log.getTimestamp(), log.getTimestamp());
         assert(sessions.size() <= 1);
         for (SessionLog session : sessions) {
@@ -49,12 +48,6 @@ public class LogService implements ILogService {
         return true;
     }
 
-    /**
-     * Todo: Put this in a repository class
-     *
-     * @param cls the class of the log entry
-     * @return
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) throws IllegalArgumentException {
@@ -95,12 +88,6 @@ public class LogService implements ILogService {
         return sessions;
     }
 
-    /**
-     * Saves the given session log into db
-     *
-     * @param sessionLog
-     * @return the saved SessionLog or null if save failed
-     */
     @Override
     @Transactional
     public SessionLog saveSessionLog(SessionLog sessionLog) {
@@ -131,7 +118,6 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public List<Phone> getAllPhones() {
-
         return phoneRepositoryImpl.findAll();
     }
 

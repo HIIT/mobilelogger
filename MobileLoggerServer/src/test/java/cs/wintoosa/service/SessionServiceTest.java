@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.service;
 
+import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.AccLog;
 import cs.wintoosa.domain.CompLog;
 import cs.wintoosa.domain.GpsLog;
@@ -34,7 +35,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  *
  * @author jonimake
  */
-public class SessionServiceTest {
+public class SessionServiceTest extends AbstractTest{
     
     /**
      * Test of formatForJsp method, of class SessionService.

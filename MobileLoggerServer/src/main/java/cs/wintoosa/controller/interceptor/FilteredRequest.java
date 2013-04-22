@@ -46,12 +46,14 @@ public class FilteredRequest extends HttpServletRequestWrapper {
             }
         } catch (IOException ex) {
             logger.severe("Error reading the request body...");
+            logger.severe(ex.toString());
         } finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch (IOException ex) {
                     logger.severe("Error closing bufferedReader...");
+                    logger.severe(ex.toString());
                 }
             }
         }

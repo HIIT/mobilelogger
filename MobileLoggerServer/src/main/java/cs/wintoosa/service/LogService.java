@@ -140,4 +140,10 @@ public class LogService implements ILogService {
     public List<Log> getAllBySessionId(SessionLog session) {
         return logRepositoryImpl.findBySessionLog(session);
     }
+    
+    @Override
+    @Transactional()
+    public List<TextLog> getTextLogByType(String type){
+        return logRepositoryImpl.findTextLogByType(type);
+    }
 }

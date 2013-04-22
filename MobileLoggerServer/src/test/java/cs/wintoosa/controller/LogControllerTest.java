@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -20,42 +22,12 @@ public class LogControllerTest extends AbstractTest {
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
     }
-    
-    @Test
-    public void testFoo() throws Exception{
         
+    @Test
+    public void testGetAllLogs() throws Exception{
+        this.mockMvc.perform(get("/log"))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
-    /*@Test
-    public void testPutPlainLog() throws Exception {
-        System.out.println("testPutPlainLog");
-        GpsLog log = new GpsLog();
-        log.setPhoneId(123456789012345l+"");
-        log.setAlt(1f);
-        log.setLat(2f);
-        log.setLon(2f);
-        log.setTimestamp(Long.MIN_VALUE);
-        Gson gson = new Gson();
-        this.mockMvc.perform(put("/log").contentType(MediaType.APPLICATION_JSON).content(gson.toJson(log)))
-                .andExpect(status().isOk())
-                .andExpect(content().string("true"))
-                .andReturn();
-    }*/
-/*
-    @Test
-    public void testPutGps() throws Exception {
-        System.out.println("testPutGps");
-        GpsLog log = new GpsLog();
-        log.setPhoneId(123456789012345l);
-        Gson gson = new Gson();
-        log.setTimestamp(Long.MIN_VALUE);
-        log.setLat(60.2f);
-        log.setLon(24.9f);
-        
-        this.mockMvc.perform(put("/log/gps").contentType(MediaType.APPLICATION_JSON).content(gson.toJson(log)))
-                .andExpect(status().isOk())
-                .andExpect(content().string("true"))
-                .andReturn();
-    }
-*/
 }

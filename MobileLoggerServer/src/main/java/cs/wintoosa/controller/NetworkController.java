@@ -37,13 +37,7 @@ public class NetworkController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putNetworkLog(@Valid @RequestBody Network log, BindingResult result) {
-        if(result.hasErrors()) {
-            System.out.println("result had errors");
-            for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
-            return false;
-        }
+    public boolean putNetworkLog(@Valid @RequestBody Network log) {
         return logService.saveLog(log);
     }
 }

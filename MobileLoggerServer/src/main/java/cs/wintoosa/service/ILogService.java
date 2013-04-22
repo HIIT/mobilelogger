@@ -34,5 +34,7 @@ public interface ILogService {
     public List<SessionLog> getAllSessions();
 
     public List<Phone> getAllPhones();
+    
+    public List<TextLog> getTextLogByType(String type);
 
 }

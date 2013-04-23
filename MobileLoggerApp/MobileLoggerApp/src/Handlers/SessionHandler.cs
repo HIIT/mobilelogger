@@ -29,6 +29,7 @@ namespace MobileLoggerApp.Handlers
 
         public void Start()
         {
+            this.IsEnabled = true;
             this.start = DateTime.UtcNow;
             hasStarted = true;
         }

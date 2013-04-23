@@ -1,6 +1,4 @@
 ﻿using MobileLoggerScheduledAgent.Database;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,11 +6,13 @@ namespace MobileLoggerApp
 {
     public class LogEventSaver
     {
-        private Queue<LogEvent> saveQueue = new Queue<LogEvent>();
-
+        private Queue<LogEvent> saveQueue;
         private static LogEventSaver instance;
 
-        private LogEventSaver() { }
+        private LogEventSaver()
+        {
+            saveQueue = new Queue<LogEvent>();
+        }
 
         public static LogEventSaver Instance
         {
@@ -28,30 +28,22 @@ namespace MobileLoggerApp
 
         public void SaveAll()
         {
-            using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
+            lock (saveQueue)
             {
-                while (saveQueue.Any()) //while !isEmpty
+                using (LogEventDataContext logDBContext = new LogEventDataContext(MainPage.ConnectionString))
                 {
-                    LogEvent e = saveQueue.Dequeue();
-                    logDBContext.addEvent(e.data, e.url);
+                    logDBContext.addEvents(saveQueue.ToList().AsReadOnly());
+                    saveQueue = new Queue<LogEvent>();
                 }
             }
         }
 
-        public void addEvent(JObject data, string url)
+        public void addEvent(string data, string url)
         {
-            saveQueue.Enqueue(new LogEvent(data, url));
-        }
-
-        private class LogEvent
-        {
-            public LogEvent(JObject data, String url)
-            {
-                this.data = data;
-                this.url = url;
-            }
-            public JObject data { get; set; }
-            public String url { get; set; }
+            LogEvent e = new LogEvent();
+            e.relativeUrl = url;
+            e.sensorEvent = data;
+            saveQueue.Enqueue(e);
         }
     }
 }

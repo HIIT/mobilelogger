@@ -9,7 +9,6 @@ namespace MobileLoggerApp.Handlers
 
         public KeyboardHandler()
         {
-            this.IsEnabled = true;
         }
         
         public override void SaveSensorLog()
@@ -21,12 +20,14 @@ namespace MobileLoggerApp.Handlers
         {
             MobileLoggerApp.MainPage.keyboardGotFocus += new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardGotFocus);
             MobileLoggerApp.MainPage.keyboardLostFocus += new MobileLoggerApp.MainPage.KeyboardFocusHandler(KeyboardLostFocus);
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             MobileLoggerApp.MainPage.keyboardGotFocus -= KeyboardGotFocus;
             MobileLoggerApp.MainPage.keyboardLostFocus -= KeyboardLostFocus;
+            this.IsEnabled = false;
         }
 
         private void KeyboardGotFocus()

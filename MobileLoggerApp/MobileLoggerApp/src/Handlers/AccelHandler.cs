@@ -11,7 +11,6 @@ namespace MobileLoggerApp.Handlers
         public AccelHandler()
         {
             this.accelerometerWatcher = new Accelerometer();
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()
@@ -21,14 +20,19 @@ namespace MobileLoggerApp.Handlers
 
         public override void StartWatcher()
         {
-            this.accelerometerWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-            this.accelerometerWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
-            this.accelerometerWatcher.Start();
+            if (Accelerometer.IsSupported)
+            {
+                this.accelerometerWatcher.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
+                this.accelerometerWatcher.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
+                this.accelerometerWatcher.Start();
+                this.IsEnabled = true;
+            }
         }
 
         public override void StopWatcher()
         {
             this.accelerometerWatcher.Stop();
+            this.IsEnabled = false;
         }
 
         void accelerometer_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)

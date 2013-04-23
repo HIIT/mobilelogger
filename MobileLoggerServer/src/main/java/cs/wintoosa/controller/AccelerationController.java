@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.controller.interceptor.ValidationInterceptor;
-import cs.wintoosa.domain.AccLog;
+import cs.wintoosa.domain.Acceleration;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -33,12 +33,12 @@ public class AccelerationController {
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
     public List<Log> getLogs() {
-        return logService.getAll(AccLog.class);
+        return logService.getAll(Acceleration.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putAccelerationLog( @RequestBody AccLog log, BindingResult result) {
+    public boolean putAccelerationLog( @RequestBody Acceleration log, BindingResult result) {
         System.out.println("put accel");
         return logService.saveLog(log);
     }

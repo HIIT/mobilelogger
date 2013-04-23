@@ -7,9 +7,10 @@ package cs.wintoosa.controller;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.TextLog;
+import cs.wintoosa.domain.Text;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -27,29 +28,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/log/clicked")
 public class SearchClickedController {
-    
     @Autowired
     ILogService logService;
     
-    @RequestMapping(method= RequestMethod.GET)
+    @RequestMapping(method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Log> getLogs() {
-        return logService.getAll(TextLog.class); //Currently returns all logs, not only gps logs
+    public boolean putLog(@Valid @RequestBody Text data, BindingResult result) {
+        //System.out.println("at result Clicked controller, log is: "+data);
+        data.setType("clicked");
+        return logService.saveLog(data);
     }
     
-    @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method=RequestMethod.GET)
     @ResponseBody
-    public boolean putTextLog(@RequestBody String log, BindingResult result) {
-        JsonParser parser = new JsonParser();
-        JsonObject json = parser.parse(log).getAsJsonObject();
-        TextLog tLog = new TextLog();
-        tLog.setPhoneId(json.get("phoneId").getAsString());
-        json.remove("phoneId");
-        tLog.setTimestamp(json.get("timestamp").getAsLong());
-        json.remove("timestamp");
-        tLog.setText(json.toString());
-        
-        return logService.saveLog(tLog);
+    public List<Text> getLogs(){
+        return logService.getTextLogByType("clicked");
     }
-    
 }

@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.TouchLog;
+import cs.wintoosa.domain.Touch;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import javax.validation.Valid;
@@ -30,7 +30,7 @@ public class TouchController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean put(@RequestBody TouchLog touchLog) {
+    public boolean put(@RequestBody Touch touchLog) {
         
         return logService.saveLog(touchLog);
     }
@@ -38,6 +38,6 @@ public class TouchController {
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
     public List<Log> get() {
-        return logService.getAll(TouchLog.class);
+        return logService.getAll(Touch.class);
     }
 }

@@ -8,11 +8,10 @@ namespace MobileLoggerApp.Handlers
     {
         private static string URL = "/log/google";
         string[] searchResultRemovableItems = {"htmlFormattedUrl", "htmlSnippet", "htmlTitle", "pagemap"};
-        int localDBStringMaxLength = DeviceTools.GetDeviceLocalDBStringMaxLength();
+        int searchResultMaxLength = DeviceTools.deviceLocalDBStringMaxLength - DeviceTools.deviceIdLength - DeviceTools.SHA1Length;
 
         public SearchDataHandler()
         {
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()
@@ -24,12 +23,14 @@ namespace MobileLoggerApp.Handlers
         {
             GoogleCustomSearch.searchDataEvent += new GoogleCustomSearch.SearchDataHandler(SearchData);
             MainPage.searchResultTap += new MainPage.SearchResultTapped(SearchResultTapped);
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             GoogleCustomSearch.searchDataEvent -= this.SearchData;
             MainPage.searchResultTap -= this.SearchResultTapped;
+            this.IsEnabled = false;
         }
 
         private void SearchData(JObject searchData)
@@ -82,7 +83,7 @@ namespace MobileLoggerApp.Handlers
         {
             int removableItemIndex = 0;
 
-            while (resultObj.ToString().Length > localDBStringMaxLength)
+            while (resultObj.ToString(Newtonsoft.Json.Formatting.None).Length > searchResultMaxLength)
             {
                 resultObj.Remove(searchResultRemovableItems[removableItemIndex]);
                 if (removableItemIndex < searchResultRemovableItems.Length)

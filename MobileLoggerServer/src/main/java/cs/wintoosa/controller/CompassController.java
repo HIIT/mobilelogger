@@ -4,7 +4,7 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.CompLog;
+import cs.wintoosa.domain.Compass;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -33,19 +33,13 @@ public class CompassController {
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
     public List<Log> getLogs() {
-        return logService.getAll(CompLog.class);
+        return logService.getAll(Compass.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putPlainLog(@Valid @RequestBody CompLog log, BindingResult result) {
+    public boolean putPlainLog(@Valid @RequestBody Compass log) {
         System.out.println("put compass log");
-        if(result.hasErrors()) {
-            System.out.println("result had errors");
-            for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
-            return false;
-        }
         return logService.saveLog(log);
     }
     

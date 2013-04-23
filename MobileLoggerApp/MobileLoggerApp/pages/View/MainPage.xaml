@@ -57,40 +57,38 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
 
-        <controls:Pivot Title="MobileLogger" SelectionChanged="currentPivotItem">
+        <controls:Pivot Title="MobileLogger" SelectionChanged="currentPivotItem" >
 
             <!--Search Pivot item-->
-            <controls:PivotItem Header="Search" Margin="12,0">
+            <controls:PivotItem Header="Search" Margin="12,0" >
                 <!--Double line list with text wrapping-->
                 <Grid>
-
                     <StackPanel Margin="0,0,0,557">
                         <TextBox x:Name="SearchTextBox" Text="" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyUp="SearchTextBox_KeyUp"></TextBox>
                     </StackPanel>
-                    <ListBox x:Name="FirstListBox" ItemsSource="{Binding Items}" Margin="0,78,0,0" Style="{StaticResource ListBoxStyle1}">
+                    <ListBox x:Name="SearchListBox" ItemsSource="{Binding Results}" Margin="0,78,0,0" Style="{StaticResource ListBoxStyle1}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432" Height="auto" Tap="searchResultItemTappedEvent">
-                                    <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" />
-                                    <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                    <TextBlock Text="{Binding LineThree}" TextWrapping="Wrap" Margin="12, 0, 12, 0" />
+                                    <TextBlock Text="{Binding SearchResultTitle, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" />
+                                    <TextBlock Text="{Binding SearchResultSnippet, Mode=TwoWay}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <TextBlock Text="{Binding SearchResultLink, Mode=TwoWay}" TextWrapping="Wrap" Margin="12, 0, 12, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-
                 </Grid>
             </controls:PivotItem>
 
             <!--Log Data Pivot item-->
             <controls:PivotItem Header="Data" >
                 <!--Triple line list no text wrapping-->
-                <ListBox x:Name="SecondListBox" Margin="0,0,-12,0" ItemsSource="{Binding LogData}">
+                <ListBox x:Name="DataListBox" Margin="0,0,-12,0" ItemsSource="{Binding LogData}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
-                                <TextBlock Text="{Binding LineOne}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                <TextBlock Text="{Binding LineTwo}" TextWrapping="NoWrap" Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <TextBlock Text="{Binding LogDataHeading, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
+                                <TextBlock Text="{Binding LogDataContent, Mode=TwoWay}" TextWrapping="NoWrap" Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -108,21 +106,30 @@
             </controls:PivotItem>
 
             <!--Settings Pivot item-->
-            <controls:PivotItem Header="Settings">
-                <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding Settings}">
+            <controls:PivotItem Header="Settings" >
+                <ListBox x:Name="SettingsListBox" Margin="0,0,-12,0" ItemsSource="{Binding HandlerSettings}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox x:Name="HandlerCheckBox" Content="{Binding LineOne}" IsChecked="{Binding IsChecked}"
+                            <StackPanel>
+                                <CheckBox x:Name="HandlerCheckBox" Content="{Binding HandlerName, Mode=TwoWay}" IsChecked="{Binding HandlerIsChecked, Mode=TwoWay}"
                                           Checked="HandlerCheckBox_Checked" Unchecked="HandlerCheckBox_Unchecked" HorizontalAlignment="Right" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PivotItem>
+
+            <!--Info Pivot item-->
+            <controls:PivotItem Header="Info">                
+                <Grid>
+                    <TextBlock x:Name="VersionInfo" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="CustomerSupport" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="PrivacyPolicy" Margin="0,0,0,17"/>
+                    <TextBlock x:Name="SupportedLanguages" Margin="0,0,0,17"/>
+                    <!--<HyperlinkButton Content="Privacy Policy" NavigateUri="http://google.com" Margin="0,0,0,17" />-->
+                </Grid>
+            </controls:PivotItem>
         </controls:Pivot>
-
     </Grid>
-
 
 </phone:PhoneApplicationPage>

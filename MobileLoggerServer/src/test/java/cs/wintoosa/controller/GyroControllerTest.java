@@ -43,6 +43,11 @@ public class GyroControllerTest extends AbstractTest{
                 .andExpect(content().string("true"))
                 .andReturn();
     }
-    
+    @Test
+    public void testGetLogs() throws Exception{
+        this.mockMvc.perform(get("/log/gyro"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
     
 }

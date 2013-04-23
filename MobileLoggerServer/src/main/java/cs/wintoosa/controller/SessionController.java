@@ -4,6 +4,7 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.service.ILogService;
 import cs.wintoosa.service.ISessionService;
@@ -37,12 +38,7 @@ public class SessionController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public SessionLog putSessionLog(@Valid @RequestBody SessionLog log, BindingResult result) {
-        if(result.hasErrors()) {
-            for(ObjectError error : result.getAllErrors())
-                System.out.println(error.toString());
-            return null;
-        }
+    public SessionLog putSessionLog(@Valid @RequestBody SessionLog log) {
         return logService.saveSessionLog(log);
     }
     
@@ -53,12 +49,20 @@ public class SessionController {
     }
     
     @RequestMapping(value = "/{sessionId}", method = RequestMethod.GET)
-    public String getLogsBySession(@PathVariable long sessionId, Model model) {
+    @ResponseBody
+    public List<Log> getLogsBySession(@PathVariable long sessionId, Model model) {
+        System.out.println("getting logs in session");
+        return logService.getAllBySessionId(logService.getSessionById(sessionId));
+    }
+    
+    @RequestMapping(value = "/{sessionId}/matrix", method = RequestMethod.GET)
+    public String getLogsBySessionMatrix(@PathVariable long sessionId, Model model) {
         System.out.println("getting logs in session");
         model.addAttribute("session", sessionService.formatForJsp(logService.getSessionById(sessionId)));
         return "matrix";
     }
-    
+   
+    //Adds dummy logs to DB for debugging
     @RequestMapping(value ="/add", method=RequestMethod.GET)
     public String seedLogs(){
         SessionLog log = new SessionLog();

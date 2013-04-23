@@ -3,6 +3,7 @@ using MobileLoggerScheduledAgent.Devicetools;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Windows;
 
 namespace MobileLoggerApp.Handlers
 {
@@ -10,7 +11,6 @@ namespace MobileLoggerApp.Handlers
     {
         public NetworkHandler()
         {
-            this.IsEnabled = true;
         }
 
         public override void SaveSensorLog()
@@ -22,11 +22,13 @@ namespace MobileLoggerApp.Handlers
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged += new EventHandler<NetworkNotificationEventArgs>(NetWorkAvailibilityChanged);
             UpdateNetworkValues();
+            this.IsEnabled = true;
         }
 
         public override void StopWatcher()
         {
             DeviceNetworkInformation.NetworkAvailabilityChanged -= NetWorkAvailibilityChanged;
+            this.IsEnabled = false;
         }
 
         private void NetWorkAvailibilityChanged(object sender, NetworkNotificationEventArgs e)
@@ -54,6 +56,8 @@ namespace MobileLoggerApp.Handlers
                 UpdateCellularMobileOperator();
                 NetworkInterfaceInformation();
             }
+            else
+                NetworkNotAvailableMessageBox();
         }
 
         private void UpdateCellularMobileOperator()
@@ -109,6 +113,8 @@ namespace MobileLoggerApp.Handlers
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine(e.SocketError.ToString(), "Error Getting Interface Information");
+
                 AddJOValue("InterfaceBandwidth", null);
                 AddJOValue("InterfaceCharacteristics", null);
                 AddJOValue("InterfaceDescription", null);
@@ -118,6 +124,14 @@ namespace MobileLoggerApp.Handlers
                 AddJOValue("InterfaceType", null);
                 AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
+        }
+
+        public static void NetworkNotAvailableMessageBox()
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show("Network is not available.");
+            });
         }
     }
 }

@@ -36,7 +36,7 @@ public class SearchClickedControllerTest extends AbstractTest{
     @Test
     public void testPutJsonLog() throws Exception {
         
-        String jsondata = "{\"testData\":\"foo\", \"phoneId\":\"test\", \"timestamp\":3}";
+        String jsondata = "{\"text\":\"foo\", \"phoneId\":\"test\", \"timestamp\":3, \"type\":\"test\"}";
 
         this.mockMvc.perform(put("/log/clicked").contentType(MediaType.APPLICATION_JSON).content(jsondata))
                 .andExpect(status().isOk())
@@ -46,8 +46,6 @@ public class SearchClickedControllerTest extends AbstractTest{
     
     @Test
     public void testGet() throws Exception {
-        
-
         this.mockMvc.perform(get("/log/clicked"))
                 .andExpect(status().isOk())
                 .andReturn();

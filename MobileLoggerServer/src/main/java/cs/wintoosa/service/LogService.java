@@ -1,11 +1,13 @@
 package cs.wintoosa.service;
 
+import com.google.gson.Gson;
 import cs.wintoosa.domain.*;
 import cs.wintoosa.repository.log.LogRepository;
 import cs.wintoosa.repository.phone.PhoneRepository;
 import cs.wintoosa.repository.session.SessionRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.eclipse.persistence.exceptions.QueryException;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * 
  * @author jonimake
  */
 @Service
@@ -26,8 +28,8 @@ public class LogService implements ILogService {
     private SessionRepository sessionRepositoryImpl;
     @Autowired
     private PhoneRepository phoneRepositoryImpl;
-    @PersistenceContext
-    EntityManager em;
+    
+    private static final Logger logger = Logger.getLogger(LogService.class.getName());
 
     @Override
     @Transactional
@@ -35,22 +37,17 @@ public class LogService implements ILogService {
         if (log == null || log.getPhoneId() == null) {
             return false;
         }
-        
         List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(log.getPhoneId(), log.getTimestamp(), log.getTimestamp());
         assert(sessions.size() <= 1);
         for (SessionLog session : sessions) {
             log.setSessionLog(session);
         }
         log = logRepositoryImpl.save(log);
+        ;
+        logger.info("Saved log:\n\t " + new Gson().toJson(log));
         return true;
     }
 
-    /**
-     * Todo: Put this in a repository class
-     *
-     * @param cls the class of the log entry
-     * @return
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll(Class cls) throws IllegalArgumentException {
@@ -62,6 +59,7 @@ public class LogService implements ILogService {
     public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session) {
         return logRepositoryImpl.findBySessionLog(cls, session);
     }
+    
     @Override
     @Transactional(readOnly = true)
     public List<Log> getAll() {
@@ -90,12 +88,6 @@ public class LogService implements ILogService {
         return sessions;
     }
 
-    /**
-     * Saves the given session log into db
-     *
-     * @param sessionLog
-     * @return the saved SessionLog or null if save failed
-     */
     @Override
     @Transactional
     public SessionLog saveSessionLog(SessionLog sessionLog) {
@@ -126,7 +118,18 @@ public class LogService implements ILogService {
     @Override
     @Transactional(readOnly = true)
     public List<Phone> getAllPhones() {
-
         return phoneRepositoryImpl.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Log> getAllBySessionId(SessionLog session) {
+        return logRepositoryImpl.findBySessionLog(session);
+    }
+    
+    @Override
+    @Transactional()
+    public List<Text> getTextLogByType(String type){
+        return logRepositoryImpl.findTextLogByType(type);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MobileLogger;
 using MobileLoggerApp.Handlers;
+using MobileLoggerApp.pages;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -10,23 +12,28 @@ namespace MobileLoggerApp
     {
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
+        HandlersManager handlers;
 
-        private static pages.MainViewModel viewModel = null;
+        private static MainViewModel viewModel = null;
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.
         /// </summary>
         /// <returns>The MainViewModel object.</returns>
-        public static pages.MainViewModel ViewModel
+        public static MainViewModel ViewModel
         {
             get
             {
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
                 {
-                    viewModel = new pages.MainViewModel();
+                    viewModel = new MainViewModel();
                 }
                 return viewModel;
+            }
+            set
+            {
+                viewModel = value;
             }
         }
 
@@ -54,7 +61,7 @@ namespace MobileLoggerApp
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // Display the current frame rate counters.
-                Application.Current.Host.Settings.EnableFrameRateCounter = true;
+                Application.Current.Host.Settings.EnableFrameRateCounter = false;
 
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
@@ -67,7 +74,7 @@ namespace MobileLoggerApp
                 // application's PhoneApplicationService object to Disabled.
                 // Caution:- Use this under debug mode only. Application that disables user idle detection will continue to run
                 // and consume battery power when the user is not using the phone.
-                PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+                //PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
         }
 
@@ -75,18 +82,32 @@ namespace MobileLoggerApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            StateUtilities.IsLaunching = true;
+
             sessionHandler = new SessionHandler();
             sessionHandler.Start();
 
-            HandlersManager handlers = new HandlersManager();
+            handlers = new HandlersManager();
             handlers.InitHandlers();
-            handlers.StartEnabledHandlers();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            StateUtilities.IsLaunching = false;
+
+            if (e.IsApplicationInstancePreserved)
+            {
+                return;
+            }
+            if (handlers == null)
+            {
+                handlers = new HandlersManager();
+                handlers.InitHandlers();
+            }
+
+            sessionHandler = new SessionHandler();
             sessionHandler.Start();
         }
 
@@ -94,14 +115,18 @@ namespace MobileLoggerApp
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("App.xaml.cs.Application_Deactivated");
             sessionHandler.End();
+            LogEventSaver.Instance.SaveAll();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("App.xaml.cs.Application_Closing");
             sessionHandler.End();
+            LogEventSaver.Instance.SaveAll();
         }
 
         // Code to execute if a navigation fails
@@ -123,6 +148,7 @@ namespace MobileLoggerApp
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
+            MessageBox.Show("An unhandled exception has occurred. Message: " + e.ToString() + " Application will now close.");
         }
         #region Phone application initialization
 

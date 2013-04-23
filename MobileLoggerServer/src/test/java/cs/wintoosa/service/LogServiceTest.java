@@ -5,7 +5,7 @@
 package cs.wintoosa.service;
 
 import cs.wintoosa.AbstractTest;
-import cs.wintoosa.domain.GpsLog;
+import cs.wintoosa.domain.Gps;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Phone;
 import cs.wintoosa.domain.SessionLog;
@@ -44,7 +44,7 @@ public class LogServiceTest extends AbstractTest{
     
     @Test
     public void testFailingSave() {
-        GpsLog log = new GpsLog();
+        Gps log = new Gps();
         boolean saveLog = logService.saveLog(log);
         assertFalse("Supposed to fail when phoneId not set for log", saveLog );
     }
@@ -59,7 +59,7 @@ public class LogServiceTest extends AbstractTest{
         sessionLog.setSessionEnd(2l);
         sessionLog = logService.saveSessionLog(sessionLog);
         
-        GpsLog log = new GpsLog();
+        Gps log = new Gps();
         log.setTimestamp(1l);
         log.setLon(50.0f);
         log.setLat(51.0f);
@@ -70,7 +70,7 @@ public class LogServiceTest extends AbstractTest{
     
     @Test
     public void testSaveGpsLog() {
-        GpsLog log = new GpsLog();
+        Gps log = new Gps();
         log.setTimestamp(Long.MIN_VALUE);
         log.setLon(50.0f);
         log.setLat(51.0f);
@@ -94,7 +94,7 @@ public class LogServiceTest extends AbstractTest{
     
     @Test
     public void testGetAll() {
-        GpsLog log = new GpsLog();
+        Gps log = new Gps();
         log.setTimestamp(Long.MIN_VALUE);
         log.setLon(50.0f);
         log.setLat(51.0f);
@@ -152,7 +152,7 @@ public class LogServiceTest extends AbstractTest{
         sessionLog.setSessionStart(0l);
         sessionLog.setSessionEnd(2l);
         
-        GpsLog log = new GpsLog();
+        Gps log = new Gps();
         log.setTimestamp(1l);
         log.setLon(50.0f);
         log.setLat(51.0f);
@@ -207,7 +207,7 @@ public class LogServiceTest extends AbstractTest{
         sessionLog.setSessionStart(0l);
         sessionLog.setSessionEnd(2l);
         
-        GpsLog log = new GpsLog();
+        Gps log = new Gps();
         log.setTimestamp(1l);
         log.setLon(50.0f);
         log.setLat(51.0f);
@@ -219,9 +219,34 @@ public class LogServiceTest extends AbstractTest{
         
         
         sessionLog = logService.saveSessionLog(sessionLog);
-        List<GpsLog> list = logService.getAllBySessionId(GpsLog.class, sessionLog);
+        List<Gps> list = logService.getAllBySessionId(Gps.class, sessionLog);
         assertEquals(1, list.size());
         assertEquals(50.0f,(float)list.get(0).getLon(), 0f);
         
+    }
+    
+    @Test
+    public void getAllBySessionId(){
+        String phoneId = "1234567890123455";
+        
+        SessionLog sessionLog = new SessionLog();
+        sessionLog.setPhoneId(phoneId);
+        sessionLog.setSessionStart(0l);
+        sessionLog.setSessionEnd(2l);
+        
+        Gps log = new Gps();
+        log.setTimestamp(1l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneId);
+        log.setSessionLog(null);
+        
+        logService.saveLog(log);
+        sessionLog = logService.saveSessionLog(sessionLog);
+        
+        List<Log> logs = logService.getAllBySessionId(sessionLog);
+        
+        assertEquals(1, logs.size());
     }
 }

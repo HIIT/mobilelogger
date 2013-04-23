@@ -19,7 +19,6 @@ namespace MobileLoggerScheduledAgent
         /// </remarks>
         public ScheduledAgent()
         {
-            System.Diagnostics.Debug.WriteLine("Initializing background task agent");
             if (!_classInitialized)
             {
                 _classInitialized = true;
@@ -53,12 +52,7 @@ namespace MobileLoggerScheduledAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-
-            System.Diagnostics.Debug.WriteLine(this.GetType().Name + ".OnInvoke");
-            //TODO: Add code to perform your task in background
             SendMessages();
-           // NotifyComplete();
-            
         }
 
 
@@ -74,7 +68,6 @@ namespace MobileLoggerScheduledAgent
                     return;
                 }
                 List<LogEvent> events = logDb.GetLogEvents();
-                System.Diagnostics.Debug.WriteLine("Sending " + events.Count + " events");
                 foreach (LogEvent e in events)
                 {
                     SendMessage(e);
@@ -103,10 +96,7 @@ namespace MobileLoggerScheduledAgent
             // End the operation
             Stream putStream = request.EndGetRequestStream(asynchronousResult);
             
-            //Console.WriteLine("Please enter the input data to be posted:");
-            string putData = logevent.sensorEvent.ToString();
-            System.Diagnostics.Debug.WriteLine("URL = " + logevent.relativeUrl);
-            System.Diagnostics.Debug.WriteLine("sending data = " + putData);
+            string putData = logevent.sensorEvent;
             // Convert the string into a byte array. 
             byte[] byteArray = Encoding.UTF8.GetBytes(putData);
             //putStream.WriteTimeout = TIMEOUT_MS;
@@ -114,7 +104,6 @@ namespace MobileLoggerScheduledAgent
             putStream.Write(byteArray, 0, putData.Length);
             
             putStream.Close();
-            System.Diagnostics.Debug.WriteLine("Sent");
             // Start the asynchronous operation to get the response
             request.BeginGetResponse(responseAsynchronousResult =>
             {
@@ -126,7 +115,6 @@ namespace MobileLoggerScheduledAgent
 
         private void GetResponse(IAsyncResult asynchronousResult, LogEvent logevent)
         {
-            System.Diagnostics.Debug.WriteLine("before trygetresponse");
             try
             {
                 HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
@@ -137,18 +125,14 @@ namespace MobileLoggerScheduledAgent
                 StreamReader streamRead = new StreamReader(streamResponse);
                 string responseString = streamRead.ReadToEnd();
 
-                System.Diagnostics.Debug.WriteLine(responseString);
-
-
-                //if (responseString.Equals("true"))
-
-
                 if (responseString.Equals("true"))
                     deleteFromDB(logevent);
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + "response: " + responseString);
-                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + "logevent: " + logevent.ToString());
+                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + " Send failure");
+                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + " response: " + responseString);
+                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + " logevent: " + logevent.sensorEvent);
+                    System.Diagnostics.Debug.WriteLine(this.GetType().Name + " url: " + logevent.relativeUrl);
                 }
                 // Close the stream object
                
@@ -160,8 +144,9 @@ namespace MobileLoggerScheduledAgent
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " relativeUrl " + logevent.relativeUrl);
-                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " logevent ToString " + logevent.ToString());
+                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " Exception");
+                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " logevent: " + logevent.sensorEvent);
+                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " url: " + logevent.relativeUrl);
                 System.Diagnostics.Debug.WriteLine(e.GetBaseException());
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
             }

@@ -27,16 +27,9 @@ public class LogController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> testGet() {
-        System.out.println("test get");
-        return logService.getAll();//currently returns system time in milliseconds
+    public List<Log> getAllLogs() {
+        return logService.getAll();
     }
     
-    @RequestMapping(method= RequestMethod.POST)
-    @ResponseBody
-    public String testPost() {
-        System.out.println("test post");
-        return Long.toString(System.currentTimeMillis());
-    }
     
 }

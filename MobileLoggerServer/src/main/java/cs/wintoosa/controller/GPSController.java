@@ -4,7 +4,7 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.GpsLog;
+import cs.wintoosa.domain.Gps;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -36,33 +36,32 @@ public class GPSController {
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
     public List<Log> getLogs() {
-        return logService.getAll(GpsLog.class);
+        return logService.getAll(Gps.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putGPSLog(@RequestBody GpsLog log) {
-        logger.info("put plain log");
+    public boolean putGPSLog(@Valid @RequestBody Gps log) {
         return logService.saveLog(log);
     }
     
     @RequestMapping(value="/put", method=RequestMethod.GET)
     public String putDummyLog(){
-        GpsLog log2 = new GpsLog();
+        Gps log2 = new Gps();
         log2.setAlt(1f);
         log2.setLat(2f);
         log2.setLon(2f);
         log2.setPhoneId("foo");
         log2.setTimestamp(new Long(18));
         logService.saveLog(log2);
-        GpsLog log1 = new GpsLog();
+        Gps log1 = new Gps();
         log1.setAlt(11f);
         log1.setLat(21f);
         log1.setLon(21f);
         log1.setPhoneId("foo");
         log1.setTimestamp(new Long(55));
         logService.saveLog(log1);
-        GpsLog log = new GpsLog();
+        Gps log = new Gps();
         log.setAlt(111f);
         log.setLat(211f);
         log.setLon(211f);

@@ -4,10 +4,15 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.TextLog;
+import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Text;
 import cs.wintoosa.service.ILogService;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,15 +28,17 @@ public class GoogleController {
     @Autowired
     ILogService logService;
     
-    @RequestMapping(method=RequestMethod.PUT)
+    @RequestMapping(method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putLog(@RequestBody TextLog data) {
+    public boolean putLog(@Valid @RequestBody Text data, BindingResult result) {
+        //System.out.println("at Google controller, log is: "+data);
+        data.setType("search");
         return logService.saveLog(data);
     }
     
-    
-
-    public void setLogService(ILogService logService) {
-        this.logService = logService;
+    @RequestMapping(method=RequestMethod.GET)
+    @ResponseBody
+    public List<Text> getLogs(){
+        return logService.getTextLogByType("search");
     }
 }

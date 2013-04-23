@@ -2,14 +2,16 @@
 
 namespace MobileLogger
 {
+    /// <summary>
+    /// This class contains application state related variables.
+    /// </summary>
     public static class StateUtilities
     {
-        private static Boolean isLaunching;
-
-        public static Boolean IsLaunching
+        private static Boolean startHandlers;
+        public static Boolean StartHandlers
         {
-            get { return isLaunching; }
-            set { isLaunching = value; }
+            get { return startHandlers; }
+            set { startHandlers = value; }
         }
     }
 }

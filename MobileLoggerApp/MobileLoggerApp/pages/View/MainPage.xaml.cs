@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
+using MobileLogger;
 using MobileLoggerApp.pages;
 using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
@@ -18,7 +19,7 @@ namespace MobileLoggerApp
         public static IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
 
         bool _isNewPageInstance = false;
-        bool isFirstRun;
+        bool _isFirstRun;
 
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
@@ -137,15 +138,15 @@ namespace MobileLoggerApp
         {
             InitializeApplication();
 
+            Touch.FrameReported += Touch_FrameReported;
+            this.weatherInfo = new WeatherInformationSearch();
             this.search = new GoogleCustomSearch();
         }
 
         private void InitializeApplication()
         {
-            if (isFirstRun)
+            if (_isFirstRun)
             {
-                bool startHandlers = false;
-
                 MessageBoxResult result = MessageBox.Show(
                     "This app will collect personal data, including location and other sensor data for research purposes. " +
                     "To use this application, you need to give permission to access and share your personal data. " +
@@ -155,20 +156,15 @@ namespace MobileLoggerApp
                 
                 if (result == MessageBoxResult.OK)
                 {
-                    startHandlers = true;
+                    StateUtilities.StartHandlers = true;
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
-                    startHandlers = false;
+                    StateUtilities.StartHandlers = false;
                 }
-
-                App.StartHandlers(startHandlers);
-
-                GetApplicationState(startHandlers);
+                App.StartHandlers();
+                GetApplicationState();
             }
-
-            Touch.FrameReported += Touch_FrameReported;
-            this.weatherInfo = new WeatherInformationSearch();
         }
 
         void Touch_FrameReported(object sender, TouchFrameEventArgs e)
@@ -290,15 +286,16 @@ namespace MobileLoggerApp
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            appSettings.TryGetValue("FirstRun", out isFirstRun);
+            appSettings.TryGetValue("FirstRun", out _isFirstRun);
 
-            if (!isFirstRun)
+            if (!_isFirstRun)
             {
-                GetApplicationState(true);
+                StateUtilities.StartHandlers = true;
+                GetApplicationState();
             }
         }
 
-        private void GetApplicationState(bool startHandlers)
+        private void GetApplicationState()
         {
             if (_isNewPageInstance)
             {
@@ -307,7 +304,7 @@ namespace MobileLoggerApp
                     App.ViewModel = State["ViewModel"] as MainViewModel;
                 }
                 DataContext = App.ViewModel;
-                App.ViewModel.GetHandlerSettings(startHandlers);
+                App.ViewModel.GetHandlerSettings();
             }
 
             if (State.ContainsKey("SearchTerm"))
@@ -320,7 +317,6 @@ namespace MobileLoggerApp
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-
             if (e.NavigationMode != NavigationMode.Back)
             {
                 SetApplicationState();

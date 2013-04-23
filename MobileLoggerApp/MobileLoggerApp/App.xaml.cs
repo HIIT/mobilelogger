@@ -90,12 +90,12 @@ namespace MobileLoggerApp
             else
             {
                 IsolatedStorageSettings.ApplicationSettings["FirstRun"] = (bool)false;
-
-                StartHandlers(true);
+                StateUtilities.StartHandlers = true;
+                StartHandlers();
             }
         }
 
-        public static void StartHandlers(bool startHandlers)
+        public static void StartHandlers()
         {
             if (sessionHandler == null)
                 sessionHandler = new SessionHandler();
@@ -106,7 +106,6 @@ namespace MobileLoggerApp
                 handlers = new HandlersManager();
 
             handlers.InitHandlers();
-            handlers.StartEnabledHandlers(startHandlers);
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -114,13 +113,13 @@ namespace MobileLoggerApp
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             IsolatedStorageSettings.ApplicationSettings["FirstRun"] = (bool)false;
-            StateUtilities.IsLaunching = false;
 
             if (e.IsApplicationInstancePreserved)
             {
                 return;
             }
-            StartHandlers(true);
+            StateUtilities.StartHandlers = true;
+            StartHandlers();
         }
 
         // Code to execute when the application is deactivated (sent to background)

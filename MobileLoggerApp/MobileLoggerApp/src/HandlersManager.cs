@@ -1,4 +1,5 @@
 ﻿using Microsoft.Phone.Shell;
+using MobileLogger;
 using MobileLoggerApp.Handlers;
 using System.Collections.Generic;
 
@@ -64,9 +65,11 @@ namespace MobileLoggerApp
 
             WeatherDataHandler weatherData = new WeatherDataHandler();
             _logHandlers.Add("Weather", weatherData);
+
+            StartEnabledHandlers();
         }
 
-        public void StartEnabledHandlers(bool startHandler)
+        private void StartEnabledHandlers()
         {
             AbstractLogHandler logHandler;
             string logHandlerName;
@@ -94,7 +97,7 @@ namespace MobileLoggerApp
                     logHandler = lh.Value;
                     logHandlerName = lh.Key;
 
-                    if (startHandler)
+                    if (StateUtilities.StartHandlers)
                         logHandler.StartWatcher();
 
                     handlerState.Add(logHandlerName, logHandler.IsEnabled);

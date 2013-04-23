@@ -92,16 +92,16 @@ public class SessionService implements ISessionService {
                         if ((keyPresses.get(pressI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("Key pressed", keyPresses.get(pressI).getKeyPressed());
                         } else {
-                            data.addToColumn("key pressed", "");
+                            data.addToColumn("Key pressed", "");
                         }
                         pressI++;
                         if (keyPresses.size() >= pressI)
                             break;
                     }
                 } else {
-                    data.addToColumn("key pressed", "");
+                    data.addToColumn("Key pressed", "");
                 }
-                if (keyboards != null && keyboards.size() > keybI) {
+                if (keyboards != null && keyboards.size() > keybI && (keyboards.get(keybI).getTimestamp() / 10) * 10 <= time) {
                     while ((keyboards.get(keybI).getTimestamp() / 10) * 10 <= time) {
                         if ((keyboards.get(keybI).getTimestamp() / 10) * 10 == time) {
                             data.addToColumn("Keyboard status", keyboards.get(keybI).getKeyboardFocus());

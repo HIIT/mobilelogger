@@ -102,6 +102,8 @@ namespace MobileLoggerApp.pages
 
         private void GetDefaultHandlerSettings()
         {
+            ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
+
             Dictionary<string, bool> handlerState = new Dictionary<string, bool>();
             bool isHandlerEnabled;
 
@@ -109,8 +111,6 @@ namespace MobileLoggerApp.pages
             {
                 handlerState = PhoneApplicationService.Current.State["Handlers"] as Dictionary<string, bool>;
             }
-
-            ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
 
             foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
             {

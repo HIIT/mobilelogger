@@ -106,7 +106,6 @@ namespace MobileLoggerApp
                 handlers = new HandlersManager();
 
             handlers.InitHandlers();
-            handlers.StartEnabledHandlers();
         }
 
         // Code to execute when the application is activated (brought to foreground)

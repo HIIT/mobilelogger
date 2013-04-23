@@ -65,9 +65,11 @@ namespace MobileLoggerApp
 
             WeatherDataHandler weatherData = new WeatherDataHandler();
             _logHandlers.Add("Weather", weatherData);
+
+            StartEnabledHandlers();
         }
 
-        public void StartEnabledHandlers()
+        private void StartEnabledHandlers()
         {
             AbstractLogHandler logHandler;
             string logHandlerName;

@@ -138,6 +138,8 @@ namespace MobileLoggerApp
         {
             InitializeApplication();
 
+            Touch.FrameReported += Touch_FrameReported;
+            this.weatherInfo = new WeatherInformationSearch();
             this.search = new GoogleCustomSearch();
         }
 
@@ -163,9 +165,6 @@ namespace MobileLoggerApp
                 App.StartHandlers();
                 GetApplicationState();
             }
-
-            Touch.FrameReported += Touch_FrameReported;
-            this.weatherInfo = new WeatherInformationSearch();
         }
 
         void Touch_FrameReported(object sender, TouchFrameEventArgs e)
@@ -318,7 +317,6 @@ namespace MobileLoggerApp
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-
             if (e.NavigationMode != NavigationMode.Back)
             {
                 SetApplicationState();

@@ -64,11 +64,9 @@ namespace MobileLoggerApp
 
             WeatherDataHandler weatherData = new WeatherDataHandler();
             _logHandlers.Add("Weather", weatherData);
-
-            StartEnabledHandlers();
         }
 
-        private void StartEnabledHandlers()
+        public void StartEnabledHandlers(bool startHandler)
         {
             AbstractLogHandler logHandler;
             string logHandlerName;
@@ -96,8 +94,10 @@ namespace MobileLoggerApp
                     logHandler = lh.Value;
                     logHandlerName = lh.Key;
 
-                    logHandler.StartWatcher();
-                    handlerState.Add(logHandlerName, true);
+                    if (startHandler)
+                        logHandler.StartWatcher();
+
+                    handlerState.Add(logHandlerName, startHandler);
                 }
                 PhoneApplicationService.Current.State.Add("Handlers", handlerState);
             }

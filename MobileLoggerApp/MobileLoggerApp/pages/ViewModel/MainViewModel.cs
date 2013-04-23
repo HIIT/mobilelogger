@@ -88,12 +88,12 @@ namespace MobileLoggerApp.pages
             }
         }
 
-        public void GetHandlerSettings()
+        public void GetHandlerSettings(bool startHandlers)
         {
             if (IsolatedStorageSettings.ApplicationSettings.Contains("HandlerSettings"))
                 GetSavedHandlerSettings();
             else
-                GetDefaultHandlerSettings();
+                GetDefaultHandlerSettings(startHandlers);
         }
 
         private void GetSavedHandlerSettings()
@@ -111,13 +111,13 @@ namespace MobileLoggerApp.pages
             appSettings["HandlerSettings"] = HandlerSettings;
         }
 
-        private void GetDefaultHandlerSettings()
+        private void GetDefaultHandlerSettings(bool startHandlers)
         {
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
 
             foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
             {
-                handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = true });
+                handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = startHandlers });
             }
             HandlerSettings = handlerSettings;
             appSettings.Add("HandlerSettings", HandlerSettings);

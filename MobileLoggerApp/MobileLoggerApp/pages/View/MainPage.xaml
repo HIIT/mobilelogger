@@ -120,11 +120,12 @@
             </controls:PivotItem>
 
             <!--Info Pivot item-->
-            <controls:PivotItem Header="Info">                
-                <Grid>
-                    <TextBlock x:Name="VersionInfo" Margin="0,0,0,17"/>
-                    <TextBlock x:Name="ContactInfo" Margin="0,0,0,17"/>
-                </Grid>
+            <controls:PivotItem Header="Info">
+                <StackPanel Margin="0,0,0,17">
+                    <TextBlock x:Name="VersionInfo"/>
+                    <TextBlock x:Name="ContactInfo"/>
+                    <TextBlock x:Name="ContactNumber"/>
+                </StackPanel>
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>

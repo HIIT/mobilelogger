@@ -149,9 +149,9 @@ namespace MobileLoggerApp
             {
                 MessageBoxResult result = MessageBox.Show(
                     "This app will collect personal data, including location and other sensor data for research purposes. " +
-                    "To use this application, you need to give permission to access and share your personal data. " +
+                    "To use this feature, you need to give permission to access and share your personal data. " +
                     "You can later decide, what kind of data this application is able to collect. " +
-                    "Press OK to continue.",
+                    "Press OK to enable data collecting, press Cancel to disable data collecting.",
                     "Personal data", MessageBoxButton.OKCancel);
                 
                 if (result == MessageBoxResult.OK)

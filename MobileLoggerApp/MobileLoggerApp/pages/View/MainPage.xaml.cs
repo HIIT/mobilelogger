@@ -70,6 +70,7 @@ namespace MobileLoggerApp
                                  select manifest).SingleOrDefault().Attribute("Version").Value;
 
             VersionInfo.Text = "Version: " + appVersion;
+            ContactInfo.Text = "Technical support: antti.ukkonen@hiit.fi, +358 50 407 0576";
         }
 
         private void StartAgent()
@@ -247,7 +248,9 @@ namespace MobileLoggerApp
 
             if (checkedHandlerItem != null)
             {
-                HandlersManager.EnableHandler(GetHandlerName(checkedHandlerItem));
+                CheckBox ch = sender as CheckBox;
+
+                ch.IsChecked = HandlersManager.EnableHandler(GetHandlerName(checkedHandlerItem));
             }
         }
 

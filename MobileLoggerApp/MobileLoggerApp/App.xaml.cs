@@ -3,9 +3,9 @@ using Microsoft.Phone.Shell;
 using MobileLogger;
 using MobileLoggerApp.Handlers;
 using MobileLoggerApp.pages;
+using System.IO.IsolatedStorage;
 using System.Windows;
 using System.Windows.Navigation;
-using System.IO.IsolatedStorage;
 
 namespace MobileLoggerApp
 {

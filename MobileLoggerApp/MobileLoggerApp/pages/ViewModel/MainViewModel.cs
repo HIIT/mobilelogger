@@ -1,4 +1,5 @@
-﻿using MobileLoggerApp.Handlers;
+﻿using Microsoft.Phone.Shell;
+using MobileLoggerApp.Handlers;
 using MobileLoggerScheduledAgent.Database;
 using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json;
@@ -113,11 +114,27 @@ namespace MobileLoggerApp.pages
 
         private void GetDefaultHandlerSettings(bool startHandlers)
         {
+            Dictionary<string, bool> handlerState = new Dictionary<string, bool>();
+            bool isHandlerEnabled;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("Handlers"))
+            {
+                handlerState = PhoneApplicationService.Current.State["Handlers"] as Dictionary<string, bool>;
+            }
+
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
 
             foreach (KeyValuePair<string, AbstractLogHandler> logHandler in HandlersManager.LogHandlers)
             {
-                handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = startHandlers });
+                if (handlerState.Count > 0)
+                {
+                    handlerState.TryGetValue(logHandler.Key, out isHandlerEnabled);
+                    handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = isHandlerEnabled });
+                }
+                else
+                {
+                    handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = startHandlers });
+                }
             }
             HandlerSettings = handlerSettings;
             appSettings.Add("HandlerSettings", HandlerSettings);

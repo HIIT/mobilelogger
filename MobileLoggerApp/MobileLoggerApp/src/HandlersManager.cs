@@ -97,13 +97,13 @@ namespace MobileLoggerApp
                     if (startHandler)
                         logHandler.StartWatcher();
 
-                    handlerState.Add(logHandlerName, startHandler);
+                    handlerState.Add(logHandlerName, logHandler.IsEnabled);
                 }
                 PhoneApplicationService.Current.State.Add("Handlers", handlerState);
             }
         }
 
-        public static void EnableHandler(string handlerName)
+        public static bool EnableHandler(string handlerName)
         {
             AbstractLogHandler logHandler;
             _logHandlers.TryGetValue(handlerName, out logHandler);
@@ -112,14 +112,17 @@ namespace MobileLoggerApp
             {
                 if (!logHandler.IsEnabled)
                 {
-                    if (handlerState.ContainsKey(handlerName))
-                        handlerState[handlerName] = true;
-                    else
-                        handlerState.Add(handlerName, true);
-
                     logHandler.StartWatcher();
+
+                    if (handlerState.ContainsKey(handlerName))
+                        handlerState[handlerName] = logHandler.IsEnabled;
+                    else
+                        handlerState.Add(handlerName, logHandler.IsEnabled);
                 }
+                return logHandler.IsEnabled;
             }
+
+            return false;
         }
 
         public static void DisableHandler(string handlerName)

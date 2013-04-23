@@ -18,6 +18,7 @@ namespace MobileLoggerApp
         public static IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
 
         bool _isNewPageInstance = false;
+        bool isFirstRun;
 
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
@@ -42,7 +43,6 @@ namespace MobileLoggerApp
         public MainPage()
         {
             InitializeComponent();
-            InitializeAppSettings();
 
             _isNewPageInstance = true;
 
@@ -63,30 +63,14 @@ namespace MobileLoggerApp
                     }
                 }
             }
+
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
             string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App")
                                  select manifest).SingleOrDefault().Attribute("Version").Value;
 
             VersionInfo.Text = "Version: " + appVersion;
-        }
-
-        private void InitializeAppSettings()
-        {
-            if (!appSettings.Contains("FirstRun"))
-            {
-                appSettings.Add("FirstRun", (bool)true);
-
-                MessageBox.Show("This app will collect personal data, including location and other sensor data for research purposes. " +
-                "To use this application, you need to give permission to access and share your personal data. " +
-                "You can later decide, what kind of data this application is able to collect. " +
-                "Press OK to continue.",
-                "Personal data", MessageBoxButton.OK);
-            }
-            else
-            {
-                appSettings["FirstRun"] = (bool)false;
-            }
+            ContactInfo.Text = "Technical support: antti.ukkonen@hiit.fi, +358 50 407 0576";
         }
 
         private void StartAgent()
@@ -151,8 +135,39 @@ namespace MobileLoggerApp
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Touch.FrameReported += Touch_FrameReported;
+            InitializeApplication();
+
             this.search = new GoogleCustomSearch();
+        }
+
+        private void InitializeApplication()
+        {
+            if (isFirstRun)
+            {
+                bool startHandlers = false;
+
+                MessageBoxResult result = MessageBox.Show(
+                    "This app will collect personal data, including location and other sensor data for research purposes. " +
+                    "To use this application, you need to give permission to access and share your personal data. " +
+                    "You can later decide, what kind of data this application is able to collect. " +
+                    "Press OK to continue.",
+                    "Personal data", MessageBoxButton.OKCancel);
+                
+                if (result == MessageBoxResult.OK)
+                {
+                    startHandlers = true;
+                }
+                else if (result == MessageBoxResult.Cancel)
+                {
+                    startHandlers = false;
+                }
+
+                App.StartHandlers(startHandlers);
+
+                GetApplicationState(startHandlers);
+            }
+
+            Touch.FrameReported += Touch_FrameReported;
             this.weatherInfo = new WeatherInformationSearch();
         }
 
@@ -210,11 +225,8 @@ namespace MobileLoggerApp
 
             if (searchResultTap != null)
             {
-                string jo = searchResult.SearchResult;
-
-                JObject j = JObject.Parse(jo);
-
-                searchResultTap(j);
+                JObject tappedResult = JObject.Parse(searchResult.SearchResult);
+                searchResultTap(tappedResult);
             }
 
             search.OpenBrowser(searchResult.SearchResultLink.ToString());
@@ -236,7 +248,9 @@ namespace MobileLoggerApp
 
             if (checkedHandlerItem != null)
             {
-                HandlersManager.EnableHandler(GetHandlerName(checkedHandlerItem));
+                CheckBox ch = sender as CheckBox;
+
+                ch.IsChecked = HandlersManager.EnableHandler(GetHandlerName(checkedHandlerItem));
             }
         }
 
@@ -274,28 +288,17 @@ namespace MobileLoggerApp
 #endif
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.NavigationMode != NavigationMode.Back)
+            appSettings.TryGetValue("FirstRun", out isFirstRun);
+
+            if (!isFirstRun)
             {
-                App.ViewModel.SaveHandlerSettings();
-
-                if (this.State.ContainsKey("ViewModel"))
-                    this.State["ViewModel"] = App.ViewModel;
-                else
-                    this.State.Add("ViewModel", App.ViewModel);
-
-                if (SearchTextBox.Text != null)
-                {
-                    if (this.State.ContainsKey("SearchTerm"))
-                        this.State["SearchTerm"] = SearchTextBox.Text;
-                    else
-                        this.State.Add("SearchTerm", SearchTextBox.Text);
-                }
+                GetApplicationState(true);
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void GetApplicationState(bool startHandlers)
         {
             if (_isNewPageInstance)
             {
@@ -304,7 +307,7 @@ namespace MobileLoggerApp
                     App.ViewModel = State["ViewModel"] as MainViewModel;
                 }
                 DataContext = App.ViewModel;
-                App.ViewModel.GetHandlerSettings();
+                App.ViewModel.GetHandlerSettings(startHandlers);
             }
 
             if (State.ContainsKey("SearchTerm"))
@@ -313,6 +316,33 @@ namespace MobileLoggerApp
                 SearchTextBox.Text = this.searchTerm;
             }
             _isNewPageInstance = false;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                SetApplicationState();
+            }
+        }
+
+        private void SetApplicationState()
+        {
+            App.ViewModel.SaveHandlerSettings();
+
+            if (this.State.ContainsKey("ViewModel"))
+                this.State["ViewModel"] = App.ViewModel;
+            else
+                this.State.Add("ViewModel", App.ViewModel);
+
+            if (SearchTextBox.Text != null)
+            {
+                if (this.State.ContainsKey("SearchTerm"))
+                    this.State["SearchTerm"] = SearchTextBox.Text;
+                else
+                    this.State.Add("SearchTerm", SearchTextBox.Text);
+            }
         }
     }
 }

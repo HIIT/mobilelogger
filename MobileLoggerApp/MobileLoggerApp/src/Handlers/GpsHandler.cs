@@ -23,7 +23,10 @@ namespace MobileLoggerApp.Handlers
 
         public override void StartWatcher()
         {
-            if (coordinateWatcher.Permission != GeoPositionPermission.Denied)
+            string coordWatcherPermission = coordinateWatcher.Permission.ToString();
+            string gpsPermissionDenied = GeoPositionPermission.Denied.ToString();
+
+            if (!coordWatcherPermission.Equals(gpsPermissionDenied))
             {
                 coordinateWatcher.MovementThreshold = 20;
 

@@ -123,10 +123,7 @@
             <controls:PivotItem Header="Info">                
                 <Grid>
                     <TextBlock x:Name="VersionInfo" Margin="0,0,0,17"/>
-                    <TextBlock x:Name="CustomerSupport" Margin="0,0,0,17"/>
-                    <TextBlock x:Name="PrivacyPolicy" Margin="0,0,0,17"/>
-                    <TextBlock x:Name="SupportedLanguages" Margin="0,0,0,17"/>
-                    <!--<HyperlinkButton Content="Privacy Policy" NavigateUri="http://google.com" Margin="0,0,0,17" />-->
+                    <TextBlock x:Name="ContactInfo" Margin="0,0,0,17"/>
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>

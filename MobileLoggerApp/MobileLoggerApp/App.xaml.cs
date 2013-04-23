@@ -3,6 +3,7 @@ using Microsoft.Phone.Shell;
 using MobileLogger;
 using MobileLoggerApp.Handlers;
 using MobileLoggerApp.pages;
+using System.IO.IsolatedStorage;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -12,7 +13,7 @@ namespace MobileLoggerApp
     {
         //special case, we don't update this like other handlers, only on startup and exit so don't add this to the list
         public static SessionHandler sessionHandler;
-        HandlersManager handlers;
+        static HandlersManager handlers;
 
         private static MainViewModel viewModel = null;
 
@@ -82,33 +83,44 @@ namespace MobileLoggerApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            StateUtilities.IsLaunching = true;
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("FirstRun"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("FirstRun", (bool)true);
+            }
+            else
+            {
+                IsolatedStorageSettings.ApplicationSettings["FirstRun"] = (bool)false;
 
-            sessionHandler = new SessionHandler();
+                StartHandlers(true);
+            }
+        }
+
+        public static void StartHandlers(bool startHandlers)
+        {
+            if (sessionHandler == null)
+                sessionHandler = new SessionHandler();
+
             sessionHandler.Start();
 
-            handlers = new HandlersManager();
+            if (handlers == null)
+                handlers = new HandlersManager();
+
             handlers.InitHandlers();
+            handlers.StartEnabledHandlers(startHandlers);
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            IsolatedStorageSettings.ApplicationSettings["FirstRun"] = (bool)false;
             StateUtilities.IsLaunching = false;
 
             if (e.IsApplicationInstancePreserved)
             {
                 return;
             }
-            if (handlers == null)
-            {
-                handlers = new HandlersManager();
-                handlers.InitHandlers();
-            }
-
-            sessionHandler = new SessionHandler();
-            sessionHandler.Start();
+            StartHandlers(true);
         }
 
         // Code to execute when the application is deactivated (sent to background)

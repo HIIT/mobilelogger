@@ -83,6 +83,6 @@ public interface ILogService {
      * @param type
      * @return 
      */
-    public List<TextLog> getTextLogByType(String type);
+    public List<Text> getTextLogByType(String type);
 
 }

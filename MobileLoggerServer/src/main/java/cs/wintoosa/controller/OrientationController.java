@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.OrientationLog;
+import cs.wintoosa.domain.Orientation;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import javax.validation.Valid;
@@ -32,12 +32,12 @@ public class OrientationController {
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
     public List<Log> getLogs() {
-        return logService.getAll(OrientationLog.class);
+        return logService.getAll(Orientation.class);
     }
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putPlainLog(@Valid @RequestBody OrientationLog log) {
+    public boolean putPlainLog(@Valid @RequestBody Orientation log) {
         System.out.println("put gyro log");
         return logService.saveLog(log);
     }

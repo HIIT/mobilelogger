@@ -7,7 +7,7 @@ import javax.persistence.Entity;
  * @author jonimake
  */
 @Entity
-public class TouchLog extends Log {
+public class Touch extends Log {
 
     //x coordinate on the phone screen
     private int xcoord;

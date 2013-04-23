@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cs.wintoosa.domain;
 
 import javax.persistence.Entity;
@@ -11,7 +7,7 @@ import javax.persistence.Entity;
  * @author vkukkola
  */
 @Entity
-public class AccLog extends Log{
+public class Acceleration extends Log{
     
     private Float accX;
     

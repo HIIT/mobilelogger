@@ -5,16 +5,16 @@
 package cs.wintoosa.service;
 
 import cs.wintoosa.AbstractTest;
-import cs.wintoosa.domain.AccLog;
-import cs.wintoosa.domain.CompLog;
-import cs.wintoosa.domain.GpsLog;
+import cs.wintoosa.domain.Acceleration;
+import cs.wintoosa.domain.Compass;
+import cs.wintoosa.domain.Gps;
 import cs.wintoosa.domain.KeyPress;
 import cs.wintoosa.domain.Keyboard;
 import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.OrientationLog;
+import cs.wintoosa.domain.Orientation;
 import cs.wintoosa.domain.Phone;
 import cs.wintoosa.domain.SessionLog;
-import cs.wintoosa.domain.TouchLog;
+import cs.wintoosa.domain.Touch;
 import cs.wintoosa.repository.log.LogRepository;
 import cs.wintoosa.repository.phone.PhoneRepository;
 import cs.wintoosa.repository.session.SessionRepository;
@@ -51,13 +51,13 @@ public class SessionServiceTest extends AbstractTest{
         
         ILogService mockLogService = mock(ILogService.class);
         
-        when(mockLogService.getAllBySessionId(AccLog.class, sessionLog)).thenReturn(null);
-        when(mockLogService.getAllBySessionId(CompLog.class, sessionLog)).thenReturn(null);
+        when(mockLogService.getAllBySessionId(Acceleration.class, sessionLog)).thenReturn(null);
+        when(mockLogService.getAllBySessionId(Compass.class, sessionLog)).thenReturn(null);
         when(mockLogService.getAllBySessionId(Keyboard.class, sessionLog)).thenReturn(null);
         when(mockLogService.getAllBySessionId(KeyPress.class, sessionLog)).thenReturn(null);
-        when(mockLogService.getAllBySessionId(OrientationLog.class, sessionLog)).thenReturn(null);
-        when(mockLogService.getAllBySessionId(GpsLog.class, sessionLog)).thenReturn(null);
-        when(mockLogService.getAllBySessionId(TouchLog.class, sessionLog)).thenReturn(null);
+        when(mockLogService.getAllBySessionId(Orientation.class, sessionLog)).thenReturn(null);
+        when(mockLogService.getAllBySessionId(Gps.class, sessionLog)).thenReturn(null);
+        when(mockLogService.getAllBySessionId(Touch.class, sessionLog)).thenReturn(null);
 
         SessionService instance = new SessionService();
         ReflectionTestUtils.setField(instance, "logService", mockLogService);
@@ -80,21 +80,21 @@ public class SessionServiceTest extends AbstractTest{
         
         ILogService mockLogService = mock(ILogService.class);
         
-        List<AccLog> acclogs = getMockList(AccLog.class);
-        List<CompLog> complogs = getMockList(CompLog.class);
+        List<Acceleration> acclogs = getMockList(Acceleration.class);
+        List<Compass> complogs = getMockList(Compass.class);
         List<Keyboard> keyboards = getMockList(Keyboard.class);
         List<KeyPress> presses = getMockList(KeyPress.class);
-        List<OrientationLog> orientations = getMockList(OrientationLog.class);
-        List<GpsLog> gpslogs = getMockList(GpsLog.class);
-        List<TouchLog> touches = getMockList(TouchLog.class);
+        List<Orientation> orientations = getMockList(Orientation.class);
+        List<Gps> gpslogs = getMockList(Gps.class);
+        List<Touch> touches = getMockList(Touch.class);
         
-        when(mockLogService.getAllBySessionId(AccLog.class, sessionLog)).thenReturn(acclogs);
-        when(mockLogService.getAllBySessionId(CompLog.class, sessionLog)).thenReturn(complogs);
+        when(mockLogService.getAllBySessionId(Acceleration.class, sessionLog)).thenReturn(acclogs);
+        when(mockLogService.getAllBySessionId(Compass.class, sessionLog)).thenReturn(complogs);
         when(mockLogService.getAllBySessionId(Keyboard.class, sessionLog)).thenReturn(keyboards);
         when(mockLogService.getAllBySessionId(KeyPress.class, sessionLog)).thenReturn(presses);
-        when(mockLogService.getAllBySessionId(OrientationLog.class, sessionLog)).thenReturn(orientations);
-        when(mockLogService.getAllBySessionId(GpsLog.class, sessionLog)).thenReturn(gpslogs);
-        when(mockLogService.getAllBySessionId(TouchLog.class, sessionLog)).thenReturn(touches);
+        when(mockLogService.getAllBySessionId(Orientation.class, sessionLog)).thenReturn(orientations);
+        when(mockLogService.getAllBySessionId(Gps.class, sessionLog)).thenReturn(gpslogs);
+        when(mockLogService.getAllBySessionId(Touch.class, sessionLog)).thenReturn(touches);
 
         SessionService instance = new SessionService();
         ReflectionTestUtils.setField(instance, "logService", mockLogService);

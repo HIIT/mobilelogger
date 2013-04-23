@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
  * @author jonimake
  */
 @Entity
-public class GpsLog extends Log implements Serializable{
+public class Gps extends Log implements Serializable{
     @NotNull(message="Latitude must not be null")
     private Float lat;
     @NotNull(message="Lognitude must not be null")

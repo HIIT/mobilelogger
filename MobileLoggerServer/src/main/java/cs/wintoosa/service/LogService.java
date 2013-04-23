@@ -129,7 +129,7 @@ public class LogService implements ILogService {
     
     @Override
     @Transactional()
-    public List<TextLog> getTextLogByType(String type){
+    public List<Text> getTextLogByType(String type){
         return logRepositoryImpl.findTextLogByType(type);
     }
 }

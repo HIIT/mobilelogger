@@ -4,12 +4,18 @@ namespace MobileLogger
 {
     public static class StateUtilities
     {
-        private static Boolean isLaunching;
-
-        public static Boolean IsLaunching
+        private static Boolean isFirstRun;
+        public static Boolean IsFirstRun
         {
-            get { return isLaunching; }
-            set { isLaunching = value; }
+            get { return isFirstRun; }
+            set { isFirstRun = value; }
+        }
+
+        private static Boolean startHandlers;
+        public static Boolean StartHandlers
+        {
+            get { return startHandlers; }
+            set { startHandlers = value; }
         }
     }
 }

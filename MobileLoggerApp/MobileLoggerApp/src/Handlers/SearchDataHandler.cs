@@ -52,11 +52,12 @@ namespace MobileLoggerApp.Handlers
 
         private void ProcessSearchData(JObject searchData, DateTime timestamp)
         {
-            this.data = searchData;
-            this.data.Remove("items");
-            AddJOValue("timestamp", DeviceTools.GetUnixTime(timestamp));
-            AddJOValue("index", 0);
-            SaveLogToDB(this.data, URL);
+            JObject data = new JObject();
+            searchData.Add("index", 0);
+            searchData.Remove("items");
+            data["text"] = searchData;
+            data.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
+            SaveLogToDB(data, URL);
         }
 
         private void ProcessSearchResults(JArray searchResults, int offset, DateTime timestamp)
@@ -69,10 +70,11 @@ namespace MobileLoggerApp.Handlers
 
                 resultObj.Add("index", index + offset);
                 index++;
-                resultObj.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
-
+                JObject data = new JObject();
                 ParseSearchResult(resultObj);
-                SaveLogToDB(resultObj, URL);
+                data.Add("text", resultObj);
+                data.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
+                SaveLogToDB(data, URL);
             }
         }
 
@@ -95,7 +97,10 @@ namespace MobileLoggerApp.Handlers
 
         private void SearchResultTapped(JObject searchResult)
         {
+            JObject data = new JObject();
+            data.Add("timestamp", DeviceTools.GetUnixTime(DateTime.UtcNow));
             ParseSearchResult(searchResult);
+            data.Add("text", searchResult);
             SaveLogToDB(searchResult, "/log/clicked");
         }
     }

@@ -75,7 +75,7 @@ namespace MobileLoggerApp
                 // application's PhoneApplicationService object to Disabled.
                 // Caution:- Use this under debug mode only. Application that disables user idle detection will continue to run
                 // and consume battery power when the user is not using the phone.
-                PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+                //PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
         }
 
@@ -127,6 +127,7 @@ namespace MobileLoggerApp
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("App.xaml.cs.Application_Deactivated");
             sessionHandler.End();
             LogEventSaver.Instance.SaveAll();
         }
@@ -135,6 +136,7 @@ namespace MobileLoggerApp
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("App.xaml.cs.Application_Closing");
             sessionHandler.End();
             LogEventSaver.Instance.SaveAll();
         }

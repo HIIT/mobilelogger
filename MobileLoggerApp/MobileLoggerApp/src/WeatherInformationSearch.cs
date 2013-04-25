@@ -36,7 +36,8 @@ namespace MobileLoggerApp
         public void Callback(string data)
         {
             JObject weatherData = JObject.Parse(data);
-            weatherDataEvent(weatherData);
+            if (weatherDataEvent != null)
+                weatherDataEvent(weatherData);
         }
 
         public void HandleRequestError(Exception exception)

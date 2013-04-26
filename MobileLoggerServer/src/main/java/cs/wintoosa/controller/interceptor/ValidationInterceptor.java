@@ -83,7 +83,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         if(json == null) {
             return false;
         }
-        
+        String unspoiledJson = json.toString();
         JsonElement checksumJson = json.get("checksum");
         
         if(checksumJson == null) {
@@ -94,10 +94,15 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         json.remove("checksum");
         String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
         if(!checksum.equalsIgnoreCase(calculatedChecksum)) {
-            logger.warning("Checksum validation failed\n"
-                    + "\tjson:    \t " + json.toString()+"\n"
-                    + "\texpected:\t " + checksum
-                    + "\n\tcalculated:\t " + calculatedChecksum);
+            logger.log(Level.WARNING,"Checksum validation failed\n"
+                    + "\tjson:    \t {0}" + "\n" 
+                    + "\toriginal:\t {1}" + "\n" 
+                    + "\texpected:\t {2}\n"
+                    + "\tcalculated:\t {3}", new String[]{
+                        json.toString(), 
+                        unspoiledJson,
+                        checksum, 
+                        calculatedChecksum});
             return false;
         }
         return true;

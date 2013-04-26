@@ -6,7 +6,6 @@ using MobileLoggerScheduledAgent.Database;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO.IsolatedStorage;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -67,16 +66,7 @@ namespace MobileLoggerApp
                     }
                 }
             }
-
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
-
-            string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App")
-                                 select manifest).SingleOrDefault().Attribute("Version").Value;
-
-            AppName.Text = "Name: MobileLogger";
-            VersionInfo.Text = "Version: " + appVersion;
-            ContactInfo.Text = "Technical support: antti.ukkonen@hiit.fi";
-            ContactNumber.Text = "Phone: +358 50 407 0576";
         }
 
         private void StartAgent()
@@ -159,7 +149,8 @@ namespace MobileLoggerApp
                     "To use this feature, you need to give permission to access and share your personal data. " +
                     "You can later decide, what kind of data this application is able to collect. " +
                     "Press OK to enable data collecting, press Cancel to disable data collecting.",
-                    "Personal data", MessageBoxButton.OKCancel);
+                    "Personal data",
+                    MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.OK)
                 {
@@ -294,6 +285,47 @@ namespace MobileLoggerApp
             return handlerItem.HandlerName.ToString();
         }
 
+        private void ServerTextButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            ShowServerChangeMessage();
+        }
+
+        private void ServerTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                ShowServerChangeMessage();
+                this.Focus();
+            }
+        }
+
+        private void ShowServerChangeMessage()
+        {
+            MessageBoxResult result = MessageBox.Show(
+                "This will change the server. Make sure that you have entered a valid server url. " +
+                "Click OK to continue, Cancel to go back.",
+                "Server url",
+                MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
+                    IsolatedStorageSettings.ApplicationSettings["ServerRoot"] = ServerTextBox.Text;
+                else
+                    IsolatedStorageSettings.ApplicationSettings.Add("ServerRoot", ServerTextBox.Text);
+            }
+        }
+
+        private void ServerTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ServerTextButton.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+        }
+
+        private void ServerTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ServerTextButton.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+        }
+
         private void debugButton_Click(object sender, RoutedEventArgs e)
         {
 #if DEBUG
@@ -329,21 +361,27 @@ namespace MobileLoggerApp
         {
             if (_isNewPageInstance)
             {
-                if (State.ContainsKey("ViewModel"))
+                if (this.State.ContainsKey("ViewModel"))
                 {
-                    App.ViewModel = State["ViewModel"] as MainViewModel;
+                    App.ViewModel = this.State["ViewModel"] as MainViewModel;
                 }
                 DataContext = App.ViewModel;
                 App.ViewModel.GetHandlerSettings();
+                App.ViewModel.GetAppInfo();
             }
 
-            if (State.ContainsKey("SearchTerm"))
+            if (this.State.ContainsKey("ServerRoot"))
+                ServerTextBox.Text = this.State["ServerRoot"] as string;
+            else if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
+                ServerTextBox.Text = IsolatedStorageSettings.ApplicationSettings["ServerRoot"] as string;
+
+            if (this.State.ContainsKey("SearchTerm"))
             {
-                this.searchTerm = State["SearchTerm"] as string;
+                this.searchTerm = this.State["SearchTerm"] as string;
                 SearchTextBox.Text = this.searchTerm;
             }
 
-            if (State.ContainsKey("SearchPerformed"))
+            if (this.State.ContainsKey("SearchPerformed"))
                 this._searchIsPerformed = State["SearchPerformed"].Equals("True");
 
             _isNewPageInstance = false;
@@ -377,6 +415,11 @@ namespace MobileLoggerApp
                 this.State["SearchPerformed"] = _searchIsPerformed.ToString();
             else
                 this.State.Add("SearchPerformed", _searchIsPerformed.ToString());
+
+            if (this.State.ContainsKey("ServerRoot"))
+                this.State["ServerRoot"] = ServerTextBox.Text;
+            else
+                this.State.Add("ServerRoot", ServerTextBox.Text);
 
             System.Diagnostics.Debug.WriteLine(_searchIsPerformed.ToString());
         }

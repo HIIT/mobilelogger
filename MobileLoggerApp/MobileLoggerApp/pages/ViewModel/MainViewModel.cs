@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO.IsolatedStorage;
+using System.Linq;
 
 namespace MobileLoggerApp.pages
 {
@@ -21,14 +22,14 @@ namespace MobileLoggerApp.pages
         public ObservableCollection<SearchResults> Results { get; set; }
         public ObservableCollection<LogData> LogData { get; set; }
         public ObservableCollection<HandlerSettings> HandlerSettings { get; set; }
-        IsolatedStorageSettings appSettings;
+        public ObservableCollection<ApplicationInfo> ApplicationInfo { get; set; }
 
         public MainViewModel()
         {
             this.LogData = new ObservableCollection<LogData>();
-            this.appSettings = IsolatedStorageSettings.ApplicationSettings;
             this.Results = new ObservableCollection<SearchResults>();
             this.HandlerSettings = new ObservableCollection<HandlerSettings>();
+            this.ApplicationInfo = new ObservableCollection<ApplicationInfo>();
         }
 
         /// <summary>
@@ -90,14 +91,16 @@ namespace MobileLoggerApp.pages
             ObservableCollection<HandlerSettings> handlerSettings = new ObservableCollection<HandlerSettings>();
             ObservableCollection<HandlerSettings> savedHandlers;
 
-            appSettings.TryGetValue("HandlerSettings", out savedHandlers);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("HandlerSettings", out savedHandlers);
 
             foreach (HandlerSettings handler in savedHandlers)
             {
-                handlerSettings.Add(new HandlerSettings() { HandlerName = handler.HandlerName, HandlerIsChecked = handler.HandlerIsChecked });
+                handlerSettings.Add(new HandlerSettings() {
+                    HandlerName = handler.HandlerName,
+                    HandlerIsChecked = handler.HandlerIsChecked });
             }
             HandlerSettings = handlerSettings;
-            appSettings["HandlerSettings"] = HandlerSettings;
+            IsolatedStorageSettings.ApplicationSettings["HandlerSettings"] = HandlerSettings;
         }
 
         private void GetDefaultHandlerSettings()
@@ -117,23 +120,43 @@ namespace MobileLoggerApp.pages
                 if (handlerState.Count > 0)
                 {
                     handlerState.TryGetValue(logHandler.Key, out isHandlerEnabled);
-                    handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = isHandlerEnabled });
+                    handlerSettings.Add(new HandlerSettings() {
+                        HandlerName = logHandler.Key,
+                        HandlerIsChecked = isHandlerEnabled });
                 }
                 else
                 {
-                    handlerSettings.Add(new HandlerSettings() { HandlerName = logHandler.Key, HandlerIsChecked = StateUtilities.StartHandlers });
+                    handlerSettings.Add(new HandlerSettings() {
+                        HandlerName = logHandler.Key,
+                        HandlerIsChecked = StateUtilities.StartHandlers });
                 }
             }
             HandlerSettings = handlerSettings;
-            appSettings.Add("HandlerSettings", HandlerSettings);
+            IsolatedStorageSettings.ApplicationSettings.Add("HandlerSettings", HandlerSettings);
         }
 
         public void SaveHandlerSettings()
         {
-            if (appSettings.Contains("HandlerSettings"))
-                appSettings["HandlerSettings"] = HandlerSettings;
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("HandlerSettings"))
+                IsolatedStorageSettings.ApplicationSettings["HandlerSettings"] = HandlerSettings;
             else
-                appSettings.Add("HandlerSettings", HandlerSettings);
+                IsolatedStorageSettings.ApplicationSettings.Add("HandlerSettings", HandlerSettings);
+        }
+
+        public void GetAppInfo()
+        {
+
+            string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App")
+                                 select manifest).SingleOrDefault().Attribute("Version").Value;
+
+            ObservableCollection<ApplicationInfo> appInfo = new ObservableCollection<ApplicationInfo>();
+
+            appInfo.Add(new ApplicationInfo() { AppName = "Name: MobileLogger" });
+            appInfo.Add(new ApplicationInfo() { CurrentVersion = "Version: " + appVersion });
+            appInfo.Add(new ApplicationInfo() { ContactName = "Technical support: antti.ukkonen@hiit.fi" });
+            appInfo.Add(new ApplicationInfo() { ContactNumber = "Phone: +358 50 407 0576" });
+
+            ApplicationInfo = appInfo;
         }
 
         public void GetSearchResults(JArray searchResultsList, Boolean newSearch)

@@ -3,6 +3,7 @@ using MobileLoggerScheduledAgent.Database;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net;
 using System.Text;
 using System.Windows;
@@ -12,7 +13,7 @@ namespace MobileLoggerScheduledAgent
     public class ScheduledAgent : ScheduledTaskAgent
     {
         private static volatile bool _classInitialized;
-        public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
+        public static string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
         private static readonly int TIMEOUT_MS = 10000;
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
@@ -27,6 +28,24 @@ namespace MobileLoggerScheduledAgent
                 {
                     Application.Current.UnhandledException += ScheduledAgent_UnhandledException;
                 });
+            }
+        }
+
+        private static string _serverRoot;
+        public static string ServerRoot
+        {
+            get
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
+                    _serverRoot = IsolatedStorageSettings.ApplicationSettings["ServerRoot"] as string;
+                return _serverRoot;
+            }
+            set
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
+                    IsolatedStorageSettings.ApplicationSettings["ServerRoot"] = value;
+                else
+                    IsolatedStorageSettings.ApplicationSettings.Add("ServerRoot", value);
             }
         }
 

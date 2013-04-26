@@ -28,12 +28,13 @@ public class GoogleController {
     @Autowired
     ILogService logService;
     
-    @RequestMapping(method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method=RequestMethod.PUT)
     @ResponseBody
-    public boolean putLog(@Valid @RequestBody Text data, BindingResult result) {
-        //System.out.println("at Google controller, log is: "+data);
-        data.setType("search");
-        return logService.saveLog(data);
+    public boolean putLog(@RequestBody String str) {
+        System.out.println("at Google controller, log is:\n "+str);
+        Text data = new Text();
+        return false;
+        //return logService.saveLog(data);
     }
     
     @RequestMapping(method=RequestMethod.GET)

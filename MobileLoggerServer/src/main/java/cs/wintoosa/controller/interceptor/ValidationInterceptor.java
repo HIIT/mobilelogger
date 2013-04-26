@@ -22,6 +22,16 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = Logger.getLogger(ValidationInterceptor.class .getName()); 
     public ValidationInterceptor() {
         super();
+        try {
+            FileHandler handler = new FileHandler(this.getClass().getSimpleName(), true);
+            
+            logger.addHandler(handler);
+        } catch (IOException ex) {
+            Logger.getLogger(ValidationInterceptor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(ValidationInterceptor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     @Override

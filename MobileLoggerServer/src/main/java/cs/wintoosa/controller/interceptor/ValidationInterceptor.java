@@ -57,8 +57,6 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
        
         if(!isValid(json)) {
             response.getWriter().write("json validation failed");
-            if(json != null)
-                logger.warning("JSON validation failed:\n" + json.toString());
             return false;
         }
         return true;
@@ -75,10 +73,8 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         request.getInputStream().read(buffer, 0, request.getContentLength());
         String data = new String(buffer, "UTF-8");
         //String data = String.copyValueOf(buffer);
-        logger.info("interceptor str data " + data);
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(data).getAsJsonObject();
-        logger.info("interceptor json tostring " + json.toString());
         //reader.close();
         return json;
     }
@@ -99,6 +95,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
         if(!checksum.equalsIgnoreCase(calculatedChecksum)) {
             logger.warning("Checksum validation failed\n"
+                    + "\tjson:    \t " + json.toString()+"\n"
                     + "\texpected:\t " + checksum
                     + "\n\tcalculated:\t " + calculatedChecksum);
             return false;

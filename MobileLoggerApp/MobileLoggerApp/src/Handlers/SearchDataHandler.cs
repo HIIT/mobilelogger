@@ -55,7 +55,7 @@ namespace MobileLoggerApp.Handlers
             JObject data = new JObject();
             searchData.Add("index", 0);
             searchData.Remove("items");
-            data["text"] = searchData;
+            data["text"] = searchData.ToString();
             data.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
             SaveLogToDB(data, URL);
         }
@@ -72,7 +72,7 @@ namespace MobileLoggerApp.Handlers
                 index++;
                 JObject data = new JObject();
                 ParseSearchResult(resultObj);
-                data.Add("text", resultObj);
+                data.Add("text", resultObj.ToString());
                 data.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
                 SaveLogToDB(data, URL);
             }
@@ -100,7 +100,7 @@ namespace MobileLoggerApp.Handlers
             JObject data = new JObject();
             data.Add("timestamp", DeviceTools.GetUnixTime(DateTime.UtcNow));
             ParseSearchResult(searchResult);
-            data.Add("text", searchResult);
+            data.Add("text", searchResult.ToString());
             SaveLogToDB(searchResult, "/log/clicked");
         }
     }

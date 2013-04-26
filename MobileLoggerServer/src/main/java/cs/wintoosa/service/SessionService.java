@@ -4,6 +4,8 @@
  */
 package cs.wintoosa.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import cs.wintoosa.domain.Acceleration;
 import cs.wintoosa.domain.Compass;
 import cs.wintoosa.domain.Gps;
@@ -13,7 +15,12 @@ import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Orientation;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.domain.Touch;
+import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import org.apache.commons.collections.map.LinkedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +34,33 @@ public class SessionService implements ISessionService {
     @Autowired
     ILogService logService;
 
+    @Override
+    public String getDataAsCsvString(SessionLog session) {
+        
+        List<Acceleration> accLogs = logService.getAllBySessionId(Acceleration.class, session);
+        List<Compass> comLogs = logService.getAllBySessionId(Compass.class, session);
+        List<KeyPress> keyPresses = logService.getAllBySessionId(KeyPress.class, session);
+        List<Keyboard> keyboards = logService.getAllBySessionId(Keyboard.class, session);
+        List<Orientation> gyroLogs = logService.getAllBySessionId(Orientation.class, session);
+        List<Gps> gpsLogs = logService.getAllBySessionId(Gps.class, session);
+        List<Touch> touchLogs = logService.getAllBySessionId(Touch.class, session);
+        
+        Gson gson = new Gson();
+        
+        com.google.gson.GsonBuilder builder = new  com.google.gson.GsonBuilder();
+        
+        Set<Entry<String, JsonElement>> entrySet = null;
+        System.out.println("here");
+        for (Entry<String, JsonElement> entry : entrySet) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+        System.out.println("and here");
+        //phoneid, networkInterface, searchResult, gpsJotai
+        //asd,networkasd,asd,12
+        
+        return null;//formatForJsp(session).getLogData();
+    }
+    
     /**
      * Formats Acceleration, Compass, KeyPress, Keyboard, Orientation, Gps and Touch
      * logs for displaying on JSP page.

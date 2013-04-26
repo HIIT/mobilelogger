@@ -4,11 +4,15 @@
  */
 package cs.wintoosa.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.service.ILogService;
 import cs.wintoosa.service.ISessionService;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +67,16 @@ public class SessionController {
         model.addAttribute("session", sessionService.formatForJsp(logService.getSessionById(sessionId)));
         return "matrix";
     }
+    
+    @RequestMapping(value = "/{sessionId}/csv", method = RequestMethod.GET)
+    @ResponseBody
+    public String getLogsBySessionCsv(@PathVariable long sessionId, Model model) throws JsonProcessingException {
+        System.out.println("getting logs in session");
+        sessionService.getDataAsCsvString(logService.getSessionById(sessionId));
+        return null;
+    }
    
+    
     //Adds dummy logs to DB for debugging
     @RequestMapping(value ="/add", method=RequestMethod.GET)
     public String seedLogs(){

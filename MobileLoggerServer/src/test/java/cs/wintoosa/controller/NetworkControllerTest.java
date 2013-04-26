@@ -35,9 +35,18 @@ public class NetworkControllerTest extends AbstractTest{
     
     @Test
     public void testPutNetworkLog() throws Exception {
+        String jsondata = "{\"operator\":\"FI SONERA\","
+                + "\"timestamp\":1366978965645," 
+                + "\"interfaceBandwidth\":\"480000\","
+                + "\"interfaceCharacteristics\":\"None\","
+                + "\"interfaceDescription\":\"DTPT over USB Serial\","
+                + "\"interfaceName\":\"DTPT\","
+                + "\"interfaceState\":\"Connected\","
+                + "\"interfaceSubtype\":\"Desktop_PassThru\","
+                + "\"interfaceType\":\"Ethernet\","
+                + "\"phoneId\":\"m79aRPLMZjWfTBfpFt4rMjgv1Eo=\","
+                + "\"checksum\":\"B9DC53F51AD86AFCD436C5B139DF90BB77EB73FA\"}";
         
-        String jsondata = "{\"operator\":\"test\",\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"foo\"}";
-
         this.mockMvc.perform(put("/log/network").contentType(MediaType.APPLICATION_JSON).content(jsondata))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"))

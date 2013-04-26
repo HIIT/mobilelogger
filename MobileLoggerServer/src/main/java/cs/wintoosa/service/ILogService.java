@@ -2,6 +2,7 @@ package cs.wintoosa.service;
 
 import cs.wintoosa.domain.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface for saving and getting log entities 
@@ -85,4 +86,17 @@ public interface ILogService {
      */
     public List<Text> getTextLogByType(String type);
 
+    /**
+     * Returns a Map suitable for csv conversion of the given session
+     * @param session
+     * @return 
+     */
+    public Map<String, List<String>> getCsv(SessionLog session);
+    
+    /**
+     * Returns a Map suitable for csv conversion of all logs
+     * @return 
+     */
+    public Map<String, List<String>> getCsv();
+    
 }

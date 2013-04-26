@@ -35,7 +35,6 @@ public class GPSControllerTest extends AbstractTest{
     
     @Test
     public void testPutGPSLog() throws Exception {
-        
         String jsondata = "{\"lat\":1.0,\"lon\":2.0,\"alt\":0.0,\"phoneId\":\"123456789012345\",\"timestamp\":1361264436365,\"checksum\":\"2413a9ab3dc40a4a0de28316422f321c4bcd179a\"}";
 
         this.mockMvc.perform(put("/log/gps").contentType(MediaType.APPLICATION_JSON).content(jsondata))

@@ -143,11 +143,10 @@ namespace MobileLoggerScheduledAgent
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " Exception");
+                System.Diagnostics.Debug.WriteLine(this.GetType().Name + " Exception, message: " + e.Message );
                 System.Diagnostics.Debug.WriteLine(this.GetType().Name + " logevent: " + logevent.sensorEvent);
                 System.Diagnostics.Debug.WriteLine(this.GetType().Name + " url: " + logevent.relativeUrl);
                 System.Diagnostics.Debug.WriteLine(e.GetBaseException());
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
             }
         }
 

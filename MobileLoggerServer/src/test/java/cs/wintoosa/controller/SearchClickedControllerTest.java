@@ -35,9 +35,17 @@ public class SearchClickedControllerTest extends AbstractTest{
     
     @Test
     public void testPutJsonLog() throws Exception {
+        //      \"text\":\"{"
         
-        String jsondata = "{\"text\":\"foo\", \"phoneId\":\"test\", \"timestamp\":3, \"type\":\"test\"}";
-
+        
+        
+        String jsondata =  "{\"text\":\"http://www.google.fi\","
+                + "\"type\":\"clicked\","
+                + "\"timestamp\":1366978973268,"
+                + "\"phoneId\":\"m79aRPLMZjWfTBfpFt4rMjgv1Eo=\","
+                + "\"checksum\":\"09516865AB4ECBCA233BA2F8DF26894F2CF09C9F\"}";                
+        //String jsondata =  "{\"text\":\"asd\",\"timestamp\":1366978973268,\"phoneId\":\"m79aRPLMZjWfTBfpFt4rMjgv1Eo=\",\"checksum\":\"09516865AB4ECBCA233BA2F8DF26894F2CF09C9F\"}";                
+                
         this.mockMvc.perform(put("/log/clicked").contentType(MediaType.APPLICATION_JSON).content(jsondata))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"))

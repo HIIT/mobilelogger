@@ -29,7 +29,7 @@ namespace MobileLoggerApp.Handlers
         private void WeatherData(JObject weatherData)
         {
             JObject data = new JObject();
-            data["text"] = weatherData;
+            data["text"] = weatherData.ToString();
             this.data = data;
             AddJOValue("timestamp", DeviceTools.GetUnixTime());
             SaveLogToDB(this.data, "/log/weather");

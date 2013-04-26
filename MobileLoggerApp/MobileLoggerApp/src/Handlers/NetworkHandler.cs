@@ -102,26 +102,26 @@ namespace MobileLoggerApp.Handlers
             {
                 NetworkInterfaceInfo netInterfaceInfo = socket.GetCurrentNetworkInterface();
 
-                AddJOValue("InterfaceBandwidth", netInterfaceInfo.Bandwidth.ToString());
-                AddJOValue("InterfaceCharacteristics", netInterfaceInfo.Characteristics.ToString());
-                AddJOValue("InterfaceDescription", netInterfaceInfo.Description);
-                AddJOValue("InterfaceName", netInterfaceInfo.InterfaceName);
-                AddJOValue("InterfaceState", netInterfaceInfo.InterfaceState.ToString());
-                AddJOValue("InterfaceSubtype", netInterfaceInfo.InterfaceSubtype.ToString());
-                AddJOValue("InterfaceType", netInterfaceInfo.InterfaceType.ToString());
+                AddJOValue("interfaceBandwidth", netInterfaceInfo.Bandwidth.ToString());
+                AddJOValue("interfaceCharacteristics", netInterfaceInfo.Characteristics.ToString());
+                AddJOValue("interfaceDescription", netInterfaceInfo.Description);
+                AddJOValue("interfaceName", netInterfaceInfo.InterfaceName);
+                AddJOValue("interfaceState", netInterfaceInfo.InterfaceState.ToString());
+                AddJOValue("interfaceSubtype", netInterfaceInfo.InterfaceSubtype.ToString());
+                AddJOValue("interfaceType", netInterfaceInfo.InterfaceType.ToString());
                 AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine(e.SocketError.ToString(), "Error Getting Interface Information");
 
-                AddJOValue("InterfaceBandwidth", null);
-                AddJOValue("InterfaceCharacteristics", null);
-                AddJOValue("InterfaceDescription", null);
-                AddJOValue("InterfaceName", null);
-                AddJOValue("InterfaceState", null);
-                AddJOValue("InterfaceSubtype", null);
-                AddJOValue("InterfaceType", null);
+                AddJOValue("interfaceBandwidth", null);
+                AddJOValue("interfaceCharacteristics", null);
+                AddJOValue("interfaceDescription", null);
+                AddJOValue("interfaceName", null);
+                AddJOValue("interfaceState", null);
+                AddJOValue("interfaceSubtype", null);
+                AddJOValue("interfaceType", null);
                 AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
         }

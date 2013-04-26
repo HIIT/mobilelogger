@@ -8,7 +8,7 @@ namespace MobileLoggerApp.Handlers
     {
         //used in WeatherInformation
         public static GeoCoordinateWatcher coordinateWatcher;
-        public static string latitude, longitude;
+        public static string latitude, longitude, altitude;
 
         public GpsHandler()
         {
@@ -70,10 +70,11 @@ namespace MobileLoggerApp.Handlers
             {
                 latitude = e.Position.Location.Latitude.ToString();
                 longitude = e.Position.Location.Longitude.ToString();
+                altitude = e.Position.Location.Altitude.ToString();
 
-                AddJOValue("lat", latitude);
-                AddJOValue("lon", longitude);
-                AddJOValue("alt", e.Position.Location.Altitude);
+                AddJOValue("lat", latitude.Replace(",", "."));
+                AddJOValue("lon", longitude.Replace(",", "."));
+                AddJOValue("alt", altitude.Replace(",", "."));
                 AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
         }

@@ -37,7 +37,7 @@ public class NetworkController {
     
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putNetworkLog(@Valid @RequestBody Network log) {
+    public boolean putNetworkLog(@RequestBody Network log) {
         return logService.saveLog(log);
     }
 }

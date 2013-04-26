@@ -6,6 +6,7 @@ package cs.wintoosa.service;
 
 import cs.wintoosa.domain.SessionLog;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -24,12 +25,12 @@ public interface ISessionService {
         private SessionLog session;
         private String phone;
         private Long sessionId;
-        private Map<String, ArrayList<String>> logData;
-        private ArrayList<Long> timestamps;
+        private Map<String, List<String>> logData;
+        private List<Long> timestamps;
 
-        public DataHolder(SessionLog session) {
+        public DataHolder(SessionLog session){
             this.session = session;
-            logData = new TreeMap<String, ArrayList<String>>();
+            logData = new TreeMap<String, List<String>>();
             timestamps = new ArrayList<Long>();
 
             if (session != null) {
@@ -53,15 +54,15 @@ public interface ISessionService {
             if (!hasColumn(columnName)) {
                 addColumn(columnName);
             }
-            ArrayList<String> column = logData.get(columnName);
+            List<String> column = logData.get(columnName);
             column.add(data);
         }
 
-        public Map<String, ArrayList<String>> getLogData() {
+        public Map<String, List<String>> getLogData() {
             return logData;
         }
 
-        public void setLogData(Map<String, ArrayList<String>> logData) {
+        public void setLogData(Map<String, List<String>> logData) {
             this.logData = logData;
         }
 
@@ -81,7 +82,7 @@ public interface ISessionService {
             this.sessionId = sessionId;
         }
 
-        public ArrayList<Long> getTimestamps() {
+        public List<Long> getTimestamps() {
             return timestamps;
         }
 
@@ -98,5 +99,7 @@ public interface ISessionService {
         }
     }
 
+    public String getDataAsCsvString(SessionLog session);
+            
     public DataHolder formatForJsp(SessionLog session);
 }

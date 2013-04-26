@@ -6,7 +6,9 @@ import cs.wintoosa.repository.log.LogRepository;
 import cs.wintoosa.repository.phone.PhoneRepository;
 import cs.wintoosa.repository.session.SessionRepository;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -131,5 +133,21 @@ public class LogService implements ILogService {
     @Transactional()
     public List<Text> getTextLogByType(String type){
         return logRepositoryImpl.findTextLogByType(type);
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public Map<String, List<String>> getCsv(SessionLog session) {
+        LinkedHashMap<String, List<String>> map = new LinkedHashMap();
+        
+        
+        return map;
+    }
+
+    @Override
+    
+    @Transactional(readOnly=true)
+    public Map<String, List<String>> getCsv() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

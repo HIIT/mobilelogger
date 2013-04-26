@@ -14,13 +14,13 @@ import javax.persistence.Entity;
 public class Network extends Log{
 
     private String operator;
-    private String InterfaceBandwidth;
-    private String InterfaceCharacteristics;
-    private String InterfaceDescription;
-    private String InterfaceName;
-    private String InterfaceState;
-    private String InterfaceSubtype;
-    private String InterfaceType;
+    private String interfaceBandwidth;
+    private String interfaceCharacteristics;
+    private String interfaceDescription;
+    private String interfaceName;
+    private String interfaceState;
+    private String interfaceSubtype;
+    private String interfaceType;
 
     public String getOperator() {
         return operator;
@@ -31,61 +31,61 @@ public class Network extends Log{
     }
 
     public String getInterfaceBandwidth() {
-        return InterfaceBandwidth;
+        return interfaceBandwidth;
     }
 
     public void setInterfaceBandwidth(String InterfaceBandwidth) {
-        this.InterfaceBandwidth = InterfaceBandwidth;
+        this.interfaceBandwidth = InterfaceBandwidth;
     }
 
     public String getInterfaceCharacteristics() {
-        return InterfaceCharacteristics;
+        return interfaceCharacteristics;
     }
 
     public void setInterfaceCharacteristics(String InterfaceCharacteristics) {
-        this.InterfaceCharacteristics = InterfaceCharacteristics;
+        this.interfaceCharacteristics = InterfaceCharacteristics;
     }
 
     public String getInterfaceDescription() {
-        return InterfaceDescription;
+        return interfaceDescription;
     }
 
     public void setInterfaceDescription(String InterfaceDescription) {
-        this.InterfaceDescription = InterfaceDescription;
+        this.interfaceDescription = InterfaceDescription;
     }
 
     public String getInterfaceName() {
-        return InterfaceName;
+        return interfaceName;
     }
 
     public void setInterfaceName(String InterfaceName) {
-        this.InterfaceName = InterfaceName;
+        this.interfaceName = InterfaceName;
     }
 
     public String getInterfaceState() {
-        return InterfaceState;
+        return interfaceState;
     }
 
     public void setInterfaceState(String InterfaceState) {
-        this.InterfaceState = InterfaceState;
+        this.interfaceState = InterfaceState;
     }
 
     public String getInterfaceSubtype() {
-        return InterfaceSubtype;
+        return interfaceSubtype;
     }
 
     public void setInterfaceSubtype(String InterfaceSubtype) {
-        this.InterfaceSubtype = InterfaceSubtype;
+        this.interfaceSubtype = InterfaceSubtype;
     }
 
     public String getInterfaceType() {
-        return InterfaceType;
+        return interfaceType;
     }
 
     public void setInterfaceType(String InterfaceType) {
-        this.InterfaceType = InterfaceType;
+        this.interfaceType = InterfaceType;
     }
-    
+ 
     
     
 }

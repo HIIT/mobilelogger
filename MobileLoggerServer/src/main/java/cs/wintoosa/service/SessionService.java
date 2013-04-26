@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author vkukkola
  */
 @Service
@@ -28,6 +27,12 @@ public class SessionService implements ISessionService {
     @Autowired
     ILogService logService;
 
+    /**
+     * Formats Acceleration, Compass, KeyPress, Keyboard, Orientation, Gps and Touch
+     * logs for displaying on JSP page.
+     * @param session the wanted session
+     * @return a DataHolder with data formatted for displaying.
+     */
     @Override
     public DataHolder formatForJsp(SessionLog session) {
         DataHolder data = new DataHolder(session);

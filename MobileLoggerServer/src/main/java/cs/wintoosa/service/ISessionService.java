@@ -10,11 +10,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *
+ * Currently this service interface defines only a method for formatting
+ * data to be displayed on screen.
  * @author vkukkola
  */
 public interface ISessionService {
 
+    /**
+     * Object which is used to transform data into a 2d array
+     */
     class DataHolder {
 
         private SessionLog session;

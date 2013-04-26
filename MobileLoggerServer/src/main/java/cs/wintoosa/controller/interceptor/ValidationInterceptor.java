@@ -11,6 +11,7 @@ import java.util.logging.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.persistence.logging.LogFormatter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -19,19 +20,25 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
-    private static final Logger logger = Logger.getLogger(ValidationInterceptor.class .getName()); 
+    private static final Logger logger = Logger.getLogger(ValidationInterceptor.class.getName()); 
+    private static boolean handlerSet = false;
     public ValidationInterceptor() {
         super();
-        try {
-            FileHandler handler = new FileHandler(this.getClass().getSimpleName(), true);
-            
-            logger.addHandler(handler);
-        } catch (IOException ex) {
-            Logger.getLogger(ValidationInterceptor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(ValidationInterceptor.class.getName()).log(Level.SEVERE, null, ex);
+        if(!handlerSet) {
+            handlerSet = true;
+            try {
+                FileHandler handler = new FileHandler(this.getClass().getSimpleName()+".log", true);
+                handler.setLevel(Level.WARNING);
+                handler.setFormatter(new LogFormatter());
+                logger.addHandler(handler);
+            } catch (IOException ex) {
+                handlerSet = false;
+                Logger.getLogger(ValidationInterceptor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SecurityException ex) {
+                handlerSet = false;
+                Logger.getLogger(ValidationInterceptor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
     }
     
     @Override
@@ -51,7 +58,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         if(!isValid(json)) {
             response.getWriter().write("json validation failed");
             if(json != null)
-                logger.info("JSON:\n" + json.toString());
+                logger.warning("JSON validation failed:\n" + json.toString());
             return false;
         }
         return true;
@@ -78,14 +85,12 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
     
     private boolean isValid(JsonObject json) {
         if(json == null) {
-            logger.info("json is null");
             return false;
         }
         
         JsonElement checksumJson = json.get("checksum");
         
         if(checksumJson == null) {
-            logger.info("json checksum is null");
             return false;
         }
         
@@ -93,7 +98,7 @@ public class ValidationInterceptor extends HandlerInterceptorAdapter {
         json.remove("checksum");
         String calculatedChecksum = ChecksumChecker.calcSHA1(json.toString());
         if(!checksum.equalsIgnoreCase(calculatedChecksum)) {
-            logger.info("Checksum validation failed\n"
+            logger.warning("Checksum validation failed\n"
                     + "\texpected:\t " + checksum
                     + "\n\tcalculated:\t " + calculatedChecksum);
             return false;

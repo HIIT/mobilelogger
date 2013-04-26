@@ -11,7 +11,6 @@ namespace MobileLoggerScheduledAgent
 {
     public class ScheduledAgent : ScheduledTaskAgent
     {
-        private static Boolean google = false;
         private static volatile bool _classInitialized;
         public static readonly string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
         private static readonly int TIMEOUT_MS = 10000;
@@ -91,11 +90,6 @@ namespace MobileLoggerScheduledAgent
 
         private void SendData(LogEvent logevent, IAsyncResult asynchronousResult)
         {
-            if (logevent.relativeUrl.Contains("google") && !google)
-            {
-                google = true;
-                System.Diagnostics.Debug.WriteLine(logevent.sensorEvent);
-            }
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
 
             // End the operation

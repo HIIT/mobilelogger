@@ -38,7 +38,7 @@ public class GoogleControllerTest extends AbstractTest {
 
         this.mockMvc.perform(put("/log/google").contentType(MediaType.APPLICATION_JSON).content(jsondata))
                 .andExpect(status().isOk())
-                .andExpect(content().string("false"))
+                .andExpect(content().string("true"))
                 .andReturn();
     }
     

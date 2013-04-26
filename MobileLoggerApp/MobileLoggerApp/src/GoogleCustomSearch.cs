@@ -8,12 +8,15 @@ namespace MobileLoggerApp
 {
     class GoogleCustomSearch : HttpRequestable
     {
-        private string searchQuery, searchPageNumberString;
+        private string searchQuery;
         private int searchPageNumber;
         private bool newSearch;
 
         public delegate void SearchDataHandler(JObject searchData);
         public static event SearchDataHandler searchDataEvent;
+
+        public delegate void SearchPerformedHandler();
+        public static event SearchPerformedHandler searchPerformedEvent;
 
         /// <summary>
         /// Constructor for the Google Search handles a Google search asynchronously.
@@ -54,6 +57,9 @@ namespace MobileLoggerApp
             JArray searchResults = (JArray)searchData["items"];
 
             App.ViewModel.GetSearchResults(searchResults, newSearch);
+
+            if (searchPerformedEvent != null)
+            searchPerformedEvent();
 
             if (searchDataEvent != null)
                 searchDataEvent(searchData);

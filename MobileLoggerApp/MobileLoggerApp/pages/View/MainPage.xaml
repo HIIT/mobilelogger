@@ -15,7 +15,6 @@
     shell:SystemTray.IsVisible="True">
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="ListBoxStyle1" TargetType="ListBox" x:Name="listStyle">
-
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -25,19 +24,16 @@
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Template" x:Name="setter">
                 <Setter.Value>
-
                     <ControlTemplate TargetType="ListBox">
-
                         <ScrollViewer x:Name="ScrollViewer" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" Padding="{TemplateBinding Padding}">
-
                             <StackPanel x:Name="stackPanel">
                                 <ItemsPresenter/>
-
-                                <Button Visibility="Visible"
+                                <Button Visibility="Collapsed"
                                 x:Name="nextPageButton"
                                 Click="LoadNextPage"
                                 Background="Gray"
-                                Width="auto" Height="72">
+                                Width="auto" Height="72"
+                                        IsEnabled="False">
                                     Next page
                                 </Button>
                             </StackPanel>
@@ -57,7 +53,7 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
 
-        <controls:Pivot Title="MobileLogger" SelectionChanged="currentPivotItem" >
+        <controls:Pivot SelectionChanged="currentPivotItem" >
 
             <!--Search Pivot item-->
             <controls:PivotItem Header="Search" Margin="12,0" >
@@ -122,6 +118,7 @@
             <!--Info Pivot item-->
             <controls:PivotItem Header="Info">
                 <StackPanel Margin="0,0,0,17">
+                    <TextBlock x:Name="AppName"/>
                     <TextBlock x:Name="VersionInfo"/>
                     <TextBlock x:Name="ContactInfo"/>
                     <TextBlock x:Name="ContactNumber"/>

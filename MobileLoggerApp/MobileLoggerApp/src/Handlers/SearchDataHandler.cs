@@ -38,7 +38,7 @@ namespace MobileLoggerApp.Handlers
             DateTime timestamp = DateTime.UtcNow;
             JArray searchResults = (JArray)searchData["items"];
 
-            ProcessSearchData(searchData, timestamp);
+            //ProcessSearchData(searchData, timestamp);
 
             if (searchResults != null)
             {
@@ -55,7 +55,7 @@ namespace MobileLoggerApp.Handlers
             JObject data = new JObject();
             searchData.Add("index", 0);
             searchData.Remove("items");
-            data["text"] = searchData.ToString();
+            data["text"] = searchData.GetValue("link");
             data.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
             SaveLogToDB(data, URL);
         }
@@ -72,7 +72,7 @@ namespace MobileLoggerApp.Handlers
                 index++;
                 JObject data = new JObject();
                 ParseSearchResult(resultObj);
-                data.Add("text", resultObj.ToString());
+                data.Add("text", resultObj.GetValue("link"));
                 data.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
                 SaveLogToDB(data, URL);
             }
@@ -100,8 +100,8 @@ namespace MobileLoggerApp.Handlers
             JObject data = new JObject();
             data.Add("timestamp", DeviceTools.GetUnixTime(DateTime.UtcNow));
             ParseSearchResult(searchResult);
-            data.Add("text", searchResult.ToString());
-            SaveLogToDB(searchResult, "/log/clicked");
+            data.Add("text", searchResult.GetValue("link"));
+            SaveLogToDB(data, "/log/clicked");
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace MobileLoggerApp
@@ -20,6 +21,7 @@ namespace MobileLoggerApp
 
         bool _isNewPageInstance = false;
         bool _isFirstRun;
+        bool _searchIsPerformed;
 
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
@@ -39,6 +41,7 @@ namespace MobileLoggerApp
 
         GoogleCustomSearch search;
         WeatherInformationSearch weatherInfo;
+        //Button nextPageButton;
 
         // Constructor
         public MainPage()
@@ -70,6 +73,7 @@ namespace MobileLoggerApp
             string appVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App")
                                  select manifest).SingleOrDefault().Attribute("Version").Value;
 
+            AppName.Text = "Name: MobileLogger";
             VersionInfo.Text = "Version: " + appVersion;
             ContactInfo.Text = "Technical support: antti.ukkonen@hiit.fi";
             ContactNumber.Text = "Phone: +358 50 407 0576";
@@ -142,6 +146,8 @@ namespace MobileLoggerApp
             Touch.FrameReported += Touch_FrameReported;
             this.weatherInfo = new WeatherInformationSearch();
             this.search = new GoogleCustomSearch();
+            GoogleCustomSearch.searchPerformedEvent += new GoogleCustomSearch.SearchPerformedHandler(SearchPerformed);
+            ToggleNextPageButton();
         }
 
         private void InitializeApplication()
@@ -154,7 +160,7 @@ namespace MobileLoggerApp
                     "You can later decide, what kind of data this application is able to collect. " +
                     "Press OK to enable data collecting, press Cancel to disable data collecting.",
                     "Personal data", MessageBoxButton.OKCancel);
-                
+
                 if (result == MessageBoxResult.OK)
                 {
                     StateUtilities.StartHandlers = true;
@@ -186,6 +192,22 @@ namespace MobileLoggerApp
                 keyboardLostFocus();
         }
 
+        private void ToggleNextPageButton()
+        {
+            Button nextPageButton = FindVisualChild<Button>(SearchListBox);
+
+            if (_searchIsPerformed)
+            {
+                nextPageButton.Visibility = Visibility.Visible;
+                nextPageButton.IsEnabled = true;
+            }
+            else
+            {
+                nextPageButton.Visibility = Visibility.Collapsed;
+                nextPageButton.IsEnabled = false;
+            }
+        }
+
         /// <summary>
         /// Event handler for search box, sends the search query to be queried from Google Custom Search
         /// </summary>
@@ -210,6 +232,12 @@ namespace MobileLoggerApp
             HandlersManager.SaveSensorLog();
         }
 
+        private void SearchPerformed()
+        {
+            _searchIsPerformed = true;
+            ToggleNextPageButton();
+        }
+
         /// <summary>
         /// An event handler for tapping a result, opens the result in Internet Explorer
         /// </summary>
@@ -225,7 +253,6 @@ namespace MobileLoggerApp
                 JObject tappedResult = JObject.Parse(searchResult.SearchResult);
                 searchResultTap(tappedResult);
             }
-
             search.OpenBrowser(searchResult.SearchResultLink.ToString());
         }
 
@@ -269,7 +296,9 @@ namespace MobileLoggerApp
 
         private void debugButton_Click(object sender, RoutedEventArgs e)
         {
+#if DEBUG
             StartAgent();
+#endif
         }
 
         private void currentPivotItem(object sender, SelectionChangedEventArgs e)
@@ -313,6 +342,10 @@ namespace MobileLoggerApp
                 this.searchTerm = State["SearchTerm"] as string;
                 SearchTextBox.Text = this.searchTerm;
             }
+
+            if (State.ContainsKey("SearchPerformed"))
+                this._searchIsPerformed = State["SearchPerformed"].Equals("True");
+
             _isNewPageInstance = false;
         }
 
@@ -340,6 +373,30 @@ namespace MobileLoggerApp
                 else
                     this.State.Add("SearchTerm", SearchTextBox.Text);
             }
+            if (this.State.ContainsKey("SearchPerformed"))
+                this.State["SearchPerformed"] = _searchIsPerformed.ToString();
+            else
+                this.State.Add("SearchPerformed", _searchIsPerformed.ToString());
+
+            System.Diagnostics.Debug.WriteLine(_searchIsPerformed.ToString());
+        }
+
+        public static ChildItem FindVisualChild<ChildItem>(DependencyObject obj)
+            where ChildItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is ChildItem)
+                    return (ChildItem)child;
+                else
+                {
+                    ChildItem childOfChild = FindVisualChild<ChildItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
         }
     }
 }

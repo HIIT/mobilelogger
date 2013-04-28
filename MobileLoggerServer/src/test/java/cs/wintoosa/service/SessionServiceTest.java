@@ -12,23 +12,14 @@ import cs.wintoosa.domain.KeyPress;
 import cs.wintoosa.domain.Keyboard;
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Orientation;
-import cs.wintoosa.domain.Phone;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.domain.Touch;
-import cs.wintoosa.repository.log.LogRepository;
-import cs.wintoosa.repository.phone.PhoneRepository;
-import cs.wintoosa.repository.session.SessionRepository;
 import cs.wintoosa.service.ISessionService.DataHolder;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import static org.mockito.Mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**

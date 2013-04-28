@@ -4,7 +4,6 @@ import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.domain.Text;
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Add custom methods here

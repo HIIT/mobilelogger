@@ -4,14 +4,7 @@
  */
 package cs.wintoosa.controller.interceptor;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import cs.wintoosa.service.ChecksumChecker;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.logging.*;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

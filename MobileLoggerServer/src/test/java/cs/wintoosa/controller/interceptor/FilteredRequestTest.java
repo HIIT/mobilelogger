@@ -6,14 +6,8 @@ package cs.wintoosa.controller.interceptor;
 
 import cs.wintoosa.AbstractTest;
 import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 /**
  *

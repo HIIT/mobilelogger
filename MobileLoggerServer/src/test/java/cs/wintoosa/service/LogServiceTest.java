@@ -7,21 +7,11 @@ package cs.wintoosa.service;
 import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.Gps;
 import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.Phone;
 import cs.wintoosa.domain.SessionLog;
-import cs.wintoosa.repository.log.LogRepository;
-import cs.wintoosa.repository.phone.PhoneRepository;
 import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *

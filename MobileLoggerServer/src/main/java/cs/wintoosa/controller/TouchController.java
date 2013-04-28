@@ -8,7 +8,6 @@ import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Touch;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

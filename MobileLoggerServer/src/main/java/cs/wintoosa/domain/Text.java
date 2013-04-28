@@ -6,7 +6,6 @@ package cs.wintoosa.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *

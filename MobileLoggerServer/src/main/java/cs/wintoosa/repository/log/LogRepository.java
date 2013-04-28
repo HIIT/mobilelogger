@@ -2,12 +2,10 @@ package cs.wintoosa.repository.log;
 
 import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.SessionLog;
-import java.util.Collection;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Contains method interfaces that the framework (Spring) automatically implements

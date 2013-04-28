@@ -15,13 +15,9 @@ import cs.wintoosa.domain.Log;
 import cs.wintoosa.domain.Orientation;
 import cs.wintoosa.domain.SessionLog;
 import cs.wintoosa.domain.Touch;
-import java.lang.reflect.Field;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.apache.commons.collections.map.LinkedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

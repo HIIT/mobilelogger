@@ -18,7 +18,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public abstract class Log implements Serializable{
+public abstract class Abstractlog implements Serializable{
 
     private static final long serialVersionUID = 1234l;
     
@@ -26,9 +26,9 @@ public abstract class Log implements Serializable{
     @GeneratedValue(strategy= GenerationType.AUTO)
     protected Long id;
     
-    @ManyToOne(targetEntity=SessionLog.class)
+    @ManyToOne(targetEntity=Sessionlog.class)
     @JsonIgnore
-    protected SessionLog sessionLog;
+    protected Sessionlog sessionlog;
         
     @NotNull(message="PhoneId can't be null")
     protected String phoneId;
@@ -39,7 +39,7 @@ public abstract class Log implements Serializable{
     @Transient
     private String checksum;
        
-    public Log() {
+    public Abstractlog() {
     }
     
     public String getPhoneId() {
@@ -74,13 +74,13 @@ public abstract class Log implements Serializable{
     }
 
     @JsonIgnore
-    public SessionLog getSessionLog() {
-        return sessionLog;
+    public Sessionlog getSessionlog() {
+        return sessionlog;
     }
 
     @JsonIgnore
-    public void setSessionLog(SessionLog sessionLog) {
-        this.sessionLog = sessionLog;
+    public void setSessionlog(Sessionlog sessionlog) {
+        this.sessionlog = sessionlog;
     }
 
 }

@@ -4,8 +4,8 @@
  */
 package cs.wintoosa.repository.log;
 
-import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.Abstractlog;
+import cs.wintoosa.domain.Sessionlog;
 import cs.wintoosa.domain.Text;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,17 +25,17 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
 
     @Transactional(readOnly=true)
     @Override
-    public <T extends Log> List<T> findBySessionLog(Class<T> cls, SessionLog session) throws IllegalArgumentException{
+    public <T extends Abstractlog> List<T> findBySessionlog(Class<T> cls, Sessionlog session) throws IllegalArgumentException{
         if (cls == null) {
             return null;
         }
-        List<T> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c WHERE c.sessionLog.id = "+session.getId()+" order by c.timestamp asc", cls).getResultList();
+        List<T> resultList = em.createQuery("SELECT c FROM " + cls.getSimpleName() + " c WHERE c.sessionlog.id = "+session.getId()+" order by c.timestamp asc", cls).getResultList();
         return resultList;
     }
     
     @Transactional(readOnly=true)
     @Override
-    public <T extends Log> List<T> findAll(Class<T> cls) throws IllegalArgumentException {
+    public <T extends Abstractlog> List<T> findAll(Class<T> cls) throws IllegalArgumentException {
         if (cls == null) {
             return null;
         }
@@ -44,7 +44,7 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
     
     @Transactional(readOnly=true)
     @Override
-    public List<Text> findTextLogByType(String type){
+    public List<Text> findTextByType(String type){
         return em.createQuery("SELECT c FROM " + Text.class.getSimpleName() + " c WHERE c.type = '" + type+"'", Text.class).getResultList();
     }
 }

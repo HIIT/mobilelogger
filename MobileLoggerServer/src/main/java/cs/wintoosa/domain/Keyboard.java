@@ -11,7 +11,7 @@ import javax.persistence.Entity;
  * @author jonimake
  */
 @Entity
-public class Keyboard extends Log {
+public class Keyboard extends Abstractlog {
     
     private String keyboardFocus;
 

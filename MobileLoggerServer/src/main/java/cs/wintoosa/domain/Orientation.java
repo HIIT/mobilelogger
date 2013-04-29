@@ -11,7 +11,7 @@ import javax.persistence.Entity;
  * @author vkukkola
  */
 @Entity
-public class Orientation extends Log{
+public class Orientation extends Abstractlog{
 
     private Float currentRotationRateX;
     

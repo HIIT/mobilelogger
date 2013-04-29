@@ -17,16 +17,16 @@ public class Phone implements Serializable{
     @Id
     private String id;
     
-    @OneToMany(targetEntity=SessionLog.class)
-    private List<SessionLog> sessions = new ArrayList<SessionLog>();
+    @OneToMany(targetEntity=Sessionlog.class)
+    private List<Sessionlog> sessions = new ArrayList<Sessionlog>();
     
     private static final long serialVersionUID = 9654699l;
 
-    public List<SessionLog> getSessions() {
+    public List<Sessionlog> getSessions() {
         return sessions;
     }
 
-    public void setSessions(List<SessionLog> sessions) {
+    public void setSessions(List<Sessionlog> sessions) {
         this.sessions = sessions;
     }
 

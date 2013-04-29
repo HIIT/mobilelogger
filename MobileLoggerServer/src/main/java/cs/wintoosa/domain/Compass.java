@@ -7,7 +7,7 @@ import javax.persistence.Entity;
  * @author vkukkola
  */
 @Entity
-public class Compass extends Log{
+public class Compass extends Abstractlog{
 
     private Float trueHeading;
     

@@ -4,7 +4,7 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.domain.Network;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -28,7 +28,7 @@ public class NetworkController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs() {
+    public List<Abstractlog> getLogs() {
         return logService.getAll(Network.class);
     }
     

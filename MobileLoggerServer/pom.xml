@@ -13,6 +13,7 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+        <version.spring.framework>3.2.2.RELEASE</version.spring.framework>
     </properties>
 
     <dependencies>
@@ -20,15 +21,31 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.2.2.RELEASE</version>
+            <version>${version.spring.framework}</version>
         </dependency> 
-        
-        
-        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>3.2.2.RELEASE</version>
+            <version>${version.spring.framework}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${version.spring.framework}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${version.spring.framework}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${version.spring.framework}</version>
+            <scope>test</scope>
             <type>jar</type>
         </dependency>
         
@@ -45,12 +62,6 @@
             <version>9.2-1002.jdbc4</version>
         </dependency>
         
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>3.2.2.RELEASE</version>
-            <type>jar</type>
-        </dependency>
         
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -59,13 +70,7 @@
             <type>jar</type>
         </dependency>
         
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>3.2.2.RELEASE</version>
-            <scope>test</scope>
-            <type>jar</type>
-        </dependency>
+        
         
         <dependency>
             <groupId>junit</groupId>
@@ -119,7 +124,7 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
-            <version>2.3.2</version>
+            <version>2.4.0</version>
         </dependency>
         <dependency> 
             <groupId>org.eclipse.persistence</groupId>
@@ -165,12 +170,7 @@
             <version>1.0.0.GA</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>3.2.2.RELEASE</version>
-            <type>jar</type>
-        </dependency>
+        
         
         <!-- loggauskirjastot -->
         <dependency>

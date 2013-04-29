@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.AbstractTest;
-import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.Sessionlog;
 import cs.wintoosa.service.ILogService;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,12 +31,12 @@ public class SessionControllerTest extends AbstractTest{
     @Autowired
     private ILogService logService;
 
-    private SessionLog session;
+    private Sessionlog session;
     
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        session = new SessionLog();
+        session = new Sessionlog();
         session.setPhoneId("test");
         session.setSessionEnd(new Long(2));
         session.setSessionStart(new Long(1));
@@ -64,7 +64,7 @@ public class SessionControllerTest extends AbstractTest{
     public void testGetLogsBySession() throws Exception {
         
         logService.saveSessionLog(session);
-        SessionLog savedSession = logService.getSessionByPhoneId("test").get(0);
+        Sessionlog savedSession = logService.getSessionByPhoneId("test").get(0);
         Assert.notNull(savedSession);
         this.mockMvc.perform(get("/log/session/"+savedSession.getId()))
                 .andExpect(status().isOk())
@@ -74,7 +74,7 @@ public class SessionControllerTest extends AbstractTest{
     @Test
     public void testGetLogsBySessionMatrix() throws Exception {
         logService.saveSessionLog(session);
-        SessionLog savedSession = logService.getSessionByPhoneId("test").get(0);
+        Sessionlog savedSession = logService.getSessionByPhoneId("test").get(0);
         Assert.notNull(savedSession);
         this.mockMvc.perform(get("/log/session/3/matrix"))
                 .andExpect(status().isOk())

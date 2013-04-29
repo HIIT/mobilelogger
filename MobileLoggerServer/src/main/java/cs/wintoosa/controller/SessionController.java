@@ -4,8 +4,8 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.Log;
-import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.Abstractlog;
+import cs.wintoosa.domain.Sessionlog;
 import cs.wintoosa.service.ILogService;
 import cs.wintoosa.service.ISessionService;
 import java.util.List;
@@ -36,19 +36,19 @@ public class SessionController {
 
     @RequestMapping(method= RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public SessionLog putSessionLog(@Valid @RequestBody SessionLog log) {
+    public Sessionlog putSessionLog(@Valid @RequestBody Sessionlog log) {
         return logService.saveSessionLog(log);
     }
 
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<SessionLog> getLogs() {
+    public List<Sessionlog> getLogs() {
         return logService.getAllSessions();
     }
 
     @RequestMapping(value = "/{sessionId}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogsBySession(@PathVariable long sessionId, Model model) {
+    public List<Abstractlog> getLogsBySession(@PathVariable long sessionId, Model model) {
         System.out.println("getting logs in session");
         return logService.getAllBySessionId(logService.getSessionById(sessionId));
     }
@@ -72,7 +72,7 @@ public class SessionController {
     //Adds dummy logs to DB for debugging
     @RequestMapping(value ="/add", method=RequestMethod.GET)
     public String seedLogs(){
-        SessionLog log = new SessionLog();
+        Sessionlog log = new Sessionlog();
         log.setSessionStart(new Long(0));
         log.setSessionEnd(new Long(100));
         log.setPhoneId("foo");

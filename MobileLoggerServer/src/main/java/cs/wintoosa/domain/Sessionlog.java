@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  * @author jonimake
  */
 @Entity
-public class SessionLog implements Serializable{
+public class Sessionlog implements Serializable{
     
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
@@ -33,15 +33,15 @@ public class SessionLog implements Serializable{
     
     protected Long timestamp;
     
-    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
-    @OrderBy("timestamp")        
-    List<Log> logs;
+    @OneToMany(targetEntity=Abstractlog.class, mappedBy="sessionlog")
+    @OrderBy("timestamp")                
+    List<Abstractlog> logs;
 
-    public void setLogs(List<Log> logs) {
+    public void setLogs(List<Abstractlog> logs) {
         this.logs = logs;
     }
 
-    public List<Log> getLogs() {
+    public List<Abstractlog> getLogs() {
         return logs;
     }
 

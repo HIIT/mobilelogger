@@ -26,7 +26,7 @@ public abstract class Log implements Serializable{
     @GeneratedValue(strategy= GenerationType.AUTO)
     protected Long id;
     
-    @ManyToOne
+    @ManyToOne(targetEntity=SessionLog.class)
     @JsonIgnore
     protected SessionLog sessionLog;
         
@@ -40,10 +40,6 @@ public abstract class Log implements Serializable{
     private String checksum;
        
     public Log() {
-    }
-    
-    public Log(String phoneId) {
-        this.phoneId = phoneId;
     }
     
     public String getPhoneId() {

@@ -33,7 +33,7 @@ public class SessionLog implements Serializable{
     
     protected Long timestamp;
     
-    @OneToMany
+    @OneToMany(targetEntity=Log.class, mappedBy="sessionLog")
     @OrderBy("timestamp")        
     List<Log> logs;
 

@@ -15,7 +15,6 @@ namespace MobileLoggerApp.Handlers
 
         public override void SaveSensorLog()
         {
-            SaveLogToDB(this.data, "/log/network");
         }
 
         public override void StartWatcher()
@@ -124,6 +123,7 @@ namespace MobileLoggerApp.Handlers
                 AddJOValue("interfaceType", null);
                 AddJOValue("timestamp", DeviceTools.GetUnixTime());
             }
+            SaveLogToDB(this.data, "/log/network");
         }
 
         public static void NetworkNotAvailableMessageBox()

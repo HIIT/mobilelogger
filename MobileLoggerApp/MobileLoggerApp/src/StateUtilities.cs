@@ -13,5 +13,12 @@ namespace MobileLogger
             get { return startHandlers; }
             set { startHandlers = value; }
         }
+
+        private static Boolean newSearch;
+        public static Boolean NewSearch
+        {
+            get { return newSearch; }
+            set { newSearch = value; }
+        }
     }
 }

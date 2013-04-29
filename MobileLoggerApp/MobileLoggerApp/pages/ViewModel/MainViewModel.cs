@@ -159,9 +159,9 @@ namespace MobileLoggerApp.pages
             ApplicationInfo = appInfo;
         }
 
-        public void GetSearchResults(JArray searchResultsList, Boolean newSearch)
+        public void GetSearchResults(JArray searchResultsList)
         {
-            if (newSearch)
+            if (StateUtilities.NewSearch)
                 Results.Clear();
 
             foreach (JToken searchResult in searchResultsList)

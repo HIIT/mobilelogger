@@ -1,6 +1,7 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using MobileLogger;
 using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
 using System;
@@ -11,7 +12,6 @@ namespace MobileLoggerApp
     {
         private string searchQuery;
         public int searchPageNumber;
-        private bool newSearch;
 
         public delegate void SearchDataHandler(JObject searchData);
         public static event SearchDataHandler searchDataEvent;
@@ -31,13 +31,11 @@ namespace MobileLoggerApp
         /// </summary>
         /// <param name="query">The search string that is queryed from Google</param>
         /// <param name="newSearch">New search</param>
-        public void Search(string query, bool newSearch = false)
+        public void Search(string query)
         {
             SystemTray.ProgressIndicator.IsVisible = true;
 
-            this.newSearch = newSearch;
-
-            if (this.newSearch)
+            if (StateUtilities.NewSearch)
                 this.searchPageNumber = 1;
             else
                 this.searchPageNumber = App.ViewModel.Results.Count + 1;
@@ -57,10 +55,10 @@ namespace MobileLoggerApp
             JObject searchData = JObject.Parse(data);
             JArray searchResults = (JArray)searchData["items"];
 
-            App.ViewModel.GetSearchResults(searchResults, newSearch);
+            App.ViewModel.GetSearchResults(searchResults);
 
             if (searchPerformedEvent != null)
-            searchPerformedEvent();
+                searchPerformedEvent();
 
             if (searchDataEvent != null)
                 searchDataEvent(searchData);

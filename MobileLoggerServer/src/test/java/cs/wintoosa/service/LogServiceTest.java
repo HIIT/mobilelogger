@@ -59,6 +59,52 @@ public class LogServiceTest extends AbstractTest{
     }
     
     @Test
+    public void testSaveLogsAndSession() {
+        String phoneid = 123456789012345l+"";
+        
+        Gps log = new Gps();
+        log.setTimestamp(0l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneid);
+        assertTrue(logService.saveLog(log));
+        
+        log = new Gps();
+        log.setTimestamp(1l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneid);
+        assertTrue(logService.saveLog(log));
+        
+        log = new Gps();
+        log.setTimestamp(2l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneid);
+        assertTrue(logService.saveLog(log));
+        
+        Sessionlog sessionlog = new Sessionlog();
+        sessionlog.setPhoneId(phoneid);
+        sessionlog.setSessionStart(Long.MIN_VALUE);
+        sessionlog.setSessionEnd(Long.MAX_VALUE);
+        sessionlog = logService.saveSessionLog(sessionlog);
+        
+        
+        log = new Gps();
+        log.setTimestamp(3l);
+        log.setLon(50.0f);
+        log.setLat(51.0f);
+        log.setAlt(51.0f);
+        log.setPhoneId(phoneid);
+        assertTrue(logService.saveLog(log));
+        
+        assertEquals(4, logService.getAllBySessionId(sessionlog).size());
+    }
+    
+    @Test
     public void testSaveGpsLog() {
         Gps log = new Gps();
         log.setTimestamp(Long.MIN_VALUE);

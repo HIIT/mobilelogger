@@ -41,8 +41,7 @@ public class LogService implements ILogService {
             log.setSessionlog(session);
         }
         log = logRepositoryImpl.save(log);
-        ;
-        logger.info("Saved log:\n\t " + new Gson().toJson(log));
+        logger.info("Saved log:\n\t " + log.getId());
         return true;
     }
 

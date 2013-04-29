@@ -172,6 +172,8 @@ namespace MobileLoggerApp
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            SearchTextBox.SelectAll();
+
             if (keyboardGotFocus != null)
                 keyboardGotFocus();
         }
@@ -341,7 +343,7 @@ namespace MobileLoggerApp
             }
             else if (result == MessageBoxResult.Cancel)
             {
-                this.ServerTextBox.Text = "";
+                this.ServerTextBox.Text = IsolatedStorageSettings.ApplicationSettings["ServerRoot"] as string;
             }
         }
 

@@ -26,7 +26,7 @@ public abstract class Log implements Serializable{
     @GeneratedValue(strategy= GenerationType.AUTO)
     protected Long id;
     
-    @ManyToOne
+    @ManyToOne(targetEntity=SessionLog.class)
     @JsonIgnore
     protected SessionLog sessionLog;
         

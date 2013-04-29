@@ -9,7 +9,7 @@ namespace MobileLoggerApp
     class GoogleCustomSearch : HttpRequestable
     {
         private string searchQuery;
-        private int searchPageNumber;
+        public int searchPageNumber;
         private bool newSearch;
 
         public delegate void SearchDataHandler(JObject searchData);

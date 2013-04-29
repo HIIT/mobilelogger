@@ -188,7 +188,7 @@ namespace MobileLoggerApp
         {
             Button nextPageButton = FindVisualChild<Button>(SearchListBox);
 
-            if (_searchIsPerformed)
+            if (_searchIsPerformed && App.ViewModel.Results.Count < 100)
             {
                 nextPageButton.Visibility = Visibility.Visible;
                 nextPageButton.IsEnabled = true;
@@ -329,26 +329,6 @@ namespace MobileLoggerApp
         private void ServerTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             ServerTextButton.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
-        }
-
-        private void debugButton_Click(object sender, RoutedEventArgs e)
-        {
-#if DEBUG
-            StartAgent();
-#endif
-        }
-
-        private void currentPivotItem(object sender, SelectionChangedEventArgs e)
-        {
-#if DEBUG
-            Pivot pivot = sender as Pivot;
-
-            // Data PivotItem
-            if (pivot.SelectedIndex == 1)
-            {
-                App.ViewModel.GetLogData();
-            }
-#endif
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -31,14 +31,14 @@ public class LogService implements ILogService {
 
     @Override
     @Transactional
-    public boolean saveLog(Log log) {
+    public boolean saveLog(Abstractlog log) {
         if (log == null || log.getPhoneId() == null) {
             return false;
         }
-        List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(log.getPhoneId(), log.getTimestamp(), log.getTimestamp());
+        List<Sessionlog> sessions = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(log.getPhoneId(), log.getTimestamp(), log.getTimestamp());
         assert(sessions.size() <= 1);
-        for (SessionLog session : sessions) {
-            log.setSessionLog(session);
+        for (Sessionlog session : sessions) {
+            log.setSessionlog(session);
         }
         log = logRepositoryImpl.save(log);
         ;
@@ -48,47 +48,47 @@ public class LogService implements ILogService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Log> getAll(Class cls) throws IllegalArgumentException {
+    public List<Abstractlog> getAll(Class cls) throws IllegalArgumentException {
         return logRepositoryImpl.findAll(cls);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public <T extends Log> List<T> getAllBySessionId(Class<T> cls, SessionLog session) {
-        return logRepositoryImpl.findBySessionLog(cls, session);
+    public <T extends Abstractlog> List<T> getAllBySessionId(Class<T> cls, Sessionlog session) {
+        return logRepositoryImpl.findBySessionlog(cls, session);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public List<Log> getAll() {
-        List<Log> logs = logRepositoryImpl.findAll();
+    public List<Abstractlog> getAll() {
+        List<Abstractlog> logs = logRepositoryImpl.findAll();
         return logs;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<SessionLog> getAllSessions() {
-        List<SessionLog> sessionLogs = sessionRepositoryImpl.findAll();
+    public List<Sessionlog> getAllSessions() {
+        List<Sessionlog> sessionLogs = sessionRepositoryImpl.findAll();
         return sessionLogs;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SessionLog getSessionById(long sessionId) {
-        SessionLog session = sessionRepositoryImpl.findOne(sessionId);
+    public Sessionlog getSessionById(long sessionId) {
+        Sessionlog session = sessionRepositoryImpl.findOne(sessionId);
         return session;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<SessionLog> getSessionByPhoneId(String phoneId) {
-        List<SessionLog> sessions = sessionRepositoryImpl.findByPhoneId(phoneId);
+    public List<Sessionlog> getSessionByPhoneId(String phoneId) {
+        List<Sessionlog> sessions = sessionRepositoryImpl.findByPhoneId(phoneId);
         return sessions;
     }
 
     @Override
     @Transactional
-    public SessionLog saveSessionLog(SessionLog sessionLog) {
+    public Sessionlog saveSessionLog(Sessionlog sessionLog) {
 
         String phoneId = sessionLog.getPhoneId();
         Phone phone = phoneRepositoryImpl.findOne(phoneId);
@@ -101,9 +101,9 @@ public class LogService implements ILogService {
         phone.getSessions().add(sessionLog);
         phoneRepositoryImpl.saveAndFlush(phone);
         
-        List<Log> logs = logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd());
-        for (Log log : logs) {
-            log.setSessionLog(sessionLog);
+        List<Abstractlog> logs = logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionlogIsNull(phoneId, sessionLog.getSessionStart(), sessionLog.getSessionEnd());
+        for (Abstractlog log : logs) {
+            log.setSessionlog(sessionLog);
         }
         sessionLog.getLogs().addAll(logs);
         
@@ -121,19 +121,19 @@ public class LogService implements ILogService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Log> getAllBySessionId(SessionLog session) {
-        return logRepositoryImpl.findBySessionLog(session);
+    public List<Abstractlog> getAllBySessionId(Sessionlog session) {
+        return logRepositoryImpl.findBySessionlog(session);
     }
     
     @Override
     @Transactional()
     public List<Text> getTextLogByType(String type){
-        return logRepositoryImpl.findTextLogByType(type);
+        return logRepositoryImpl.findTextByType(type);
     }
 
     @Override
     @Transactional(readOnly=true)
-    public Map<String, List<String>> getCsv(SessionLog session) {
+    public Map<String, List<String>> getCsv(Sessionlog session) {
         LinkedHashMap<String, List<String>> map = new LinkedHashMap();
         
         

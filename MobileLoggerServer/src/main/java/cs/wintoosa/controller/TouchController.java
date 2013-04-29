@@ -4,7 +4,7 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.domain.Touch;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
@@ -36,7 +36,7 @@ public class TouchController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> get() {
+    public List<Abstractlog> get() {
         return logService.getAll(Touch.class);
     }
 }

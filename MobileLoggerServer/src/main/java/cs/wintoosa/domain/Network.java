@@ -11,7 +11,7 @@ import javax.persistence.Entity;
  * @author vkukkola, jonimake
  */
 @Entity
-public class Network extends Log{
+public class Network extends Abstractlog{
 
     private String operator;
     private String interfaceBandwidth;

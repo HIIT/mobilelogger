@@ -11,7 +11,7 @@ import javax.persistence.Entity;
  * @author jonimake
  */
 @Entity
-public class KeyPress extends Log{
+public class KeyPress extends Abstractlog{
     
     private String keyPressed;
 

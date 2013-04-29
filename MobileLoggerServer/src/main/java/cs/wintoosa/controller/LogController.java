@@ -4,7 +4,7 @@
  */
 package cs.wintoosa.controller;
 
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class LogController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getAllLogs() {
+    public List<Abstractlog> getAllLogs() {
         return logService.getAll();
     }
     

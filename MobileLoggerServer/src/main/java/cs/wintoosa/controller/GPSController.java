@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.Gps;
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,7 +33,7 @@ public class GPSController {
 
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs() {
+    public List<Abstractlog> getLogs() {
         return logService.getAll(Gps.class);
     }
     

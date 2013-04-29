@@ -12,7 +12,7 @@ import javax.persistence.Entity;
  * @author vkukkola
  */
 @Entity
-public class Text extends Log implements Serializable{
+public class Text extends Abstractlog implements Serializable{
     
     //@JsonIgnore
     private String text;

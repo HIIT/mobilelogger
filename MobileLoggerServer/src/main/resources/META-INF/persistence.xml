@@ -3,23 +3,23 @@
   <persistence-unit name="persistenceUnit" transaction-type="RESOURCE_LOCAL">
     <class>cs.wintoosa.domain.KeyPress</class>
     <class>cs.wintoosa.domain.Keyboard</class>
-    <class>cs.wintoosa.domain.Log</class>
     <class>cs.wintoosa.domain.Network</class>
     <class>cs.wintoosa.domain.Phone</class>
-    <class>cs.wintoosa.domain.SessionLog</class>
     <class>cs.wintoosa.domain.Acceleration</class>
     <class>cs.wintoosa.domain.Compass</class>
     <class>cs.wintoosa.domain.Gps</class>
     <class>cs.wintoosa.domain.Orientation</class>
     <class>cs.wintoosa.domain.Text</class>
     <class>cs.wintoosa.domain.Touch</class>
+    <class>cs.wintoosa.domain.Abstractlog</class>
+    <class>cs.wintoosa.domain.Sessionlog</class>
     <properties>
       <property name="showSql" value="true"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
       <property name="eclipselink.weaving" value="false"/>
       <property name="eclipselink.logging.level" value="warning"/>
       <property name="" value="admin"/>
-      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
   <!--  this is used for spring-database-test context,
@@ -28,16 +28,16 @@
   <persistence-unit name="persistenceUnit-Test" transaction-type="RESOURCE_LOCAL">
     <class>cs.wintoosa.domain.KeyPress</class>
     <class>cs.wintoosa.domain.Keyboard</class>
-    <class>cs.wintoosa.domain.Log</class>
     <class>cs.wintoosa.domain.Network</class>
     <class>cs.wintoosa.domain.Phone</class>
-    <class>cs.wintoosa.domain.SessionLog</class>
     <class>cs.wintoosa.domain.Acceleration</class>
     <class>cs.wintoosa.domain.Compass</class>
     <class>cs.wintoosa.domain.Gps</class>
     <class>cs.wintoosa.domain.Orientation</class>
     <class>cs.wintoosa.domain.Text</class>
     <class>cs.wintoosa.domain.Touch</class>
+    <class>cs.wintoosa.domain.Abstractlog</class>
+    <class>cs.wintoosa.domain.Sessionlog</class>
     <properties>
       <property name="showSql" value="true"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>

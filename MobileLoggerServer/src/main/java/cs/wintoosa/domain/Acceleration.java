@@ -7,7 +7,7 @@ import javax.persistence.Entity;
  * @author vkukkola
  */
 @Entity
-public class Acceleration extends Log{
+public class Acceleration extends Abstractlog{
     
     private Float accX;
     

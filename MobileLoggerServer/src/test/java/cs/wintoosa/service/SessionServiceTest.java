@@ -10,9 +10,9 @@ import cs.wintoosa.domain.Compass;
 import cs.wintoosa.domain.Gps;
 import cs.wintoosa.domain.KeyPress;
 import cs.wintoosa.domain.Keyboard;
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.domain.Orientation;
-import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.Sessionlog;
 import cs.wintoosa.domain.Touch;
 import cs.wintoosa.service.ISessionService.DataHolder;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class SessionServiceTest extends AbstractTest{
     public void testFormatForJsp() {
         System.out.println("testFormatForJsp");
         
-        SessionLog sessionLog = new SessionLog();
+        Sessionlog sessionLog = new Sessionlog();
         sessionLog.setPhoneId("1234");
         sessionLog.setSessionStart(0l);
         sessionLog.setSessionEnd(100l);
@@ -64,7 +64,7 @@ public class SessionServiceTest extends AbstractTest{
     public void testFormatForJsp2() {
         System.out.println("testFormatForJsp2");
         
-        SessionLog sessionLog = new SessionLog();
+        Sessionlog sessionLog = new Sessionlog();
         sessionLog.setPhoneId("1234");
         sessionLog.setSessionStart(0l);
         sessionLog.setSessionEnd(100l);
@@ -96,11 +96,11 @@ public class SessionServiceTest extends AbstractTest{
         assertEquals(expResult.getPhone(), result.getPhone());
     }
     
-    private <T extends Log> List<T> getMockList(Class<T> cls) {
+    private <T extends Abstractlog> List<T> getMockList(Class<T> cls) {
         List<T> logs = new ArrayList();
         for(int i = 0; i < 11; i++) {
             logs.add(mock(cls));
-            Log log = logs.get(i);
+            Abstractlog log = logs.get(i);
             log.setTimestamp((long)i);
         }
         return logs;

@@ -6,7 +6,7 @@ package cs.wintoosa.repository.log;
 
 import cs.wintoosa.AbstractTest;
 import cs.wintoosa.domain.Gps;
-import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.Sessionlog;
 import cs.wintoosa.repository.session.SessionRepository;
 import java.util.List;
 import static org.junit.Assert.*;
@@ -36,8 +36,8 @@ public class LogRepositoryImplTest extends AbstractTest{
         log.setAlt(51.0f);
         log.setPhoneId(phoneId);
         Gps save = logRepositoryImpl.save(log);
-        System.out.println("nullcheck\n\n" + save.getSessionLog() + "\n\nnullcheck");
-        assertEquals(1, logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionLogIsNull(phoneId, 0l, 2l).size());
+        System.out.println("nullcheck\n\n" + save.getSessionlog() + "\n\nnullcheck");
+        assertEquals(1, logRepositoryImpl.findByPhoneIdAndTimestampBetweenAndSessionlogIsNull(phoneId, 0l, 2l).size());
     }
     
     @Test
@@ -58,7 +58,7 @@ public class LogRepositoryImplTest extends AbstractTest{
     
     @Test
     public void testFindBySessionId() {
-        SessionLog sessionLog = new SessionLog();
+        Sessionlog sessionLog = new Sessionlog();
         sessionLog.setPhoneId(phoneId);
         sessionLog.setSessionEnd(Long.MAX_VALUE);
         sessionLog.setSessionStart(Long.MIN_VALUE);
@@ -69,17 +69,17 @@ public class LogRepositoryImplTest extends AbstractTest{
         log.setLon(50.0f);
         log.setLat(51.0f);
         log.setAlt(51.0f);
-        log.setSessionLog(sessionLog);
+        log.setSessionlog(sessionLog);
         log.setPhoneId(phoneId);
         
         logRepositoryImpl.saveAndFlush(log);
-        List<Gps> findBySessionLog = logRepositoryImpl.findBySessionLog(Gps.class, sessionLog);
+        List<Gps> findBySessionLog = logRepositoryImpl.findBySessionlog(Gps.class, sessionLog);
         assertEquals(1, findBySessionLog.size());
     }
     
     @Test
     public void testFindByNullClass() {
-        SessionLog sessionLog = new SessionLog();
+        Sessionlog sessionLog = new Sessionlog();
         sessionLog.setPhoneId(phoneId);
         sessionLog.setSessionEnd(Long.MAX_VALUE);
         sessionLog.setSessionStart(Long.MIN_VALUE);
@@ -90,11 +90,11 @@ public class LogRepositoryImplTest extends AbstractTest{
         log.setLon(50.0f);
         log.setLat(51.0f);
         log.setAlt(51.0f);
-        log.setSessionLog(sessionLog);
+        log.setSessionlog(sessionLog);
         log.setPhoneId(phoneId);
         
         logRepositoryImpl.saveAndFlush(log);
-        List<Gps> findBySessionLog = logRepositoryImpl.findBySessionLog(null, sessionLog);
+        List<Gps> findBySessionLog = logRepositoryImpl.findBySessionlog(null, sessionLog);
         assertNull(findBySessionLog);
     }
 }

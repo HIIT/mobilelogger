@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.AbstractTest;
-import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.Sessionlog;
 import cs.wintoosa.service.ILogService;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,12 +28,12 @@ public class PhoneControllerTest extends AbstractTest{
     private MockMvc mockMvc;
     @Autowired
     private ILogService logService;
-    private SessionLog session;
+    private Sessionlog session;
     
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        session = new SessionLog();
+        session = new Sessionlog();
         session.setPhoneId("test");
         session.setSessionEnd(new Long(2));
         session.setSessionStart(new Long(1));

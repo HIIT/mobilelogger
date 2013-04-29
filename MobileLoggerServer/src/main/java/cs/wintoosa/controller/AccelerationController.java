@@ -5,7 +5,7 @@
 package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.Acceleration;
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class AccelerationController {
     
     @RequestMapping(method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs() {
+    public List<Abstractlog> getLogs() {
         return logService.getAll(Acceleration.class);
     }
     

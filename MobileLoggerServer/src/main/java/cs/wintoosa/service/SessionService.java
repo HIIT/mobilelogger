@@ -11,9 +11,9 @@ import cs.wintoosa.domain.Compass;
 import cs.wintoosa.domain.Gps;
 import cs.wintoosa.domain.KeyPress;
 import cs.wintoosa.domain.Keyboard;
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.domain.Orientation;
-import cs.wintoosa.domain.SessionLog;
+import cs.wintoosa.domain.Sessionlog;
 import cs.wintoosa.domain.Touch;
 import java.util.List;
 import java.util.Map.Entry;
@@ -31,7 +31,7 @@ public class SessionService implements ISessionService {
     ILogService logService;
 
     @Override
-    public String getDataAsCsvString(SessionLog session) {
+    public String getDataAsCsvString(Sessionlog session) {
         
         List<Acceleration> accLogs = logService.getAllBySessionId(Acceleration.class, session);
         List<Compass> comLogs = logService.getAllBySessionId(Compass.class, session);
@@ -64,7 +64,7 @@ public class SessionService implements ISessionService {
      * @return a DataHolder with data formatted for displaying.
      */
     @Override
-    public DataHolder formatForJsp(SessionLog session) {
+    public DataHolder formatForJsp(Sessionlog session) {
         DataHolder data = new DataHolder(session);
         if (session != null) {
             
@@ -217,7 +217,7 @@ public class SessionService implements ISessionService {
         return data;
     }
 
-    private <T extends Log> List<T> pullFromDb(Class<T> cls, DataHolder data) {
+    private <T extends Abstractlog> List<T> pullFromDb(Class<T> cls, DataHolder data) {
         return logService.getAllBySessionId(cls, data.getSession());
     }
 }

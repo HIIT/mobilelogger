@@ -6,7 +6,7 @@ package cs.wintoosa.controller;
 
 import cs.wintoosa.domain.KeyPress;
 import cs.wintoosa.domain.Keyboard;
-import cs.wintoosa.domain.Log;
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import javax.validation.Valid;
@@ -44,13 +44,13 @@ public class KeyboardController {
     
     @RequestMapping(value = "/keyPress", method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getKeypressLogs() {
+    public List<Abstractlog> getKeypressLogs() {
         return logService.getAll(KeyPress.class);
     }
     
     @RequestMapping(value = "/keyboard", method= RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs() {
+    public List<Abstractlog> getLogs() {
         return logService.getAll(Keyboard.class);
     }
 }

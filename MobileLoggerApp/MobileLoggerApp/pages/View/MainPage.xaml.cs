@@ -154,7 +154,6 @@ namespace MobileLoggerApp
 
                 if (result == MessageBoxResult.OK)
                 {
-                    IsolatedStorageSettings.ApplicationSettings["ServerRoot"] = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
                     StateUtilities.StartHandlers = true;
                 }
                 else if (result == MessageBoxResult.Cancel)

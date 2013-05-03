@@ -30,7 +30,11 @@ public class WeatherControllerTest extends AbstractTest {
     @Test
     public void testPutJsonLog() throws Exception {
         
-        String jsondata = "{\"text\":\"foo\", \"phoneId\":\"test\", \"timestamp\":3, \"type\":\"test\"}";
+        String jsondata = "{\"temperature\":\"24\", "
+                + "\"phoneId\":\"test\", "
+                + "\"timestamp\":\"3\","
+                + "\"windspeed\":\"4\","
+                + "\"weatherdescription\":\"weatherdescriptionvalue\"}";
 
         this.mockMvc.perform(put("/log/weather").contentType(MediaType.APPLICATION_JSON).content(jsondata))
                 .andExpect(status().isOk())

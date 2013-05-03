@@ -4,7 +4,9 @@
  */
 package cs.wintoosa.controller;
 
+import cs.wintoosa.domain.Abstractlog;
 import cs.wintoosa.domain.Text;
+import cs.wintoosa.domain.Weather;
 import cs.wintoosa.service.ILogService;
 import java.util.List;
 import javax.validation.Valid;
@@ -29,15 +31,14 @@ public class WeatherController {
     
     @RequestMapping(method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean putLog(@Valid @RequestBody Text data, BindingResult result) {
+    public boolean putLog(@Valid @RequestBody Weather data) {
         //System.out.println("at Weather controller, log is: "+data);
-        data.setType("weather");
         return logService.saveLog(data);
     }
     
     @RequestMapping(method=RequestMethod.GET)
     @ResponseBody
-    public List<Text> getLogs(){
-        return logService.getTextLogByType("weather");
+    public List<Abstractlog> getLogs(){
+        return logService.getAll(Weather.class);
     }
 }

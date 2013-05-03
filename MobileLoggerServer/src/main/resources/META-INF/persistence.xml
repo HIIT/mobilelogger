@@ -13,6 +13,7 @@
     <class>cs.wintoosa.domain.Touch</class>
     <class>cs.wintoosa.domain.Abstractlog</class>
     <class>cs.wintoosa.domain.Sessionlog</class>
+    <class>cs.wintoosa.domain.Weather</class>
     <properties>
       <property name="showSql" value="true"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
@@ -38,6 +39,7 @@
     <class>cs.wintoosa.domain.Touch</class>
     <class>cs.wintoosa.domain.Abstractlog</class>
     <class>cs.wintoosa.domain.Sessionlog</class>
+    <class>cs.wintoosa.domain.Weather</class>
     <properties>
       <property name="showSql" value="true"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>

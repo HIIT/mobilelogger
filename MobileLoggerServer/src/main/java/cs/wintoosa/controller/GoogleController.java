@@ -29,6 +29,7 @@ public class GoogleController {
     @ResponseBody
     public boolean putLog(@RequestBody Text data) {
         System.out.println("at Google controller, log is:\n "+data);
+        data.setType("search");
         return logService.saveLog(data);
     }
     

@@ -96,34 +96,43 @@ namespace MobileLoggerApp.Handlers
         void UpdateNetworkInterfaceInformation(object sender, SocketAsyncEventArgs e)
         {
             Socket socket = e.UserToken as Socket;
-
-            if (e.SocketError == SocketError.Success)
+            if (socket == null)
+                return;
+            try
             {
-                NetworkInterfaceInfo netInterfaceInfo = socket.GetCurrentNetworkInterface();
+                if (e.SocketError == SocketError.Success)
+                {
+                    NetworkInterfaceInfo netInterfaceInfo = socket.GetCurrentNetworkInterface();
 
-                AddJOValue("interfaceBandwidth", netInterfaceInfo.Bandwidth.ToString());
-                AddJOValue("interfaceCharacteristics", netInterfaceInfo.Characteristics.ToString());
-                AddJOValue("interfaceDescription", netInterfaceInfo.Description);
-                AddJOValue("interfaceName", netInterfaceInfo.InterfaceName);
-                AddJOValue("interfaceState", netInterfaceInfo.InterfaceState.ToString());
-                AddJOValue("interfaceSubtype", netInterfaceInfo.InterfaceSubtype.ToString());
-                AddJOValue("interfaceType", netInterfaceInfo.InterfaceType.ToString());
-                AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                    AddJOValue("interfaceBandwidth", netInterfaceInfo.Bandwidth.ToString());
+                    AddJOValue("interfaceCharacteristics", netInterfaceInfo.Characteristics.ToString());
+                    AddJOValue("interfaceDescription", netInterfaceInfo.Description);
+                    AddJOValue("interfaceName", netInterfaceInfo.InterfaceName);
+                    AddJOValue("interfaceState", netInterfaceInfo.InterfaceState.ToString());
+                    AddJOValue("interfaceSubtype", netInterfaceInfo.InterfaceSubtype.ToString());
+                    AddJOValue("interfaceType", netInterfaceInfo.InterfaceType.ToString());
+                    AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(e.SocketError.ToString(), "Error Getting Interface Information");
+
+                    AddJOValue("interfaceBandwidth", null);
+                    AddJOValue("interfaceCharacteristics", null);
+                    AddJOValue("interfaceDescription", null);
+                    AddJOValue("interfaceName", null);
+                    AddJOValue("interfaceState", null);
+                    AddJOValue("interfaceSubtype", null);
+                    AddJOValue("interfaceType", null);
+                    AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                }
+                SaveLogToDB(this.data, "/log/network");
             }
-            else
+            catch (NetworkException netEx)
             {
-                System.Diagnostics.Debug.WriteLine(e.SocketError.ToString(), "Error Getting Interface Information");
-
-                AddJOValue("interfaceBandwidth", null);
-                AddJOValue("interfaceCharacteristics", null);
-                AddJOValue("interfaceDescription", null);
-                AddJOValue("interfaceName", null);
-                AddJOValue("interfaceState", null);
-                AddJOValue("interfaceSubtype", null);
-                AddJOValue("interfaceType", null);
-                AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                System.Diagnostics.Debug.WriteLine(netEx.ToString());
             }
-            SaveLogToDB(this.data, "/log/network");
+                
         }
 
         public static void NetworkNotAvailableMessageBox()

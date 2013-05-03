@@ -28,9 +28,16 @@ public class SessionRepositoryImplTest extends AbstractTest{
     @Test
     public void testFindByPhoneId() {
         System.out.println("findByPhoneId");
-        String phoneId = "";
+        
+        String phoneId = "123456asd";
+        Sessionlog sessionlog = new Sessionlog();
+        sessionlog.setPhoneId(phoneId);
+        sessionlog.setSessionStart(2l);
+        sessionlog.setSessionEnd(5l);
+        sessionRepositoryImpl.saveAndFlush(sessionlog);
+        
         List<Sessionlog> result = sessionRepositoryImpl.findByPhoneId(phoneId);
-        assertEquals(0, result.size());
+        assertEquals(1, result.size());
     }
 
     /**
@@ -39,12 +46,17 @@ public class SessionRepositoryImplTest extends AbstractTest{
     @Test
     public void testFindByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan() {
         System.out.println("findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan");
-        String phoneId = "";
-        Long timestamp = 0l;
-        Long timestamp2 = 1l;
-        List<Sessionlog> expResult = null;
-        List<Sessionlog> result = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(phoneId, timestamp, timestamp2);
-        assertEquals(0, result.size());
-        // TODO review the generated test code and remove the default call to fail.
+        
+        String phoneId = "123456";
+        Sessionlog sessionlog = new Sessionlog();
+
+        sessionlog.setPhoneId(phoneId);
+        sessionlog.setSessionStart(2l);
+        sessionlog.setSessionEnd(5l);
+        sessionRepositoryImpl.saveAndFlush(sessionlog);
+        
+        Long timestamp = 3l;
+        List<Sessionlog> result = sessionRepositoryImpl.findByPhoneIdAndSessionStartLessThanAndSessionEndGreaterThan(phoneId, timestamp, timestamp);
+        assertEquals(1, result.size());
     }
 }

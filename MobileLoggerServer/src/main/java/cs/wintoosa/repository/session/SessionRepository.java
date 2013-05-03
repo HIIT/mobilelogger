@@ -3,6 +3,7 @@ package cs.wintoosa.repository.session;
 import cs.wintoosa.domain.Sessionlog;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * Contains method interfaces that the framework (Spring) automatically implements

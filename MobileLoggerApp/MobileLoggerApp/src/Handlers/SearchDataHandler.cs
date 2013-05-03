@@ -38,8 +38,6 @@ namespace MobileLoggerApp.Handlers
             DateTime timestamp = DateTime.UtcNow;
             JArray searchResults = (JArray)searchData["items"];
 
-            //ProcessSearchData(searchData, timestamp);
-
             if (searchResults != null)
             {
                 JToken queries = searchData.GetValue("queries");
@@ -48,16 +46,6 @@ namespace MobileLoggerApp.Handlers
 
                 ProcessSearchResults(searchResults, offset, timestamp);
             }
-        }
-
-        private void ProcessSearchData(JObject searchData, DateTime timestamp)
-        {
-            JObject data = new JObject();
-            searchData.Add("index", 0);
-            searchData.Remove("items");
-            data["text"] = searchData.GetValue("link");
-            data.Add("timestamp", DeviceTools.GetUnixTime(timestamp));
-            SaveLogToDB(data, URL);
         }
 
         private void ProcessSearchResults(JArray searchResults, int offset, DateTime timestamp)

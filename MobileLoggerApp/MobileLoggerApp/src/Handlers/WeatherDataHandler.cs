@@ -29,8 +29,14 @@ namespace MobileLoggerApp.Handlers
         private void WeatherData(JObject weatherData)
         {
             JObject data = new JObject();
-            data["text"] = weatherData.ToString();
-            this.data = data;
+            JObject forecast = new JObject(weatherData.GetValue("data").ToObject<JObject>());
+            JObject currentCondition = new JObject(forecast.GetValue("current_condition")[0].ToObject<JObject>());
+            JObject weatherDescription = new JObject(currentCondition.GetValue("weatherDesc")[0].ToObject<JObject>());
+
+            data.Add("temperature", currentCondition.GetValue("temp_C"));
+            data.Add("windspeed", currentCondition.GetValue("windspeedKmph"));
+            data.Add("weatherdescription", weatherDescription.GetValue("value"));
+
             AddJOValue("timestamp", DeviceTools.GetUnixTime());
             SaveLogToDB(this.data, "/log/weather");
         }

@@ -52,7 +52,7 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <controls:Pivot SelectionChanged="currentPivotItem" >
+        <controls:Pivot>
 
             <!--Search Pivot item-->
             <controls:PivotItem Header="Search" Margin="12,0" >
@@ -78,33 +78,6 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
-            </controls:PivotItem>
-
-            <!--Log Data Pivot item-->
-            <controls:PivotItem Header="Data" >
-                <!--Triple line list no text wrapping-->
-                <ListBox x:Name="DataListBox" Margin="0,0,-12,0" ItemsSource="{Binding LogData}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17">
-                                <TextBlock Text="{Binding LogDataHeading, Mode=TwoWay}" TextWrapping="NoWrap"
-                                           Margin="12,0,0,0" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                <TextBlock Text="{Binding LogDataContent, Mode=TwoWay}" TextWrapping="NoWrap"
-                                           Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </controls:PivotItem>
-
-            <!--Debug send data Pivot item-->
-            <controls:PivotItem Header="Debug Menu">
-                <Button Name="debugButton" 
-                        Width="256" Height="128" 
-                        Background="#FF493737"
-                        Click="debugButton_Click" >
-                    Send data
-                </Button>
             </controls:PivotItem>
 
             <!--Settings Pivot item-->

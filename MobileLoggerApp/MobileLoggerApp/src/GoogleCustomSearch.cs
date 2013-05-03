@@ -1,6 +1,8 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using MobileLogger;
+using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -9,8 +11,7 @@ namespace MobileLoggerApp
     class GoogleCustomSearch : HttpRequestable
     {
         private string searchQuery;
-        private int searchPageNumber;
-        private bool newSearch;
+        public int searchPageNumber;
 
         public delegate void SearchDataHandler(JObject searchData);
         public static event SearchDataHandler searchDataEvent;
@@ -30,23 +31,21 @@ namespace MobileLoggerApp
         /// </summary>
         /// <param name="query">The search string that is queryed from Google</param>
         /// <param name="newSearch">New search</param>
-        public void Search(string query, bool newSearch = false)
+        public void Search(string query)
         {
             SystemTray.ProgressIndicator.IsVisible = true;
 
-            this.newSearch = newSearch;
-
-            if (this.newSearch)
+            if (StateUtilities.NewSearch)
                 this.searchPageNumber = 1;
             else
                 this.searchPageNumber = App.ViewModel.Results.Count + 1;
 
             this.searchQuery = query;
             //string that contains required api key and information for google api
-            //string uri = String.Format("https://www.googleapis.com/customsearch/v1?key={2}&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, this.searchPageNumber, DeviceTools.googleApiKey);
+            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key={2}&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, this.searchPageNumber, DeviceTools.googleApiKey);
 
             //Alternative search engine and an api-key, used for testing purposes.
-            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyCurZXbVyfaksuWlOaQVys5YwbewaBrtCs&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, this.searchPageNumber);
+            //string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyCurZXbVyfaksuWlOaQVys5YwbewaBrtCs&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, this.searchPageNumber);
 
             HttpRequest request = new HttpRequest(uri, this);
         }
@@ -56,10 +55,10 @@ namespace MobileLoggerApp
             JObject searchData = JObject.Parse(data);
             JArray searchResults = (JArray)searchData["items"];
 
-            App.ViewModel.GetSearchResults(searchResults, newSearch);
+            App.ViewModel.GetSearchResults(searchResults);
 
             if (searchPerformedEvent != null)
-            searchPerformedEvent();
+                searchPerformedEvent();
 
             if (searchDataEvent != null)
                 searchDataEvent(searchData);

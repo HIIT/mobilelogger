@@ -13,7 +13,7 @@ namespace MobileLoggerScheduledAgent
     public class ScheduledAgent : ScheduledTaskAgent
     {
         private static volatile bool _classInitialized;
-        public static string serverRoot = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
+        private static string _serverRoot;
         private static readonly int TIMEOUT_MS = 10000;
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
@@ -29,23 +29,10 @@ namespace MobileLoggerScheduledAgent
                     Application.Current.UnhandledException += ScheduledAgent_UnhandledException;
                 });
             }
-        }
-
-        private static string _serverRoot;
-        public static string ServerRoot
-        {
-            get
+            if (_serverRoot == null)
             {
                 if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
                     _serverRoot = IsolatedStorageSettings.ApplicationSettings["ServerRoot"] as string;
-                return _serverRoot;
-            }
-            set
-            {
-                if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
-                    IsolatedStorageSettings.ApplicationSettings["ServerRoot"] = value;
-                else
-                    IsolatedStorageSettings.ApplicationSettings.Add("ServerRoot", value);
             }
         }
 
@@ -97,7 +84,7 @@ namespace MobileLoggerScheduledAgent
 
         private void SendMessage(LogEvent logevent)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serverRoot + logevent.relativeUrl);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_serverRoot + logevent.relativeUrl);
             request.Method = "PUT";
             request.ContentType = "application/json";
             request.BeginGetRequestStream(asynchronousResult =>

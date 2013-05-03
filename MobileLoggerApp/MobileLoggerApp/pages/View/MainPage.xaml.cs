@@ -20,7 +20,6 @@ namespace MobileLoggerApp
 
         bool _isNewPageInstance = false;
         bool _isFirstRun;
-        bool _searchIsPerformed;
 
         public delegate void KeyPressEventHandler(object sender, KeyEventArgs e);
         public delegate void KeyboardFocusHandler();
@@ -173,6 +172,8 @@ namespace MobileLoggerApp
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            SearchTextBox.SelectAll();
+
             if (keyboardGotFocus != null)
                 keyboardGotFocus();
         }
@@ -181,22 +182,6 @@ namespace MobileLoggerApp
         {
             if (keyboardLostFocus != null)
                 keyboardLostFocus();
-        }
-
-        private void ToggleNextPageButton()
-        {
-            Button nextPageButton = FindVisualChild<Button>(SearchListBox);
-
-            if (_searchIsPerformed)
-            {
-                nextPageButton.Visibility = Visibility.Visible;
-                nextPageButton.IsEnabled = true;
-            }
-            else
-            {
-                nextPageButton.Visibility = Visibility.Collapsed;
-                nextPageButton.IsEnabled = false;
-            }
         }
 
         /// <summary>
@@ -212,11 +197,12 @@ namespace MobileLoggerApp
             if (e.Key.Equals(Key.Enter))
             {
                 this.Focus();
-                searchTerm = SearchTextBox.Text;
 
-                if (!searchTerm.Equals(""))
+                if (!SearchTextBox.Text.Equals("") && !this.SearchTextBox.Text.Equals(this.searchTerm))
                 {
-                    search.Search(searchTerm, true);
+                    this.searchTerm = SearchTextBox.Text;
+                    StateUtilities.NewSearch = true;
+                    search.Search(this.searchTerm);
                     weatherInfo.GetForecast();
                 }
             }
@@ -225,8 +211,49 @@ namespace MobileLoggerApp
 
         private void SearchPerformed()
         {
-            _searchIsPerformed = true;
+            if (StateUtilities.NewSearch)
+            {
+                ScrollSearchListToTop();
+                StateUtilities.NewSearch = false;
+            }
             ToggleNextPageButton();
+        }
+
+        private void ScrollSearchListToTop()
+        {
+            ScrollViewer searchListScrollView = FindVisualChild<ScrollViewer>(SearchListBox);
+
+            if (searchListScrollView != null)
+            {
+                searchListScrollView.UpdateLayout();
+                searchListScrollView.ScrollToVerticalOffset(0.0);
+            }
+        }
+
+        private void ToggleNextPageButton()
+        {
+            Button nextPageButton = FindVisualChild<Button>(SearchListBox);
+
+            if (nextPageButton != null)
+            {
+                if (!StateUtilities.NewSearch &&
+                    App.ViewModel.Results.Count > 0 && App.ViewModel.Results.Count < 100)
+                {
+                    if (!nextPageButton.Visibility.Equals(Visibility.Visible))
+                    {
+                        nextPageButton.Visibility = Visibility.Visible;
+                        nextPageButton.IsEnabled = true;
+                    }
+                }
+                else
+                {
+                    if (!nextPageButton.Visibility.Equals(Visibility.Collapsed))
+                    {
+                        nextPageButton.Visibility = Visibility.Collapsed;
+                        nextPageButton.IsEnabled = false;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -314,6 +341,10 @@ namespace MobileLoggerApp
                 else
                     IsolatedStorageSettings.ApplicationSettings.Add("ServerRoot", ServerTextBox.Text);
             }
+            else if (result == MessageBoxResult.Cancel)
+            {
+                this.ServerTextBox.Text = IsolatedStorageSettings.ApplicationSettings["ServerRoot"] as string;
+            }
         }
 
         private void ServerTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -324,26 +355,6 @@ namespace MobileLoggerApp
         private void ServerTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             ServerTextButton.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
-        }
-
-        private void debugButton_Click(object sender, RoutedEventArgs e)
-        {
-#if DEBUG
-            StartAgent();
-#endif
-        }
-
-        private void currentPivotItem(object sender, SelectionChangedEventArgs e)
-        {
-#if DEBUG
-            Pivot pivot = sender as Pivot;
-
-            // Data PivotItem
-            if (pivot.SelectedIndex == 1)
-            {
-                App.ViewModel.GetLogData();
-            }
-#endif
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -382,7 +393,7 @@ namespace MobileLoggerApp
             }
 
             if (this.State.ContainsKey("SearchPerformed"))
-                this._searchIsPerformed = State["SearchPerformed"].Equals("True");
+                StateUtilities.NewSearch = State["SearchPerformed"].Equals("True");
 
             _isNewPageInstance = false;
         }
@@ -412,16 +423,14 @@ namespace MobileLoggerApp
                     this.State.Add("SearchTerm", SearchTextBox.Text);
             }
             if (this.State.ContainsKey("SearchPerformed"))
-                this.State["SearchPerformed"] = _searchIsPerformed.ToString();
+                this.State["SearchPerformed"] = StateUtilities.NewSearch.ToString();
             else
-                this.State.Add("SearchPerformed", _searchIsPerformed.ToString());
+                this.State.Add("SearchPerformed", StateUtilities.NewSearch.ToString());
 
             if (this.State.ContainsKey("ServerRoot"))
                 this.State["ServerRoot"] = ServerTextBox.Text;
             else
                 this.State.Add("ServerRoot", ServerTextBox.Text);
-
-            System.Diagnostics.Debug.WriteLine(_searchIsPerformed.ToString());
         }
 
         public static ChildItem FindVisualChild<ChildItem>(DependencyObject obj)

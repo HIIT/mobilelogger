@@ -66,6 +66,13 @@ namespace MobileLoggerApp
                 }
             }
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
+
+            // store the API key initially
+           
+            if ( ! IsolatedStorageSettings.ApplicationSettings.Contains("APIKey"))
+                IsolatedStorageSettings.ApplicationSettings.Add("APIKey", "AIzaSyCurZXbVyfaksuWlOaQVys5YwbewaBrtCs");
+            
         }
 
         private void StartAgent()
@@ -312,49 +319,25 @@ namespace MobileLoggerApp
             return handlerItem.HandlerName.ToString();
         }
 
-        private void ServerTextButton_Clicked(object sender, RoutedEventArgs e)
+        private void SettingsOKButton_Clicked(object sender, RoutedEventArgs e)
         {
             ShowServerChangeMessage();
         }
 
-        private void ServerTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key.Equals(Key.Enter))
-            {
-                ShowServerChangeMessage();
-                this.Focus();
-            }
-        }
-
         private void ShowServerChangeMessage()
         {
-            MessageBoxResult result = MessageBox.Show(
-                "This will change the server. Make sure that you have entered a valid server url. " +
-                "Click OK to continue, Cancel to go back.",
-                "Server url",
-                MessageBoxButton.OKCancel);
-
-            if (result == MessageBoxResult.OK)
-            {
-                if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
+            // store all info
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("ServerRoot"))
                     IsolatedStorageSettings.ApplicationSettings["ServerRoot"] = ServerTextBox.Text;
                 else
                     IsolatedStorageSettings.ApplicationSettings.Add("ServerRoot", ServerTextBox.Text);
-            }
-            else if (result == MessageBoxResult.Cancel)
-            {
-                this.ServerTextBox.Text = IsolatedStorageSettings.ApplicationSettings["ServerRoot"] as string;
-            }
-        }
 
-        private void ServerTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            ServerTextButton.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
-        }
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("APIKey"))
+                IsolatedStorageSettings.ApplicationSettings["APIKey"] = APIKeyTextbox.Text;
+            else
+                IsolatedStorageSettings.ApplicationSettings.Add("APIKey", APIKeyTextbox.Text);
 
-        private void ServerTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            ServerTextButton.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+            MessageBox.Show( "Settings have now been saved.", "", MessageBoxButton.OK );
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -17,6 +17,13 @@ namespace MobileLoggerApp.Handlers
         public abstract void StartWatcher();
         public abstract void StopWatcher();
 
+        private readonly DateTimeOffset epoc = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+
+        protected int UnixTime(DateTimeOffset time)
+        {
+            return (int)( (time - epoc).TotalSeconds );
+        }
+
         protected Boolean SaveLogToDB(JObject jsonLog, string url)
         {
             if (!IsEnabled)

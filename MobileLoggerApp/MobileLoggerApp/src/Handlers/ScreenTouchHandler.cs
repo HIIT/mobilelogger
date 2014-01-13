@@ -34,7 +34,7 @@ namespace MobileLoggerApp.Handlers
                 AddJOValue("xcoord", touchPoint.Position.X);
                 AddJOValue("ycoord", touchPoint.Position.Y);
                 AddJOValue("action", touchPoint.Action.ToString());
-                AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                AddJOValue("timestamp", UnixTime( e.Timestamp ));
                 SaveLogToDB(this.data, "/log/touch");
             }
         }

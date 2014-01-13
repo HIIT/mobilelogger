@@ -46,7 +46,7 @@ namespace MobileLoggerApp.Handlers
             AddJOValue("rawMagneticReadingX", e.SensorReading.MagnetometerReading.X);
             AddJOValue("rawMagneticReadingY", e.SensorReading.MagnetometerReading.Y);
             AddJOValue("rawMagneticReadingZ", e.SensorReading.MagnetometerReading.Z);
-            AddJOValue("timestamp", DeviceTools.GetUnixTime());
+            AddJOValue("timestamp", UnixTime(e.SensorReading.Timestamp) );
         }
     }
 }

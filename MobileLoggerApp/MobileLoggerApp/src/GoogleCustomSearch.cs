@@ -5,6 +5,7 @@ using MobileLogger;
 using MobileLoggerScheduledAgent.Devicetools;
 using Newtonsoft.Json.Linq;
 using System;
+using System.IO.IsolatedStorage;
 
 namespace MobileLoggerApp
 {
@@ -42,7 +43,7 @@ namespace MobileLoggerApp
 
             this.searchQuery = query;
             //string that contains required api key and information for google api
-            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key={2}&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, this.searchPageNumber, DeviceTools.googleApiKey);
+            string uri = String.Format("https://www.googleapis.com/customsearch/v1?key={2}&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, this.searchPageNumber, IsolatedStorageSettings.ApplicationSettings["APIKey"] );
 
             //Alternative search engine and an api-key, used for testing purposes.
             //string uri = String.Format("https://www.googleapis.com/customsearch/v1?key=AIzaSyCurZXbVyfaksuWlOaQVys5YwbewaBrtCs&cx=011471749289680283085:rxjokcqp-ae&q={0}&start={1}", query, this.searchPageNumber);

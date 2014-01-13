@@ -75,7 +75,7 @@ namespace MobileLoggerApp.Handlers
                 AddJOValue("lat", latitude.Replace(",", "."));
                 AddJOValue("lon", longitude.Replace(",", "."));
                 AddJOValue("alt", altitude.Replace(",", "."));
-                AddJOValue("timestamp", DeviceTools.GetUnixTime());
+                AddJOValue("timestamp", UnixTime(e.Position.Timestamp) );
             }
         }
     }

@@ -40,7 +40,7 @@ namespace MobileLoggerApp.Handlers
             AddJOValue("accX", e.SensorReading.Acceleration.X);
             AddJOValue("accY", e.SensorReading.Acceleration.Y);
             AddJOValue("accZ", e.SensorReading.Acceleration.Z);
-            AddJOValue("timestamp", DeviceTools.GetUnixTime());
+            AddJOValue("timestamp", UnixTime( e.SensorReading.Timestamp ));
         }
     }
 }

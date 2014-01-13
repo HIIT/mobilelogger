@@ -47,7 +47,7 @@ namespace MobileLoggerApp.Handlers
             AddJOValue("currentRotationRateX", e.SensorReading.RotationRate.X);
             AddJOValue("currentRotationRateY", e.SensorReading.RotationRate.Y);
             AddJOValue("currentRotationRateZ", e.SensorReading.RotationRate.Z);
-            AddJOValue("timestamp", DeviceTools.GetUnixTime());
+            AddJOValue("timestamp", UnixTime(e.SensorReading.Timestamp) );
         }
     }
 }

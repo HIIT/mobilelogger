@@ -1,10 +1,10 @@
 ﻿using MobileLoggerScheduledAgent.Devicetools;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace MobileLoggerScheduledAgent.Database
 {
@@ -132,8 +132,9 @@ namespace MobileLoggerScheduledAgent.Database
             {
                 foreach (LogEvent e in events)
                 {
-                    LogEvent le = new LogEvent();
-                    e.Time = DeviceTools.GetUnixTime(DateTime.Now);
+                    // WTF?! Matti
+                    // LogEvent le = new LogEvent();
+                    // e.Time = DeviceTools.GetUnixTime(DateTime.Now);
 
                     // add the new logEvent to the context
                     context.LogEvents.InsertOnSubmit(e);

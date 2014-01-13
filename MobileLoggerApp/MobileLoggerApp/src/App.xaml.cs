@@ -86,7 +86,7 @@ namespace MobileLoggerApp
             if (!IsolatedStorageSettings.ApplicationSettings.Contains("FirstRun"))
             {
                 IsolatedStorageSettings.ApplicationSettings.Add("FirstRun", (bool)true);
-                IsolatedStorageSettings.ApplicationSettings["ServerRoot"] = "http://t-jonimake.users.cs.helsinki.fi/MobileLoggerServer";
+                IsolatedStorageSettings.ApplicationSettings["ServerRoot"] = "http://nose.hiit.fi:8080/MobileLoggerServer-1.0-SNAPSHOT";
             }
             else
             {
